@@ -54,8 +54,8 @@
    \item extremely feature rich
    \item over 1800 workflows in \lhref{https://snakemake.github.io/snakemake-workflow-catalog/}{its catalogue}
    \item almost a hundred standardized (meaning: will documented and with automatic deployment)
-   \item cluster support is currently implemented (works via plug, will be a native part of snakemake)
-   \item cluster support, even of Nextflow, is limited
+   \item cluster batch systems are supported (and support for various cloud systems, too)
+   \item there is an option to include Nextflow wrappers, too.
       \end{itemize}
     \end{column}
     \begin{column}{0.5\textwidth}
@@ -131,22 +131,29 @@ $ tree example/
      Should display
     \end{column}
     \begin{column}{0.8\textwidth}
-     {\small \DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{.6pt}
+    \begin{minipage}[t]{0.5\textwidth}
+    \setstretch{0.1}
+            {\tiny \DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{.6pt}
 \dirtree{%
 .1 /.
 .2 example.
 .3 data.
-.4 {abyss.txt}.
+.4 {abyss.txt}\DTcomment{a book}.
 .4 {isles.txt}.
 .4 {last.txt}.
-.4 {LICENSE\_TEXTS.md}.
 .4 {sierra.txt}.
 .3 scripts.
-.4 matplotlibrc.
-.4 {plotcount.py}.
+.4 {plotcount.py}\DTcomment{a script}.
 .4 {wordcount.py}.
 .4 {zipf\_test.py}.
 }}
+    \end{minipage}
+
+
+
+
+
+
     \end{column}
   \end{columns}
 \end{frame}
