@@ -17,18 +17,18 @@ stages:
 build:Snakemake_HPC_Master:
   stage: build
   script:
-    - make -C Snakemake_HPC_Master/slides
+    - make -C slides
     - mv snakemake-workflows/slides/Snakemake_HPC_Master.pdf Snakemake_HPC.pdf
   artifacts:
     paths:
         - Snakemake_HPC.pdf
 
-build:Snakemake_HPC_Master_tasks:
-  stage: build
-  script:
-    - make -C Snakemake_HPC_Master/tasks
-    - mv snakemake-workflows/tasks/exercises.pdf Snakemake_HPC_exercises.pdf
-  artifacts:
-    paths:
-      - Snakemake_HPC_exercises.pdf
+#build:Snakemake_HPC_Master_tasks:
+#  stage: build
+#  script:
+#    - make -C Snakemake_HPC_Master/tasks
+#    - mv snakemake-workflows/tasks/exercises.pdf Snakemake_HPC_exercises.pdf
+#  artifacts:
+#    paths:
+#      - Snakemake_HPC_exercises.pdf
 
