@@ -1,0 +1,217 @@
+\section{Software Environment}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{Outline}
+    \begin{columns}[t]
+        \begin{column}{.5\textwidth}
+            \tableofcontents[sections={1-9},currentsection]
+        \end{column}
+        \begin{column}{.5\textwidth}
+            \tableofcontents[sections={10-18},currentsection]
+        \end{column}
+    \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}<handout:0> 
+  \frametitle{Your Work Environment}
+  \centering
+  \includegraphics[width=0.4\textwidth]{environment/environment.png}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Software on HPC Systems}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Modules}
+  \vspace{-1.3em}
+  \begin{block}{What is a module?}
+    A module collects all environment variables and settings needed for a particular software package (e.\,g. path to executable and libraries).
+  \end{block}
+  \vspace{-0.8em}
+  
+  \vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  {Modules -- Command Overview}
+  \vspace{-1em}
+  \begin{itemize}
+    \setlength\itemsep{-0.1em}
+  \item List of all available modules
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ module avail             # or 'module av'
+    \end{lstlisting}
+  \item Loading a specific module
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ module load <modulename> # or 'module add'
+    \end{lstlisting}
+  \item Showing all currently loaded modules
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ module list
+    \end{lstlisting}
+  \item Unloading a specific module
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ module unload <modulename>
+    \end{lstlisting}
+  \item Unload all active modules
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ module purge
+    \end{lstlisting}
+  \end{itemize}
+  \vfill
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  {Modules -- looking for specific modules}
+  Looking up modules:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ module spider <search string>
+  \end{lstlisting}
+  \pause
+  \task[Looking for area specific modules]{Try looking for an area specific 
+    module, e.\,g. in ``\texttt{gromacs}''}
+  \pause
+  \begin{block}{Noteworthy}
+    You will realize that some software, e.\,g. ``GROMACS'', is sorted to areas you 
+    might not expect them. Also: Search is \emph{not case sensitive}.
+  \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+   {Modules with easybuild\newline Or: What is this fuzz at the end of module names?}
+   You will have seen modules like:
+   \begin{lstlisting}[language=Bash, style=Shell]
+numlib/FFTW/3.3.6-gompi-2017a   
+   \end{lstlisting}
+   \pause
+   \begin{block}{Easybuild Naming Scheme}
+    We are building our modules with \lhref{https://easybuilders.github.io/easybuild/}{easybuild} and adopted the following naming scheme for modules:\newline
+    \footnotesize \verb+<topic>/<name>/<version>-<toolchain>-<toolchain-version>+
+   \end{block}
+   \pause
+   \task[Look inside a module to know what will be loaded and set]{Do ``\texttt{module show <module>}''}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Reproducibility vs. Staying Current}
+  Loading a module by version
+  \begin{lstlisting}[language=Bash, style=Shell]
+numlib/FFTW/3.3.6-gompi-2017a 
+# or more generally
+<area>/<name>/<version>-<toolchain>
+\end{lstlisting}
+   will provide the requested version.\pause
+   Loading a module without specifications
+     \begin{lstlisting}[language=Bash, style=Shell]
+numlib/FFTW
+# or more generally
+<area>/<name>
+   \end{lstlisting}
+   will load the most current one (lexicographically biggest one)
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Selecting Software with Snakemake}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{The canonical Approach: Conda}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      Snakemake, by default, sets its cards on \lhref{https://conda.pydata.org}{Conda package manager}. It let's you select the software within a rule and ensures portability:
+      \begin{lstlisting}[language=Python,style=Python]
+rule NAME:
+    input:
+        "table.txt"
+    output:
+        "plots/myplot.pdf"
+    conda:
+        "envs/ggplot.yaml"
+    script:
+        "scripts/plot-stuff.R"
+      \end{lstlisting}\pause
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      
+  This may require setting the definition in an enviroment configuration (see next slide), e.\,g.:
+  \begin{lstlisting}[language=Python,style=Python]
+channels:
+ - r
+dependencies:
+ - r=3.3.1
+ - r-ggplot2=2.1.0
+  \end{lstlisting}
+  \pause
+  Also, the \texttt{-\,-use-conda} command line flag is required:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --use-conda ...
+  \end{lstlisting}
+  More Conda-related flags are available, too.
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Loading Modulefiles}
+  The improved cluster support of Snakemake provides the ability to load environment modules, too. Use the
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --use-envmodules ...
+  \end{lstlisting}
+  flag to enable loading modules.\newline
+  Modules are selected in rules like this:
+  \begin{lstlisting}[language=Python,style=Python]
+rule NAME:
+    ...
+    envmodules:
+       '<module name1>',
+       '<module name2>'
+  \end{lstlisting}
+  \warning{\texttt{<module name1>} and \texttt{<module name2>} need to be compatible.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Add the missing plotting functionality!}}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{enumerate}
+   \item Alter the rules in your Snakefile so that the \texttt{.dat} files are created in their own \texttt{dats/} folder. Note that creating this folder beforehand is unnecessary.
+   \item Add new rules and update existing rules to:
+      \begin{itemize}\footnotesize
+       \item Create \texttt{.png} files from \texttt{.dat} files using \texttt{plotcount.py}. Remember, we used \texttt{python scripts/plotcount.py -i isles.dat -o isles.png
+}
+       \item Remove all auto-generated files (.dat, .png, results.txt).
+      \end{itemize}
+  \end{enumerate}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      Remember:
+        \begin{itemize}
+         \item \begin{lstlisting}[language=Python,style=Python]
+  envmodules:
+    '<module name>'
+               \end{lstlisting} is used to require a module.
+        \item We used the \texttt{vis/matplotlib} module to support the plotting functionality.
+        \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Even more Software Support}
+  In addition to Conda and Environment Modules, Snakemake supports the use of \lhref{https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html} and with the the execution in Kubernetes cloud environments.
+\end{frame}
+
+
+

@@ -1,0 +1,133 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Snakefiles as Python-Code}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{What is this about?}
+   \question[Questions]{\begin{itemize}
+                         \item How can I automatically manage dependencies and outputs?
+                         \item How can I use Python code to add features to my pipeline?
+                        \end{itemize}
+                       }
+   \docs[Objectives]{\begin{enumerate}
+                      \item Use variables, functions, and imports in a Snakefile. 
+                      \item Learn to use the \texttt{run} action to execute Python code as an action.
+                     \end{enumerate}}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Python Code in Snakefiles}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{The Issues we still have}
+  Our workflow still has repeated content, e.\,g. the names of output files/dependencies. Our \texttt{zipf\_test} rule is extremely clunky. What happens if we want to analyse \texttt{books/sierra.txt} as well? We’d have to update everything!
+  \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
+rule zipf_test:
+    input:  'scripts/zipf_test.py', 'abyss.dat',
+            'last.dat', 'isles.dat'
+    output: 'results.txt'
+    shell:  'python {input[0]} {input[1]} {input[2]}'
+            ' {input[3]} > {output}'
+  \end{lstlisting}
+  You probably noticed: all of our rules are using Python strings! Other data structures work too — let’s try a list:
+  \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
+rule zipf_test:
+    input:
+        zipf='scripts/zipf_test.py',
+        books=['abyss.dat', 'last.dat', 'isles.dat']
+    output: 'results.txt'
+    shell:  'python {input.zipf} {input.books} > {output}'
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Putting the last change to action!}
+  This illustrates a key feature of \texttt{Snakemake}. Snakefiles are just Python code. We can make our list into a variable to demonstrate this. Let’s create the variable \texttt{DATS} and use it in our \texttt{zipf\_test} and dats rules.
+  \task{Test the following changes!}
+
+  \begin{lstlisting}[language=Python,style=Python]
+DATS=['abyss.dat', 'last.dat', 'isles.dat']
+
+rule zipf_test:
+    input:
+        books=DATS
+    output: 'results.txt'
+    shell:  'python scripts/zipf_test.py'
+            ' {input.books} > {output}'
+
+rule dats:
+    input: DATS
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Supported Functions}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Using functions in Snakefiles}
+  In our example here, we only have 4 books. But what if we had 700 books to be processed? \newline
+  Luckily, \texttt{Snakemake} and Python provide helper functions!
+  \task{Start Python in your virtual env and follow along!}
+  \begin{lstlisting}[language=Python,style=Python]
+from snakemake.io import expand, glob_wildcards
+  \end{lstlisting}
+  The first function we’ll use is \texttt{expand()}. \texttt{expand()} is used frequently, to expand a snakemake wildcard(s) into a set of filenames:
+  \begin{lstlisting}[language=Python,style=Python]
+>>> expand('folder/{wildcard1}_{wildcard2}.txt',
+...        wildcard1=['a', 'b', 'c'],
+...        wildcard2=[1, 2, 3])
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Using functions in Snakefiles II}
+  \question{What is the result?}
+  \pause
+  \hint[Answer:]{Every permutation of \texttt{wildcard1} and \texttt{wildcard2}!}
+  \pause
+  Let us try \texttt{glob\_wildcards}, now:
+  \begin{lstlisting}[language=Python,style=Python]
+glob_wildcards('books/{example}.txt')
+  \end{lstlisting}
+  \pause
+  Wow! So, easy!
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Python Code as Actions}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Meeting the \texttt{run} Action}
+  \vspace{-0.5em}
+  In order to run Python code in \texttt{Snakemake}, we have to replace the \texttt{shell:} action by a \texttt{run:} action:\vspace{-0.5em}
+  \task{Add the following to our snakefile:}\vspace{-0.5em}
+  \begin{lstlisting}[language=Python,style=Python]
+# at the top of the file
+import glob
+
+# add this wherever
+rule print_book_names:
+    run:
+        print('These are all the book names:')
+        for book in glob.glob('books/*.txt'):
+            print(book)
+
+  \end{lstlisting}\vspace{-0.5em}
+  \begin{columns}
+   \begin{column}{0.2\textwidth}
+    And execute:
+   \end{column}
+   \begin{column}{0.8\textwidth}
+\begin{lstlisting}[language=Python,style=Python]
+snakemake --cores=1 print_book_names
+  \end{lstlisting}
+   \end{column}
+  \end{columns}
+
+\end{frame}
+

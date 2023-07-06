@@ -1,0 +1,528 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Going HPC}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{What is this about?}
+   \question[Questions]{\begin{itemize}
+                         \item How does ordinary job submission work on a cluster?
+                         \item How does it work using Snakemake? (Which parameterization is necessary?)
+                        \end{itemize}
+                       }
+   \docs[Objectives]{\begin{enumerate} 
+                      \item Learn to use parameters relevant for the batch system SLURM
+                     \end{enumerate}}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{How does Clustercomputing work?}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{The \slurm Scheduler}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}
+  \frametitle{What is a scheduler?}
+  On HPC systems you do not \emph{just start}, you need a \emph{``scheduler''}.
+  So, what's that?\newline
+  A scheduler (or ``batch system'') on a HPC system should\ldots
+  \begin{itemize}
+  \item provide an interface to help defining workflows and/or job dependencies
+  \item enable automatic submission of executions
+  \item provide interfaces to monitor the executions
+  \item prioritise the execution order of unrelated jobs
+  \end{itemize}
+  \begin{columns}
+    \begin{column}{0.8\linewidth}
+      Since late spring 2017 we are using \slurm.
+    \end{column}
+    \begin{column}{0.2\linewidth}
+      \begin{figure}
+        \centering
+        \includegraphics[height=1.5cm,width=1.5cm]{slurm_logo.png}
+      \end{figure}
+    \end{column}
+  \end{columns}
+  \vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}
+  \frametitle{Promises, promises and even more promises}
+  How does a scheduler work?
+  \pause
+  \begin{block}{You tell it\ldots}
+    \begin{itemize}
+    \item how much memory (RAM, scratch space) your job will need.\pause
+    \item how much time you will spend on it.\pause
+    \item how many CPUs you will need (and in which combination).\pause
+    \item whether you need something special (e.g. a GPU).
+    \end{itemize}
+  \end{block}
+  \pause \vspace{-0.2cm}
+  \begin{exampleblock}{The scheduler will act:}
+    \begin{itemize}
+    \item It will queue up your job (and decide when it will start relative to others).\pause
+    \item It will decide where your job will run physically (which hosts).\pause
+    \item Eventually it will start your job (if everything was correct).
+    \end{itemize}
+  \end{exampleblock}
+  \vfill
+\end{frame}
+
+\setcounter{preframe_handson}{\value{handson}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \setcounter{handson}{\value{preframe_handson}}
+  \frametitle{\HandsOn{Your first job script}}
+  \hint{From now on, we will be scripting examples (cloze-based). For this you will
+        need an editor. If you do not know any other editor, use \texttt{gedit}:}
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\scriptsize]
+$ # cd into appropriate directory
+$ # Start gedit with the command 
+$ gedit &
+  \end{lstlisting}
+  \hint{The \texttt{\&} will put the editor into the background.} 
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \setcounter{handson}{\value{preframe_handson}}
+  \frametitle{\HandsOn{Your first job script}}
+  \vspace{-2em}
+  \begin{minipage}[t][0.32\textheight][t]{1.0\linewidth}
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\scriptsize]
+#!/bin/bash
+
+#SBATCH -A hpckurs
+#SBATCH -p smp
+
+srun echo "Hello World from job $SLURM_JOB_ID on node $(hostname)"
+\end{lstlisting}
+\end{minipage}\newline
+\begin{minipage}[t][0.3\textheight][t]{1.0\linewidth}
+  \begin{onlyenv}<1>
+    \task{
+    Save the script as \texttt{hello\_world.sh} and submit it with the following statement:}
+    \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
+$ sbatch hello_world.sh
+\end{lstlisting}
+\end{onlyenv}
+\begin{onlyenv}<2>
+\begin{block}{Important Items and Aspects}
+  \begin{itemize}
+  \item Interpreter directive
+  \item Account necessary
+  \item Reservation only during course
+  \item Job step with \texttt{srun}
+  \item Question: Where is the output?
+  \end{itemize}
+\end{block}
+\end{onlyenv}
+\end{minipage}
+\vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}
+  \frametitle{Task in \slurm}
+  \explanation[What is a task to \slurm?]{A job step in \slurm has one task 
+    per default. \texttt{sbatch} and \texttt{srun} accept a\newline
+    \texttt{-n,-\,-ntasks=<number>}\newline
+    option. This defines the number of {\color{red}concurrent} tasks per job.\newline I.e. \texttt{srun -n4 ./app} will start \texttt{app} four times}
+  \pause
+  \explanation[Granting cores (CPUs) to tasks]{You can grant cpus to tasks
+    with \newline
+    \texttt{-c, -\,-cpus-per-task=<number>}. }
+  \vfill
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{Queues / Partitions}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Queues/Partitions I}
+  \begin{itemize}
+  \item The scheduler will place your job into a queue (or partition for \slurm)
+  \item Display the various partitions with
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ sinfo -s
+  \end{lstlisting}
+\item Display details of a specific partition
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ scontrol show partition <partition>
+  \end{lstlisting}
+  \item Maybe display details of a specific quality of service (qos) of a partition
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ sacctmgr show qos
+  \end{lstlisting}
+  \end{itemize}
+  \vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Queues/Partitions II}
+  Which partitions are relevant for your work?
+  \begin{exampleblock}{\mogonII}
+    \begin{itemize}
+    \item \verb+smp+: Default runtime 10 minutes, maximal 5 days
+    \item \verb+parallel+: Default runtime  10 minutes, maximal 5 days
+    \end{itemize}
+  \end{exampleblock}
+  Default memory per CPU is 300\,MiB, except for \verb+parallel+ (unlimited). 
+  \vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%TODO: review!!!
+\begin{frame}
+  \frametitle{Queues/Partitions III}
+  \vspace{-0.5em}
+  On \mogonII there are essentially 3 partitions now:
+  \begin{itemize}[<+->]
+   \item The \texttt{smp} partition for SMP jobs (may take $\sim 5-8\,\%$ of the nodes).
+   \item The \texttt{parallel} partition may take the rest -- for full node jobs (or bigger), only!
+   \item The \texttt{bigmem} partition for jobs requiring at least 500 GiB RAM.
+  \end{itemize}
+  \pause
+  Each \emph{account} will get a share and jobs \emph{may} not start, when the share is used up.
+  \pause
+  Runtime is limited to 5 days with a default of 10 minutes.
+  \vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection*{More on Reservation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]%
+  \frametitle{Reservations}
+  In the following we will cover how to reserve the desired
+  \begin{itemize}
+  \item job name
+  \item partition
+  \item number of nodes and tasks
+  \item amount of job execution time
+  \item amount of memory
+  \end{itemize}
+  Please follow along, we will extend our \verb+hello_world.sh+ jobscript!
+  \vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]%
+  \frametitle{Reservations: Job Name}
+Specify a meaningful name of the job with
+\begin{lstlisting}[language=Bash,style=Shell]
+#SBATCH -J <Jobname>
+\end{lstlisting}
+within the jobscript. Note the environment variables
+\begin{itemize}
+\item \verb+SLURM_JOB_NAME+ holding the name of the job
+\item \verb+SLURM_JOB_ID+ holding the ID of the job
+\end{itemize}
+\begin{block}{Over to you\ldots}
+Provide a meaningful name of the job and write out that name along with the job-ID.
+\end{block}
+  \vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]%
+  \frametitle{Reservations: Partition}
+  Specify the desired partitions with 
+\begin{lstlisting}[language=Bash,style=Shell]
+#SBATCH -p <Partitionname>
+\end{lstlisting}
+within the jobscript or
+\begin{lstlisting}[language=Bash,style=Shell]
+$ sbatch -p <Partitionname> ...
+\end{lstlisting}
+The environment variable \verb+SLURM_JOB_PARTITION+ holds the name of the granted partition.
+
+\begin{block}{Note}
+  Within our \verb+hello_world.sh+ jobscript, we requested the \verb+smp+ partition.
+\end{block}
+  \vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Reservations: CPU type}
+  {\bcoeil \color{UniRot}ONLY on \mogonII:}\newline
+    Select CPU type with
+  \begin{lstlisting}[language=Bash,style=Shell]
+#SBATCH -C broadwell          # Short form, uppercase C
+#SBATCH --constrain=broadwell # Long form
+\end{lstlisting}
+for Broadwell CPU's (\emph{default}; 10 cores per socket) or
+\begin{lstlisting}[language=Bash,style=Shell]
+#SBATCH -C skylake            # Short form, uppercase C
+#SBATCH --constrain=skylake   # Long form
+\end{lstlisting}
+for Skylake CPU's (16 cores per socket). If the architecture is not relevant, use (or omit)
+\begin{lstlisting}[language=Bash,style=Shell]
+#SBATCH -C anyarch            # Short form, uppercase C
+#SBATCH --constrain=anyarch   # Long form
+\end{lstlisting}
+\vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Reservations: Node}
+  Specify the required number of nodes with
+\begin{lstlisting}[language=Bash,style=Shell]
+#SBATCH -N <Number of nodes>
+\end{lstlisting}
+within the jobscript or
+\begin{lstlisting}[language=Bash,style=Shell]
+$ sbatch -N <Number of nodes> ...
+\end{lstlisting}
+\begin{itemize}
+\item \verb+SLURM_JOB_NUM_NODES+ holds the number of requested nodes
+\item \verb+SLURMD_NODENAME+ holds the name of the compute node
+\item \verb+SLURM_NODELIST+ holds the list of all requested nodes
+\end{itemize}
+\vspace{-1em}
+\begin{block}{Over to you\ldots}
+  Explicitely request a single node and output the number of nodes and the name 
+  of the node using the environment variables.
+\end{block}
+  \vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Reservations: Tasks}
+ Specify the required number of tasks with
+\begin{lstlisting}[language=Bash,style=Shell]
+#SBATCH -n <Number of tasks>
+\end{lstlisting}
+within the jobscript or
+\begin{lstlisting}[language=Bash,style=Shell]
+$ sbatch -n <Number of tasks> ...
+\end{lstlisting}
+Note that this is only meaningful for MPI applications! Use the option
+\verb+--ntasks-per-node+ to specify the maximum of task per node.
+\begin{itemize}
+\item \verb+SLURM_NTASKS+ holds the number of requested tasks
+\end{itemize}
+% \begin{block}{Over to you\ldots}
+%   Explicitely request a single task and output the number of tasks.
+% \end{block}
+  \vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Reservations: CPUs per Task}
+  \vspace{-0.5em}
+ Specify the required number of cores (SLURM lingo = core) per task with
+\begin{lstlisting}[language=Bash,style=Shell]
+#SBATCH -c <Number of CPUs>
+\end{lstlisting}
+within the jobscript or
+\begin{lstlisting}[language=Bash,style=Shell]
+$ sbatch -c <Number of CPUs>
+\end{lstlisting}
+\begin{itemize}
+\item \verb+SLURM_CPU_ON_NODE+ holds the number of (apparent) CPUs of this job on this node
+\item \verb+SLURM_CPUS_PER_TASK+ holds the number of (apparent) CPUs per task
+\end{itemize}
+  \vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Reservations: Time I}
+  Specify the required time with 
+\begin{lstlisting}[language=Bash,style=Shell]
+#SBATCH -t <Time in minutes>
+\end{lstlisting}
+within the jobscript or
+\begin{lstlisting}[language=Bash,style=Shell]
+$ sbatch -t <Time in minutes>
+\end{lstlisting}
+Do not forget that the time request should not exceed the time limit of the queue. If
+your job takes longer than requested, it will be killed.
+\begin{block}{Over to you\ldots}
+  Specify the time requirement to 5 minutes.
+\end{block}
+  \vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+ \frametitle{Reservations: Time II}
+  We learned that reserving a wall clock time with \verb+-t/--time+:
+  \begin{lstlisting}[language=Bash, style=Shell]
+#SBATCH --time=300 
+  \end{lstlisting}
+  will reserve 300 min. for example.\pause
+  \begin{block}{Other formats are valid, too:}
+    \begin{center}
+      \begin{tabular}{l|l}
+        10 & 10 minutes\\
+        01:05 & 1 minute, 5 seconds\\
+        01:05:00 & 1 hour, 5 minutes\\
+        1-12 & 1 day, 12 hours
+      \end{tabular}
+      \newline etc., see \verb+man sbatch+
+    \end{center}
+  \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Reservations: Memory}
+  \vspace{-1em}
+  Specify the required memory with
+\begin{lstlisting}[language=Bash,style=Shell]
+#SBATCH --mem=<Memory in MiB per node>
+#SBATCH --mem-per-cpu=<Memory in MiB per CPU>
+\end{lstlisting}
+within the jobscript or
+\begin{lstlisting}[language=Bash,style=Shell]
+$ sbatch --mem=<Memory in MiB per node>
+$ sbatch --mem-per-cpu=<Memory in MiB per CPU> 
+\end{lstlisting}
+\vspace{-.5em}
+\begin{itemize}
+\item Note that the commands are mutually exclusive!
+\item You may specify the amount in GiB by appending \verb+G+ to the number
+\end{itemize}
+\vspace{-.5em}
+\begin{block}{Over to you\ldots}
+  Explicitely request 100 MiB memory per node.
+\end{block}
+  \vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]%
+  \frametitle{Reservations: Memory II -- Chunks}
+  When reserving full nodes, by using the ''\texttt{parallel}'' partition:
+  {%
+  \newcommand{\mc}[3]{\multicolumn{#1}{#2}{#3}}
+  \definecolor{tcA}{rgb}{0.627451,0.627451,0.643137}
+  \begin{center}
+    \scriptsize
+    \begin{tabular}{ll}
+      % use packages: color,colortbl
+       Memory Chunk [MiB] \mogonII& architecture\\\hline
+      \mc{1}{>{\columncolor{tcA}}l}{57000} & \mc{1}{>{\columncolor{tcA}}l}{broadwell}\\
+      88500 & skylake\\
+      \mc{1}{>{\columncolor{tcA}}l}{120000} & \mc{1}{>{\columncolor{tcA}}l}{broadwell}\\
+      177000 & skylake\\
+      \mc{1}{>{\columncolor{tcA}}l}{246000} & \mc{1}{>{\columncolor{tcA}}l}{broadwell}
+    \end{tabular}
+  \end{center}
+  }%
+  \pause
+  More, incl. numbers to the ''\texttt{bigmem}'' partition in our \lhref{https://mogonwiki.zdv.uni-mainz.de/dokuwiki/partitions}{wiki}.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Reservations}
+  In the following we will cover how to reserve the desired
+  \begin{itemize}
+  \item job name
+  \item partition
+  \item number of nodes and tasks
+  \item amount of job execution time
+  \item amount of memory
+  \end{itemize}
+  Please follow along, we will extend our \verb+hello_world.sh+ jobscript!
+  \vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Parametizing your Workflow}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{The \texttt{Snakemake} \texttt{resources} Section}
+  \texttt{Snakemake} rules provide an additional section:
+  \begin{lstlisting}[language=Python,style=Python]
+rule <name>:
+   ...
+   resources:
+      partition='parallel',
+      mem_mb=1800,
+      cpus_per_task=4
+  \end{lstlisting}
+  \hint{Note the \textbf{,}!}
+  \hint[Outlook]{This is work in development, future versions will be more tolerant, e.\,g. \texttt{threads} will translate to \texttt{cpus\_per\_task} and vice versa.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Our Workflow}
+  \task{Add the following resource to our workflow.}
+  \begin{lstlisting}[language=Python,style=Python]
+   resources:
+      mem_mb=1800
+  \end{lstlisting}
+  \question{Why? Why not more?}
+  \pause
+  Because,
+  \begin{itemize}
+   \item \texttt{ntasks} and \texttt{cpus\_per\_task} default to 1, which is the case here.
+   \item account and partition are the same everywhere and we can use this upon submit time (see next slide)
+   \item \texttt{mem\_mb} is the same everywhere, too. But: it is usually a resource to be adapter per rule. So, we try this here, too.
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Starting our Workflow - One last Time}
+  \begin{lstlisting}[language=Bash,style=Shell]
+$ snakemake -j unlimited --use-envmodules --slurm \
+  --default-ressources account=hpckurs partition=smp
+  \end{lstlisting}
+  \question{Which warning(s) do turn up? What is the remedy?}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Configuration Files}
+  Workflows, once established, should not be altered. All settings go into configuration files. To indicate a configuration file, run with:
+  \begin{lstlisting}[language=Bash,style=Shell]
+$ snakemake --configfile=<path>
+  \end{lstlisting}\pause
+  The configuration file itsels is in YAML format and might look like:
+  \begin{lstlisting}[language=Python,style=Python]
+INPUT_DIR: "/lustre/project/..."
+OUTPUT_DIR: "/lustre/project/..."
+# environment modules:
+VINALC: "bio/VinaLC/1.3.0-gompi-2021b"
+  \end{lstlisting}\pause
+    Within the Snakefile we can retrieve this information, as it is represented as Python \texttt{dicts}:
+  \begin{columns}
+     \begin{column}{0.5\textwidth}
+       \begin{lstlisting}[language=Bash,style=Shell,basicstyle=\small]
+INPUT_DIR=config["INPUT_DIR"]
+OUTPU_DIR=config["OUTPUT_DIR"]
+       \end{lstlisting}
+     \end{column}
+     \begin{column}{0.5\textwidth}
+      \begin{lstlisting}[language=Bash,style=Shell,basicstyle=\small] 
+rule NAME:
+    ...
+    envmodules:
+       config["VINALC"]    
+      \end{lstlisting}
+
+     \end{column}
+  \end{columns}
+
+\end{frame}
+
+
+
