@@ -18,7 +18,7 @@ build:Snakemake_HPC_Master:
   stage: build
   script:
     - make -C slides
-    - mv snakemake-workflows/slides/Snakemake_HPC_Master.pdf Snakemake_HPC.pdf
+    - mv slides/Snakemake_HPC_Master.pdf Snakemake_HPC.pdf
   artifacts:
     paths:
         - Snakemake_HPC.pdf
