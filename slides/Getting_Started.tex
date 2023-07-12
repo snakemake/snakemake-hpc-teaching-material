@@ -167,11 +167,24 @@ $ tree example/
 $ module load lang/Python
   \end{lstlisting}
   will load the most recent Python module and provide you with the correct environment.
-  \task{Run \texttt{python3 --version}, then load the module and run\newline \texttt{python3 --version} once more.}
+  \task{Run \texttt{python --version}, then load the module and run\newline \texttt{python --version} once more.}
 \end{frame}
 
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{About \texttt{Conda}}
+  Now, on HPC-systems scientific software is a provided as module files and provisioned by ``build frameworks'' like \texttt{easybuild} or \texttt{spack}. With \texttt{snakemake} we are going to \texttt{Conda}. Why? Some pros and cons:
+  \begin{itemize}[<+->]
+   \item no build-framework provides 100\,\% coverage of all needs -- including \texttt{Conda}
+   \item including \texttt{Conda} has a draw-back: software is pre-build. This means: No optimizations for particular CPUs == slower execution, higher CO$_2$ footprint!
+   \item HPC applications often need MPI-bindings (this cannot be provided by \texttt{Conda})
+   \item \texttt{Conda} provides an enormous amount of applications for genome oriented bioinformatics
+   \item to be reproducible you sometimes need older applications (which are not included in HPC build frameworks)
+   \item workflow engines (like the one we are going to use rely on \texttt{Conda} and are able to install the software \emph{for you} without further setups from you!)
+  \end{itemize}
+  \hint[Info:]{Upcoming releases allow to re-compile for particular platforms and help limiting up execution times.} 
+\end{frame}
+%https://waylonwalker.com/install-miniconda/
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
