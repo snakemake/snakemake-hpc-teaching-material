@@ -73,15 +73,15 @@
   We give ourselves a little (proxy) task. Suppose you want to analyse the frequency of words in certain books.\newline
   \pause
   We’ve compiled our raw data i.e. the books we want to analyse and have prepared several Python scripts that together make up our analysis workflow. -- Our example directory is:
-  \begin{lstlisting}[language=Bash, style=Shell]
-/lustre/project/hpckurs/workflow_course/example/
-  \end{lstlisting}
+  \pathtoexercise{}\newline
   For starters we just copy the entire directory:
   \begin{lstlisting}[language=Bash, style=Shell]
-# create a destination and cd into it
-mkdir workflow_course && cd workflow_course
-# copy the example directory
-$ cp -r /lustre/project/hpckurs/workflow_course/example @.@
+$ # work in your home directory, if unsure, perform
+$ cd # to go there
+$ # copy the example directory
+$ cp -r /lustre/project/m2_jgu-ngstraing/workflows @.@
+$ # change to the workflows directory:
+$ cd workflows
   \end{lstlisting}
   \hint{Use TAB-completion to get the entire path typed. Save yourself the mental effort to type!}
 \end{frame}
@@ -92,10 +92,8 @@ $ cp -r /lustre/project/hpckurs/workflow_course/example @.@
   Now, let us look, what we have here!\newline
   Using the command \texttt{head}, we can have a look in our data, e.\,g.:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\ttfamily\footnotesize]
-$ head example/books/isles.txt
+$ head books/isles.txt
   \end{lstlisting}
-  To do so, we can cycle throught the history (with the \textuparrow and \textdownarrow keys) and \texttt{[STRG]+a} (or \texttt{[CMD]+a} o an English keyboard to jump to the start of the line and replace \texttt{ls} by \texttt{head}.
-  \docs{The \texttt{\textbackslash} is just to allow wrapping the line in \texttt{bash}.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -123,9 +121,6 @@ finding in Mr. Boswell a companion, whose acuteness would help my
   \frametitle{The Tasksetting IV}
   What else is there?\newline
   We can use the \texttt{tree} command to display the content of an entire directory tree, e.\,g.:
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ tree example/
-  \end{lstlisting}
   \begin{columns}
     \begin{column}{0.2\textwidth}
     \footnotesize
@@ -135,24 +130,22 @@ $ tree example/
     \begin{minipage}[t]{0.5\textwidth}
     \setstretch{0.1}
             {\tiny \DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{.6pt}
+\texttt{\$ tree}
 \dirtree{%
 .1 /.
-.2 example.
-.3 data.
-.4 {abyss.txt}\DTcomment{a book}.
-.4 {isles.txt}.
-.4 {last.txt}.
-.4 {sierra.txt}.
+.2 books.
+.3 {abyss.txt}\DTcomment{a book}.
+.3 {isles.txt}.
+.3 {last.txt}.
+.3 {sierra.txt}.
+.2 zipfs\_analysis.
 .3 scripts.
 .4 {plotcount.py}\DTcomment{a script}.
 .4 {wordcount.py}.
-.4 {zipf\_test.py}.
+.4 {\ldots}.
+.3 {Snakefile}\DTcomment{our workflow}.
 }}
     \end{minipage}
-
-
-
-
 
 
     \end{column}
@@ -211,8 +204,10 @@ $ module load vis/matplotlib
   The first step is to count the words.\newline
   \begin{enumerate}
    \item run \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize] 
-$ python scripts/wordcount.py -i books/isles.txt -o isles.dat           
+$ python zipfs_analysis/scripts/wordcount.py \
+> -i books/isles.txt -o isles.dat           
              \end{lstlisting}
+  \item be aware: the \texttt{\textbackslash} and \texttt{>} are only there to fit everything on screen
   \item take a quick look at the results:
         \begin{lstlisting}[language=Bash, style=Shell] 
 head -5 isles.dat
@@ -233,17 +228,15 @@ a 1308 2.30565838181
   \frametitle{The Tasksetting VI}
   Let’s visualise the results. The script \texttt{plotcount.py} reads in a data file and plots the 10 most frequently occurring words as a text-based bar plot:
   \begin{lstlisting}[language=Bash, style=Shell] 
-$ python scripts/plotcount.py -i isles.dat --type ascii
+$ python zipf_analysis/scripts/plotcount.py -i isles.dat --type ascii
   \end{lstlisting}
   \pause
   Or your can create a graphical plot:
   \begin{lstlisting}[language=Bash, style=Shell] 
-$ python scripts/plotcount.py -i isles.dat -o isles.png
+$ python zipf_analysis/scripts/plotcount.py -i isles.dat -o isles.png
 # subsequently run
 $ display isles.png
   \end{lstlisting}
-  \pause
-  Not nice, but it will do ...
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -252,7 +245,7 @@ $ display isles.png
   
 Zipf’s Law is an empirical law formulated using mathematical statistics that refers to the fact that many types of data studied in the physical and social sciences can be approximated with a Zipfian distribution, one of a family of related discrete power law probability distributions.
 
-Zipf’s law was originally formulated in terms of quantitative linguistics, stating that given some corpus of natural language utterances, the frequency of any word is inversely proportional to its rank in the frequency table. For example, in the Brown Corpus of American English text, the word the is the most frequently occurring word, and by itself accounts for nearly 7\% of all word occurrences (69,971 out of slightly over 1 million). True to Zipf’s Law, the second-place word of accounts for slightly over 3.5\% of words (36,411 occurrences), followed by and (28,852). Only 135 vocabulary items are needed to account for half the Corpus.
+Zipf’s law was originally formulated in terms of quantitative linguistics, stating that given some corpus of natural language utterances, the frequency of any word is inversely proportional to its rank in the frequency table. For example, in the Brown Corpus of American English text, the word ``the'' is the most frequently occurring word, and by itself accounts for nearly 7\% of all word occurrences (69,971 out of slightly over 1 million). True to Zipf’s Law, the second-place word of accounts for slightly over 3.5\% of words (36,411 occurrences), followed by and (28,852). Only 135 vocabulary items are needed to account for half the Corpus.
 
 Source: \lhref{https://en.wikipedia.org/wiki/Zipf\%27s\_law}{Wikipedia}
 \end{frame}
@@ -262,20 +255,20 @@ Source: \lhref{https://en.wikipedia.org/wiki/Zipf\%27s\_law}{Wikipedia}
   \frametitle{The Tasksetting VII}
   Now, we can run our statistical analyis:
   \begin{lstlisting}[language=Bash, style=Shell]
-$ python scripts/zipf_test.py isles.dat
+$ python zipf_analysis/scripts/zipf_test.py isles.dat
   \end{lstlisting}
   \pause
   This means, we can put it all in a \emph{Pipeline} and do our analysis!11!!
-  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\small]
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\scriptsize]
 #!/bin/bash
-python scripts/wordcount.py -i books/isles.txt -o isles.dat
-python scripts/wordcount.py -i books/abyss.txt -o abyss.dat
+python zipf_analysis/scripts/wordcount.py -i books/isles.txt -o isles.dat
+python zipf_analysis/scripts/wordcount.py -i books/abyss.txt -o abyss.dat
 
-python scripts/plotcount.py -i isles.dat -o isles.png
-python scripts/plotcount.py -i abyss.dat -o abyss.png
+python zipf_analysis/scripts/plotcount.py -i isles.dat -o isles.png
+python zipf_analysis/scripts/plotcount.py -i abyss.dat -o abyss.png
 
 # Generate summary table
-python scripts/zipf_test.py abyss.dat isles.dat @>@ results.txt
+python zipf_analysis/scripts/zipf_test.py abyss.dat isles.dat @>@ results.txt
   \end{lstlisting}
   \hint{The \texttt{>} sign is a redirection in \texttt{bash}.}
 \end{frame}
