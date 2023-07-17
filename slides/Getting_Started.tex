@@ -173,7 +173,7 @@ $ module load lang/Python
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{About \texttt{Conda}}
-  Now, on HPC-systems scientific software is a provided as module files and provisioned by ``build frameworks'' like \texttt{easybuild} or \texttt{spack}. With \texttt{snakemake} we are going to \texttt{Conda}. Why? Some pros and cons:
+  Now, on HPC-systems scientific software is a provided as module files and provisioned by ``build frameworks'' like \texttt{easybuild} or \texttt{spack}. With \texttt{snakemake} we are going to \texttt{Conda}. Why? Some pros and cons:\footnotesize
   \begin{itemize}[<+->]
    \item no build-framework provides 100\,\% coverage of all needs -- including \texttt{Conda}
    \item including \texttt{Conda} has a draw-back: software is pre-build. This means: No optimizations for particular CPUs == slower execution, higher CO$_2$ footprint!
@@ -182,8 +182,15 @@ $ module load lang/Python
    \item to be reproducible you sometimes need older applications (which are not included in HPC build frameworks)
    \item workflow engines (like the one we are going to use rely on \texttt{Conda} and are able to install the software \emph{for you} without further setups from you!)
   \end{itemize}
+  \pause
   \hint[Info:]{Upcoming releases allow to re-compile for particular platforms and help limiting up execution times.} 
 \end{frame}
+
+\begin{frame}<handout:0>
+  \frametitle{Now now \ldots}
+  We will be learning about \texttt{Conda} on a cluster a little later. For now, we will be working with module files and dive into workflows.
+\end{frame}
+
 %https://waylonwalker.com/install-miniconda/
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
