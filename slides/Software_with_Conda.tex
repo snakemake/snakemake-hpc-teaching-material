@@ -55,35 +55,43 @@
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\small,breaklines=true ]
 $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
   \end{lstlisting}
-  \hint{\footnotesize  URL is from \url{https://docs.conda.io/en/latest/miniconda.html}. However, we are going to use our copied script.}
+  \hint{\footnotesize  URL is from \url{https://docs.conda.io/en/latest/miniconda.html}.\newline However, we are going to use our copied script.}
   \pause
-  \docs{Using the ``\emph{latest}'' version of the script, we ensure not to rely on a specific version. It is always possible to install specific software releases with the current version of Conda, but we will not be required to update conda immediately after installation.}
-  \pause
+  \docs{\footnotesize Using the ``\emph{latest}'' version of the script, we ensure not to rely on a specific version. It is always possible to install specific software releases with the current version of Conda, but we will not be required to update conda immediately after installation.}
+  \hint{Instead of downloading, we will work through this together on the slides to come.}
+ \end{frame} 
+ 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Installing Conda - II}
   Please run
   \begin{lstlisting}[language=Bash, style=Shell]
 $ bash ./conda/Miniconda3-latest-Linux-x86_64.sh
   \end{lstlisting}
-  We will work through the questions together, please be patiened!
+  We will work through the questions together, please be patient!
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Installing Conda - II}
+  \frametitle{Installing Conda - III}
   \begin{itemize}[<+->]
    \item You need to confirm the license. Scroll with ``blank'' and confirm with ``\verb+yes+''.
-   \item Next you need to set the prefix. For the course you can install in your HOME, else, agree on a path in your project and use the project directory, e.g. 
+   \item Next, you need to set the prefix. For the course you can install Conda in your HOME, else, agree in your group(s) on a path in your project and use the project directory, e.g. 
    \begin{lstlisting}[language=Bash, style=Shell, breaklines=true ]
 [/home/<username>/miniconda3] >>> /lustre/project/<myproject>/conda
    \end{lstlisting}
-   \item Finally, you will be asked to finalize Miniconda. Please confirm (``\verb+yes+'').
+   \item Finally, you will be asked to finalize Miniconda. Please confirm with ``\verb+yes+''.
   \end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Installing Conda - II}
-  You now have a section 
-  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
+  \frametitle{Installing Conda - IV}
+  \footnotesize
+  \begin{columns}[t]
+    \begin{column}{0.5\textwidth}
+       You now have a section like this in your ``\texttt{\textasciitilde/.bashrc}'':
+       \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny, breaklines=true]
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('<prefix>/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
@@ -91,15 +99,41 @@ if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
     if [ -f "<prefix>/etc/profile.d/conda.sh" ]; then
-        . "prefix/etc/profile.d/conda.sh"
+        . "<prefix>/etc/profile.d/conda.sh"
     else
-        export PATH="prefix/bin:$PATH"
+        export PATH="<prefix>/bin:$PATH"
     fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-   \end{lstlisting}
-   \warning{\emph{Every} time you log-in this will be executed. Putting this code in a function prevents this and let's you decide, when conda is initialized.}
+      \end{lstlisting}
+      \bcattention \emph{Every} time you log-in this will be executed. Also, here, ``\texttt{<prefix>}'' denotes \emph{your} prefix.
+    \end{column}
+    \begin{column}{0.5\textwidth}
+       \pause
+       If you like, you can put this part in a function, to re-gain manual control:
+       \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny, breaklines=true]
+@function conda_initialize {@
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('<prefix>/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "<prefix>/etc/profile.d/conda.sh" ]; then
+        . "<prefix>/etc/profile.d/conda.sh"
+    else
+        export PATH="<prefix>/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+@}@
+      \end{lstlisting}
+    \end{column}
+  \end{columns}
+
+   %
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -108,6 +142,11 @@ unset __conda_setup
   To initialize Conda, simply run
   \begin{lstlisting}[language=Bash, style=Shell]
 $ bash
+  \end{lstlisting}
+  or
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ source ~/.bashrc
+$ conda_initialize # if you have this function
   \end{lstlisting}
   Then your command line should look like:
   \begin{lstlisting}[language=Bash, style=Shell]
@@ -127,7 +166,7 @@ $ conda search <softwarename>
   \task{Try this with a software which comes to mind.}
   \pause
   This will list packages with channel and version information, e.\,g.
-  \begin{lstlisting}[language=Bash, style=Shell]
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
 $ conda search minimap
 Loading channels: done
 # Name                       Version           Build  Channel             
