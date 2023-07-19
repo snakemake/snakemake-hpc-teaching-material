@@ -80,7 +80,7 @@ $ bash ./conda/Miniconda3-latest-Linux-x86_64.sh
    \begin{lstlisting}[language=Bash, style=Shell, breaklines=true ]
 [/home/<username>/miniconda3] >>> /lustre/project/<myproject>/conda
    \end{lstlisting}
-   \item Finally, you will be asked to finalize Miniconda. Please confirm with ``\verb+yes+''.
+   \item Finally, you will be asked to initialize Miniconda. Please confirm with ``\verb+yes+''.
   \end{itemize}
 \end{frame}
 
@@ -175,3 +175,101 @@ minimap                     0.2_r124      h5bf99c6_4  bioconda
 ....
   \end{lstlisting}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Reducing Search Overhead - the \texttt{.condarc}-File}
+  On \mogon{} the number of Conda channels is reduced by the whitelisting. Nevertheless, it helps to have a resource file, with a number of definitions, \emph{before} starting:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ cat .condarc
+create_default_packages:
+  - setuptools
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+  - r
+proxy_servers:
+  http: http://webproxy.zdv.uni-mainz.de:8888
+ssl_verify: false
+auto_update_conda: false
+always_yes: true # avoid confirmation(s)
+  \end{lstlisting}
+  To obtain the same resource file, run:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ cp conda/condarc ~/.condarc
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Installing Software \emph{with} Conda}
+  The first software we want to install (in our ``base'' environment) is ``\texttt{mamba}''.  
+  \docs{``\texttt{mamba}'' is a drop-in for \texttt{``conda''}, written in \CC. This means all commands are exactly the same as with \texttt{``conda''} (with some exceptions. It will be replaced with ``\texttt{pixi}''.}
+  Please run
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ conda install mamba
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Installing Software \emph{with} Conda - II}
+  As we will be using our workflow system in \emph{every} environment, we can as well use it in the ``\texttt{base}'' environment:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ mamba install snakemake
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Installing Software \emph{with} Conda - Using Environments}
+  \hint{It is a good habit to have
+        \begin{itemize}
+          \item \emph{an} environment per workflow
+          \item this way, we have a bundle of tools, activate the environment for it
+          \item \texttt{snakemake} workflows will install the tools you need for a particular workflow - only \emph{if} these tools are still missing
+         \end{itemize}
+        }
+  We \emph{could} run
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ conda create -n transriptome-differential-expression
+  \end{lstlisting}
+  Instead, we \emph{will} run
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ conda create -n transriptome-differential-expression --clone base
+  \end{lstlisting}
+  To enable our software installed in ``\texttt{base}'' in our \emph{new} environment, too.\newline
+
+  To list the available environments we can run
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ conda info --envs
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Installing Software \emph{with} Conda - Using Environments II}
+  Using our new environment we can activate it:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ conda activate transriptome-differential-expression
+  \end{lstlisting}
+  and install ``\texttt{snakemake}'' by running
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ mamba install snakemake
+  \end{lstlisting}
+  Now, we are all set. ``\texttt{snakemake}'' is able to install the requested software, for a well-maintained workflow.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}
+  \frametitle{Conda - a workflow summary}
+  To handle a given workflow, do
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ conda_initialize
+$ conda create -n <workflow_name> # if not present: create environment
+$ conda activate <workflow_name>
+$ mamba install snakemake
+  \end{lstlisting}
+\end{frame}
+
