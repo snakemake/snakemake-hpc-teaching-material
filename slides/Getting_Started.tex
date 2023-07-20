@@ -228,12 +228,14 @@ a 1308 2.30565838181
   \frametitle{The Tasksetting VI}
   Let’s visualise the results. The script \texttt{plotcount.py} reads in a data file and plots the 10 most frequently occurring words as a text-based bar plot:
   \begin{lstlisting}[language=Bash, style=Shell] 
-$ python zipf_analysis/scripts/plotcount.py -i isles.dat --type ascii
+$ python zipf_analysis/scripts/plotcount.py \
+> -i isles.dat --type ascii
   \end{lstlisting}
   \pause
   Or your can create a graphical plot:
   \begin{lstlisting}[language=Bash, style=Shell] 
-$ python zipf_analysis/scripts/plotcount.py -i isles.dat -o isles.png
+$ python zipf_analysis/scripts/plotcount.py \
+> -i isles.dat -o isles.png
 # subsequently run
 $ display isles.png
   \end{lstlisting}
@@ -259,7 +261,7 @@ $ python zipf_analysis/scripts/zipf_test.py isles.dat
   \end{lstlisting}
   \pause
   This means, we can put it all in a \emph{Pipeline} and do our analysis!11!!
-  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\scriptsize]
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
 #!/bin/bash
 python zipf_analysis/scripts/wordcount.py -i books/isles.txt -o isles.dat
 python zipf_analysis/scripts/wordcount.py -i books/abyss.txt -o abyss.dat
@@ -290,7 +292,7 @@ python zipf_analysis/scripts/zipf_test.py abyss.dat isles.dat @>@ results.txt
 \begin{frame}[fragile]
   \frametitle{Conclusion}
   \begin{enumerate}[<+->]
-   \item Suppose you want to change settins of the plot(s). And the compute work would take longer. A manual outcomment would be required.
+   \item Suppose you want to change settings of the plot(s). And the compute work would take longer. A manual outcomment would be required.
    \item More inputs will require to add more line or be clever with loops, e.\,g.:
          \begin{lstlisting}[language=Bash, style=Shell]
 for book in books/*txt; do 
@@ -299,7 +301,7 @@ done
          \end{lstlisting}
   \end{enumerate}
   Or something similar ...\newline
-  What we \emph{really} want is an executable description of our pipeline that allows software to do the tricky part for us: figuring out what tasks need to be run where and when, then perform those tasks for us.
+  What we \emph{really} want is an executable description of our pipeline that allows software to do the tricky part for us: figuring out what tasks need to be run where and when, then perform those tasks for us!
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
