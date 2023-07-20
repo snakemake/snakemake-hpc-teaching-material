@@ -296,7 +296,8 @@ python zipf_analysis/scripts/zipf_test.py abyss.dat isles.dat @>@ results.txt
    \item More inputs will require to add more line or be clever with loops, e.\,g.:
          \begin{lstlisting}[language=Bash, style=Shell]
 for book in books/*txt; do 
-  python scripts/wordcount.py -i ${book} -o {book/txt/png}
+  python scripts/wordcount.py 
+         -i ${book} -o {book/txt/png}
 done
          \end{lstlisting}
   \end{enumerate}
