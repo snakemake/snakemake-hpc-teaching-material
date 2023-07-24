@@ -197,7 +197,7 @@ minimap                     0.2_r124      h5bf99c6_4  bioconda
 \begin{frame}[fragile]
   \frametitle{Reducing Search Overhead - the \texttt{.condarc}-File}
   On \mogon{} the number of Conda channels is reduced by the whitelisting. Nevertheless, it helps to have a resource file, with a number of definitions, \emph{before} starting:
-  \begin{lstlisting}[language=Bash, style=Shell]
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
 $ cat .condarc
 create_default_packages:
   - setuptools
@@ -213,8 +213,8 @@ auto_update_conda: false
 always_yes: true # avoid confirmation(s)
   \end{lstlisting}
   To obtain the same resource file, run:
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ cp conda/condarc ~/.condarc
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
+$ cp ~/conda/condarc ~/.condarc
   \end{lstlisting}
 \end{frame}
 
