@@ -38,6 +38,23 @@
   }
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{\Interlude{Getting Your Quota Limits}}
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ mmlsquota --block-size auto -u $USER fs1:home | grep -v 'limits'
+  \end{lstlisting}
+  reports your number of files.
+  \begin{alertblock}{Quota on \mogon}
+   Currently your home directory has the following limits:
+   \begin{itemize}
+    \item 150.000 files and
+    \item a quota of \SI{50}{\gibi\byte}
+   \end{itemize}
+   \pause
+   \hint{By asking for our quota first, we learn how many file we will produce by installing Conda!}
+  \end{alertblock}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
@@ -262,7 +279,7 @@ $ mamba install snakemake
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Conda - a workflow summary}
   To handle a given workflow, do
   \begin{lstlisting}[language=Bash, style=Shell]
