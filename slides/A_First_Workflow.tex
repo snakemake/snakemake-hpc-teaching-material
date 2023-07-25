@@ -44,9 +44,9 @@ rule count_words:
     \end{lstlisting}
 
   This is a build file, which for Snakemake is called a Snakefile — a file executed by Snakemake. Note that aside from a few keyword additions like \texttt{rule}, it follows standard Python 3 syntax.
-  \hint{Stick with \texttt{geany} as the editor - take a different shell than that of the virtual environment.}
+  \hint{Stick with \texttt{geany} as the editor.}
     \end{onlyenv}
-  \begin{onlyenv}<1| handout:0>
+  \begin{onlyenv}<2| handout:0>
    Now, let's have a detailed look:
    \begin{lstlisting}[language=Python,style=Python]
 # Count words.
@@ -58,7 +58,7 @@ rule count_words:
     \end{lstlisting}
     The \texttt{\#} denotes a comment. Any text from \texttt{\#} to the end of the line is ignored by Snakemake.
   \end{onlyenv}
-  \begin{onlyenv}<2| handout:0>
+  \begin{onlyenv}<3| handout:0>
    Now, let's have a detailed look:
    \begin{lstlisting}[language=Python,style=Python]
 # Count words.
@@ -70,7 +70,7 @@ rule count_words:
     \end{lstlisting}
     \texttt{isles.dat} is a \emph{target}, a file to be created, or built. In Snakemake, these are called “outputs”, for simplicity’s sake.
   \end{onlyenv}
-  \begin{onlyenv}<3| handout:0>
+  \begin{onlyenv}<4| handout:0>
    Now, let's have a detailed look:
    \begin{lstlisting}[language=Python,style=Python]
 # Count words.
@@ -82,7 +82,7 @@ rule count_words:
     \end{lstlisting}
     \texttt{books/isles.txt} is a \emph{dependency}, a file that is needed to build or update the target. Targets can have zero or more dependencies. Dependencies in Snakemake are called “inputs”.
   \end{onlyenv}
-  \begin{onlyenv}<4| handout:0>
+  \begin{onlyenv}<5| handout:0>
    Now, let's have a detailed look:
    \begin{lstlisting}[language=Python,style=Python]
 # Count words.
@@ -94,7 +94,7 @@ rule count_words:
     \end{lstlisting}
     The Python-Command is an \emph{action}, a command to run to build or update the target using the dependencies. In this case the action is a set of shell commands (we can also use Python code… more on that later).
   \end{onlyenv}
-  \begin{onlyenv}<5| handout:0>
+  \begin{onlyenv}<6| handout:0>
   Also:
   \begin{enumerate}
    \item Like Python, you can use either tabs or spaces for indentation — don’t use both!
