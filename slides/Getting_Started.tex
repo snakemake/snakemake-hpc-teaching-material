@@ -124,6 +124,7 @@ finding in Mr. Boswell a companion, whose acuteness would help my
   \begin{columns}
     \begin{column}{0.2\textwidth}
     \footnotesize
+    We can use the \texttt{tree} command to display the content of an entire directory tree, e.\,g.:\newline
      Should display something like (and more):
     \end{column}
     \begin{column}{0.8\textwidth}
@@ -138,12 +139,13 @@ finding in Mr. Boswell a companion, whose acuteness would help my
 .3 {isles.txt}.
 .3 {last.txt}.
 .3 {sierra.txt}.
+.2 conda.
+.3 {some files}.
 .2 zipfs\_analysis.
 .3 scripts.
 .4 {plotcount.py}\DTcomment{a script}.
 .4 {wordcount.py}.
 .4 {\ldots}.
-.3 {Snakefile}\DTcomment{our workflow}.
 }}
     \end{minipage}
 
@@ -160,7 +162,7 @@ finding in Mr. Boswell a companion, whose acuteness would help my
 $ module load lang/Python
   \end{lstlisting}
   will load the most recent Python module and provide you with the correct environment.
-  \task{Run \texttt{python --version}, then load the module and run\newline \texttt{python --version} once more.}
+  \task{Run \texttt{python -\phantom{}-version} then load the module and run\newline \texttt{python -\phantom{}-version} once more.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
