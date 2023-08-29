@@ -29,6 +29,43 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{A first Rule}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Layout of a Workflow Development Directory} 
+  \task{We are going to work in the \texttt{zipf\_analysis}-folder. Please \texttt{cd} there.}
+  \pause
+  The idea is to have a neat overview:
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      
+  \begin{minipage}[t]{0.5\textwidth}
+    \setstretch{0.1}
+            {\tiny \DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{.6pt}
+\dirtree{%
+.1 {\textit{workflow\ folder}}.
+.2 {scripts}.
+.3 {some\ scriptfile.py}.
+.3 {some\ scriptfile.sh}.
+.3 {some\ scriptfile.R}.
+.2 {Snakefile}.
+.2 {and more \ldots}.
+}}
+    \end{minipage}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \hint{Our long term goal:\newline Have a orderly overview and seperation of data and code.}
+      \pause 
+      \question{Any idea why?}
+    \end{column}
+
+
+  \end{columns}
+
+  
+\end{frame}
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Our first \texttt{Snakefile}!}
@@ -37,10 +74,10 @@
     \begin{lstlisting}[language=Python,style=Python]
 # Count words.
 rule count_words:
-    input:    'books/isles.txt'
+    input:    '../books/isles.txt'
     output:   'isles.dat'
     shell:    'python scripts/wordcount.py' 
-               ' -i books/isles.txt-o isles.dat'
+               ' -i ../books/isles.txt-o isles.dat'
     \end{lstlisting}
 
   This is a build file, which for Snakemake is called a Snakefile — a file executed by Snakemake. Note that aside from a few keyword additions like \texttt{rule}, it follows standard Python 3 syntax.
@@ -51,10 +88,10 @@ rule count_words:
    \begin{lstlisting}[language=Python,style=Python]
 # Count words.
 rule count_words:
-    input:    'books/isles.txt'
+    input:    '../books/isles.txt'
     output:   'isles.dat'
     shell:    'python scripts/wordcount.py' 
-               ' -i books/isles.txt-o isles.dat'
+               ' -i ../books/isles.txt-o isles.dat'
     \end{lstlisting}
     The \texttt{\#} denotes a comment. Any text from \texttt{\#} to the end of the line is ignored by Snakemake.
   \end{onlyenv}
@@ -63,10 +100,10 @@ rule count_words:
    \begin{lstlisting}[language=Python,style=Python]
 # Count words.
 rule count_words:
-    input:    'books/isles.txt'
+    input:    '../books/isles.txt'
     output:   'isles.dat'
     shell:    'python scripts/wordcount.py' 
-               ' -i books/isles.txt-o isles.dat'
+               ' -i ../books/isles.txt-o isles.dat'
     \end{lstlisting}
     \texttt{isles.dat} is a \emph{target}, a file to be created, or built. In Snakemake, these are called “outputs”, for simplicity’s sake.
   \end{onlyenv}
@@ -75,22 +112,22 @@ rule count_words:
    \begin{lstlisting}[language=Python,style=Python]
 # Count words.
 rule count_words:
-    input:    'books/isles.txt'
+    input:    '../books/isles.txt'
     output:   'isles.dat'
     shell:    'python scripts/wordcount.py' 
-               ' -i books/isles.txt-o isles.dat'
+               ' -i ../books/isles.txt-o isles.dat'
     \end{lstlisting}
-    \texttt{books/isles.txt} is a \emph{dependency}, a file that is needed to build or update the target. Targets can have zero or more dependencies. Dependencies in Snakemake are called “inputs”.
+    \texttt{../books/isles.txt} is a \emph{dependency}, a file that is needed to build or update the target. Targets can have zero or more dependencies. Dependencies in Snakemake are called “inputs”.
   \end{onlyenv}
   \begin{onlyenv}<5| handout:0>
    Now, let's have a detailed look:
    \begin{lstlisting}[language=Python,style=Python]
 # Count words.
 rule count_words:
-    input:    'books/isles.txt'
+    input:    '../books/isles.txt'
     output:   'isles.dat'
     shell:    'python scripts/wordcount.py' 
-               ' -i books/isles.txt-o isles.dat'
+               ' -i ../books/isles.txt-o isles.dat'
     \end{lstlisting}
     The Python-Command is an \emph{action}, a command to run to build or update the target using the dependencies. In this case the action is a set of shell commands (we can also use Python code… more on that later).
   \end{onlyenv}
@@ -134,8 +171,8 @@ Nothing to be done (all requested files are present and up to date).
   \pause
   Now, do:
   \begin{lstlisting}[language=Bash, style=Shell]
-$ touch books/isles.txt
-$ ls -l * # will proove: the input is more 
+$ touch ../books/isles.txt
+$ ls -l ../* # will proove: the input is more 
           # recent the the output
   \end{lstlisting}
   And run \texttt{Snakemake} once more.
@@ -162,10 +199,10 @@ $ ls -l * # will proove: the input is more
   Let’s add another rule to the end of \texttt{Snakefile}. Note that rules cannot have the same name, so we’ll call this one \texttt{count\_words\_abyss}.
   \begin{lstlisting}[language=Python,style=Python]
 rule count_words_abyss:
-    input:    'books/abyss.txt'
+    input:    '../books/abyss.txt'
     output:   'abyss.dat'
     shell:    'python scripts/wordcount.py' 
-               ' -i books/abyss.txt-o abyss.dat'
+               ' -i ../books/abyss.txt -o abyss.dat'
   \end{lstlisting}
   \task{Run \texttt{Snakemake} - what happens?}
 \end{frame}
