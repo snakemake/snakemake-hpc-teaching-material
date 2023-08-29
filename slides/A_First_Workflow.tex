@@ -226,7 +226,7 @@ Nothing to be done
   \pause
   If we ask \texttt{Snakemake} to build a file that exists but for which there is no rule in our Snakefile, then we get a message like:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
-$ snakemake wordcount.py
+$ snakemake --cores=1 scripts/wordcount.py
 # skipping some output
 MissingRuleException:
 No rule to produce wordcount.py (if you use input functions make sure
