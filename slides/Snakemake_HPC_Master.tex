@@ -156,6 +156,9 @@
 \usepackage{verbatim}
 \usepackage{listings}
 
+\newcommand{\altverb}[2][{}]{\colorbox{plightgrey}{\lstinline[language={#1}]{#2}}}
+
+
 \lstloadlanguages{Python,bash,C++}
 \lstset{showspaces=false,
 basicstyle=\small,
