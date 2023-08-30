@@ -90,7 +90,7 @@ $ cd workflows
 \begin{frame}[fragile]
   \frametitle{The Tasksetting II}
   Now, let us look, what we have here!\newline
-  Using the command \texttt{head}, we can have a look in our data, e.\,g.:
+  Using the command \altverb{head}, we can have a look in our data, e.\,g.:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\ttfamily\footnotesize]
 $ head books/isles.txt
   \end{lstlisting}
@@ -113,18 +113,18 @@ was in the Autumn of the year 1773 induced to undertake the journey, by
 finding in Mr. Boswell a companion, whose acuteness would help my
   \end{lstlisting}
   \pause
-  \task{Perform the \texttt{head}-command on any other book.}
+  \task{Perform the \altverb{head}-command on any other book.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{The Tasksetting IV}
   What else is there?\newline
-  We can use the \texttt{tree} command to display the content of an entire directory tree, e.\,g.:
+  We can use the \altverb{tree} command to display the content of an entire directory tree, e.\,g.:
   \begin{columns}
     \begin{column}{0.2\textwidth}
     \footnotesize
-    We can use the \texttt{tree} command to display the content of an entire directory tree, e.\,g.:\newline
+    We can use the \altverb{tree} command to display the content of an entire directory tree, e.\,g.:\newline
      Should display something like (and more):
     \end{column}
     \begin{column}{0.8\textwidth}
@@ -162,13 +162,13 @@ finding in Mr. Boswell a companion, whose acuteness would help my
 $ module load lang/Python
   \end{lstlisting}
   will load the most recent Python module and provide you with the correct environment.
-  \task{Run \texttt{python -\phantom{}-version} then load the module and run\newline \texttt{python -\phantom{}-version} once more.}
+  \task{Run \altverb{python --version} then load the module and run\newline \altverb{python --version} once more.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{About \texttt{Conda}}
-  Now, on HPC-systems scientific software is a provided as module files and provisioned by ``build frameworks'' like \texttt{easybuild} or \texttt{spack}. With \texttt{snakemake} we are going to use \texttt{Conda}. Why? Some pros and cons:\footnotesize
+  Now, on HPC-systems scientific software is a provided as module files and provisioned by ``build frameworks'' like \texttt{easybuild} or \texttt{spack}. With \texttt{Snakemake} we are going to use \texttt{Conda}. Why? Some pros and cons:\footnotesize
   \begin{itemize}[<+->]
    \item no build-framework provides 100\,\% coverage of all needs -- including \texttt{Conda}
    \item using \texttt{Conda} has a draw-back: software is pre-build. This means: No optimizations for particular CPUs == slower execution, higher CO$_2$ footprint!
@@ -209,7 +209,7 @@ $ module load vis/matplotlib
 $ python zipfs_analysis/scripts/wordcount.py \
 > -i books/isles.txt -o isles.dat           
              \end{lstlisting}
-  \item be aware: the \texttt{\textbackslash} and \texttt{>} are only there to fit everything on screen
+  \item be aware: the \altverb{\\} and \altverb{>} are only there to fit everything on screen
   \item take a quick look at the results:
         \begin{lstlisting}[language=Bash, style=Shell] 
 head -5 isles.dat
@@ -228,7 +228,7 @@ a 1308 2.30565838181
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{The Tasksetting VI}
-  Let’s visualise the results. The script \texttt{plotcount.py} reads in a data file and plots the 10 most frequently occurring words as a text-based bar plot:
+  Let’s visualise the results. The script \altverb{plotcount.py} reads in a data file and plots the 10 most frequently occurring words as a text-based bar plot:
   \begin{lstlisting}[language=Bash, style=Shell] 
 $ python zipf_analysis/scripts/plotcount.py \
 > -i isles.dat --type ascii
@@ -274,7 +274,7 @@ python zipf_analysis/scripts/plotcount.py -i abyss.dat -o abyss.png
 # Generate summary table
 python zipf_analysis/scripts/zipf_test.py abyss.dat isles.dat @>@ results.txt
   \end{lstlisting}
-  \hint{The \texttt{>} sign is a redirection in \texttt{bash}.}
+  \hint{The \altverb{>} sign is a redirection in \altverb{bash}.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -283,7 +283,7 @@ python zipf_analysis/scripts/zipf_test.py abyss.dat isles.dat @>@ results.txt
   This  shell script solves several problems in computational reproducibility:
   \begin{enumerate}[<+->]
    \item It explicitly documents our pipeline, making communication with colleagues (and our future selves) more efficient.
-   \item It allows us to type a single command, bash \texttt{run\_pipeline.sh}, to reproduce the full analysis.
+   \item It allows us to type a single command, bash \altverb{run_pipeline.sh}, to reproduce the full analysis.
    \item It prevents us from repeating typos or mistakes. You might not get it right the first time, but once you fix something it’ll stay fixed.
   \end{enumerate}
   \pause
