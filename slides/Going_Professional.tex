@@ -18,14 +18,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
 Our little exercise should produce this Workflow:
-     \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
-# generate summary table
-rule zipf_test:
-    input:  'abyss.dat', 'last.dat', 'isles.dat'
-    output: 'results.txt'
-    shell:  'python scripts/zipf_test.py' 
-            ' abyss.dat isles.dat last.dat > results.txt'
-    
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
 rule dats:
      input:
          'isles.dat',
@@ -48,13 +43,28 @@ rule count_words_abyss:
     output:   'abyss.dat'
     shell:    'python scripts/wordcount.py' 
               ' -i books/abyss.txt -o abyss.dat'
-              
+      \end{lstlisting}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
+#continued ...
 rule count_words_last:
     input:    'books/last.txt'
     output:   'last.dat'
     shell:    'python scripts/wordcount.py'
               ' -i books/last.txt -o last.dat'
-\end{lstlisting}
+              
+# generate summary table
+rule zipf_test:
+    input:  'abyss.dat', 'last.dat', 
+            'isles.dat'
+    output: 'results.txt'
+    shell:  'python scripts/zipf_test.py' 
+            ' abyss.dat isles.dat last.dat'
+            ' > results.txt'
+      \end{lstlisting}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -84,7 +94,7 @@ rule zipf_test:
     shell:  'python scripts/zipf_test.py' 
             ' abyss.dat isles.dat last.dat > results.txt'
   \end{lstlisting}
-  We can replace the result name first with the wildcard \texttt{\{output\}}:
+  We can replace the result name first with the wildcard \altverb{\{output\}}:
   \begin{lstlisting}[language=Python,style=Python]
 # generate summary table
 rule zipf_test:
@@ -107,7 +117,7 @@ rule zipf_test:
     shell:  'python scripts/zipf_test.py' 
             ' {input} > {output}'
   \end{lstlisting}
-  Here, \texttt{\{input\}} will contain the entire list of inputs!
+  Here, \altverb{\{input\}} will contain the entire list of inputs!
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -130,8 +140,8 @@ rule <rulename>:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{The \texttt{\{input\}} Wildcard - III}
-  So, \texttt{\{input\}}, can be a single item, a list (accessible by index) or named. For example:
+  \frametitle{The \altverb{\{input\}} Wildcard - III}
+  So, \altverb{\{input\}}, can be a single item, a list (accessible by index) or named. For example:
   \begin{lstlisting}[language=Python,style=Python]
 rule <rulename>:
   input:
@@ -143,7 +153,7 @@ rule <rulename>:
          ' {reverse} > {output}'
   \end{lstlisting}
   \pause
-  \texttt{\{output\}} follows the same rules, so for both the options are:
+  \altverb{\{output\}} follows the same rules, so for both the options are:
   \begin{itemize}
    \item single item
    \item list (accessible by index)
@@ -162,8 +172,8 @@ rule count_words:
     output: '{file}.dat'
     shell:  'python {input.wc} {input.book} {output}'
   \end{lstlisting}
-  \explanation{\texttt{\{file\}} is another arbitrary wildcard, that we can use as a placeholder for any generic book to analyse. Note that we don’t have to use {file} as the name of our wildcard — it can be anything we want! Condition: Only available for \texttt{input} and \texttt{output}, not actions!}
+  \explanation{\altverb{\{file\}} is another arbitrary wildcard, that we can use as a placeholder for any generic book to analyse. Note that we don’t have to use {file} as the name of our wildcard — it can be anything we want! Condition: Only available for \altverb{input} and \altverb{output}, not actions!}
   \begin{block}{This rule can be interpreted as:}
-``In order to build a file named \texttt{something.dat} (the output) find a file named \texttt{books/something.txt} (the input) and run \texttt{wordcount.py input output}.''
+``In order to build a file named \altverb{something.dat} (the output) find a file named \altverb{books/something.txt} (the input) and run \altverb{wordcount.py input output}.''
   \end{block}
 \end{frame}
