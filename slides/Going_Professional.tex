@@ -61,7 +61,12 @@ rule count_words_last:
 \begin{frame}
   \frametitle{Rule number One: Don't repeat Yourself!}
 
-Our Snakefile has a lot of duplication. For example, the names of text files and data files are repeated in many places throughout the Snakefile. Snakefiles are a form of code and, in any code, repeated code can lead to problems (e.g. we rename a data file in one part of the Snakefile but forget to rename it elsewhere).
+Our Snakefile has a lot of duplications: 
+\begin{itemize}
+ \item names of in-/output files are repeated
+ \item rules for every in-/output
+\end{itemize}
+\docs{Snakefiles are a form of code and, in any code, repeated code can lead to problems (e.g. we rename a data file in one part of the Snakefile but forget to rename it elsewhere).}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
