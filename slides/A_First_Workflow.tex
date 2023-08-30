@@ -33,7 +33,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Layout of a Workflow Development Directory} 
-  \task{We are going to work in the \texttt{zipf\_analysis}-folder. Please \texttt{cd} there.}
+  \task{We are going to work in the \altverb{zipf\_analysis}-folder. Please \altverb{cd} there.}
   \pause
   The idea is to have a neat overview:
   \begin{columns}
@@ -80,7 +80,7 @@ rule count_words:
                ' -i ../books/isles.txt-o isles.dat'
     \end{lstlisting}
 
-  This is a build file, which for Snakemake is called a Snakefile — a file executed by Snakemake. Note that aside from a few keyword additions like \texttt{rule}, it follows standard Python 3 syntax.
+  This is a build file, which for Snakemake is called a Snakefile — a file executed by Snakemake. Note that aside from a few keyword additions like \altverb{rule}, it follows standard Python 3 syntax.
   \hint{Stick with \texttt{geany} as the editor.}
     \end{onlyenv}
   \begin{onlyenv}<2| handout:0>
@@ -93,7 +93,7 @@ rule count_words:
     shell:    'python scripts/wordcount.py' 
                ' -i ../books/isles.txt-o isles.dat'
     \end{lstlisting}
-    The \texttt{\#} denotes a comment. Any text from \texttt{\#} to the end of the line is ignored by Snakemake.
+    The \altverb[Python]{#} denotes a comment. Any text from \altverb[Python]{#} to the end of the line is ignored by Snakemake.
   \end{onlyenv}
   \begin{onlyenv}<3| handout:0>
    Now, let's have a detailed look:
@@ -105,7 +105,7 @@ rule count_words:
     shell:    'python scripts/wordcount.py' 
                ' -i ../books/isles.txt-o isles.dat'
     \end{lstlisting}
-    \texttt{isles.dat} is a \emph{target}, a file to be created, or built. In Snakemake, these are called “outputs”, for simplicity’s sake.
+    \altverb{isles.dat} is a \emph{target}, a file to be created, or built. In Snakemake, these are called “outputs”, for simplicity’s sake.
   \end{onlyenv}
   \begin{onlyenv}<4| handout:0>
    Now, let's have a detailed look:
@@ -117,7 +117,7 @@ rule count_words:
     shell:    'python scripts/wordcount.py' 
                ' -i ../books/isles.txt-o isles.dat'
     \end{lstlisting}
-    \texttt{../books/isles.txt} is a \emph{dependency}, a file that is needed to build or update the target. Targets can have zero or more dependencies. Dependencies in Snakemake are called “inputs”.
+    \altverb{../books/isles.txt} is a \emph{dependency}, a file that is needed to build or update the target. Targets can have zero or more dependencies. Dependencies in Snakemake are called “inputs”.
   \end{onlyenv}
   \begin{onlyenv}<5| handout:0>
    Now, let's have a detailed look:
@@ -148,8 +148,8 @@ rule count_words:
   \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake --cores=1
   \end{lstlisting}
-  \hint[Note:]{The \texttt{-\,-cores=1} is necessary, because we are executing ``locally'' and \texttt{Snakemake} would like to know how much of the resources we may use (you can try without, though, to see what happens.}
-  You should see the expected output (\texttt{ls}) and lines which reads:
+  \hint[Note:]{The \altverb{--cores=1} is necessary, because we are executing ``locally'' and \texttt{Snakemake} would like to know how much of the resources we may use (you can try without, though, to see what happens).}
+  You should see the expected output (\altverb[Bash]{ls}) and lines which reads:
   \begin{lstlisting}[style=Plain, basicstyle=\footnotesize]
 1 of 1 steps (100%) done
 Complete log: .snakemake/log/2022-09-17T145657.968906.snakemake.log
@@ -196,7 +196,7 @@ $ ls -l ../* # will proove: the input is more
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Proceeding naively}
-  Let’s add another rule to the end of \texttt{Snakefile}. Note that rules cannot have the same name, so we’ll call this one \texttt{count\_words\_abyss}.
+  Let’s add another rule to the end of \texttt{Snakefile}. Note that rules cannot have the same name, so we’ll call this one \altverb{count_words_abyss}.
   \begin{lstlisting}[language=Python,style=Python]
 rule count_words_abyss:
     input:    '../books/abyss.txt'
@@ -210,7 +210,7 @@ rule count_words_abyss:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Rules need targets!}
-  Nothing happens because \texttt{Snakemake} attempts to build the first target it finds in the Snakefile, the default target, which is \texttt{isles.dat} which is already up-to-date. We need to explicitly tell \texttt{Snakemake} we want to build \texttt{abyss.dat}:
+  Nothing happens because \texttt{Snakemake} attempts to build the first target it finds in the Snakefile, the default target, which is \altverb{isles.dat} which is already up-to-date. We need to explicitly tell \texttt{Snakemake} we want to build \altverb{abyss.dat}:
   \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake --cores=1 abyss.dat
   \end{lstlisting}
@@ -238,7 +238,7 @@ that they don't raise unexpected exceptions).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Rules without Outputs?!}
-  We may want to remove all our data files so we can explicitly recreate them all. We can introduce a new target, and associated rule, to do this. We will call it clean, as this is a common name for rules that delete auto-generated files, like our \texttt{.dat} files:
+  We may want to remove all our data files so we can explicitly recreate them all. We can introduce a new target, and associated rule, to do this. We will call it clean, as this is a common name for rules that delete auto-generated files, like our \altverb{.dat} files:
   \begin{lstlisting}[language=Python,style=Python]
 rule clean:
     shell: 'rm -f *.dat'
@@ -247,7 +247,7 @@ rule clean:
   \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake --cores=1 clean
   \end{lstlisting}
-  our  \texttt{.dat} files are deleted.
+  our  \altverb{.dat} files are deleted.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -276,7 +276,7 @@ $ snakemake --cores=1 dats
     The order of rebuilding dependencies is arbitrary. You should not assume that they will be built in the order in which they are listed.
     Dependencies must form a directed acyclic graph (DAG). A target cannot depend on a dependency which itself, or one of its dependencies, depends on that target.
   \end{exampleblock}
-  If we run dats again, then snakemake will see that the dependencies (\texttt{isles.dat} and \texttt{abyss.dat}) are already up to date. Given the target dats has no actions, there is nothing to be done:
+  If we run dats again, then snakemake will see that the dependencies (\altverb{isles.dat} and \altverb{abyss.dat}) are already up to date. Given the target dats has no actions, there is nothing to be done:
   \begin{lstlisting}[language=Bash, style=Shell] 
 $ snakemake --cores=1 dats
 # ...
@@ -328,12 +328,12 @@ rule count_words_abyss:
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Add some Stuff!}}
   \begin{enumerate}
-   \item Write a new rule for \texttt{last.dat}, created from \texttt{../books/last.txt}.
-   \item Update the \texttt{dats} rule with this target.
-   \item Write a new rule for \texttt{results.txt}, which creates the summary table. The rule needs to:
+   \item Write a new rule for \altverb{last.dat}, created from \altverb{../books/last.txt}.
+   \item Update the \altverb{dats} rule with this target.
+   \item Write a new rule for \altverb{results.txt}, which creates the summary table. The rule needs to:
         \begin{itemize}
          \item Depend upon each of the three .dat files.
-         \item Invoke the action \texttt{python scripts/zipf\_test.py abyss.dat isles.dat last.dat > results.txt}.
+         \item Invoke the action \altverb{python scripts/zipf_test.py abyss.dat isles.dat last.dat > results.txt}\,.
         \end{itemize}
    \item Put this rule at the top of the Snakefile so that it is the default target.
    \item Update clean so that it removes results.txt.
