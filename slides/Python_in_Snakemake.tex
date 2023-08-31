@@ -3,6 +3,22 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
+    \frametitle{Outline}
+    \begin{columns}[t]
+        \begin{column}{.5\textwidth}
+            \tableofcontents[sections={1-9},currentsection]
+        \end{column}
+        \begin{column}{.5\textwidth}
+            \tableofcontents[sections={10-18},currentsection]
+        \end{column}
+    \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Python Code in Snakefiles}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
   \frametitle{What is this about?}
    \question[Questions]{\begin{itemize}
                          \item How can I automatically manage dependencies and outputs?
@@ -14,9 +30,6 @@
                       \item Learn to use the \texttt{run} action to execute Python code as an action.
                      \end{enumerate}}
 \end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Python Code in Snakefiles}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
