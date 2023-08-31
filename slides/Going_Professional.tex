@@ -23,9 +23,7 @@ Our little exercise should produce this Workflow:
       \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
 rule dats:
      input:
-         'isles.dat',
-         'abyss.dat',
-         'last.dat'
+         'results.txt'
 
 # delete everything so we can re-run things
 rule clean:
@@ -33,26 +31,26 @@ rule clean:
 
 # count words in one of our "books"
 rule count_words:
-    input:    'books/isles.txt'
+    input:    '../books/isles.txt'
     output:   'isles.dat'
     shell:    'python scripts/wordcount.py'
-              ' -i books/isles.txt -o isles.dat'
+              ' -i ../books/isles.txt -o isles.dat'
 
 rule count_words_abyss:
-    input:    'books/abyss.txt'
+    input:    '../books/abyss.txt'
     output:   'abyss.dat'
     shell:    'python scripts/wordcount.py' 
-              ' -i books/abyss.txt -o abyss.dat'
+              ' -i ../books/abyss.txt -o abyss.dat'
       \end{lstlisting}
     \end{column}
     \begin{column}{0.5\textwidth}
       \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
 #continued ...
 rule count_words_last:
-    input:    'books/last.txt'
+    input:    '../books/last.txt'
     output:   'last.dat'
     shell:    'python scripts/wordcount.py'
-              ' -i books/last.txt -o last.dat'
+              ' -i ../books/last.txt -o last.dat'
               
 # generate summary table
 rule zipf_test:
@@ -140,7 +138,7 @@ rule <rulename>:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{The \altverb{\{input\}} Wildcard - III}
+  \frametitle{The  \texttt{\{input\}} Wildcard - III}
   So, \altverb{\{input\}}, can be a single item, a list (accessible by index) or named. For example:
   \begin{lstlisting}[language=Python,style=Python]
 rule <rulename>:
@@ -168,12 +166,73 @@ rule <rulename>:
 rule count_words:
     input:
         wc='scripts/wordcount.py',
-        book='books/{file}.txt'
+        book='../books/{file}.txt'
     output: '{file}.dat'
     shell:  'python {input.wc} {input.book} {output}'
   \end{lstlisting}
-  \explanation{\altverb{\{file\}} is another arbitrary wildcard, that we can use as a placeholder for any generic book to analyse. Note that we don’t have to use {file} as the name of our wildcard — it can be anything we want! Condition: Only available for \altverb{input} and \altverb{output}, not actions!}
-  \begin{block}{This rule can be interpreted as:}
-``In order to build a file named \altverb{something.dat} (the output) find a file named \altverb{books/something.txt} (the input) and run \altverb{wordcount.py input output}.''
+  \explanation{\altverb{\{file\}} is another arbitrary wildcard, that we can use as a placeholder for any generic book to analyse. Note that we don’t have to use \emph{``file''} as the name of our wildcard — it can be anything we want! Condition: Only available for \altverb{input} and \altverb{output}, not for actions!}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  So, we had:
+    \begin{lstlisting}[language=Python,style=Python]
+  rule count_words:
+    input:
+        wc='scripts/wordcount.py',
+        book='../books/{file}.txt'
+    output: '{file}.dat'
+    shell:  'python {input.wc} {input.book} {output}'   
+    \end{lstlisting}
+    \begin{block}{This rule can be interpreted as:}
+``In order to build a file named \altverb{something.dat} (the output) find a file named \altverb{../books/something.txt} (the input) and run \altverb{wordcount.py input output}.''
   \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Using the \texttt{\{input\}} and \texttt{\{output\}} wildcards!}}
+  \begin{enumerate}
+   \item Re-write the current workflow to be using the \altverb{\{input\}} and \altverb{\{output\}} wildcards.
+   \item Remember: This only needs to be in the \altverb{shell} commands.
+   \item Also, use the \altverb{\{file\}} wildcard to reduce the \altverb{count...} rules to just \altverb{count_words} for all inputs.
+   \item For this, remember:
+         \begin{lstlisting}[language=Python,style=Python]
+rule ...:
+    input: '../books/{file}.txt'
+    output: '{file}.dat'
+         \end{lstlisting}
+         to be combined with the \altverb{\{input\}} and \altverb{\{output\}} wildcards in the \altverb{shell} part.
+  \end{enumerate}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+Our little exercise should produce this Workflow:
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
+rule dats:
+     input:
+        'results.txt'
+
+# delete everything so we can re-run things
+rule clean:
+    shell: 'rm -f *.dat'
+
+rule count_words:
+    input:  '../books/{file}.txt'
+    output: '{file}.dat'
+    shell:  'python scripts/wordcount.py -i {input} -o {output}'
+    
+# generate summary table
+rule zipf_test:
+    input: "abyss.dat", "isles.dat", "last.dat"
+    output: 'results.txt'
+    shell:  
+        'scripts/zipf_test.py  {input} > {output}'
+      \end{lstlisting}
+    \end{column}
+  \end{columns}
 \end{frame}
