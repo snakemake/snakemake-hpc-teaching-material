@@ -223,8 +223,6 @@ rule ...:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
 Our little exercise should produce this Workflow:
-  \begin{columns}
-    \begin{column}{0.5\textwidth}
       \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
 rule dats:
      input:
@@ -246,6 +244,5 @@ rule zipf_test:
     shell:  
         'scripts/zipf_test.py  {input} > {output}'
       \end{lstlisting}
-    \end{column}
-  \end{columns}
+
 \end{frame}
