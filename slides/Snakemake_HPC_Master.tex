@@ -195,6 +195,27 @@ showstringspaces=false}
   literate={\\@}{{\makeatletter @ \makeatother}}1
 }
 
+\lstdefinestyle{R}
+{
+  language=R,
+  basicstyle=\small,
+  showstringspaces=false,
+  stepnumber=5,
+  numberstyle=\tiny,
+  numbersep=5pt,
+  showspaces=false,
+  frame=single,
+  framerule=0.4pt,
+  rulecolor=\color{pgrey},
+  backgroundcolor=\color{white},
+  stringstyle=\color{BrickRed},
+  keywordstyle=\color{BlueViolet}\bfseries,
+  commentstyle=\color{PineGreen}\bfseries,
+  identifierstyle={},
+  emph={[10]self}, emphstyle={[10]\color{pblue}},
+  emph={[11]yield}, emphstyle={[11]\color{pblue}},
+}
+
 %default python listings:
 \lstdefinestyle{C++}
 {
@@ -317,6 +338,22 @@ showstringspaces=false}
 \newcommand{\pathtosolution}[1]{\path{/lustre/project/hpckurs/bash-course/solutions/#1}}
 
 \setcounter{tocdepth}{1}
+
+% this allows turning of footlines for particular slides
+\setbeamertemplate{footline}[frame number]
+% to use it, perform:
+
+% \begin{frame}
+% normal frame
+% \end{frame}
+% 
+% \begingroup
+% \setbeamertemplate{footline}{}
+% \begin{frame}
+% without footline
+% \end{frame}
+% \endgroup
+
 %--------------------%
 % Meta-Info 
 %--------------------%
@@ -379,6 +416,9 @@ showstringspaces=false}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{HPC_Parameterization}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{software_environment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{Software_with_Conda}
