@@ -239,7 +239,7 @@ $ snakemake --slurm \
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{The \texttt{Snakemake} \texttt{resources} Section}
-  \texttt{Snakemake} rules provide an additional section:
+  \texttt{Snakemake} rules provide an additional \altverb{resource} section:
   \begin{lstlisting}[language=Python,style=Python]
 rule <name>:
    ...
@@ -249,6 +249,61 @@ rule <name>:
       cpus_per_task=4
   \end{lstlisting}
   \hint{Note the \textbf{,}!}
+  \pause
+  \docs{You \emph{may} define \emph{any} resource keyword within any rule.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{The Configuration File}
+  If observed closely you have seen this file:\newline
+            {\tiny \DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{.6pt}
+\texttt{\$ tree}
+\dirtree{%
+.1 /.
+.2 config.
+.3 samples.yaml .
+.2 {other stuff}.
+}}
+ \pause
+ \docs{You can store a yaml file with \emph{your} workflow configuration -- which may be combined with the desinger's configuration.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Using the Configuration File}
+  To point to the configuration file, you can add a flag, e.\,g.:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake ... --configfile ./config/samples.yaml  
+  \end{lstlisting}
+  Yet, you have seen its contents?
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ cat ./config/samples.yaml
+path: '../books'
+limit: 10
+  \end{lstlisting}
+  \question{How do pick up resource parameters in out \texttt{Snakefile}?!}
+\end{frame} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Using the Configuration File - II}
+  Within our \texttt{Snakefile} we can access our configuration as any Python dictionary:
+  \begin{lstlisting}[language=Python,style=Python]
+input_path = config["path"]
+  \end{lstlisting}
+  \hint{This, however, is useless: if our \texttt{path} is a relative path, every derived path is relative to our current working directory!}
+  \pause
+  Lukily, \texttt{Snakefile}s are Python-Code:
+  \begin{lstlisting}[language=Python,style=Python]
+import os
+
+input_path  = os.path.realpath(config['path'])
+output_path = os.path.join('results', os.path.dirname(input_path))
+
+DATS = glob_wildcards(os.path.join(input_path, "{book}.txt")).book
+  \end{lstlisting}
+  \question{All our redundancies are solved! How? Who wants to translate this code?}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
