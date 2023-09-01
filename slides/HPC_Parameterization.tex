@@ -190,7 +190,15 @@ $ snakemake --slurm
   \hint{We will learn how to avoid this, soon-ish.}
 \end{frame}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Default Resources for \texttt{SLURM}}
+  Without specifying our SLURM-account and a (default) partition, submitting batch jobs will fail. \texttt{Snakemake} allows to define so-called default resources (using \altverb{--default-resources}). With them our minimal command line becomes:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --slurm --default-resources slurm_account=m2_zdvhpc slurm_partition=smp
+  \end{lstlisting}
+  \hint{Please notice the missing quotation marks! All arguments belong to one parameter.}
+\end{frame}
 
 
 
