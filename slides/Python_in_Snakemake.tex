@@ -114,7 +114,7 @@ glob_wildcards('../books/{example}.txt')
   \vspace{-0.5em}
   In order to run Python code in \texttt{Snakemake}, we have to replace the \altverb{shell:} action by a \altverb{run:} action:\vspace{-0.5em}
   \task{We \emph{could} have the following to our \altverb{Snakefile}:}\vspace{-0.5em}
-  \begin{lstlisting}[language=Python,style=Python]
+  \begin{lstlisting}[language=Python,style=Python, basicstyle=\footnotesize]
 # at the top of the file
 import glob
 
@@ -129,4 +129,94 @@ rule print_book_names:
   \pause\footnotesize
   \hint[The idea:]{This allows for Python snippets in rules without saving Python files, e.\,g. for short data mangling.}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Snakemake and external Scripts}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\texttt{Snakemake} Specials for Python}
+  Consider this call:
+  \begin{lstlisting}[language=Python,style=Python]
+shell:  'python scripts/wordcount.py'
+        ' -i {input} -o {output}'
+  \end{lstlisting}
+  \question{Isn't this rather tedious, considering that \texttt{Snakemake} is writting in Python?}
+\end{frame}
+
+\begingroup
+\setbeamertemplate{footline}{}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\texttt{Snakemake}'s features for external Scripts}
+  In addition to the \altverb{shell} and \altverb{run} directives, \texttt{Snakemake} offers a \altverb{script} directive, too:
+  \begin{lstlisting}[language=Python,style=Python]
+rule NAME:
+    input:
+        "path/to/inputfile",
+        "path/to/other/inputfile"
+    output:
+        "path/to/outputfile",
+        "path/to/another/outputfile"
+    script:
+        "scripts/script.py"
+  \end{lstlisting}
+  This lets you use (in \altverb{script.py}):
+  \begin{lstlisting}[language=Python,style=Python]
+def do_something(data_path, out_path):
+    # python code
+
+do_something(snakemake.input[0], snakemake.output[0])
+  \end{lstlisting}
+\end{frame}
+\endgroup
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\Interlude{The same feature is offered for R}}
+  \begin{lstlisting}[language=R,style=R]
+do_something <- function(data_path, output_path) {
+    # R code
+}
+
+do_something(snakemake@input[[1]], snakemake@output[[1]])
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\Interlude{Debugging external Scripts}}
+  \begin{exampleblock}{Debugging Python Scripts}
+  To debug Python scripts, you can invoke \texttt{Snakemake} with
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --debug
+  \end{lstlisting}
+  As always in Python, you may use \altverb{print()} and \altverb{logging()} functions which may write to a log file during the run to check whether the script behaves as expected.
+  \end{exampleblock}
+  \pause
+  \begin{exampleblock}{Debugging R Scripts}
+  To debug R scripts, you can save the workspace with \altverb{save.image()}, and invoke R after \texttt{Snakemake} has terminated. 
+  \end{exampleblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Using \texttt{Snakemake}'s features for external scripts}}
+  Remember:
+  \begin{lstlisting}[language=Python,style=Python]
+def do_something(data_path, out_path):
+    # python code
+
+do_something(snakemake.input[0], snakemake.output[0])
+  \end{lstlisting}
+  and the \altverb{script} directive option in \texttt{Snakefile}s. 
+  \task{Please rewrite the \texttt{wordcount.py} script and the \texttt{Snakefile} to use this feature.}
+  \hint{Erase the argument parsing code (bottom of the file) and the arguments of the function (very last line) to use the \texttt{snakemake.input}/\texttt{snakemake.output} arguments.}
+\end{frame}
+
+
+
+
+
+
 
