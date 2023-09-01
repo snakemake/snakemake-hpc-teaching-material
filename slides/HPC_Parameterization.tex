@@ -201,10 +201,24 @@ $ snakemake --slurm \
   \hint{Please notice the missing quotation marks! All arguments belong to one parameter.}
 \end{frame}
 
-
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{The Beauty of Clusters}
+  A HPC cluster:
+  \begin{itemize}
+   \item offers great resources
+   \item may hold jobs pending until resources are available!
+  \end{itemize}
+  \pause
+  \texttt{Snakemake} of a semaphore throtteling resource usage, called \altverb{--jobs/-j}. We can happily now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
+  \begin{lstlisting}[language=Bash, style=Shell, breaklines=true]
+$ snakemake --slurm \
+> --default-resources slurm_account=m2_zdvhpc slurm_partition=smp
+> -j unlimited
+  \end{lstlisting}
+  together.
+  \hint{You might want to invoke the \texttt{clean}-rule, first.}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Configuration File}
