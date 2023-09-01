@@ -196,7 +196,8 @@ $ snakemake --slurm
   Without specifying our SLURM-account and a (default) partition, submitting batch jobs will fail. \texttt{Snakemake} allows to define so-called default resources (using \altverb{--default-resources}). With them our minimal command line becomes:
   \begin{lstlisting}[language=Bash, style=Shell, breaklines=true]
 $ snakemake --slurm \
-> --default-resources slurm_account=m2_zdvhpc slurm_partition=smp
+> --default-resources slurm_account=m2_zdvhpc \
+>                     slurm_partition=smp
   \end{lstlisting}
   \hint{Please notice the missing quotation marks! All arguments belong to one parameter.}
 \end{frame}
@@ -213,7 +214,8 @@ $ snakemake --slurm \
   \texttt{Snakemake} of a semaphore throtteling resource usage, called \altverb{--jobs/-j}. We can happily now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
   \begin{lstlisting}[language=Bash, style=Shell, breaklines=true]
 $ snakemake --slurm \
-> --default-resources slurm_account=m2_zdvhpc slurm_partition=smp
+> --default-resources slurm_account=m2_zdvhpc \
+>                     slurm_partition=smp
 > -j unlimited
   \end{lstlisting}
   together.
@@ -236,7 +238,6 @@ rule <name>:
       cpus_per_task=4
   \end{lstlisting}
   \hint{Note the \textbf{,}!}
-  \hint[Outlook]{This is work in development, future versions will be more tolerant, e.\,g. \texttt{threads} will translate to \texttt{cpus\_per\_task} and vice versa.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
