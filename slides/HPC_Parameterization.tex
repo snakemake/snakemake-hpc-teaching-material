@@ -223,6 +223,17 @@ $ snakemake --slurm \
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\texttt{SLURM} supporting Features of \texttt{Snakemake}}
+  \texttt{Snakemake} will
+  \begin{itemize}[<+->]
+   \item hold track of your job status (frequency of checks can be adjusted)
+   \item cancle your jobs, when itself is stopped
+   \item track resource consumption (generated with \altverb{--report [FILE]})
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Configuration File}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
