@@ -178,6 +178,19 @@ $ sbatch hello_world.sh
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Command Line}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Executor Selection}
+  \texttt{Snakemake} lets you select various executors. Not happy with \mogon? Take Google Lifescience, Tibanne, Kubernetes, \ldots \newline
+  We may happily select the most prominent HPC batch system, the one running on \mogon, too:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --slurm
+  \end{lstlisting}
+  Now, \emph{every} rule will submit its jobs as HPC compute jobs.
+  \hint{We will learn how to avoid this, soon-ish.}
+\end{frame}
+
+
 
 
 
