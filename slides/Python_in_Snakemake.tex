@@ -214,7 +214,34 @@ do_something(snakemake.input[0], snakemake.output[0])
   \hint{Erase the argument parsing code (bottom of the file) and the arguments of the function (very last line) to use the \texttt{snakemake.input}/\texttt{snakemake.output} arguments.}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{The Solution - so far}
+  Our \altverb{count_words} rules should merely be:
+  \begin{lstlisting}[language=Python,style=Python]
+rule count_words:
+    input:  '../books/{file}.txt'
+    output: '{file}.dat'
+    script:  'scripts/wordcount.py'
+  \end{lstlisting}
+  Our last lines of the \texttt{wordcount.py} became:
+  \begin{lstlisting}[language=Python,style=Python]
+# omitting the entire code, except for the call to the
+# word_count()-function:
+if __name__ == '__main__':
+    word_count(snakemake.input[0], snakemake.output[0])
+  \end{lstlisting}
+  
+\end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{The Solution - some Explanation}
+  \question{Why \texttt{[0]} indices?}
+  \vfill
+  \docs{\texttt{snakemake.input} is of type \newline ``\texttt{<class 'snakemake.io.InputFiles'>}'' (same for \texttt{snakemake.output})}
+  \vfill
+\end{frame}
 
 
 
