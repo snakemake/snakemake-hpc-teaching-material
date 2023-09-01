@@ -146,6 +146,45 @@ $ sbatch hello_world.sh
 \section{Parametizing your Workflow}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Command Line vs. Configuration File}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \docs{\texttt{Snakemake} has an extensive command line interface (CLI). \emph{Everything} can be configured on the command line. In addition (almost) everything can be specified in a configuration file.}
+  \pause
+  \begin{exampleblock}{Which parameter goes where? Some rules of thumb}
+    \begin{columns}[t]
+      \begin{column}{0.5\textwidth}
+        The CLI:
+        \begin{itemize}
+         \item frequently changing parameters
+         \item short parameters
+         \item default parameters
+        \end{itemize}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        The Config File:
+        \begin{itemize}
+         \item non-volantile parameters specific to your analysis (those which merit mentioning in paper should always go into a file)
+         \item long parameters
+         \item otherwise workflow specific parameters
+        \end{itemize}
+      \end{column}
+    \end{columns}
+  \end{exampleblock}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Command Line}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Configuration File}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{The \texttt{Snakemake} \texttt{resources} Section}
   \texttt{Snakemake} rules provide an additional section:
@@ -213,7 +252,7 @@ OUTPU_DIR=config["OUTPUT_DIR"]
      \end{column}
      \begin{column}{0.5\textwidth}
       \begin{lstlisting}[language=Bash,style=Shell,basicstyle=\small] 
-rule NAME:
+rule NAME:HPC_Parameterization.tex
     ...
     envmodules:
        config["VINALC"]    
