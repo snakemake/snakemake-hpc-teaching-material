@@ -201,17 +201,18 @@ $ snakemake --debug
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{\HandsOn{Using \texttt{Snakemake}'s features for external scripts}}
-  Remember:
-  \begin{lstlisting}[language=Python,style=Python]
+  \frametitle{\HandsOn{Using \texttt{Snakemake}'s features in scripts}}
+  \footnotesize{Remember:}
+  \begin{lstlisting}[language=Python,style=Python, basicstyle=\footnotesize]
 def do_something(data_path, out_path):
     # python code
 
 do_something(snakemake.input[0], snakemake.output[0])
   \end{lstlisting}
-  and the \altverb{script} directive option in \texttt{Snakefile}s. 
-  \task{Please rewrite the \texttt{wordcount.py} script and the \texttt{Snakefile} to use this feature.}
-  \hint{Erase the argument parsing code (bottom of the file) and the arguments of the function (very last line) to use the \texttt{snakemake.input}/\texttt{snakemake.output} arguments.}
+  \footnotesize{and the \altverb{script} directive option in \texttt{Snakefile}s. }
+  \task{\footnotesize Please rewrite the \texttt{wordcount.py} script and the \texttt{Snakefile} to use this feature.}
+  \hint{\small Erase the argument parsing code (bottom of the file) and the arguments of the function (very last line) to use the\newline \texttt{snakemake.input}/\texttt{snakemake.output} arguments.}
+  \vfill
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
