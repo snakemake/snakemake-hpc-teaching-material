@@ -1,0 +1,49 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Plotting DAGs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{Outline}
+    \begin{columns}[t]
+        \begin{column}{.5\textwidth}
+            \tableofcontents[sections={1-9},currentsection]
+        \end{column}
+        \begin{column}{.5\textwidth}
+            \tableofcontents[sections={10-18},currentsection]
+        \end{column}
+    \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{What is this about?}
+   \question[Questions]{\begin{itemize}
+                         \item How do we plot our workflows for a publication?
+                        \end{itemize}
+                       }
+   \docs[Objectives]{\begin{enumerate} 
+                      \item Learn to plot workflows using \texttt{Snakemake} and \texttt{GraphViz}.
+                     \end{enumerate}}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Plotting the Workflow}}
+  \texttt{Snakemake} has a build-in plotting feature. Run 
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --rulegraph | dot -Tpng > <your_workflow.png>
+  \end{lstlisting}
+  to plot your workflow graph. And
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ display <your_workflow.png>
+  \end{lstlisting}
+  to display the workflow.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Your DAG:}
+  \centering
+  \includegraphics[width=0.4\textwidth]{workflows/complete_workflow.png}
+\end{frame}
