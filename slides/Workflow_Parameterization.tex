@@ -143,6 +143,23 @@ rule <name>:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
+  \frametitle{The \texttt{Snakemake} \texttt{resources} Section - its Downside}
+  \begin{alertblock}{Every Resource Spec needs a Change per Rule???}
+   You might have noticed, this specification per rule is most untidy. \texttt{Snakemake}'s design principle is: ship workflows which run \emph{everywhere} & \emph{every time}.
+   \newline
+   Relax: Every bit we can specify:
+   \begin{itemize}
+    \item in a \texttt{Snakefile},
+    \item on the command line,
+    \item and re-usable in configuration files!
+   \end{itemize}
+
+  \end{alertblock}
+
+\end{frame} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
   \frametitle{The Configuration File}
   If observed closely you have seen this file:\newline
             {\tiny \DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{.6pt}
