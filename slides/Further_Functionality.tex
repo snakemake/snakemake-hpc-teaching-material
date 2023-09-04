@@ -15,6 +15,20 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{What is this about?}
+   \question[Questions]{\begin{itemize}
+                         \item How do we keep \texttt{Snakemake} from submitting non-resource intensive jobs?
+                         \item How do we deal with intermediate files?
+                        \end{itemize}
+                       }
+   \docs[Objectives]{\begin{enumerate} 
+                      \item Learn directives to fine-tune Workflows.
+                      
+                     \end{enumerate}}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Implementing \texttt{glob\_wildcards}}
   Remember?
@@ -154,25 +168,6 @@ rule make_plot:
   \end{lstlisting}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{\HandsOn{Plotting the Workflow}}
-  \texttt{Snakemake} has a build-in plotting feature. Run 
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake --rulegraph | dot -Tpng > <your_workflow.png>
-  \end{lstlisting}
-  to plot your workflow graph. And
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ display <your_workflow.png>
-  \end{lstlisting}
-  to display the workflow.
-\end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-  \frametitle{Your DAG:}
-  \centering
-  \includegraphics[width=0.4\textwidth]{workflows/complete_workflow.png}
-\end{frame}
 
 
