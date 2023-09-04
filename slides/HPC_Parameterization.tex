@@ -181,7 +181,7 @@ $ sbatch hello_world.sh
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Executor Selection}
-  \texttt{Snakemake} lets you select various executors. Not happy with \mogon? Take \lhref{https://snakemake.readthedocs.io/en/stable/executor_tutorial/tutorial.html}{Google Lifescience, Tibanne, Kubernetes, \ldots} \newline
+  \texttt{Snakemake} lets you select various executors. Not happy with \mogon? Take another cluster or \lhref{https://snakemake.readthedocs.io/en/stable/executor_tutorial/tutorial.html}{Google Lifescience, Tibanne, Kubernetes, \ldots} \newline
   We may happily select the most prominent HPC batch system, the one running on \mogon, too:
   \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake --slurm
@@ -211,7 +211,7 @@ $ snakemake --slurm \
    \item may hold jobs pending until resources are available!
   \end{itemize}
   \pause
-  \texttt{Snakemake} of a semaphore throtteling resource usage, called \altverb{--jobs/-j}. We can happily now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
+  \texttt{Snakemake} of a semaphore throtteling resource usage, called \altverb{--jobs/-j}. We can now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
   \begin{lstlisting}[language=Bash, style=Shell, breaklines=true]
 $ snakemake --slurm \
 > --default-resources slurm_account=m2_zdvhpc \
@@ -230,7 +230,10 @@ $ snakemake --slurm \
    \item hold track of your job status (frequency of checks can be adjusted)
    \item cancle your jobs, when itself is stopped
    \item track resource consumption (generated with \altverb{--report [FILE]})
+   \item with \altverb{-j unlimited} we allow for an unlimited jumber of spawned jobs!
   \end{itemize}
+  \pause
+  \warning{Unlimited number of jobs may yield in I/O contention and too many calls to check the job status. Use with care for both issues there is a remedy!}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -279,11 +282,24 @@ $ snakemake ... --configfile ./config/samples.yaml
   Yet, you have seen its contents?
   \begin{lstlisting}[language=Bash, style=Shell]
 $ cat ./config/samples.yaml
-path: '../books'
+path: '~/workflows/books'
 limit: 10
   \end{lstlisting}
   \question{How do pick up resource parameters in out \texttt{Snakefile}?!}
 \end{frame} 
+
+\begin{frame}[fragile]
+  \frametitle{\Interlude{Introducing Python's \texttt{os} Library}}
+  Python has a library to provide functions to deal with operating systems, including file systems. Check out:
+  \begin{lstlisting}[language=Python,style=Python]
+>>> import os
+>>> path = "~/workflows/books"
+>>> os.realpath(path)
+
+  \end{lstlisting}
+
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
@@ -299,11 +315,13 @@ input_path = config["path"]
 import os
 
 input_path  = os.path.realpath(config['path'])
-output_path = os.path.join('results', os.path.dirname(input_path))
+output_path = os.path.join('results', 
+                           os.path.dirname(input_path))
 
-DATS = glob_wildcards(os.path.join(input_path, "{book}.txt")).book
+DATS = glob_wildcards(os.path.join(input_path, 
+                      "{book}.txt")).book
   \end{lstlisting}
-  \question{All our redundancies are solved! How? Who wants to translate this code?}
+  
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
