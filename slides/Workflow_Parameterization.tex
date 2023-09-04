@@ -36,7 +36,7 @@
 \begin{frame}
   \docs{\texttt{Snakemake} has an extensive command line interface (CLI). \emph{Everything} can be configured on the command line. In addition (almost) everything can be specified in a configuration file.}
   \pause
-  \begin{exampleblock}{Which parameter goes where? Some rules of thumb}
+  \begin{exampleblock}{Which parameter goes where? Some rules of thumb:}
     \begin{columns}[t]
       \begin{column}{0.5\textwidth}
         The CLI:
@@ -84,6 +84,7 @@ $ snakemake --slurm \
 >                     slurm_partition=smp
   \end{lstlisting}
   \hint{Please notice the missing quotation marks! All arguments belong to one parameter.}
+  \docs{We wrote \texttt{slurm\_...} to distinguish from other non-SLURM accounts and similar stuff.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
