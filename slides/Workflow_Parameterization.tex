@@ -1,0 +1,245 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Parametizing your Workflow}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Command Line vs. Configuration File}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \docs{\texttt{Snakemake} has an extensive command line interface (CLI). \emph{Everything} can be configured on the command line. In addition (almost) everything can be specified in a configuration file.}
+  \pause
+  \begin{exampleblock}{Which parameter goes where? Some rules of thumb}
+    \begin{columns}[t]
+      \begin{column}{0.5\textwidth}
+        The CLI:
+        \begin{itemize}
+         \item frequently changing parameters
+         \item short parameters
+         \item default parameters
+        \end{itemize}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        The Config File:
+        \begin{itemize}
+         \item non-volantile parameters specific to your analysis (those which merit mentioning in paper should always go into a file)
+         \item long parameters
+         \item otherwise workflow specific parameters
+        \end{itemize}
+      \end{column}
+    \end{columns}
+  \end{exampleblock}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Command Line}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Executor Selection}
+  \texttt{Snakemake} lets you select various executors. Not happy with \mogon? Take another cluster or \lhref{https://snakemake.readthedocs.io/en/stable/executor_tutorial/tutorial.html}{Google Lifescience, Tibanna, Kubernetes, \ldots} \newline
+  We may happily select the most prominent HPC batch system, the one running on \mogon, too:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --slurm
+  \end{lstlisting}
+  Now, \emph{every} rule will submit its jobs as HPC compute jobs.
+  \hint{We will learn how to avoid this, soon-ish.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Default Resources for \texttt{SLURM}}
+  Without specifying our SLURM-account and a (default) partition, submitting batch jobs will fail. \texttt{Snakemake} allows to define so-called default resources (using \altverb{--default-resources}). With them our minimal command line becomes:
+  \begin{lstlisting}[language=Bash, style=Shell, breaklines=true]
+$ snakemake --slurm \
+> --default-resources slurm_account=m2_zdvhpc \
+>                     slurm_partition=smp
+  \end{lstlisting}
+  \hint{Please notice the missing quotation marks! All arguments belong to one parameter.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{The Beauty of Clusters}
+  A HPC cluster:
+  \begin{itemize}
+   \item offers great resources
+   \item may hold jobs pending until resources are available!
+  \end{itemize}
+  \pause
+  \texttt{Snakemake} of a semaphore throtteling resource usage, called \altverb{--jobs/-j}. We can now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
+  \begin{lstlisting}[language=Bash, style=Shell, breaklines=true]
+$ snakemake --slurm \
+> --default-resources slurm_account=m2_zdvhpc \
+>                     slurm_partition=smp
+> -j unlimited
+  \end{lstlisting}
+  together.
+  \hint{You might want to invoke the \texttt{clean}-rule, first.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\texttt{SLURM} supporting Features of \texttt{Snakemake}}
+  \texttt{Snakemake} will
+  \begin{itemize}[<+->]
+   \item hold track of your job status (frequency of checks can be adjusted)
+   \item cancle your jobs, when itself is stopped
+   \item track resource consumption (generated with \altverb{--report [FILE]})
+   \item with \altverb{-j unlimited} we allow for an unlimited jumber of spawned jobs!
+  \end{itemize}
+  \pause
+  \warning{Unlimited number of jobs may yield in I/O contention and too many calls to check the job status. Use with care for both issues there is a remedy!}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Configuration File}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{The \texttt{Snakemake} \texttt{resources} Section}
+  \texttt{Snakemake} rules provide an additional \altverb{resource} section:
+  \begin{lstlisting}[language=Python,style=Python]
+rule <name>:
+   ...
+   resources:
+      partition='parallel',
+      mem_mb=1800,
+      cpus_per_task=4
+  \end{lstlisting}
+  \hint{Note the \textbf{,}!}
+  \pause
+  \docs{You \emph{may} define \emph{any} resource keyword within any rule.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{The Configuration File}
+  If observed closely you have seen this file:\newline
+            {\tiny \DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{.6pt}
+\texttt{\$ tree}
+\dirtree{%
+.1 /.
+.2 config.
+.3 samples.yaml .
+.2 {other stuff}.
+}}
+ \pause
+ \docs{You can store a yaml file with \emph{your} workflow configuration -- which may be combined with the desinger's configuration.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Using the Configuration File}
+  To point to the configuration file, you can add a flag, e.\,g.:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake ... --configfile ./config/samples.yaml  
+  \end{lstlisting}
+  Yet, you have seen its contents?
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ cat ./config/samples.yaml
+path: '~/workflows/books'
+limit: 10
+  \end{lstlisting}
+  \question{How do pick up resource parameters in out \texttt{Snakefile}?!}
+\end{frame} 
+
+\begin{frame}[fragile]
+  \frametitle{\Interlude{Introducing Python's \texttt{os} Library}}
+  Python has a library to provide functions to deal with operating systems, including file systems. Check out:
+  \begin{lstlisting}[language=Python,style=Python]
+>>> import os
+>>> path = "~/workflows/books"
+>>> os.realpath(path)
+
+  \end{lstlisting}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Using the Configuration File - II}
+  Within our \texttt{Snakefile} we can access our configuration as any Python dictionary:
+  \begin{lstlisting}[language=Python,style=Python]
+input_path = config["path"]
+  \end{lstlisting}
+  \hint{This, however, is useless: if our \texttt{path} is a relative path, every derived path is relative to our current working directory!}
+  \pause
+  Lukily, \texttt{Snakefile}s are Python-Code:
+  \begin{lstlisting}[language=Python,style=Python]
+import os
+
+input_path  = os.path.realpath(config['path'])
+output_path = os.path.join('results', 
+                           os.path.dirname(input_path))
+
+DATS = glob_wildcards(os.path.join(input_path, 
+                      "{book}.txt")).book
+  \end{lstlisting}
+  
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Our Workflow}
+  \task{Add the following resource to our workflow.}
+  \begin{lstlisting}[language=Python,style=Python]
+   resources:
+      mem_mb=1800
+  \end{lstlisting}
+  \question{Why? Why not more?}
+  \pause
+  Because,
+  \begin{itemize}
+   \item \texttt{ntasks} and \texttt{cpus\_per\_task} default to 1, which is the case here.
+   \item account and partition are the same everywhere and we can use this upon submit time (see next slide)
+   \item \texttt{mem\_mb} is the same everywhere, too. But: it is usually a resource to be adapter per rule. So, we try this here, too.
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Starting our Workflow - One last Time}
+  \begin{lstlisting}[language=Bash,style=Shell]
+$ snakemake -j unlimited --use-envmodules --slurm \
+  --default-ressources account=hpckurs partition=smp
+  \end{lstlisting}
+  \question{Which warning(s) do turn up? What is the remedy?}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Configuration Files}
+  Workflows, once established, should not be altered. All settings go into configuration files. To indicate a configuration file, run with:
+  \begin{lstlisting}[language=Bash,style=Shell]
+$ snakemake --configfile=<path>
+  \end{lstlisting}\pause
+  The configuration file itsels is in YAML format and might look like:
+  \begin{lstlisting}[language=Python,style=Python]
+INPUT_DIR: "/lustre/project/..."
+OUTPUT_DIR: "/lustre/project/..."
+# environment modules:
+VINALC: "bio/VinaLC/1.3.0-gompi-2021b"
+  \end{lstlisting}\pause
+    Within the Snakefile we can retrieve this information, as it is represented as Python \texttt{dicts}:
+  \begin{columns}
+     \begin{column}{0.5\textwidth}
+       \begin{lstlisting}[language=Bash,style=Shell,basicstyle=\small]
+INPUT_DIR=config["INPUT_DIR"]
+OUTPU_DIR=config["OUTPUT_DIR"]
+       \end{lstlisting}
+     \end{column}
+     \begin{column}{0.5\textwidth}
+      \begin{lstlisting}[language=Bash,style=Shell,basicstyle=\small] 
+rule NAME:HPC_Parameterization.tex
+    ...
+    envmodules:
+       config["VINALC"]    
+      \end{lstlisting}
+
+     \end{column}
+  \end{columns}
+
+\end{frame}
