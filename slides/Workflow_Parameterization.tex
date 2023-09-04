@@ -96,7 +96,7 @@ $ snakemake --slurm \
    \item may hold jobs pending until resources are available!
   \end{itemize}
   \pause
-  \texttt{Snakemake} of a semaphore throtteling resource usage, called \altverb{--jobs/-j}. We can now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
+  \texttt{Snakemake} of a semaphore to throttle resource usage, called \altverb{--jobs/-j}. We can now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
   \begin{lstlisting}[language=Bash, style=Shell, breaklines=true]
 $ snakemake --slurm \
 > --default-resources slurm_account=m2_zdvhpc \
@@ -113,7 +113,7 @@ $ snakemake --slurm \
   \texttt{Snakemake} will
   \begin{itemize}[<+->]
    \item hold track of your job status (frequency of checks can be adjusted)
-   \item cancle your jobs, when itself is stopped
+   \item cancel your jobs, when itself is stopped
    \item track resource consumption (generated with \altverb{--report [FILE]})
    \item with \altverb{-j unlimited} we allow for an unlimited jumber of spawned jobs!
   \end{itemize}
