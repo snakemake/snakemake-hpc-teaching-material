@@ -25,10 +25,41 @@
                      \end{enumerate}}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{To get you started \ldots}
+  \begin{exampleblock}{Working with closure Files}
+    To ease the excercises and save typing time, all excercises are supplied as cloze texts.\linebreak
+    As \texttt{Snakemake} relies on a file called \texttt{Snakefile} to be present, you can either rename your solution like
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ cp <number>_Snakefile Snakefile
+    \end{lstlisting}
+    or specify the workflow file on the commandline with an additional flag:
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake <other arguments> \
+> --snakefile <number>_Snakefile
+    \end{lstlisting}
+    Also note: \altverb{\\} may denote a linebreak in \texttt{Bash} and \altverb{>} its continuation. Omit these and you have a one-liner. It merely serves to fit text on screen, here.
+  \end{exampleblock}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{To get you started - II}
+  In order to start \texttt{Snakemake} we obviously need \texttt{Snakemake}. Please be sure to:
+  \begin{itemize}[<+->]
+   \item load your editor \altverb{geany} \emph{before} attempting to load modules in the same shell.
+   \item load the module for \texttt{Snakemake}:
+         \begin{lstlisting}[language=Bash, style=Shell]
+$ module load tools/snakemake
+         \end{lstlisting}
+   \item we will later use \texttt{Conda} deliberetly instead of the module, for now: use the module
+  \end{itemize}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{A first Rule}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
@@ -70,7 +101,7 @@
 \begin{frame}[fragile]
   \frametitle{Our first \texttt{Snakefile}!}
   \begin{onlyenv}<1| handout:1>
-    Create a file, called \texttt{Snakefile}, with no file extension and containing the following content:
+    Use your cloze text \texttt{01\_Snakefile}, edit it. Once ready you read::
     \begin{lstlisting}[language=Python,style=Python]
 # Count words.
 rule count_words:
@@ -80,7 +111,7 @@ rule count_words:
                ' -i ../books/isles.txt-o isles.dat'
     \end{lstlisting}
 
-  This is a build file, which for Snakemake is called a Snakefile — a file executed by Snakemake. Note that aside from a few keyword additions like \altverb{rule}, it follows standard Python 3 syntax.
+  This is a build file, which for Snakemake is called a \texttt{Snakefile} —- a file executed by \texttt{Snakemake}. Note that aside from a few keyword additions like \altverb{rule}, it follows standard Python 3 syntax.
   \hint{Stick with \texttt{geany} as the editor.}
     \end{onlyenv}
   \begin{onlyenv}<2| handout:0>
