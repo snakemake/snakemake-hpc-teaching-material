@@ -49,12 +49,17 @@ $ snakemake <other arguments> \
   \frametitle{To get you started - II}
   In order to start \texttt{Snakemake} we obviously need \texttt{Snakemake}. Please be sure to:
   \begin{itemize}[<+->]
-   \item load your editor \altverb{geany} \emph{before} attempting to load modules in the same shell.
+   \item load your editor \altverb{geany} \emph{before} attempting to load modules in the same shell. Start it like
+         \begin{lstlisting}[language=Bash, style=Shell]
+$ geany & 
+         \end{lstlisting}
+         To be sure that it is a background application.
    \item load the module for \texttt{Snakemake}:
          \begin{lstlisting}[language=Bash, style=Shell]
 $ module load tools/snakemake
          \end{lstlisting}
-   \item we will later use \texttt{Conda} deliberetly instead of the module, for now: use the module
+   \item Best use a terminal multiplexer \textbf{or} multiple logins (otherwise you have to develop and execute in one shell).
+   \item we will later use \texttt{Conda} deliberetly instead of the module, for now: just use the module.
   \end{itemize}
 \end{frame}
 
@@ -101,7 +106,7 @@ $ module load tools/snakemake
 \begin{frame}[fragile]
   \frametitle{Our first \texttt{Snakefile}!}
   \begin{onlyenv}<1| handout:1>
-    Use your cloze text \texttt{01\_Snakefile}, edit it. Once ready you read::
+    Use your cloze text \texttt{01\_Snakefile}, edit it. When ready you read \ldots
     \begin{lstlisting}[language=Python,style=Python]
 # Count words.
 rule count_words:
@@ -110,9 +115,9 @@ rule count_words:
     shell:    'python scripts/wordcount.py' 
                ' -i ../books/isles.txt-o isles.dat'
     \end{lstlisting}
-
-  This is a build file, which for Snakemake is called a \texttt{Snakefile} —- a file executed by \texttt{Snakemake}. Note that aside from a few keyword additions like \altverb{rule}, it follows standard Python 3 syntax.
-  \hint{Stick with \texttt{geany} as the editor.}
+  \ldots its ready - this serve merely to illustrate the cloze text approach.\newline
+  \docs{This is a build file, which for Snakemake is called a \texttt{Snakefile} -- a file executed by \texttt{Snakemake}. Note that aside from a few keyword additions like \altverb{rule}, it follows standard Python 3 syntax.}
+  
     \end{onlyenv}
   \begin{onlyenv}<2| handout:0>
    Now, let's have a detailed look:
@@ -165,7 +170,7 @@ rule count_words:
   \begin{onlyenv}<6| handout:0>
   Also:
   \begin{enumerate}
-   \item Like Python, you can use either tabs or spaces for indentation — don’t use both!
+   \item Like Python, you can use either tabs or spaces for indentation — don’t mix!
    \item Together, the target, dependencies, and actions form a rule. A rule is a recipe for how to make things.
    \item It does not matter that the shell-command is multi-line. However, pay attention to the leading space in the $2^\mathsf{nd}$ line.
   \end{enumerate}
@@ -226,8 +231,14 @@ $ ls -l ../* # will proove: the input is more
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Proceeding naively}
-  Let’s add another rule to the end of \texttt{Snakefile}. Note that rules cannot have the same name, so we’ll call this one \altverb{count_words_abyss}.
+  \frametitle{\HandsOn{Proceeding naively}}
+  Let’s add another rule to the end of \texttt{Snakefile}. Take the template \texttt{02\_Snakemake}. Note that rules cannot have the same name, so we’ll call this one \altverb{count_words_abyss}.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+   \frametitle{Proceeding naively II}
+   This should give us:
   \begin{lstlisting}[language=Python,style=Python]
 rule count_words_abyss:
     input:    '../books/abyss.txt'
@@ -297,7 +308,7 @@ rule dats:
   \begin{lstlisting}[language=Bash, style=Shell] 
 $ snakemake --cores=1 dats
   \end{lstlisting}
-  \texttt{Snakemake} creates those files.
+  \texttt{Snakemake} creates these missing files.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
