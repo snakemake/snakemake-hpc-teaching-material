@@ -1,0 +1,39 @@
+# Task 3: the result of the final rule should be the target, here.
+rule dats:
+     input:
+         <...>
+
+# delete everything so we can re-run things
+rule clean:
+    shell: 'rm -f *.dat results.txt'
+
+# count words in one of our "books"
+rule count_words:
+    input:    '../books/isles.txt'
+    output:   'isles.dat'
+    shell:    'python scripts/wordcount.py'
+              ' -i ../books/isles.txt -o isles.dat'
+
+rule count_words_abyss:
+    input:    '../books/abyss.txt'
+    output:   'abyss.dat'
+    shell:    'python scripts/wordcount.py' 
+              ' -i ../books/abyss.txt -o abyss.dat'
+
+# Task 1: fill in dependency and target for this rule.
+#         Complete the action accordingly.
+rule count_words_last:
+    input:    <...>
+    output:   <...>
+    shell:    'python scripts/wordcount.py'
+              ' -i ../books/<...> -o <...>'
+              
+# Task 2: fill in the dependencies (all .dat file) and
+#         the target for this rule. Complete the action
+#         accordingly.
+rule zipf_test:
+    input:  <...>
+    output: <...>
+    shell:  'python scripts/zipf_test.py' 
+            <...>
+            ' > <...>'
