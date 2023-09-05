@@ -1,0 +1,18 @@
+# Task: 
+# add a 2nd rule 'count_words_abyss' for the book 'abyss.txt'
+#
+# Objective: To illustrate the effects of unbound targets and
+#            the futility of repetetive code.
+
+# Count words.
+rule count_words:
+    input:    '../books/isles.txt'
+    output:   'isles.dat'
+    shell:    'python scripts/wordcount.py' 
+               ' -i ../books/isles.txt -o isles.dat'
+
+rule count_words_abyss:
+    input:    '../books/abyss.txt'
+    output:   'abyss.dat'
+    shell:    'python scripts/wordcount.py' 
+               ' -i ../books/abyss.txt -o abyss.dat'
