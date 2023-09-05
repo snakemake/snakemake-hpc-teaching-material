@@ -1,0 +1,11 @@
+# Task: 
+# replace every '<...>' with the target (same prefix, 'dat' suffix)
+#
+# Objective: Recognize the the <...> replacement syntax.
+
+# Count words.
+rule count_words:
+    input:    '../books/isles.txt'
+    output:   <...>
+    shell:    'python scripts/wordcount.py' 
+               ' -i ../books/isles.txt -o <...>'
