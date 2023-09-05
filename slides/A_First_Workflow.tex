@@ -101,7 +101,7 @@ rule count_words:
 # Count words.
 rule count_words:
     input:    '../books/isles.txt'
-    output:   'isles.dat'
+    @output:@   'isles.dat'
     shell:    'python scripts/wordcount.py' 
                ' -i ../books/isles.txt-o isles.dat'
     \end{lstlisting}
@@ -112,7 +112,7 @@ rule count_words:
    \begin{lstlisting}[language=Python,style=Python]
 # Count words.
 rule count_words:
-    input:    '../books/isles.txt'
+    @input:@    '../books/isles.txt'
     output:   'isles.dat'
     shell:    'python scripts/wordcount.py' 
                ' -i ../books/isles.txt-o isles.dat'
@@ -126,7 +126,7 @@ rule count_words:
 rule count_words:
     input:    '../books/isles.txt'
     output:   'isles.dat'
-    shell:    'python scripts/wordcount.py' 
+    @shell:@    'python scripts/wordcount.py' 
                ' -i ../books/isles.txt-o isles.dat'
     \end{lstlisting}
     The Python-Command is an \emph{action}, a command to run to build or update the target using the dependencies. In this case the action is a set of shell commands (we can also use Python code… more on that later).
