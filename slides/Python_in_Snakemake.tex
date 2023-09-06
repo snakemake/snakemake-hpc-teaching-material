@@ -46,27 +46,9 @@ rule zipf_test:
   \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
 rule zipf_test:
     input:
-        books=['abyss.dat', 'last.dat', 'isles.dat']
+        books = ['abyss.dat', 'last.dat', 'isles.dat']
     output: 'results.txt'
     shell:  'python scripts/zipf_test.py {input.books} > {output}'
-  \end{lstlisting}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{Putting the last change to action!}
-  This illustrates a key feature of \texttt{Snakemake}. Snakefiles are just Python code. We can make our list into a variable to demonstrate this. Let’s create the variable \altverb{DATS} and use it in our \altverb{zipf_test} and dats rules.
-  \task{Test the following changes!}
-
-  \begin{lstlisting}[language=Python,style=Python]
-DATS=['abyss.dat', 'last.dat', 'isles.dat']
-
-rule zipf_test:
-    input:
-        books=DATS
-    output: 'results.txt'
-    shell:  'python scripts/zipf_test.py'
-            ' {input.books} > {output}'
   \end{lstlisting}
 \end{frame}
 
@@ -75,14 +57,14 @@ rule zipf_test:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Using functions in Snakefiles}
+  \frametitle{Using functions in \texttt{Snakefile}s}
   In our example here, we only have 4 books. But what if we had 700 books to be processed? \newline
   Luckily, \texttt{Snakemake} and Python provide helper functions!
-  \task{Python and follow along!}
+  \task{Sart Python and follow along!}
   \begin{lstlisting}[language=Python,style=Python]
 from snakemake.io import expand, glob_wildcards
   \end{lstlisting}
-  The first function we’ll use is \altverb{expand()}. \altverb{expand()} is used frequently, to expand a \texttt{snakemake} wildcard(s) into a set of filenames:
+  The first function we’ll use is \altverb{expand()}. \altverb{expand()} is used frequently, to expand a \texttt{Snakemake} wildcard(s) into a set of filenames:
   \begin{lstlisting}[language=Python,style=Python]
 >>> expand('folder/{wildcard1}_{wildcard2}.txt',
 ...        wildcard1=['a', 'b', 'c'],
@@ -92,7 +74,7 @@ from snakemake.io import expand, glob_wildcards
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Using functions in Snakefiles II}
+  \frametitle{Using functions in \texttt{Snakefile}s II}
   \question{What is the result?}
   \pause
   \hint[Answer:]{Every permutation of \altverb{wildcard1} and \altverb{wildcard2}!}
@@ -103,6 +85,46 @@ glob_wildcards('../books/{example}.txt')
   \end{lstlisting}
   \pause
   Wow! So, easy!
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Combining this Functionality in \texttt{Snakefile}s}
+  Consider this code in a \texttt{Snakefile}:
+  \begin{lstlisting}[language=Python,style=Python]
+DATS = glob_wildcards('../books/{book}.txt').book
+  \end{lstlisting}
+  \question{Which is the content of \texttt{DATS}?}
+  \pause
+  \begin{lstlisting}[language=Python,style=Python]
+['isles', 'last', 'abyss', 'sierra']
+  \end{lstlisting}
+  \hint{This is cool, because, we get \emph{ALL} the prefixes and we know in our scientific world, which format we are dealing with at every step!}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Combining this Functionality in \texttt{Snakefile}s II}
+  Our ``problem'' was: We needed in- and output specification at every rule!\newline
+  Consider this solution:
+  \begin{lstlisting}[language=Python,style=Python]
+DATS = glob_wildcards('../books/{book}.txt').book
+
+...
+
+rule zipf_test:
+    input:
+        books=expand('../dats/{book}.dat', book=DATS)
+    output: 'results.txt'
+    shell:  
+        'scripts/zipf_test.py {input.books} > {output}'
+  \end{lstlisting}
+  \question{Cool, isn't it? Now, what is still missing? What new feature did we present here?}
+  \pause
+  \begin{itemize}[<+->]
+   \item The relative path indicator (\altverb{..}) means that we would always need to place our data relative to the workflow!
+   \item The output is now directed to a new output directory (\altverb{dat}). Still not configurable, \emph{but} we \emph{can} redirect to arbitrary directories!
+  \end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -127,7 +149,7 @@ rule print_book_names:
 
   \end{lstlisting}\vspace{-0.5em}
   \pause\footnotesize
-  \hint[The idea:]{This allows for Python snippets in rules without saving Python files, e.\,g. for short data mangling.}
+  \hint[The idea:]{This allows for Python snippets in rules without saving Python files, e.\,g. for short data mangling or plotting.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -136,12 +158,12 @@ rule print_book_names:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\texttt{Snakemake} Specials for Python}
-  Consider this call:
+  Remember this part:
   \begin{lstlisting}[language=Python,style=Python]
 shell:  'python scripts/wordcount.py'
         ' -i {input} -o {output}'
   \end{lstlisting}
-  \question{Isn't this rather tedious, considering that \texttt{Snakemake} is writting in Python?}
+  \question{Isn't this rather tedious, considering that \texttt{Snakemake} is written in Python?}
 \end{frame}
 
 \begingroup
@@ -210,8 +232,8 @@ def do_something(data_path, out_path):
 do_something(snakemake.input[0], snakemake.output[0])
   \end{lstlisting}
   \footnotesize{and the \altverb{script} directive option in \texttt{Snakefile}s. }
-  \task{\footnotesize Please rewrite the \texttt{wordcount.py} script and the \texttt{Snakefile} to use this feature.}
-  \hint{\small Erase the argument parsing code (bottom of the file) and the arguments of the function (very last line) to use the\newline \texttt{snakemake.input}/\texttt{snakemake.output} arguments.}
+  \task{\footnotesize Please rewrite the \texttt{wordcount.py} script and the \texttt{Snakefile} to use this feature. Take \texttt{06\_Snakefile} as your cloze text.}
+  \hint{\small Erase the argument parsing code (bottom of the \texttt{wordcount.py} script) and the arguments of the function (very last line) to use the\newline \texttt{snakemake.input}/\texttt{snakemake.output} arguments.}
   \vfill
 \end{frame}
 
