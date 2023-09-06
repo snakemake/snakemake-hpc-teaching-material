@@ -15,9 +15,6 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Python Code in Snakefiles}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{What is this about?}
    \question[Questions]{\begin{itemize}
@@ -30,6 +27,9 @@
                       \item Learn to use the \texttt{run} action to execute Python code as an action.
                      \end{enumerate}}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Python Code in Snakefiles}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
@@ -139,8 +139,8 @@ rule zipf_test:
 \begin{frame}[fragile]
   \frametitle{\Interlude{Meeting the \texttt{run} Action}}
   \vspace{-0.5em}
-  In order to run Python code in \texttt{Snakemake}, we have to replace the \altverb{shell:} action by a \altverb{run:} action:\vspace{-0.5em}
-  \task{We \emph{could} have the following to our \altverb{Snakefile}:}\vspace{-0.5em}
+  It is possible to run Python snippets in \texttt{Snakemake}. For this, we have to replace the \altverb{shell:} action by a \altverb{run:} action:\vspace{-0.5em}
+  \task{Imaging this code in a \altverb{Snakefile}:}\vspace{-0.5em}
   \begin{lstlisting}[language=Python,style=Python, basicstyle=\footnotesize]
 # at the top of the file
 import glob
@@ -168,7 +168,7 @@ rule print_book_names:
 shell:  'python scripts/wordcount.py'
         ' -i {input} -o {output}'
   \end{lstlisting}
-  \question{Isn't this rather tedious, considering that \texttt{Snakemake} is written in Python?}
+  \question{Isn't this rather tedious, considering that \texttt{Snakemake} is written in Python? Could we forward rule specific information to our scripts?}
 \end{frame}
 
 \begingroup
@@ -181,10 +181,8 @@ shell:  'python scripts/wordcount.py'
 rule NAME:
     input:
         "path/to/inputfile",
-        "path/to/other/inputfile"
     output:
         "path/to/outputfile",
-        "path/to/another/outputfile"
     script:
         "scripts/script.py"
   \end{lstlisting}
