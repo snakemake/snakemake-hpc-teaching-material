@@ -1,0 +1,23 @@
+import os
+
+DATS = glob_wildcards('../books/{book}.txt').book
+
+rule dats:
+     input:
+        'results.txt'
+
+# delete everything so we can re-run things
+rule clean:
+    shell: 'rm -f *.dat'
+
+rule count_words:
+    input: '../books/{file}.txt'
+    output: '{file}.dat'
+    shell:  'python scripts/wordcount.py -i {input} -o {output}'
+    
+# generate summary table
+rule zipf_test:
+    input: expand('{file}.dat', file=DATS)
+    output: 'results.txt'
+    shell:  
+        'scripts/zipf_test.py  {input} > {output}'
