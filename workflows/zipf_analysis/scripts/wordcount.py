@@ -5,6 +5,8 @@ Simple demo word count script for text files
 based on https://hpc-carpentry.github.io/hpc-python/11-snakemake-intro/
 """
 
+# TASK for 06: Scroll to the bottom for the actual task.
+
 __author__ = "Christian Meesters"
 __copyright__ = "Copyright 2020, Christian Meesters"
 __email__ = "meesters@uni-mainz.de"
@@ -124,6 +126,10 @@ def word_count(input_file, output_file, min_length=1):
     sorted_counts = filter_word_counts(sorted_counts, min_length)
     percentage_counts = calculate_percentages(sorted_counts)
     save_word_counts(output_file, percentage_counts)
+
+# TASK: erase the entire argument parsing code and call the
+#       'word_count()' function with the appropriate input
+#       derived from Snakemake.
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Wordcount Interface')
