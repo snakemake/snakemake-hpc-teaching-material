@@ -25,10 +25,46 @@
                      \end{enumerate}}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{To get you started \ldots}
+  \begin{exampleblock}{Working with closure Files}
+    To ease the excercises and save typing time, all excercises are supplied as cloze texts.\linebreak
+    As \texttt{Snakemake} relies on a file called \texttt{Snakefile} to be present, you can either rename your solution like
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ cp <number>_Snakefile Snakefile
+    \end{lstlisting}
+    or specify the workflow file on the commandline with an additional flag:
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake <other arguments> \
+> --snakefile <number>_Snakefile
+    \end{lstlisting}
+    Also note: \altverb{\\} may denote a linebreak in \texttt{Bash} and \altverb{>} its continuation. Omit these and you have a one-liner. It merely serves to fit text on screen, here.
+  \end{exampleblock}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{To get you started - II}
+  In order to start \texttt{Snakemake} we obviously need \texttt{Snakemake}. Please be sure to:
+  \begin{itemize}[<+->]
+   \item load your editor \altverb{geany} \emph{before} attempting to load modules in the same shell. Start it like
+         \begin{lstlisting}[language=Bash, style=Shell]
+$ geany & 
+         \end{lstlisting}
+         To be sure that it is a background application.
+   \item load the module for \texttt{Snakemake}:
+         \begin{lstlisting}[language=Bash, style=Shell]
+$ module load tools/snakemake
+         \end{lstlisting}
+   \item Best use a terminal multiplexer \textbf{or} multiple logins (otherwise you have to develop and execute in one shell).
+   \item we will later use \texttt{Conda} deliberetly instead of the module, for now: just use the module.
+  \end{itemize}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{A first Rule}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
@@ -70,7 +106,7 @@
 \begin{frame}[fragile]
   \frametitle{Our first \texttt{Snakefile}!}
   \begin{onlyenv}<1| handout:1>
-    Create a file, called \texttt{Snakefile}, with no file extension and containing the following content:
+    Use your cloze text \texttt{01\_Snakefile}, edit it. When ready you read \ldots
     \begin{lstlisting}[language=Python,style=Python]
 # Count words.
 rule count_words:
@@ -79,9 +115,9 @@ rule count_words:
     shell:    'python scripts/wordcount.py' 
                ' -i ../books/isles.txt-o isles.dat'
     \end{lstlisting}
-
-  This is a build file, which for Snakemake is called a Snakefile — a file executed by Snakemake. Note that aside from a few keyword additions like \altverb{rule}, it follows standard Python 3 syntax.
-  \hint{Stick with \texttt{geany} as the editor.}
+  \ldots its ready - this serve merely to illustrate the cloze text approach.\newline
+  \docs{This is a build file, which for Snakemake is called a \texttt{Snakefile} -- a file executed by \texttt{Snakemake}. Note that aside from a few keyword additions like \altverb{rule}, it follows standard Python 3 syntax.}
+  
     \end{onlyenv}
   \begin{onlyenv}<2| handout:0>
    Now, let's have a detailed look:
@@ -101,7 +137,7 @@ rule count_words:
 # Count words.
 rule count_words:
     input:    '../books/isles.txt'
-    output:   'isles.dat'
+    @output:@   'isles.dat'
     shell:    'python scripts/wordcount.py' 
                ' -i ../books/isles.txt-o isles.dat'
     \end{lstlisting}
@@ -112,7 +148,7 @@ rule count_words:
    \begin{lstlisting}[language=Python,style=Python]
 # Count words.
 rule count_words:
-    input:    '../books/isles.txt'
+    @input:@    '../books/isles.txt'
     output:   'isles.dat'
     shell:    'python scripts/wordcount.py' 
                ' -i ../books/isles.txt-o isles.dat'
@@ -126,7 +162,7 @@ rule count_words:
 rule count_words:
     input:    '../books/isles.txt'
     output:   'isles.dat'
-    shell:    'python scripts/wordcount.py' 
+    @shell:@    'python scripts/wordcount.py' 
                ' -i ../books/isles.txt-o isles.dat'
     \end{lstlisting}
     The Python-Command is an \emph{action}, a command to run to build or update the target using the dependencies. In this case the action is a set of shell commands (we can also use Python code… more on that later).
@@ -134,7 +170,7 @@ rule count_words:
   \begin{onlyenv}<6| handout:0>
   Also:
   \begin{enumerate}
-   \item Like Python, you can use either tabs or spaces for indentation — don’t use both!
+   \item Like Python, you can use either tabs or spaces for indentation — don’t mix!
    \item Together, the target, dependencies, and actions form a rule. A rule is a recipe for how to make things.
    \item It does not matter that the shell-command is multi-line. However, pay attention to the leading space in the $2^\mathsf{nd}$ line.
   \end{enumerate}
@@ -195,8 +231,14 @@ $ ls -l ../* # will proove: the input is more
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Proceeding naively}
-  Let’s add another rule to the end of \texttt{Snakefile}. Note that rules cannot have the same name, so we’ll call this one \altverb{count_words_abyss}.
+  \frametitle{\HandsOn{Proceeding naively}}
+  Let’s add another rule to the end of \texttt{Snakefile}. Take the template \texttt{02\_Snakemake}. Note that rules cannot have the same name, so we’ll call this one \altverb{count_words_abyss}.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+   \frametitle{Proceeding naively II}
+   This should give us:
   \begin{lstlisting}[language=Python,style=Python]
 rule count_words_abyss:
     input:    '../books/abyss.txt'
@@ -266,7 +308,7 @@ rule dats:
   \begin{lstlisting}[language=Bash, style=Shell] 
 $ snakemake --cores=1 dats
   \end{lstlisting}
-  \texttt{Snakemake} creates those files.
+  \texttt{Snakemake} creates these missing files.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -329,15 +371,67 @@ rule count_words_abyss:
   \frametitle{\HandsOn{Add some Stuff!}}
   \begin{enumerate}
    \item Write a new rule for \altverb{last.dat}, created from \altverb{../books/last.txt}.
-   \item Update the \altverb{dats} rule with this target.
    \item Write a new rule for \altverb{results.txt}, which creates the summary table. The rule needs to:
         \begin{itemize}
          \item Depend upon each of the three .dat files.
          \item Invoke the action \altverb{python scripts/zipf_test.py abyss.dat isles.dat last.dat > results.txt}\,.
         \end{itemize}
+   \item Update the \altverb{dats} rule with this target. Do we still need the \altverb{*dat} files as target?
    \item Put this rule at the top of the Snakefile so that it is the default target.
    \item Update clean so that it removes \altverb{results.txt}.
   \end{enumerate}
+  \hint{Please refer to cloze text \texttt{03\_Snakefile}.}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+Our little exercise should produce this Workflow:
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
+rule dats:
+     input:
+         'results.txt'
+
+# delete everything so we can re-run things
+rule clean:
+    shell: 'rm -f *.dat results.txt'
+
+# count words in one of our "books"
+rule count_words:
+    input:    '../books/isles.txt'
+    output:   'isles.dat'
+    shell:    'python scripts/wordcount.py'
+              ' -i ../books/isles.txt -o isles.dat'
+
+rule count_words_abyss:
+    input:    '../books/abyss.txt'
+    output:   'abyss.dat'
+    shell:    'python scripts/wordcount.py' 
+              ' -i ../books/abyss.txt -o abyss.dat'
+      \end{lstlisting}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
+#continued ...
+rule count_words_last:
+    input:    '../books/last.txt'
+    output:   'last.dat'
+    shell:    'python scripts/wordcount.py'
+              ' -i ../books/last.txt -o last.dat'
+              
+# generate summary table
+rule zipf_test:
+    input:  'abyss.dat', 'last.dat', 
+            'isles.dat'
+    output: 'results.txt'
+    shell:  'python scripts/zipf_test.py' 
+            ' abyss.dat isles.dat last.dat'
+            ' > results.txt'
+      \end{lstlisting}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 

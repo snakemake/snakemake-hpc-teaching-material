@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Decorating the Workflow}
+\section{Wildcards for Elegant Workflows}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -15,74 +15,23 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Better In-/Output}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{What is this about?}
    \question[Questions]{How can I abbreviate the rules in my workflow?}
    \docs[Objectives]{\begin{enumerate}
-                      \item  Use snakemake wildcards to simplify our rules.
+                      \item Use \texttt{nakemake} wildcards to simplify our rules.
                       \item Output files are a product not only of input files but of the scripts or code that created the output files.
                      \end{enumerate}}
 \end{frame}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-Our little exercise should produce this Workflow:
-  \begin{columns}
-    \begin{column}{0.5\textwidth}
-      \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
-rule dats:
-     input:
-         'results.txt'
-
-# delete everything so we can re-run things
-rule clean:
-    shell: 'rm -f *.dat results.txt'
-
-# count words in one of our "books"
-rule count_words:
-    input:    '../books/isles.txt'
-    output:   'isles.dat'
-    shell:    'python scripts/wordcount.py'
-              ' -i ../books/isles.txt -o isles.dat'
-
-rule count_words_abyss:
-    input:    '../books/abyss.txt'
-    output:   'abyss.dat'
-    shell:    'python scripts/wordcount.py' 
-              ' -i ../books/abyss.txt -o abyss.dat'
-      \end{lstlisting}
-    \end{column}
-    \begin{column}{0.5\textwidth}
-      \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
-#continued ...
-rule count_words_last:
-    input:    '../books/last.txt'
-    output:   'last.dat'
-    shell:    'python scripts/wordcount.py'
-              ' -i ../books/last.txt -o last.dat'
-              
-# generate summary table
-rule zipf_test:
-    input:  'abyss.dat', 'last.dat', 
-            'isles.dat'
-    output: 'results.txt'
-    shell:  'python scripts/zipf_test.py' 
-            ' abyss.dat isles.dat last.dat'
-            ' > results.txt'
-      \end{lstlisting}
-    \end{column}
-  \end{columns}
-\end{frame}
+\subsection{Better In-/Output}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Rule number One: Don't repeat Yourself!}
 
-Our Snakefile has a lot of duplications: 
+Our \texttt{Snakefile} has a lot of duplications: 
 \begin{itemize}
  \item names of in-/output files are repeated
  \item rules for every in-/output
@@ -217,6 +166,7 @@ rule ...:
          \end{lstlisting}
          to be combined with the \altverb{\{input\}} and \altverb{\{output\}} wildcards in the \altverb{shell} part.
   \end{enumerate}
+  \hint{Refer to \texttt{04\_Snakefile} as the cloze text.}
 \end{frame}
 
 

@@ -1,5 +1,0 @@
-Book	First	Second	Ratio
-dats/isles	3822	2460	1.6
-dats/sierra	4242	2469	1.7
-dats/last	12244	5566	2.2
-dats/abyss	4044	2807	1.4

@@ -1,0 +1,35 @@
+rule dats:
+     input:
+         'results.txt'
+
+# delete everything so we can re-run things
+rule clean:
+    shell: 'rm -f *.dat results.txt'
+
+# count words in one of our "books"
+rule count_words:
+    input:    '../books/isles.txt'
+    output:   'isles.dat'
+    shell:    'python scripts/wordcount.py'
+              ' -i ../books/isles.txt -o isles.dat'
+
+rule count_words_abyss:
+    input:    '../books/abyss.txt'
+    output:   'abyss.dat'
+    shell:    'python scripts/wordcount.py' 
+              ' -i ../books/abyss.txt -o abyss.dat'
+
+rule count_words_last:
+    input:    '../books/last.txt'
+    output:   'last.dat'
+    shell:    'python scripts/wordcount.py'
+              ' -i ../books/last.txt -o last.dat'
+              
+# generate summary table
+rule zipf_test:
+    input:  'abyss.dat', 'last.dat', 
+            'isles.dat'
+    output: 'results.txt'
+    shell:  'python scripts/zipf_test.py' 
+            ' abyss.dat isles.dat last.dat'
+            ' > results.txt'
