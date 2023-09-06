@@ -403,13 +403,15 @@ rule count_words:
     input:    '../books/isles.txt'
     output:   'isles.dat'
     shell:    'python scripts/wordcount.py'
-              ' -i ../books/isles.txt -o isles.dat'
+              ' -i ../books/isles.txt'
+              ' -o isles.dat'
 
 rule count_words_abyss:
     input:    '../books/abyss.txt'
     output:   'abyss.dat'
     shell:    'python scripts/wordcount.py' 
-              ' -i ../books/abyss.txt -o abyss.dat'
+              ' -i ../books/abyss.txt' 
+              ' -o abyss.dat'
       \end{lstlisting}
     \end{column}
     \begin{column}{0.5\textwidth}
@@ -419,7 +421,8 @@ rule count_words_last:
     input:    '../books/last.txt'
     output:   'last.dat'
     shell:    'python scripts/wordcount.py'
-              ' -i ../books/last.txt -o last.dat'
+              ' -i ../books/last.txt'
+              ' -o last.dat'
               
 # generate summary table
 rule zipf_test:
