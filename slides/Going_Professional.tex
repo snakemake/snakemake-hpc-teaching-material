@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Wildcards for elegant Workflows}
+\section{Wildcards for more elegant Workflows}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -17,9 +17,13 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{What is this about?}
-   \question[Questions]{How can I abbreviate the rules in my workflow?}
+   \question[Questions]{\begin{itemize}
+                         \item The workflow still is pretty verbose, how can we be more concise?
+                         \item How can the redundancy in a workflow be reduced?
+                        \end{itemize}
+                       }
    \docs[Objectives]{\begin{enumerate}
-                      \item Use \texttt{nakemake} wildcards to simplify our rules.
+                      \item Use \texttt{Snakemake} wildcards to simplify our rules.
                       \item Output files are a product not only of input files but of the scripts or code that created the output files.
                      \end{enumerate}}
 \end{frame}
@@ -31,12 +35,12 @@
 \begin{frame}
   \frametitle{Rule number One: Don't repeat Yourself!}
 
-Our \texttt{Snakefile} has a lot of duplications: 
+Our \texttt{Snakefile} has enormous redundancy: 
 \begin{itemize}
  \item names of in-/output files are repeated
  \item rules for every in-/output
 \end{itemize}
-\docs{Snakefiles are a form of code and, in any code, repeated code can lead to problems (e.g. we rename a data file in one part of the Snakefile but forget to rename it elsewhere).}
+\docs{\texttt{Snakefile}s are a form of code and, in any code, repeated code can lead to problems (e.g. we rename a data file in one part of the \texttt{Snakefile} but forget to rename it elsewhere).}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -45,7 +49,7 @@ Our \texttt{Snakefile} has a lot of duplications:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{The \texttt{\{output\}} Wildcard}
-  Taking our last rule
+  Consider our last rule
   \begin{lstlisting}[language=Python,style=Python]
 # generate summary table
 rule zipf_test:
@@ -88,7 +92,7 @@ rule zipf_test:
 rule <rulename>:
   input: <file1>, <file2>, ... <file_n>
   \end{lstlisting}
-  translates to a list which we can acess as
+  translates to a list which we can access as
   \begin{lstlisting}[language=Python,style=Python]
   shell: 'cmd {input}'
   \end{lstlisting}
