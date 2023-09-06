@@ -155,12 +155,13 @@ rule count_words:
   \end{block}
 \end{frame}
 
+\begingroup
+\setbeamertemplate{footline}{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Using the \texttt{\{input\}} and \texttt{\{output\}} wildcards!}}
   \begin{enumerate}
-   \item Re-write the current workflow to be using the \altverb{\{input\}} and \altverb{\{output\}} wildcards.
-   \item Remember: This only needs to be in the \altverb{shell} directive.
+   \item Re-write the current workflow to be using the \altverb{\{input\}} and \altverb{\{output\}} wildcards. This only needs to be in the \altverb{shell} directive.
    \item Also, use the \altverb{\{file\}} wildcard to reduce the \altverb{count...} rules to just \altverb{count_words} for all inputs.
    \item For this, remember:
          \begin{lstlisting}[language=Python,style=Python]
@@ -168,10 +169,12 @@ rule ...:
     input: '../books/{file}.txt'
     output: '{file}.dat'
          \end{lstlisting}
-         to be combined with the \altverb{\{input\}} and \altverb{\{output\}} wildcards in the \altverb{shell} part.
+         to be combined with the \altverb{\{input\}} and \altverb{\{output\}} wildcards in the \altverb{shell} directive.
   \end{enumerate}
   \hint{Refer to \texttt{04\_Snakefile} as the cloze text.}
+  \vfill
 \end{frame}
+\endgroup
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
