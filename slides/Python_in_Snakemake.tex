@@ -102,12 +102,14 @@ DATS = glob_wildcards('../books/{book}.txt').book
   \hint{This is cool, because, we get \emph{ALL} the prefixes and we know in our scientific world, which format we are dealing with at every step!}
 \end{frame}
 
+\begingroup
+\setbeamertemplate{footline}{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Combining this Functionality in \texttt{Snakefile}s II}
-  Our ``problem'' was: We needed in- and output specification at every rule!\newline
-  Consider this solution:
-  \begin{lstlisting}[language=Python,style=Python]
+  \frametitle{Combining this Functionality in \texttt{Snakefile}s II}\footnotesize
+  \vspace{-0.5em}
+  Our ``problem'' \emph{was}: We needed in- and output specification at every rule! But:
+  \begin{lstlisting}[language=Python,style=Python,basicstyle=\footnotesize]
 DATS = glob_wildcards('../books/{book}.txt').book
 
 ...
@@ -119,13 +121,16 @@ rule zipf_test:
     shell:  
         'scripts/zipf_test.py {input.books} > {output}'
   \end{lstlisting}
-  \question{Cool, isn't it? Now, what is still missing? What new feature did we present here?}
+  \vspace{-0.5em}
+  \question{Cool! Now, what is still missing? What new feature did we present here?}
   \pause
   \begin{itemize}[<+->]
    \item The relative path indicator (\altverb{..}) means that we would always need to place our data relative to the workflow!
    \item The output is now directed to a new output directory (\altverb{dat}). Still not configurable, \emph{but} we \emph{can} redirect to arbitrary directories!
   \end{itemize}
+  \vfill
 \end{frame}
+\endgroup
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Python Code as Actions}
