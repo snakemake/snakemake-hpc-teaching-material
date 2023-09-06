@@ -1,0 +1,19 @@
+rule dats:
+     input:
+        'results.txt'
+
+# delete everything so we can re-run things
+rule clean:
+    shell: 'rm -f *.dat'
+
+rule count_words:
+    input:  '../books/{file}.txt'
+    output: '{file}.dat'
+    shell:  'python scripts/wordcount.py -i {input} -o {output}'
+    
+# generate summary table
+rule zipf_test:
+    input: "abyss.dat", "isles.dat", "last.dat"
+    output: 'results.txt'
+    shell:  
+        'scripts/zipf_test.py  {input} > {output}'
