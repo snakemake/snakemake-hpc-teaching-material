@@ -1,0 +1,45 @@
+\section{An Exercise}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{Outline}
+    \begin{columns}[t]
+        \begin{column}{.5\textwidth}
+            \tableofcontents[sections={1-9},currentsection]
+        \end{column}
+        \begin{column}{.5\textwidth}
+            \tableofcontents[sections={10-18},currentsection]
+        \end{column}
+    \end{columns}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{What is this about?}
+   \question[Questions]{\begin{itemize}
+                         \item Are you able to implement your first rule?
+                        \end{itemize}
+                       }
+   \docs[Objectives]{\begin{enumerate}
+                      \item Put your knowlegde to work.
+                     \end{enumerate}}
+\end{frame}  
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Writing an Archiving Rule}}
+  Imaging you want to ``tarball'' all your data for archiving purposes. The command would be:
+  \begin{lstlisting}[language=Bash, style=Shell]
+tar czvf <tarfilename>.tar.gz \
+    <list of input (directories)>
+  \end{lstlisting}
+  \pause
+  \task{Write a rule \texttt{make\_archive} using all \texttt{dat}-files and all plots as inputs, including \texttt{results.txt}.}
+  \hint[Hints]{\begin{itemize}
+                \item Use \texttt{07\_Snakefile} as a template. It contains a new plotting rule, too.
+                \item Use the \texttt{expand()}-function to get the directories contents.
+                \item What do you need to change in the \texttt{all} rule to run the entire workflow?
+               \end{itemize}}
+\end{frame}
