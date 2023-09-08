@@ -80,7 +80,7 @@ $ snakemake --slurm
   Without specifying our SLURM-account and a (default) partition, submitting batch jobs will fail. \texttt{Snakemake} allows to define so-called default resources (using \altverb{--default-resources}). With them our minimal command line becomes:
   \begin{lstlisting}[language=Bash, style=Shell, breaklines=true]
 $ snakemake --slurm \
-> --default-resources slurm_account=m2_zdvhpc \
+> --default-resources slurm_account=m2_jgu-ngstraining \
 >                     slurm_partition=smp
   \end{lstlisting}
   \hint{Please notice the missing quotation marks! All arguments belong to one parameter.}
@@ -97,9 +97,9 @@ $ snakemake --slurm \
   \end{itemize}
   \pause
   \texttt{Snakemake} of a semaphore to throttle resource usage, called \altverb{--jobs/-j}. We can now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
-  \begin{lstlisting}[language=Bash, style=Shell, breaklines=true]
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --slurm \
-> --default-resources slurm_account=m2_zdvhpc \
+> --default-resources slurm_account=m2_jgu-ngstraining \
 >                     slurm_partition=smp
 > -j unlimited
   \end{lstlisting}
@@ -118,7 +118,7 @@ $ snakemake --slurm \
    \item with \altverb{-j unlimited} we allow for an unlimited jumber of spawned jobs!
   \end{itemize}
   \pause
-  \warning{Unlimited number of jobs may yield in I/O contention and too many calls to check the job status. Use with care for both issues there is a remedy!}
+  \warning{Unlimited number of jobs may yield in I/O contention and too many calls to check the job status. Use with care for both issues there is a remedy, which we will meet later!}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
