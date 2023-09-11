@@ -99,8 +99,9 @@ $ snakemake --slurm \
   \texttt{Snakemake} of a semaphore to throttle resource usage, called \altverb{--jobs/-j}. We can now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --slurm \
-> --default-resources slurm_account=m2_jgu-ngstraining \
->                     slurm_partition=smp
+> --default-resources \ 
+>   slurm_account=m2_jgu-ngstraining \
+>   slurm_partition=smp
 > -j unlimited
   \end{lstlisting}
   together.
@@ -221,7 +222,7 @@ limit: 10
   \begin{lstlisting}[language=Python,style=Python]
 input_path = config["path"]
   \end{lstlisting}
-  \hint{We know, is useless: if our \texttt{path} is a relative path, every derived path is relative to our current working directory!}
+  \hint{We know, its useless: if our \texttt{path} is a relative path, every derived path is relative to our current working directory!}
   \pause
   Luckily, \texttt{Snakefile}s are Python-Code:
   \begin{lstlisting}[language=Python,style=Python]
@@ -239,9 +240,9 @@ DATS = glob_wildcards(os.path.join(input_path,
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Our \emph{FINAL} Workflow}
-  You may copy this solution.
-  \begin{lstlisting}[language=Python,style=Python]
+  \frametitle{A potential head of our Workflow}
+  You will find this solution in your next template.
+  \begin{lstlisting}[language=Python,style=Python, basicstyle=\small]
 import os
 
 input_path  = os.path.realpath(config['path'])
@@ -268,3 +269,21 @@ rule count_words:
 ...
   \end{lstlisting}
 \end{frame}
+
+\subsection{HPC Job Parametization}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{HPC Job Parametization with Config Files}
+  While we \emph{can} specify rule specific resoures on the command line with \altverb{--set-resources <rulename>:partition="parallel"} and so on, it is better to keep it in the config file for repeated use:
+  \begin{lstlisting}[language=Python,style=Python]
+set-resources:
+    <rule name>:
+        mem_per_cpu: 10MB
+        partition: 10
+        runtime: 10
+        tasks: 2
+  \end{lstlisting}
+  \docs{This works for multiple rules. We will re-visit this during the course. You may refer to the \lhref{https://snakemake.readthedocs.io/en/stable/executing/cluster.html}{\texttt{Snakemake} cluster documentation} for details.}
+\end{frame}
+
