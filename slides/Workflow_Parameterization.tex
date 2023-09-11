@@ -287,3 +287,86 @@ set-resources:
   \docs{This works for multiple rules. We will re-visit this during the course. You may refer to the \lhref{https://snakemake.readthedocs.io/en/stable/executing/cluster.html}{\texttt{Snakemake} cluster documentation} for details.}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Different Configurations!}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+        So, we have this layout:
+              {\tiny \DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{.6pt}
+\texttt{\$ tree}
+\dirtree{%
+.1 /.
+.2 config.
+.3 samples.yaml.
+.2 profile.
+.3 config.yaml.
+.2 {other stuff}.
+}}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \question{Why keep the workflow parameterization and the cluster parameterization apart?}
+      \pause
+      \docs[Answer]{Workflow parameter is workflow specific, cluster parameterization is executor specific!}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Using Different Configurations}
+  Now we just have to employ these configurations:\newline
+  \begin{onlyenv}<1| handout:1>
+    We remember, that 
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake @--slurm@
+    \end{lstlisting}
+    will select the SLURM cluster executor.\vfill
+  \end{onlyenv}
+  \begin{onlyenv}<2| handout:1>
+    If we add,
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --slurm \
+>  @--configfile@ <path to workflow config file>
+    \end{lstlisting}
+    we can select samples and specify workflow parameters.\vfill
+  \end{onlyenv}
+  \begin{onlyenv}<3| handout:1>
+   Now we can simply add:
+       \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --slurm \
+>  --configfile <path to workflow config file> \
+>  @--profile@ <path to executor profile file> 
+    \end{lstlisting}
+    to select our execution parameters.\vfill
+  \end{onlyenv}
+  \begin{onlyenv}<4| handout:1>
+   And finally:
+       \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --slurm \
+>  --configfile <path to workflow config file> \
+>  --profile <path to executor profile file> \
+> @--default-resources@ \ 
+>   slurm_account=<SLURM account> \
+>   slurm_partition=<SLURM partition> 
+> -j unlimited
+    \end{lstlisting}
+    For otherwise unspecified defaults.
+    \vfill
+  \end{onlyenv}
+  \begin{onlyenv}<5| handout:1>
+   And finally, finally:
+       \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --slurm \
+>  --configfile <path to workflow config file> \
+>  --profile <path to executor profile file> \
+> --default-resources \ 
+>   slurm_account=<SLURM account> \
+>   slurm_partition=<SLURM partition> \
+> @-j@ unlimited
+    \end{lstlisting}
+    For the feast to begin with possibly many jobs being spawned.
+    \vfill
+  \end{onlyenv}
+\end{frame}
+
