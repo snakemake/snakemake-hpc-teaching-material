@@ -1,0 +1,56 @@
+# our zipf analysis workflow
+import os
+
+input_path  = os.path.realpath(config['path'])
+output_path = os.path.join('results', os.path.dirname(input_path))
+
+DATS = glob_wildcards(os.path.join(input_path, "{book}.txt")).book
+
+localrules: make_archive
+
+rule all:
+    input:
+        'zipf_analysis.tar.gz'
+
+# delete everything so we can re-run things
+rule clean:
+    shell:
+        '''
+        rm -rf results dats plots
+        rm -f results.txt zipf_analysis.tar.gz
+        '''
+
+# count words in one of our "books"
+rule count_words:
+    input:
+        book=os.path.join(input_path, '{file}.txt')
+    output: '{output_path}/{file}.dat'
+    shell:  
+        'scripts/wordcount.py -i {input.book} -o {output}'
+
+# create a plot for each book
+rule make_plot:
+    input:
+        book='dats/{file}.dat'
+    output: 'plots/{file}.png'
+    envmodules:
+       'vis/matplotlib'
+    script:  
+       'scripts/plotcount_smk.py'
+
+# generate summary table
+rule zipf_test:
+    input:
+        books=expand('dats/{book}.dat', book=DATS)
+    output: 'results.txt'
+    shell:  
+        'scripts/zipf_test.py {input.books} > {output}'
+
+# create an archive with all of our results
+rule make_archive:
+    input:
+        expand('plots/{book}.png', book=DATS),
+        expand('dats/{book}.dat', book=DATS),
+        'results.txt'
+    output: 'zipf_analysis.tar.gz'
+    shell: 'tar -czvf {output} {input}'
