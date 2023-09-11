@@ -254,17 +254,6 @@ DATS = glob_wildcards(os.path.join(input_path,
 
 rule all:
     input: "results.txt"
-    
-# clean rule is omitted to save space
-
-# count words in one of our "books"
-rule count_words:
-    input:
-        book=os.path.join(input_path,
-                          '{file}.txt')
-    output: '{output_path}/{file}.dat'
-    shell:  
-        'scripts/wordcount.py'
 
 ...
   \end{lstlisting}
