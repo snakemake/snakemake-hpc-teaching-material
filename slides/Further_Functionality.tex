@@ -156,19 +156,17 @@ rule make_archive:
 rule count_words:
     input:
         book='books/{file}.txt'
-    output: temp('dats/{file}.dat')
+    output: @temp('dats/{file}.dat')@
     shell:  'python scripts/wordcount.py'
             ' -i {input.book} -o {output}'
   \end{lstlisting}
   \pause
-  Likewise, files can be protected from accidental deletion with the \texttt{protected} flag, e.\,g.:
+  Likewise, files can be protected from accidental deletion with the \texttt{protected()} function, e.\,g.:
   \begin{lstlisting}[language=Python,style=Python,basicstyle=\tiny]
 rule make_plot:
     input:
         book='dats/{file}.dat'
-    output: protected('plots/{file}.png')
-    envmodules:
-       'vis/matplotlib'
+    output: @protected('plots/{file}.png')@
     shell:  'python scripts/plotcount.py'
             ' -i {input.book} -o {output}'
   \end{lstlisting}
