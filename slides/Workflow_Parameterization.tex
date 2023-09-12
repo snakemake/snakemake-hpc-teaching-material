@@ -359,3 +359,19 @@ $ snakemake --slurm \
   \end{onlyenv}
 \end{frame}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Using Different Configurations - in Practice}
+  Just a minor ``Hands On'': Rename and run \texttt{07\_Snakefile} with this command line:
+         \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --slurm \
+>  --configfile <path to workflow config file> \
+>  --profile <path to executor profile file> \
+>  --default-resources@ \ 
+>   slurm_account=<SLURM account> \
+>   slurm_partition=<SLURM partition> 
+> -j unlimited
+    \end{lstlisting}
+\end{frame}
+
