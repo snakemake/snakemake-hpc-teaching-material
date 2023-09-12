@@ -24,20 +24,169 @@
 \subsection{Software on HPC Systems}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
+\begin{frame}
   \frametitle{Modules}
   \vspace{-1.3em}
   \begin{block}{What is a module?}
     A module collects all environment variables and settings needed for a particular software package (e.\,g. path to executable and libraries).
   \end{block}
-  \vspace{-0.8em}
-  \begin{alertblock}{Why we will not go in depth now}
-You can learn more about modules in 101-HPC courses. Later, we will learn how to use \texttt{Snakemake} workflows, particularly curated ones, available on the web. We \emph{could} re-write and adapt them for Mogon, it is better to only parameterize them for Mogon and do leave the workflow itself unaltered. This is less cumbersome and as workflow systems, including \texttt{Snakemake}, rely on Conda, we will have an in-depth intro to Conda, instead.
-  \end{alertblock}
 
   \vfill
 \end{frame}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  {Modules -- Command Overview}
+  \vspace{-1em}
+  \begin{itemize}
+    \setlength\itemsep{-0.1em}
+  \item List of all available modules
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ module avail             # or 'module av'
+    \end{lstlisting}
+  \item Loading a specific module
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ module load <modulename> # or 'module add'
+    \end{lstlisting}
+  \item Showing all currently loaded modules
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ module list
+    \end{lstlisting}
+  \item Unloading a specific module
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ module unload <modulename>
+    \end{lstlisting}
+  \item Unload all active modules
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ module purge
+    \end{lstlisting}
+  \end{itemize}
+  \vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  {Modules -- looking for specific modules}
+  Looking up modules:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ module spider <search string>
+  \end{lstlisting}
+  \pause
+  \task[Looking for area specific modules]{Try looking for an area specific 
+    module, e.\,g. in ``\texttt{bwa}''}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+   {Modules with easybuild\newline Or: What is this fuzz at the end of module names?}
+   You will have seen modules like:
+   \begin{lstlisting}[language=Bash, style=Shell]
+numlib/FFTW/3.3.6-gompi-2017a   
+   \end{lstlisting}
+   \pause
+   \begin{block}{Easybuild Naming Scheme}
+    We are building our modules with \lhref{https://easybuilders.github.io/easybuild/}{easybuild} and adopted the following naming scheme for modules:\newline
+    \footnotesize \verb+<topic>/<name>/<version>-<toolchain>-<toolchain-version>+
+   \end{block}
+   \pause
+   \task[Look inside a module to know what will be loaded and set]{Do ``\texttt{module show <module>}''}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}
+  \frametitle{Requesting software installs}
+  Your favorite software solution is not installed?
+  \begin{exampleblock}{Request software installation}
+    Use our \lhref{https://hpc.uni-mainz.de/high-performance-computing/service-angebot/softwareinstallation/}{little form}.\newline
+    We are sorry to be this formal, but otherwise we cannot easily accomodate your needs.
+  \end{exampleblock}
+  \pause
+  \warning[Please note:]{Software not incorporated in so-called easyconfigs, cannot be installed quickly.\newline
+    But we will try to do our best.}
+  \vfill
+\end{frame}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{That's all Folks}
+   \vspace{-0.8em}
+  \begin{alertblock}{Why we will not go in depth now}
+You can learn more about modules in 101-HPC courses. Later, we will learn how to use \texttt{Snakemake} workflows, particularly curated ones, available on the web. We \emph{could} re-write and adapt them for Mogon, it is better to only parameterize them for Mogon and do leave the workflow itself unaltered. This is less cumbersome and as workflow systems, including \texttt{Snakemake}, rely on Conda, we will have an in-depth intro to Conda, instead.
+  \end{alertblock}
+  \vfill
+  \begin{alertblock}{Do not mix Conda with Modules}
+   Do not mix Conda with module files - particularly, avoid writing \altverb{module load} commands in your \altverb{~/.bashrc} file.\newline
+   Whenever your modules or Conda are using conflicting compilers or environments, you might not be able to execute your software or -- \emph{worse} -- will result in funny crashes with apparently no reason.
+  \end{alertblock}
+
+\end{frame}
+
+\section{Using Conda}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}<handout:0> 
+  \frametitle{Your Work Environment with Conda}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}\centering
+      \includegraphics[width=0.8\textwidth]{environment/environment.png}
+    \end{column}
+    \begin{column}{0.5\textwidth}\centering
+      \includegraphics[width=0.8\textwidth]{logos/Conda_logo.png}   
+    \end{column}
+  \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Installing Conda}
+  You could run
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\small,breaklines=true ]
+$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+  \end{lstlisting}
+  \hint{\footnotesize  URL is from \url{https://docs.conda.io/en/latest/miniconda.html}.\newline However, we are going to use our copied script.}
+  \pause
+  \docs{\footnotesize Using the ``\emph{latest}'' version of the script, we ensure not to rely on a specific version. It is always possible to install specific software releases with the current version of Conda, but we will not be required to update conda immediately after installation.}
+  \hint{Instead of downloading, we will work through this together on the slides to come.}
+\end{frame} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Installing Conda - II}
+  Please run
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ bash ./conda/Miniconda3-latest-Linux-x86_64.sh
+  \end{lstlisting}
+  We will work through the questions together, please be patient!
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Installing Conda - III}
+  \begin{itemize}[<+->]
+   \item You need to confirm the license. Scroll with ``blank'' and confirm with ``\verb+yes+''.
+   \item Next, you need to set the prefix. For the course you can install Conda in your HOME, else, agree in your group(s) on a path in your project and use the project directory, e.g. 
+   \begin{lstlisting}[language=Bash, style=Shell, breaklines=true ]
+[/home/<username>/miniconda3] >>> /lustre/project/<myproject>/conda
+   \end{lstlisting}
+   \item Finally, you will be asked to initialize Miniconda. Please confirm with ``\verb+yes+''.
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Installing Conda - III}
+  \begin{itemize}[<+->]
+   \item You need to confirm the license. Scroll with ``blank'' and confirm with ``\verb+yes+''.
+   \item Next, you need to set the prefix. For the course you can install Conda in your HOME, else, agree in your group(s) on a path in your project and use the project directory, e.g. 
+   \begin{lstlisting}[language=Bash, style=Shell, breaklines=true ]
+[/home/<username>/miniconda3] >>> /lustre/project/<myproject>/conda
+   \end{lstlisting}
+   \item Finally, you will be asked to initialize Miniconda. Please confirm with ``\verb+yes+''.
+  \end{itemize}
+\end{frame}
+
+
+
+  
