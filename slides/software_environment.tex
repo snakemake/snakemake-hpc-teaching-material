@@ -161,6 +161,9 @@ $ bash ./setup/01_install_mamba.sh
   We will work through the questions together, please be patient!
   %TODO: update, when pixi is there.
   \docs[Background]{We are going to use mamba instead of conda, mamba is a faster drop-in replacement for conda.}
+  \begin{block}{Our setup Scripts}
+   We are using setup scripts to simplify commands. We are going to highlight and discuss all ``mamba-related'' code therein.
+  \end{block}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -319,13 +322,13 @@ $ mamba info --envs
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Getting the example Data}
-  Again we are using a script to download and extract our example data. Please 
+  Again we are using a script to download and extract our example data. Please run
   \begin{lstlisting}[language=Bash, style=Shell]
-$ mdkir snakemake-tutorial
-$ cd snakemake-tutorial
-$ bash ../setup/get_data.sh
+$ bash setup/03_get_data.sh
   \end{lstlisting}
-
+  Subsequently change into the directory \altverb{snakemake-tutorial} which has been created. 
+  \pause
+  \question{Which files do you find?}
 \end{frame}
 
 
