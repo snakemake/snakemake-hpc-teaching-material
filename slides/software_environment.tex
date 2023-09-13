@@ -117,7 +117,7 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
   \end{alertblock}
   \vfill
   \begin{alertblock}{Do not mix Conda with Modules}
-   Do not mix Conda with module files - particularly, avoid writing \altverb{module load} commands in your \altverb{~/.bashrc} file.\newline
+   Do not mix Conda with module files - particularly, avoid writing \altverb{module load} commands in your \texttt{\textasciitilde/.bashrc} file.\newline
    Whenever your modules or Conda are using conflicting compilers or environments, you might not be able to execute your software or -- \emph{worse} -- will result in funny crashes with apparently no reason.
   \end{alertblock}
 
@@ -141,11 +141,11 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Installing Conda}
-  You could run
+  You \emph{could} run
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\small,breaklines=true ]
 $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
   \end{lstlisting}
-  \hint{\footnotesize  URL is from \url{https://docs.conda.io/en/latest/miniconda.html}.\newline However, we are going to use our copied script.}
+  \hint{\footnotesize URL is from \url{https://docs.conda.io/en/latest/miniconda.html}.\newline However, we are going to use our copied script.}
   \pause
   \docs{\footnotesize Using the ``\emph{latest}'' version of the script, we ensure not to rely on a specific version. It is always possible to install specific software releases with the current version of Conda, but we will not be required to update conda immediately after installation.}
   \hint{Instead of downloading, we will work through this together on the slides to come.}
@@ -154,21 +154,26 @@ $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Installing Conda - II}
-  Please run
+  Please and run
   \begin{lstlisting}[language=Bash, style=Shell]
-$ bash ./conda/Miniconda3-latest-Linux-x86_64.sh
+$ bash ./setup/01_install_mamba.sh
   \end{lstlisting}
   We will work through the questions together, please be patient!
+  %TODO: update, when pixi is there.
+  \docs[Background]{We are going to use mamba instead of conda, mamba is a faster drop-in replacement for conda.}
+  \begin{block}{Our setup Scripts}
+   We are using setup scripts to simplify commands. We are going to highlight and discuss all ``mamba-related'' code therein.
+  \end{block}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Installing Conda - III}
   \begin{itemize}[<+->]
-   \item You need to confirm the license. Scroll with ``blank'' and confirm with ``\verb+yes+''.
-   \item Next, you need to set the prefix. For the course you can install Conda in your HOME, else, agree in your group(s) on a path in your project and use the project directory, e.g. 
+   \item You need to confirm the license. Scroll with ``blank'' and confirm with ``\altverb{yes+}''.
+   \item Next, you need to set the prefix. For the course you can install Mamba/Conda in your \altverb{HOME}, else, agree in your group(s) on a path in your project and use the project directory, e.\,g. 
    \begin{lstlisting}[language=Bash, style=Shell, breaklines=true ]
-[/home/<username>/miniconda3] >>> /lustre/project/<myproject>/conda
+[/home/<username>/mambaforge] >>> /lustre/project/<myproject>/mambaforge
    \end{lstlisting}
    \item Finally, you will be asked to initialize Miniconda. Please confirm with ``\verb+yes+''.
   \end{itemize}
@@ -176,17 +181,167 @@ $ bash ./conda/Miniconda3-latest-Linux-x86_64.sh
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Installing Conda - III}
-  \begin{itemize}[<+->]
-   \item You need to confirm the license. Scroll with ``blank'' and confirm with ``\verb+yes+''.
-   \item Next, you need to set the prefix. For the course you can install Conda in your HOME, else, agree in your group(s) on a path in your project and use the project directory, e.g. 
-   \begin{lstlisting}[language=Bash, style=Shell, breaklines=true ]
-[/home/<username>/miniconda3] >>> /lustre/project/<myproject>/conda
-   \end{lstlisting}
-   \item Finally, you will be asked to initialize Miniconda. Please confirm with ``\verb+yes+''.
-  \end{itemize}
+  \frametitle{Installing Conda - IV}
+  \footnotesize
+  \begin{columns}[t]
+    \begin{column}{0.5\textwidth}
+       You now have a section like this in your ``\texttt{\textasciitilde/.bashrc}'':
+       \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny, breaklines=true]
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('<prefix>/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "<prefix>/etc/profile.d/conda.sh" ]; then
+        . "<prefix>/etc/profile.d/conda.sh"
+    else
+        export PATH="<prefix>/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+      \end{lstlisting}
+      \bcattention \emph{Every} time you log-in this will be executed. Also, here, ``\texttt{<prefix>}'' denotes \emph{your} prefix.
+    \end{column}
+    \begin{column}{0.5\textwidth}
+       \pause
+       If you like, you can put this part in a function, to re-gain manual control:
+       \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny, breaklines=true]
+@function conda_initialize {@
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('<prefix>/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "<prefix>/etc/profile.d/conda.sh" ]; then
+        . "<prefix>/etc/profile.d/conda.sh"
+    else
+        export PATH="<prefix>/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+@}@
+      \end{lstlisting}
+    \end{column}
+  \end{columns}
+
+   %
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Initializing Conda}
+  To initialize Conda, simply run
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ bash
+  \end{lstlisting}
+  or
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ source ~/.bashrc
+$ conda_initialize # if you have this function
+  \end{lstlisting}
+  Then your command line should look like:
+  \begin{lstlisting}[language=Bash, style=Shell]
+(base) ... $
+  \end{lstlisting}
+  , where \altverb{(base)} is the ``base'' environment of Conda. This is your starting environment.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Searching Software with Conda}
+  First you might have to look for software. This is done with
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ mamba search <softwarename>
+  \end{lstlisting}
+  \pause
+  \task{Try this with a software which comes to mind.}
+  \pause
+  This will list packages with channel and version information, e.\,g.
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
+$ mamba search minimap
+Loading channels: done
+# Name                       Version           Build  Channel             
+minimap                     0.2_r124               0  bioconda            
+minimap                     0.2_r124      h5bf99c6_4  bioconda
+....
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Reducing Search Overhead - the \texttt{.condarc}-File}
+  On \mogon{} the number of Conda channels is reduced by the whitelisting. Nevertheless, it helps to have a resource file, with a number of definitions, \emph{before} starting:
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
+$ cat .condarc
+create_default_packages:
+  - setuptools
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+  - r
+proxy_servers:
+  http: http://webproxy.zdv.uni-mainz.de:8888
+ssl_verify: false
+auto_update_conda: false
+always_yes: true # avoid confirmation(s)
+  \end{lstlisting}
+  To obtain the same resource file, run:
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
+$ cp ~/conda/condarc ~/.condarc
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Installing Software \emph{with} Conda - Using Environments}
+  \hint{It is a good habit to have
+        \begin{itemize}
+          \item \emph{an} environment per workflow
+          \item the environment named as the workflow
+          \item this way, we have a bundle of tools, activate the environment for it
+          \item \texttt{snakemake} workflows will install the tools you need for a particular workflow - only \emph{if} these tools are still missing
+         \end{itemize}
+        }
+  We run:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ bash setup/02_tutorial_setup.sh
+  \end{lstlisting}
+  \pause
+
+  To list the available environments we can run
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ mamba info --envs
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Getting the example Data}
+  Again we are using a script to download and extract our example data. Please run
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ bash setup/03_get_data.sh
+  \end{lstlisting}
+  Subsequently change into the directory \altverb{snakemake-tutorial} which has been created. 
+  \pause
+  \question{Which files do you find?}
 \end{frame}
 
 
-
-  
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Installing Software \emph{with} Conda - Using Environments II}
+  Using our new environment we can activate it:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ conda activate snakemake-tutorial
+  \end{lstlisting}
+  and install ``\texttt{snakemake}'' by running
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ mamba install snakemake
+  \end{lstlisting}
+  Now, we are all set. ``\texttt{snakemake}'' is able to install the requested software, for a well-maintained workflow.
+\end{frame}
