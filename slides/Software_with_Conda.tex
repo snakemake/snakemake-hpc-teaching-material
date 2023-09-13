@@ -83,10 +83,12 @@ $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
   \frametitle{Installing Conda - II}
   Please run
   \begin{lstlisting}[language=Bash, style=Shell]
-$ bash ./conda/Miniconda3-latest-Linux-x86_64.sh
+$ bash ./setup/install_mamba.sh
   \end{lstlisting}
   We will work through the questions together, please be patient!
 \end{frame}
+
+% curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh -o Mambaforge-Linux-x86_64.sh
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
@@ -95,9 +97,9 @@ $ bash ./conda/Miniconda3-latest-Linux-x86_64.sh
    \item You need to confirm the license. Scroll with ``blank'' and confirm with ``\verb+yes+''.
    \item Next, you need to set the prefix. For the course you can install Conda in your HOME, else, agree in your group(s) on a path in your project and use the project directory, e.g. 
    \begin{lstlisting}[language=Bash, style=Shell, breaklines=true ]
-[/home/<username>/miniconda3] >>> /lustre/project/<myproject>/conda
+[/home/<username>/mambaforge] >>> /lustre/project/<myproject>/mambaforge
    \end{lstlisting}
-   \item Finally, you will be asked to initialize Miniconda. Please confirm with ``\verb+yes+''.
+   \item Finally, you will be asked whether everything is. Please confirm with ``\verb+yes+''.
   \end{itemize}
 \end{frame}
 
@@ -244,19 +246,16 @@ $ mamba install snakemake
   \hint{It is a good habit to have
         \begin{itemize}
           \item \emph{an} environment per workflow
+          \item the environment named as the workflow
           \item this way, we have a bundle of tools, activate the environment for it
           \item \texttt{snakemake} workflows will install the tools you need for a particular workflow - only \emph{if} these tools are still missing
          \end{itemize}
         }
-  We \emph{could} run
+  Please run:
   \begin{lstlisting}[language=Bash, style=Shell]
-$ conda create -n transriptome-differential-expression
+$ conda create -n snakemake-tutorial
   \end{lstlisting}
-  Instead, we \emph{will} run
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ conda create -n transriptome-differential-expression --clone base
-  \end{lstlisting}
-  To enable our software installed in ``\texttt{base}'' in our \emph{new} environment, too.\newline
+  \pause
 
   To list the available environments we can run
   \begin{lstlisting}[language=Bash, style=Shell]
@@ -269,7 +268,7 @@ $ conda info --envs
   \frametitle{Installing Software \emph{with} Conda - Using Environments II}
   Using our new environment we can activate it:
   \begin{lstlisting}[language=Bash, style=Shell]
-$ conda activate transriptome-differential-expression
+$ conda activate snakemake-tutorial
   \end{lstlisting}
   and install ``\texttt{snakemake}'' by running
   \begin{lstlisting}[language=Bash, style=Shell]
