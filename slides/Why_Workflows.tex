@@ -31,12 +31,22 @@
 \begin{frame}
   \frametitle{Data Analysis}
   \begin{onlyenv}<1| handout:0>
-    \includegraphics{snakemake/analysis_1.png}
-    \includegraphics{snakemake/phd_left.png}
+    \begin{tikzpicture}
+      \path[use as bounding box] (0.7,0) rectangle (12,8);
+      \node[inner sep=0pt] (analysis_1) at (5,6)
+         {\includegraphics[width=0.7\textwidth]{Snakemake/analysis_1.png}};   
+      \node at (7, 3.5) %[below=-0.4cm of analysis_1, xshift=2.7cm] at (current page.center)
+         {\includegraphics[width=0.45\textwidth]{Snakemake/phd_left.png}};
+    \end{tikzpicture}
   \end{onlyenv}
   
   \begin{onlyenv}<2| handout:1>
-    \includegraphics{snakemake/analysis_2.png}
-    \includegraphics{snakemake/phd_full.png}
+    \begin{tikzpicture}
+      \path[use as bounding box] (0.7,0) rectangle (12,8);
+      \node[inner sep=0pt] (analysis_full) at (5,6)
+         {\includegraphics[width=0.7\textwidth]{Snakemake/analysis_full.png}};   
+      \node at (7,3.5) % [below=-0.4cm of analysis_full, xshift=2.7cm]
+         {\includegraphics[width=0.45\textwidth]{Snakemake/phd_full.png}};
+    \end{tikzpicture}
   \end{onlyenv}
 \end{frame}
