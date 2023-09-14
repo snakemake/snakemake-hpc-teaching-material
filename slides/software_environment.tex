@@ -116,7 +116,7 @@ numlib/FFTW/3.3.10-gompi-2021b
   Your favorite software solution is not installed?
   \begin{exampleblock}{Request software installation}
     Use our \lhref{https://hpc.uni-mainz.de/high-performance-computing/service-angebot/softwareinstallation/}{little form}.\newline
-    We are sorry to be this formal, but otherwise we cannot easily accomodate your needs.
+    We are sorry to be this formal, but otherwise we cannot easily accommodate your needs.
   \end{exampleblock}
   \pause
   \warning[Please note:]{Software not incorporated in so-called easyconfigs, cannot be installed quickly.\newline
@@ -156,17 +156,52 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}
+  \frametitle{Conda vs. Module Files}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      Background Module Files
+      \begin{itemize}
+       \item module files provide an environment per software
+       \item the software usually is compiled on the machine (optimized)
+       \item due to differences in cluster naming schemes and setups portability cannot be granted
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      Background Conda
+      \begin{itemize}
+       \item Conda is a machine independent package management systems
+       \item packaged software is provided pre-compiled (NOT optimized)
+       \item Conda allows for grouping software stacks in environments, therefore ensuring portability
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Installing Conda}
   You \emph{could} run
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\small,breaklines=true ]
 $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
   \end{lstlisting}
-  \hint{\footnotesize URL is from \url{https://docs.conda.io/en/latest/miniconda.html}.\newline However, we are going to use our copied script.}
+  \hint{\footnotesize URL is from \url{https://docs.conda.io/en/latest/miniconda.html}.\newline However, we are going to use tweaked scripts provided to you.}
   \pause
-  \docs{\footnotesize Using the ``\emph{latest}'' version of the script, we ensure not to rely on a specific version. It is always possible to install specific software releases with the current version of Conda, but we will not be required to update conda immediately after installation.}
   \hint{Instead of downloading, we will work through this together on the slides to come.}
 \end{frame} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Copy our Course Sample Data}}
+  We shall copy a few install scripts (which also will download some sample data).\newline
+  Please copy \pathtoexercise.
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ cp -r <path> ~/.
+  \end{lstlisting}
+  \hint[Note]{The slides assume that you are working in your HOME. Then typing the \textasciitilde is not necessary.}
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
