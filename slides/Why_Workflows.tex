@@ -37,7 +37,11 @@
          {\includegraphics[width=0.7\textwidth]{Snakemake/analysis_1.png}};   
       \node at (7, 3.5) %[below=-0.4cm of analysis_1, xshift=2.7cm] at (current page.center)
          {\includegraphics[width=0.45\textwidth]{Snakemake/phd_left.png}};
-    \end{tikzpicture}
+      \node at (6, 1) {\begin{minipage}{0.75\textwidth}\footnotesize
+                        Idea from the official \lhref{https://slides.com/johanneskoester/snakemake-tutorial}{\texttt{Snakemake}} course (with permission), image from \lhref{https://phdcomics.com/comics.php}{PhD comics}.
+                       \end{minipage}
+      };
+    \end{tikzpicture}    
   \end{onlyenv}
   
   \begin{onlyenv}<2| handout:1>
@@ -47,6 +51,56 @@
          {\includegraphics[width=0.7\textwidth]{Snakemake/analysis_full.png}};   
       \node at (7,3.5) % [below=-0.4cm of analysis_full, xshift=2.7cm]
          {\includegraphics[width=0.45\textwidth]{Snakemake/phd_full.png}};
+      \node at (6, 1) {\begin{minipage}{0.75\textwidth}\footnotesize
+                        Idea from the official \lhref{https://slides.com/johanneskoester/snakemake-tutorial}{\texttt{Snakemake}} course (with permission), image from \lhref{https://phdcomics.com/comics.php}{PhD comics}.
+                       \end{minipage}
+      };
     \end{tikzpicture}
   \end{onlyenv}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Reproducible Data Analysis}
+  \begin{onlyenv}<1| handout:0>
+    \begin{tikzpicture}
+      \path[use as bounding box] (0.7,0) rectangle (12,8);
+      \node at (5.5, 5.5) {\includegraphics[width=0.7\textwidth]{Snakemake/automation.png}};
+      \node at (8, 2.5) {\begin{minipage}{0.65\textwidth}
+                             \textbf{From raw data to final figures:}
+                             \begin{itemize}
+                                \item \textbf{document} parameters, tools, versions
+                                \item \textbf{execute} without manual intervention
+                              \end{itemize}
+                           \end{minipage}
+                           };
+    \end{tikzpicture}
+  \end{onlyenv}
+  \begin{onlyenv}<2| handout:0>
+    \begin{tikzpicture}
+      \path[use as bounding box] (0.7,0) rectangle (12,8);
+      \node at (5.5, 5.5) {\includegraphics[width=0.7\textwidth]{Snakemake/scalability.png}};
+      \node at (8, 2.5) {\begin{minipage}{0.65\textwidth}
+                             \textbf{Handle parallelization:}
+                             \begin{itemize}
+                                \item execute for tens of thousands of datasets
+                                \item efficiently use any computing platform
+                              \end{itemize}
+                           \end{minipage}
+                           };
+    \end{tikzpicture}
+  \end{onlyenv}
+  \begin{onlyenv}<3| handout:1>
+    \begin{tikzpicture}
+      \path[use as bounding box] (0.7,0) rectangle (12,8);
+      \node at (5.5, 5.5) {\includegraphics[width=0.7\textwidth]{Snakemake/portability.png}};
+      \node at (8, 2.5) {\begin{minipage}{0.65\textwidth}
+                             \textbf{Handle deployment:}\newline
+                             be able to easily execute analyses on a different system/platform/infrastructure
+                           \end{minipage}
+                           };
+    \end{tikzpicture}
+  \end{onlyenv}
+  
+
 \end{frame}
