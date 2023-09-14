@@ -193,6 +193,17 @@ $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
+  \frametitle{We will favour \emph{Mamba} over Conda!}
+  Everyone is talking about ``Conda'' as a package manger -- and this is correct! But:
+  \begin{block}{Why we recommend using ``Mamba''}
+   Mamba is a ``drop-in'' for Conda. This means: \emph{every command is the same}, execpt we will write \altverb{mamba} where usuall \altverb{conda} would be.\newline
+   Why?\newline
+   Mamba is an implementation of Conda, written in \CC{}. It is able to carry out some tasks in parallel and works considerably faster.
+  \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
   \frametitle{\HandsOn{Copy our Course Sample Data}}
   We shall copy a few install scripts (which also will download some sample data).\newline
   Please copy \pathtoexercise.
@@ -205,14 +216,12 @@ $ cp -r <path> ~/.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Installing Conda - II}
+  \frametitle{Installing \sout{Conda} Mamba - II}
   Please and run
   \begin{lstlisting}[language=Bash, style=Shell]
 $ bash ./setup/01_install_mamba.sh
   \end{lstlisting}
   We will work through the questions together, please be patient!
-  %TODO: update, when pixi is there.
-  \docs[Background]{We are going to use mamba instead of conda, mamba is a faster drop-in replacement for conda.}
   \begin{block}{Our setup Scripts}
    We are using setup scripts to simplify commands. We are going to highlight and discuss all ``mamba-related'' code therein.
   \end{block}
@@ -220,14 +229,14 @@ $ bash ./setup/01_install_mamba.sh
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Installing Conda - III}
+  \frametitle{Installing \sout{Conda} Mamba - III}
   \begin{itemize}[<+->]
    \item You need to confirm the license. Scroll with ``blank'' and confirm with ``\altverb{yes+}''.
    \item Next, you need to set the prefix. For the course you can install Mamba/Conda in your \altverb{HOME}, else, agree in your group(s) on a path in your project and use the project directory, e.\,g. 
    \begin{lstlisting}[language=Bash, style=Shell, breaklines=true ]
 [/home/<username>/mambaforge] >>> /lustre/project/<myproject>/mambaforge
    \end{lstlisting}
-   \item Finally, you will be asked to initialize Miniconda. Please confirm with ``\verb+yes+''.
+   \item Finally, you will be asked to initialize Miniconda. Please confirm with ``\verb+yes+''. Thereby \emph{Conda} is installed, too!
   \end{itemize}
 \end{frame}
 
@@ -252,7 +261,7 @@ bash Mambaforge-Linux-x86_64.sh
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Installing Conda - IV}
+  \frametitle{Installing \sout{Conda} Mamba - IV}
   \footnotesize
   \begin{columns}[t]
     \begin{column}{0.5\textwidth}
@@ -303,7 +312,7 @@ unset __conda_setup
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Initializing Conda}
+  \frametitle{Initializing Conda \& Mamba}
   To initialize Conda, simply run
   \begin{lstlisting}[language=Bash, style=Shell]
 $ bash
@@ -322,7 +331,7 @@ $ conda_initialize # if you have this function
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Searching Software with Conda}
+  \frametitle{Searching Software with Conda v. Mamba}
   First you might want to look for software. This is done with
   \begin{lstlisting}[language=Bash, style=Shell]
 $ mamba search <softwarename>
@@ -370,7 +379,7 @@ $ cp ~/setup/condarc ~/.condarc
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Installing Software \emph{with} Conda - Using Environments}
+  \frametitle{Installing Software \emph{with} Conda \& Mamba - Using Environments}
   \hint{It is a good habit to have
         \begin{itemize}
           \item \emph{an} environment per workflow
@@ -447,7 +456,7 @@ $ bash setup/03_get_data.sh
   \frametitle{Installing Software \emph{with} Conda - Using Environments II}
   Using our new environment we can activate it:
   \begin{lstlisting}[language=Bash, style=Shell]
-$ conda activate snakemake-tutorial
+$ mamba activate snakemake-tutorial
   \end{lstlisting}
   and install ``\texttt{snakemake}'' by running
   \begin{lstlisting}[language=Bash, style=Shell]
