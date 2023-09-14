@@ -365,6 +365,7 @@ always_yes: true # avoid confirmation(s)
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ cp ~/setup/condarc ~/.condarc
   \end{lstlisting}
+  More on \altverb{.condarc} on the \lhref{https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html}{official Conda documentation site}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -378,15 +379,53 @@ $ cp ~/setup/condarc ~/.condarc
           \item \texttt{snakemake} workflows will install the tools you need for a particular workflow - only \emph{if} these tools are still missing
          \end{itemize}
         }
-  We run:
+  For the tutorial we run:
   \begin{lstlisting}[language=Bash, style=Shell]
 $ bash setup/02_tutorial_setup.sh
   \end{lstlisting}
-  \pause
+\end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{The Setup Script}
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
+# 0. we are going to use ONE environment with the same
+#    name as the workflow we are going to create
+NAME="snakemake-tutorial"
+
+# 1. On many HPC systems we are going to install via a proxy.
+#    This might ignore TLS, hence we turn off all warnings.
+#    Note: TLS might still be used, but not ALL proxies use it.
+export PYTHONWARNINGS="ignore:Unverified HTTPS request"
+
+# 1. create the environment for the tutorial
+mamba create --name $NAME
+
+# 2. activate the environment
+mamba activate $NAME
+
+# TODO: This step is necessary because of the outdated 
+#       setup, where Python >= 3.10 does not work
+#       with pysam
+mamba install Python=3.9
+  \end{lstlisting}
+  Here we create an environment, activate it and install an older version of Python. Questions to the code?
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Conda Environments}
+  With Conda/Mamba, we can activate and deactivate environments, which bundle our software. E.\,g. a software stack per workflow to ensure reproducible runs.
+    \pause
   To list the available environments we can run
   \begin{lstlisting}[language=Bash, style=Shell]
 $ mamba info --envs
+  \end{lstlisting}
+  We can create, activate and deactivate environments with
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ mamba create --name <environment name>
+$ mamba activate <environment name>
+$ mamba deactivate
   \end{lstlisting}
 \end{frame}
 
