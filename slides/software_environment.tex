@@ -231,7 +231,7 @@ $ bash ./setup/01_install_mamba.sh
 \begin{frame}[fragile]
   \frametitle{Installing \sout{Conda} Mamba - III}
   \begin{itemize}[<+->]
-   \item You need to confirm the license. Scroll with ``blank'' and confirm with ``\altverb{yes+}''.
+   \item You need to confirm the license. Scroll with ``blank'' and confirm with ``\altverb{yes}''.
    \item Next, you need to set the prefix. For the course you can install Mamba/Conda in your \altverb{HOME}, else, agree in your group(s) on a path in your project and use the project directory, e.\,g. 
    \begin{lstlisting}[language=Bash, style=Shell, breaklines=true ]
 [/home/<username>/mambaforge] >>> /lustre/project/<myproject>/mambaforge
@@ -450,7 +450,6 @@ $ bash setup/03_get_data.sh
   \question{Which files do you find?}
 \end{frame}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Installing Software \emph{with} Conda - Using Environments II}
@@ -462,5 +461,6 @@ $ mamba activate snakemake-tutorial
   \begin{lstlisting}[language=Bash, style=Shell]
 $ mamba install snakemake
   \end{lstlisting}
-  Now, we are all set. ``\texttt{snakemake}'' is able to install the requested software, for a well-maintained workflow.
+  Now, we are all set. 
+  \hint{Just that you know: ``\texttt{snakemake}'' is able to install the requested software for you!}
 \end{frame}
