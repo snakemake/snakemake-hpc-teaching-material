@@ -27,10 +27,10 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{To get you started \ldots}
+  \frametitle{Before we begin \ldots}
   \begin{exampleblock}{Working with closure Files}
     To ease the excercises and save typing time, all excercises are supplied as cloze texts.\linebreak
-    As \texttt{Snakemake} relies on a file called \texttt{Snakefile} to be present, you can either rename your solution like
+    \texttt{Snakemake} relies on a file called \texttt{Snakefile} to be present. You can either rename your cloze texts like
     \begin{lstlisting}[language=Bash, style=Shell]
 $ cp <number>_Snakefile Snakefile
     \end{lstlisting}
@@ -44,27 +44,8 @@ $ snakemake <other arguments> \
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{To get you started - II}
-  In order to start \texttt{Snakemake} we obviously need \texttt{Snakemake}. Please be sure to:
-  \begin{itemize}[<+->]
-   \item load your editor \altverb{geany} \emph{before} attempting to load modules in the same shell. Start it like
-         \begin{lstlisting}[language=Bash, style=Shell]
-$ geany & 
-         \end{lstlisting}
-         To be sure that it is a background application.
-   \item load the module for \texttt{Snakemake}:
-         \begin{lstlisting}[language=Bash, style=Shell]
-$ module load tools/snakemake
-         \end{lstlisting}
-   \item Best use a terminal multiplexer \textbf{or} multiple logins (otherwise you have to develop and execute in one shell).
-   \item we will later use \texttt{Conda} deliberetly instead of the module, for now: just use the module.
-  \end{itemize}
-\end{frame}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{A first Rule}
+\subsection{A first Step or ``Rule''}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
@@ -91,91 +72,110 @@ $ module load tools/snakemake
     \end{column}
     \begin{column}{0.5\textwidth}
       \hint{Our long term goal:\newline Have a orderly overview and seperation of data and code.}
-      \pause 
-      \question{Any idea why?}
     \end{column}
-
-
   \end{columns}
-
-  
 \end{frame}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Our first \texttt{Snakefile}!}
-  \begin{onlyenv}<1| handout:1>
-    Use your cloze text \texttt{01\_Snakefile}, edit it. When ready you read \ldots
+  \begin{onlyenv}<1| handout:0>
+    Our first ``\altverb{rule}''. 
     \begin{lstlisting}[language=Python,style=Python]
-# Count words.
-rule count_words:
-    input:    '../books/isles.txt'
-    output:   'isles.dat'
-    shell:    'python scripts/wordcount.py' 
-               ' -i ../books/isles.txt-o isles.dat'
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        "data/samples/A.fastq"
+    output:
+        "mapped_reads/A.bam"
+    shell:
+        "bwa mem data/genome.fa"
+        " data/samples/A.fastq"
+        " | samtools view -Sb - >"
+        " mapped_reads/A.bam"
     \end{lstlisting}
-  \ldots its ready - this serve merely to illustrate the cloze text approach.\newline
-  \docs{This is a build file, which for Snakemake is called a \texttt{Snakefile} -- a file executed by \texttt{Snakemake}. Note that aside from a few keyword additions like \altverb{rule}, it follows standard Python 3 syntax.}
-  
+    \docs{This code is build file, which for \texttt{Snakemake} is called a \texttt{Snakefile} -- a file executed by \texttt{Snakemake}.}
     \end{onlyenv}
   \begin{onlyenv}<2| handout:0>
-   Now, let's have a detailed look:
+   We are going to ``map'' our reads onto the genome.
    \begin{lstlisting}[language=Python,style=Python]
-# Count words.
-rule count_words:
-    input:    '../books/isles.txt'
-    output:   'isles.dat'
-    shell:    'python scripts/wordcount.py' 
-               ' -i ../books/isles.txt-o isles.dat'
+rule @bwa_map@:
+    input:
+        "data/genome.fa",
+        "data/samples/A.fastq"
+    output:
+        "mapped_reads/A.bam"
+    shell:
+        "bwa mem data/genome.fa"
+        " data/samples/A.fastq"
+        " | samtools view -Sb - >"
+        " mapped_reads/A.bam"
     \end{lstlisting}
-    The \altverb[Python]{#} denotes a comment. Any text from \altverb[Python]{#} to the end of the line is ignored by Snakemake.
+    For this we are using \lhref{https://github.com/lh3/bwa}{\altverb{bwa}}, specifically \altverb{bwa mem}. We call our rule accordingly \altverb{bwa_map}.
   \end{onlyenv}
   \begin{onlyenv}<3| handout:0>
-   Now, let's have a detailed look:
+   \altverb{input}, \altverb{output} and \altverb{shell} are called ``directives'':
    \begin{lstlisting}[language=Python,style=Python]
-# Count words.
-rule count_words:
-    input:    '../books/isles.txt'
-    @output:@   'isles.dat'
-    shell:    'python scripts/wordcount.py' 
-               ' -i ../books/isles.txt-o isles.dat'
+rule bwa_map:
+    @input@:
+        "data/genome.fa",
+        "data/samples/A.fastq"
+    @output@:
+        "mapped_reads/A.bam"
+    @shell@:
+        "bwa mem data/genome.fa"
+        " data/samples/A.fastq"
+        " | samtools view -Sb - >"
+        " mapped_reads/A.bam"
     \end{lstlisting}
-    \altverb{isles.dat} is a \emph{target}, a file to be created, or built. In Snakemake, these are called “outputs”, for simplicity’s sake.
+    The \altverb{input} and \altverb{output} directives are followed by lists of files that are expected to be used or created by the rule. In the simplest case, these are just explicit Python strings.
   \end{onlyenv}
   \begin{onlyenv}<4| handout:0>
-   Now, let's have a detailed look:
-   \begin{lstlisting}[language=Python,style=Python]
-# Count words.
-rule count_words:
-    @input:@    '../books/isles.txt'
-    output:   'isles.dat'
-    shell:    'python scripts/wordcount.py' 
-               ' -i ../books/isles.txt-o isles.dat'
+   The \altverb{shell} may be one line or contain line breaks:
+  \begin{lstlisting}[language=Python,style=Python]
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        "data/samples/A.fastq"
+    output:
+        "mapped_reads/A.bam"
+    shell:
+        @"bwa mem data/genome.fa"
+        " data/samples/A.fastq"
+        " | samtools view -Sb - >"
+        " mapped_reads/A.bam"@
     \end{lstlisting}
-    \altverb{../books/isles.txt} is a \emph{dependency}, a file that is needed to build or update the target. Targets can have zero or more dependencies. Dependencies in Snakemake are called “inputs”.
+    \bcattention Python will concatenate those Strings! Be sure to include spaces to make up a valid command in Bash.
   \end{onlyenv}
-  \begin{onlyenv}<5| handout:0>
-   Now, let's have a detailed look:
+  \begin{onlyenv}<5| handout:1>
+   Be sure to have copied everything to your \texttt{Snakefile} and save it.
    \begin{lstlisting}[language=Python,style=Python]
-# Count words.
-rule count_words:
-    input:    '../books/isles.txt'
-    output:   'isles.dat'
-    @shell:@    'python scripts/wordcount.py' 
-               ' -i ../books/isles.txt-o isles.dat'
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        "data/samples/A.fastq"
+    output:
+        "mapped_reads/A.bam"
+    shell:
+        "bwa mem data/genome.fa"
+        " data/samples/A.fastq"
+        " | samtools view -Sb - >"
+        " mapped_reads/A.bam"
     \end{lstlisting}
-    The Python-Command is an \emph{action}, a command to run to build or update the target using the dependencies. In this case the action is a set of shell commands (we can also use Python code… more on that later).
-  \end{onlyenv}
-  \begin{onlyenv}<6| handout:0>
-  Also:
-  \begin{enumerate}
-   \item Like Python, you can use either tabs or spaces for indentation — don’t mix!
-   \item Together, the target, dependencies, and actions form a rule. A rule is a recipe for how to make things.
-   \item It does not matter that the shell-command is multi-line. However, pay attention to the leading space in the $2^\mathsf{nd}$ line.
-  \end{enumerate}
   \end{onlyenv}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{\texttt{Snakefile}s are Python Files}
+  \begin{block}{Some Background}
+     \begin{enumerate}
+       \item Like Python, you can use either tabs or spaces for indentation — don’t mix!
+       \item Together, the target, dependencies, and actions form a rule. A rule is a recipe for how to make things.
+  \end{enumerate}
+  \end{block}
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
