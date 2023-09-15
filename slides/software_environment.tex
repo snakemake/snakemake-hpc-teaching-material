@@ -388,10 +388,6 @@ $ cp ~/setup/condarc ~/.condarc
           \item \texttt{snakemake} workflows will install the tools you need for a particular workflow - only \emph{if} these tools are still missing
          \end{itemize}
         }
-  For the tutorial we run:
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ bash setup/02_tutorial_setup.sh
-  \end{lstlisting}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -440,18 +436,6 @@ $ mamba deactivate
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Getting the example Data}
-  Again we are using a script to download and extract our example data. Please run
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ bash setup/03_get_data.sh
-  \end{lstlisting}
-  Subsequently change into the directory \altverb{snakemake-tutorial} which has been created. 
-  \pause
-  \question{Which files do you find?}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
   \frametitle{Installing Software \emph{with} Conda - Using Environments II}
   Using our new environment we can activate it:
   \begin{lstlisting}[language=Bash, style=Shell]
@@ -464,3 +448,5 @@ $ mamba install snakemake
   Now, we are all set. 
   \hint{Just that you know: ``\texttt{snakemake}'' is able to install the requested software for you!}
 \end{frame}
+
+
