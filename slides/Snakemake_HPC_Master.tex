@@ -1,10 +1,20 @@
 %-------------------------------------------------------%
-%       Snakemake-Intro                                    %
+%       Snakemake-Intro                                 %
 %-------------------------------------------------------%
 
 \documentclass[english,xcolor=pdftex,dvipsnames]{beamer} 
 
+% to typeset only a few slide sets, set them here during development
 %\includeonly{Why_Workflows}
+
+
+\usepackage{etoolbox}
+
+% is this a generic introduction or one for lifescientists?
+\newbool{generic} %\booltrue{generic} 
+\boolfalse{generic}
+% is this an introduction held at the JGU Mainz?
+
 
 %\setbeamertemplate{mini frames}[box]
 \usepackage{babel}
@@ -137,7 +147,7 @@
 \setcounter{interlude}{1}
 \newcounter{preframe_interlude}
 \setcounter{preframe_interlude}{1}
-\usepackage{ifthen}
+
 %\newcommand{\Interlude}[1]{Interlude \Roman{interlude} -- #1 \addtocounter{interlude}{1}}
 
 % Bugfix of the Interlude command: avoid the annoying counter!
@@ -406,12 +416,17 @@ showstringspaces=false}
 \include{software_environment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{Getting_Started}
+\ifbool{generic}
+       {\include{generic/Getting_Started}}
+       {\include{lifescience/Getting_Started}}
+           
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifbool{generic}
+       {\include{generic/A_First_Workflow}}
+       {\include{lifescience/A_First_Workflow}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{A_First_Workflow}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%TODO: move content into A First Workflow
 \include{First_Wildcards}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
