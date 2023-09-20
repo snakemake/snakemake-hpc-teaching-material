@@ -50,8 +50,6 @@ $ snakemake <other arguments> \
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Layout of a Workflow Development Directory} 
-  \task{We are going to work in the \altverb{zipf\_analysis}-folder. Please \altverb{cd} there.}
-  \pause
   The idea is to have a neat overview:
   \begin{columns}
     \begin{column}{0.5\textwidth}
@@ -71,7 +69,7 @@ $ snakemake <other arguments> \
     \end{minipage}
     \end{column}
     \begin{column}{0.5\textwidth}
-      \hint{Our long term goal:\newline Have a orderly overview and seperation of data and code.}
+      \hint{Our long term goal:\newline Have a orderly overview and seperation of data and code. We will start with one \texttt{Snakefile}.}
     \end{column}
   \end{columns}
 \end{frame}
@@ -80,7 +78,7 @@ $ snakemake <other arguments> \
 \begin{frame}[fragile]
   \frametitle{Our first \texttt{Snakefile}!}
   \begin{onlyenv}<1| handout:0>
-    Our first ``\altverb{rule}''. 
+    Our first ``\altverb{rule}''; we want to map reads onto a reference genome. 
     \begin{lstlisting}[language=Python,style=Python]
 rule bwa_map:
     input:
@@ -170,12 +168,26 @@ rule bwa_map:
   \frametitle{\texttt{Snakefile}s are Python Files}
   \begin{block}{Some Background}
      \begin{enumerate}
-       \item Like Python, you can use either tabs or spaces for indentation — don’t mix!
+       \item Like Python, you can use either tabs or spaces for indentation — don’t mix! Consensus is to only use spaces.
        \item Together, the target, dependencies, and actions form a rule. A rule is a recipe for how to make things.
   \end{enumerate}
   \end{block}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Testing our \texttt{Snakefile}}
+  When a workflow is executed, \texttt{Snakemake} tries to generate given target files. Target files can be specified via the command line. By executing
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake -np mapped_reads/A.bam
+  \end{lstlisting}
+  in the working directory containing the \altverb{Snakefile}, we tell \texttt{Snakemake} to generate the target file \altverb{mapped_reads/A.bam}.\newline
+  We are using 
+  \begin{itemize}[<+->]
+   \item \altverb{-n/--dry-run} to show the \emph{planned} execution and
+   \item \altverb{-p} to print the intended shell command.
+  \end{itemize} 
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
@@ -207,9 +219,7 @@ Nothing to be done (all requested files are present and up to date).
   \pause
   Now, do:
   \begin{lstlisting}[language=Bash, style=Shell]
-$ touch ../books/isles.txt
-$ ls -l ../* # will proove: the input is more 
-          # recent the the output
+$ touch mapped_reads/A.bam
   \end{lstlisting}
   And run \texttt{Snakemake} once more.
   \question{What happens? Why?}
@@ -228,6 +238,92 @@ $ ls -l ../* # will proove: the input is more
   \pause
   \docs{By explicitly recording the inputs to and outputs from steps in our analysis and the dependencies between files, Snakefiles act as a type of documentation, reducing the number of things we have to remember.}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Too much Typing!1!11!}
+  A closer look on our first rule reveals:
+  \begin{lstlisting}[language=Python,style=Python]
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        "data/samples/A.fastq"
+    output:
+        "mapped_reads/A.bam"
+    shell:
+        "bwa mem data/genome.fa"
+        " data/samples/A.fastq"
+        " | samtools view -Sb - >"
+        " mapped_reads/A.bam"
+    \end{lstlisting}
+    \bcattention Way too much redundancy!
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Introducing Wildcards}
+  \altverb{input} and \altverb{output} can be referenced in our file, with an expression called ``wildcard'':
+  \begin{lstlisting}[language=Python,style=Python]
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        "data/samples/A.fastq"
+    output:
+        "mapped_reads/A.bam"
+    shell:
+        "bwa mem {input}"
+        " | samtools view -Sb - >"
+        " {output}"
+    \end{lstlisting}
+    Since the rule has multiple input files, \texttt{Snakemake} will concatenate them, separated by a whitespace. In other words, \texttt{Snakemake} will replace \altverb{\{input\}} with \altverb{data/genome.fa data/samples/A.fastq} before executing the command. 
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Further Workflow Decoration}\footnotesize 
+  \texttt{Snakemake} allows generalizing rules by using named wildcards. Simply replace the \altverb{A} in the second input file and in the output file with the wildcard \altverb{\{sample\}}, to yield:
+  \begin{lstlisting}[language=Python,style=Python,basicstyle=\footnotesize]
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        "data/samples/{sample}.fastq"
+    output:
+        "mapped_reads/{sample}.bam"
+    shell:
+        "bwa mem {input} | samtools view -Sb - > {output}"
+  \end{lstlisting}
+  When \texttt{Snakemake} determines that this rule can be applied to generate a target file by replacing the wildcard \altverb{\{sample\}} in the output file with an appropriate value, it will propagate that value to all occurrences of \altverb{\{sample\}} in the input files and thereby determine the necessary input for the resulting job. 
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{One Caveat!}
+  \begin{alertblock}{Multiple Wildcards}
+    You can have multiple wildcards in your file paths, however, to avoid conflicts with other jobs of the same rule, \emph{all output files} of a rule \emph{have to contain exactly the same wildcards}.
+  \end{alertblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Execution}
+  When executing
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake -np mapped_reads/B.bam
+  \end{lstlisting}
+  \texttt{Snakemake} will determine that the rule \altverb{bwa_map} can be applied to generate the target file by replacing the wildcard \altverb{\{sample\}} with the value \altverb{B}.\newline
+  To analyse samples \altverb{A} and \altverb{B}, we can specify two targets
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake -np mapped_reads/A.bam mapped_reads/B.bam
+  \end{lstlisting}
+  or use \lhref{https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_03_04.html}{Bash's brace expansion}
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake -np mapped_reads/{A,B}.bam
+  \end{lstlisting}
+\end{frame}
+
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
