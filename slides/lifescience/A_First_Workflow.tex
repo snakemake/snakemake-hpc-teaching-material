@@ -194,7 +194,7 @@ $ snakemake -np mapped_reads/A.bam
   \frametitle{Finally - Running \texttt{Snakemake}!}
   Now, we can run \texttt{Snakemake}:
   \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake --cores=1
+$ snakemake --cores=1 mapped_reads/A.bam
   \end{lstlisting}
   \hint[Note:]{The \altverb{--cores=1} is necessary, because we are executing ``locally'' and \texttt{Snakemake} would like to know how much of the resources we may use (you can try without, though, to see what happens).}
   You should see the expected output (\altverb[Bash]{ls}) and lines which reads:
@@ -209,7 +209,7 @@ Complete log: .snakemake/log/2022-09-17T145657.968906.snakemake.log
   \frametitle{Re-Running Workflows}
   Try to run \texttt{Snakemake} again:
   \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake --cores=1
+$ snakemake --cores=1 mapped_reads/A.bam
   \end{lstlisting}
   \pause
   Oops:
@@ -321,218 +321,112 @@ $ snakemake -np mapped_reads/{A,B}.bam
   \end{lstlisting}
 \end{frame}
 
-
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{\HandsOn{Proceeding naively}}
-  Let’s add another rule to the end of \texttt{Snakefile}. Take the template \texttt{02\_Snakemake}. Note that rules cannot have the same name, so we’ll call this one \altverb{count_words_abyss}.
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-   \frametitle{Proceeding naively II}
-   This should give us:
+  \frametitle{Sorting Alignments}
+  For later steps, we need the read alignments in the BAM files to be sorted. This can be achieved with the \lhref{https://www.htslib.org/}{\texttt{samtools}} \altverb{sort} command. We add the following rule beneath the \altverb{bwa_map} rule:
   \begin{lstlisting}[language=Python,style=Python]
-rule count_words_abyss:
-    input:    '../books/abyss.txt'
-    output:   'abyss.dat'
-    shell:    'python scripts/wordcount.py' 
-               ' -i ../books/abyss.txt -o abyss.dat'
-  \end{lstlisting}
-  \task{Run \texttt{Snakemake} - what happens?}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{Rules need targets!}
-  Nothing happens because \texttt{Snakemake} attempts to build the first target it finds in the Snakefile, the default target, which is \altverb{isles.dat} which is already up-to-date. We need to explicitly tell \texttt{Snakemake} we want to build \altverb{abyss.dat}:
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake --cores=1 abyss.dat
-  \end{lstlisting}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{``Up to Date'' Versus ``Nothing to be Done''}
-  If we ask \texttt{Snakemake} to build a file that already exists and is up to date, then \texttt{Snakemake} informs us that:
-  \begin{lstlisting}[style=Plain]
-Nothing to be done
-  \end{lstlisting}
-  \pause
-  If we ask \texttt{Snakemake} to build a file that exists but for which there is no rule in our Snakefile, then we get a message like:
-  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
-$ snakemake --cores=1 scripts/wordcount.py
-# skipping some output
-MissingRuleException:
-No rule to produce wordcount.py (if you use input functions make sure
-that they don't raise unexpected exceptions).
-  \end{lstlisting}
-  \hint{When we see this error, double-check that you have a rule to produce that file, and also that the filename has been specified correctly. Even a small difference in a filename will result in a \texttt{MissingRuleException}.}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{Rules without Outputs?!}
-  We may want to remove all our data files so we can explicitly recreate them all. We can introduce a new target, and associated rule, to do this. We will call it clean, as this is a common name for rules that delete auto-generated files, like our \altverb{.dat} files:
-  \begin{lstlisting}[language=Python,style=Python]
-rule clean:
-    shell: 'rm -f *.dat'
-  \end{lstlisting}
-  There are no in- or outputs! When we invoke the rule, 
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake --cores=1 clean
-  \end{lstlisting}
-  our  \altverb{.dat} files are deleted.
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{Rules without Outputs?! - II }
-  We can add a similar command to create all the data files. We can put this \textbf{at the top} of our Snakefile so that it is the default target, which is executed by default if no target is given to the snakemake command:
-  \begin{lstlisting}[language=Python,style=Python]
-rule dats:
+rule samtools_sort:
     input:
-        'isles.dat'@,@
-        'abyss.dat'
+        "mapped_reads/{sample}.bam"
+    output:
+        "sorted_reads/{sample}.bam"
+    shell:
+        "samtools sort -T sorted_reads/{wildcards.sample} "
+        "-O bam {input} > {output}"
   \end{lstlisting}
-  This rule is also an example of a rule that has no actions. It is used purely to trigger the build of its dependencies, if needed.
+  \task{Please refer to your template \texttt{03\_Snakefile}.}
+\end{frame}
 
-  If we run,
-  \begin{lstlisting}[language=Bash, style=Shell] 
-$ snakemake --cores=1 dats
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Using Wildcards}
+  The rule will take  input file from the \altverb{mapped_reads} directory and store a sorted version in the \altverb{sorted_reads} directory.
+  \pause
+  \docs{\texttt{Snakemake} will automatically create missing directories!}
+  You noticed \altverb{-T sorted_reads/\{wildcards.sample\}}?
+  \pause
+  For sorting, \texttt{samtools} requires a prefix specified with the flag \altverb{-T}. Here, we need the value of the wildcard \altverb{sample}. \texttt{Snakemake} allows to access wildcards in the shell command via the wildcards object that has an attribute with the value for each wildcard.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Execution}
+  When you run 
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake -np sorted_reads/B.bam
   \end{lstlisting}
-  \texttt{Snakemake} creates these missing files.
+  you will notice that \texttt{Snakemake} wants to run the first rule \altverb{bwa_map} and then the rule \altverb{samtools_sort} to create the desired target file.
+  \docs{Dependencies are resolved automatically by matching file names.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Dependencies form a DAG!}
-  \begin{exampleblock}{Dependencies}
-    The order of rebuilding dependencies is arbitrary. You should not assume that they will be built in the order in which they are listed.
-    Dependencies must form a directed acyclic graph (DAG). A target cannot depend on a dependency which itself, or one of its dependencies, depends on that target.
-  \end{exampleblock}
-  If we run dats again, then snakemake will see that the dependencies (\altverb{isles.dat} and \altverb{abyss.dat}) are already up to date. Given the target dats has no actions, there is nothing to be done:
-  \begin{lstlisting}[language=Bash, style=Shell] 
-$ snakemake --cores=1 dats
-# ...
-Nothing to be done
+  \frametitle{Indexing Read Alignments}
+  We need to use samtools again to index the sorted read alignments so that we can quickly access reads by the genomic location they were mapped to. This can be done with the following rule:
+  \begin{lstlisting}[language=Python,style=Python]
+rule samtools_index:
+    input:
+        "sorted_reads/{sample}.bam"
+    output:
+        "sorted_reads/{sample}.bam.bai"
+    shell:
+        "samtools index {input}"
   \end{lstlisting}
+  \hint[Note]{You will find this code in the next cloze text. It is not worth proceeding without the next step.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{What do we have - UP TO NOW?}
-  \begin{columns}
-   \begin{column}{0.8\textwidth}
-     Our ``Workflow'' so far:
-     \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
-rule dats:
-     input:
-         'isles.dat',
-         'abyss.dat'
-
-# delete everything so we can re-run things
-rule clean:
-    shell: 'rm -f *.dat'
-
-# count words in one of our "books"
-rule count_words:
-    input:    'books/isles.txt'
-    output:   'isles.dat'
-    shell:    'python scripts/wordcount.py'
-              ' -i books/isles.txt -o isles.dat'
-
-rule count_words_abyss:
-    input:    'books/abyss.txt'
-    output:   'abyss.dat'
-    shell:    'python scripts/wordcount.py' 
-              ' -i books/abyss.txt -o abyss.dat'     
-     \end{lstlisting}
-
-   \end{column}
-   
-   \begin{column}{0.2\textwidth}
-     The DAG can be graphed like this:
-     \includegraphics[width=\textwidth]{workflows/mini_dag.png}
-     2 producers, a single target rule.
-   \end{column}
-  \end{columns}
+ \frametitle{Calling Genomic Variants - Background I}
+ The next step in our workflow will aggregate the mapped reads from all samples and jointly call genomic variants on them. We need two tools: \lhref{https://www.htslib.org/}{samtools} and \lhref{https://www.htslib.org/}{bcftools}. \newline \pause
+ \texttt{Snakemake} provides a helper function for collecting input files that helps us to describe the aggregation in this step. With
+ \begin{lstlisting}[language=Python,style=Python]
+expand("sorted_reads/{sample}.bam", sample=SAMPLES)
+ \end{lstlisting}
+ we obtain a list where the given pattern \altverb{sorted_reads/\{sample\}.bam} was formatted with the values in a given list of samples \altverb{SAMPLES}, i.\,e.
+ \begin{lstlisting}[language=Python,style=Python]
+["sorted_reads/A.bam", "sorted_reads/B.bam"]
+ \end{lstlisting}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{\HandsOn{Add some Stuff!}}
-  \begin{enumerate}
-   \item Write a new rule for \altverb{last.dat}, created from \altverb{../books/last.txt}.
-   \item Write a new rule for \altverb{results.txt}, which creates the summary table. The rule needs to:
-        \begin{itemize}
-         \item Depend upon each of the three .dat files.
-         \item Invoke the action \altverb{python scripts/zipf_test.py abyss.dat isles.dat last.dat > results.txt}\,.
-        \end{itemize}
-   \item Update the \altverb{dats} rule with this target. Do we still need the \altverb{*dat} files as target?
-   \item Put this rule at the top of the Snakefile so that it is the default target.
-   \item Update clean so that it removes \altverb{results.txt}.
-  \end{enumerate}
-  \hint{Please refer to cloze text \texttt{03\_Snakefile}.}
+ \frametitle{Calling Genomic Variants - Background II}
+ This is particularly useful when dealing with \emph{multiple} wildcards, e.\,g.:
+ \begin{lstlisting}[language=Python,style=Python]
+expand("sorted_reads/{sample}.{replicate}.bam", 
+          sample=SAMPLES, replicate=[0, 1])
+ \end{lstlisting}
+ With all elements of \altverb{SAMPLES} and the list \altverb{[0, 1]}, we get:
+ \begin{lstlisting}[language=Python,style=Python]
+["sorted_reads/A.0.bam", "sorted_reads/A.1.bam", 
+ "sorted_reads/B.0.bam", "sorted_reads/B.1.bam"]
+ \end{lstlisting}
 \end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-Our little exercise should produce this Workflow:
-  \begin{columns}
-    \begin{column}{0.5\textwidth}
-      \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
-rule dats:
-     input:
-         'results.txt'
-
-# delete everything so we can re-run things
-rule clean:
-    shell: 'rm -f *.dat results.txt'
-
-# count words in one of our "books"
-rule count_words:
-    input:    '../books/isles.txt'
-    output:   'isles.dat'
-    shell:    'python scripts/wordcount.py'
-              ' -i ../books/isles.txt'
-              ' -o isles.dat'
-
-rule count_words_abyss:
-    input:    '../books/abyss.txt'
-    output:   'abyss.dat'
-    shell:    'python scripts/wordcount.py' 
-              ' -i ../books/abyss.txt' 
-              ' -o abyss.dat'
-      \end{lstlisting}
-    \end{column}
-    \begin{column}{0.5\textwidth}
-      \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
-#continued ...
-rule count_words_last:
-    input:    '../books/last.txt'
-    output:   'last.dat'
-    shell:    'python scripts/wordcount.py'
-              ' -i ../books/last.txt'
-              ' -o last.dat'
-              
-# generate summary table
-rule zipf_test:
-    input:  'abyss.dat', 'last.dat', 
-            'isles.dat'
-    output: 'results.txt'
-    shell:  'python scripts/zipf_test.py' 
-            ' abyss.dat isles.dat last.dat'
-            ' > results.txt'
-      \end{lstlisting}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-
   
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Calling Genomic Variants}
+  Later, we will learn how to provide input more sophistically \ldots\newline
+  For now, we will define a list on top of our \altverb{Snakefile}:
+  \begin{lstlisting}[language=Python,style=Python]
+SAMPLES = ["A", "B"]
+  \end{lstlisting}
+  Now, we can add the following rule to our \altverb{Snakefile}:
+  \begin{lstlisting}[language=Python,style=Python,basicstyle=\footnotesize]
+rule bcftools_call:
+    input:
+        fa="data/genome.fa",
+        bam=@expand("sorted_reads/{sample}.bam", sample=SAMPLES),@
+        bai=@expand("sorted_reads/{sample}.bam.bai", sample=SAMPLES)@
+    output:
+        "calls/all.vcf"
+    shell:
+        "bcftools mpileup -f {input.fa} {input.bam} | "
+        "bcftools call -mv - > {output}"
+  \end{lstlisting}
+\end{frame}
+
+
 
