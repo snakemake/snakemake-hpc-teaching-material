@@ -424,13 +424,17 @@ showstringspaces=false}
 \ifbool{generic}
        {\include{generic/A_First_Workflow}}
        {\include{lifescience/A_First_Workflow}}
+       
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifbool{generic}
+       {\include{\include{generic/Python_in_Snakemake}}
+       {\include{\include{lifescience/Python_in_Snakemake}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %TODO: move content into A First Workflow
-\include{First_Wildcards}
+\ifbool{generic}{\include{First_Wildcards}}{}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{Python_in_Snakemake}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{HPC_101}
