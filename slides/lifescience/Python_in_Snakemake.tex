@@ -32,24 +32,11 @@
 \subsection{Python Code in Snakefiles}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{The Issues we still have}
-  Our workflow still has repeated content, e.\,g. the names of output files/dependencies. Our \altverb{zipf_test} rule is extremely clunky. What happens if we want to analyse \texttt{books/sierra.txt} as well? We’d have to update everything!
-  \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
-rule zipf_test:
-    input:  , 'abyss.dat',
-            'last.dat', 'isles.dat'
-    output: 'results.txt'
-    shell:  'python 'scripts/zipf_test.py' {input} > {output}'
-  \end{lstlisting}
-  You probably noticed: all of our rules are using Python strings! Other data structures work too — let’s try a list:
-  \begin{lstlisting}[language=Python,style=Python, basicstyle=\tiny]
-rule zipf_test:
-    input:
-        books = ['abyss.dat', 'last.dat', 'isles.dat']
-    output: 'results.txt'
-    shell:  'python scripts/zipf_test.py {input.books} > {output}'
-  \end{lstlisting}
+\begin{frame}
+ \frametitle{Why Python in \texttt{Snakefile}?}
+ Sometime we do \emph{not} want to run $3^{\mathsf{rd}}$ party code, but run the occasional script for data manipulation or plotting or \ldots 
+ \pause
+ \docs{\texttt{Snakefile}s are Python code (albeit special Python code)!)}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -58,13 +45,12 @@ rule zipf_test:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Using functions in \texttt{Snakefile}s}
-  In our example here, we only have 4 books. But what if we had 700 books to be processed? \newline
-  Luckily, \texttt{Snakemake} and Python provide helper functions!
+  We already met the \altverb{expand()}-function. Let's revisit it in detail!
   \task{Sart Python and follow along!}
   \begin{lstlisting}[language=Python,style=Python]
 from snakemake.io import expand, glob_wildcards
   \end{lstlisting}
-  The first function we’ll use is \altverb{expand()}. \altverb{expand()} is used frequently, to expand a \texttt{Snakemake} wildcard(s) into a set of filenames:
+   \altverb{expand()} is used frequently, to expand a \texttt{Snakemake} wildcard(s) into a set of filenames:
   \begin{lstlisting}[language=Python,style=Python]
 >>> expand('folder/{wildcard1}_{wildcard2}.txt',
 ...        wildcard1=['a', 'b', 'c'],
@@ -72,7 +58,7 @@ from snakemake.io import expand, glob_wildcards
   \end{lstlisting}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Using functions in \texttt{Snakefile}s II}
   \question{What is the result?}
@@ -81,56 +67,35 @@ from snakemake.io import expand, glob_wildcards
   \pause
   Let us try \altverb{glob_wildcards()}, now:
   \begin{lstlisting}[language=Python,style=Python]
-glob_wildcards('../books/{example}.txt')
+glob_wildcards('data/samples/{replicas}.fastq').replicas
   \end{lstlisting}
   \pause
   Wow! So, easy!
+  \question{What happend? What happens if you leave \texttt{.replicas} away?}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Combining this Functionality in \texttt{Snakefile}s}
-  Consider this code in a \texttt{Snakefile}:
-  \begin{lstlisting}[language=Python,style=Python]
-DATS = glob_wildcards('../books/{book}.txt').book
-  \end{lstlisting}
-  \question{Which is the content of \texttt{DATS}?}
-  \pause
-  \begin{lstlisting}[language=Python,style=Python]
-['isles', 'last', 'abyss', 'sierra']
-  \end{lstlisting}
-  \hint{This is cool, because, we get \emph{ALL} the prefixes and we know in our scientific world, which format we are dealing with at every step!}
+  \frametitle{\texttt{expand()} vs. \texttt{glob\_wildcards()}}
+  \begin{exampleblock}{The Difference}
+    \begin{columns}
+      \begin{column}{0.45\textwidth}
+        \begin{itemize}
+         \item \altverb{expand()} is usefull to yield all permutations of wildcards
+         \item \altverb{expand()} is oblivious to the underlying file system
+        \end{itemize}
+
+      \end{column}
+      \begin{column}{0.45\textwidth}
+        \begin{itemize}
+         \item \altverb{glob_wildcards} infers files from wildcards
+         \item \altverb{glob_wildcards} must be used with care - users tend to name files arbitrarily
+        \end{itemize}
+
+      \end{column}
+    \end{columns}
+  \end{exampleblock}
 \end{frame}
-
-\begingroup
-\setbeamertemplate{footline}{}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{Combining this Functionality in \texttt{Snakefile}s II}\footnotesize
-  \vspace{-0.5em}
-  Our ``problem'' \emph{was}: We needed in- and output specification at every rule! But:
-  \begin{lstlisting}[language=Python,style=Python,basicstyle=\footnotesize]
-DATS = glob_wildcards('../books/{book}.txt').book
-
-...
-
-rule zipf_test:
-    input:
-        books=expand('../dats/{book}.dat', book=DATS)
-    output: 'results.txt'
-    shell:  
-        'scripts/zipf_test.py {input.books} > {output}'
-  \end{lstlisting}
-  \vspace{-0.5em}
-  \question{Cool! Now, what is still missing? What new feature did we present here?}
-  \pause
-  \begin{itemize}[<+->]
-   \item The relative path indicator (\altverb{..}) means that we would always need to place our data relative to the workflow!
-   \item The output is now directed to a new output directory (\altverb{dat}). Still not configurable, \emph{but} we \emph{can} redirect to arbitrary directories!
-  \end{itemize}
-  \vfill
-\end{frame}
-\endgroup
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Python Code as Actions}
@@ -146,11 +111,11 @@ rule zipf_test:
 import glob
 
 # add this wherever
-rule print_book_names:
+rule print_sample_names:
     run:
-        print('These are all the book names:')
-        for book in glob.glob('../books/*.txt'):
-            print(book)
+        print('These are all the samples names:')
+        for sample in glob.glob('data/samples/*.fastq'):
+            print(sample)
 
   \end{lstlisting}\vspace{-0.5em}
   \pause\footnotesize
@@ -165,8 +130,7 @@ rule print_book_names:
   \frametitle{\texttt{Snakemake} Specials for Python}
   Remember this part:
   \begin{lstlisting}[language=Python,style=Python]
-shell:  'python scripts/wordcount.py'
-        ' -i {input} -o {output}'
+shell:  'some_command -i {input} -o {output}'
   \end{lstlisting}
   \question{Isn't this rather tedious, considering that \texttt{Snakemake} is written in Python? Could we forward rule specific information to our scripts?}
 \end{frame}
@@ -226,47 +190,125 @@ $ snakemake --debug
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{\HandsOn{Using \texttt{Snakemake}'s features in scripts}}
-  \footnotesize{Remember:}
-  \begin{lstlisting}[language=Python,style=Python, basicstyle=\footnotesize]
-def do_something(data_path, out_path):
-    # python code
-
-do_something(snakemake.input[0], snakemake.output[0])
+  \frametitle{We want to plot our Results!}
+  Add the following rule to your \altverb{Snakefile} we could plot our variant statistics:
+  \begin{lstlisting}[language=Python,style=Python]
+rule plot_quals:
+    input:
+        "calls/all.vcf"
+    output:
+        "plots/quals.svg"
+    @script:@
+        "scripts/plot-quals.py"
   \end{lstlisting}
-  \footnotesize{and the \altverb{script} directive option in \texttt{Snakefile}s. }
-  \task{\footnotesize Please rewrite the \texttt{wordcount.py} script and the \texttt{Snakefile} to use this feature. Take \texttt{06\_Snakefile} as your cloze text.}
-  \hint{\small Erase the argument parsing code (bottom of the \texttt{wordcount.py} script) and the arguments of the function (very last line) to use the\newline \texttt{snakemake.input}/\texttt{snakemake.output} arguments.}
-  \vfill
+  It uses the \altverb{script} directive and expects a directory \altverb{scripts} relative to our \altverb{Snakefile}.
+  \pause
+  \task{Create the missing directory.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{The Solution - so far}
-  Our \altverb{count_words} rules should merely be:
-  \begin{lstlisting}[language=Python,style=Python]
-rule count_words:
-    input:  '../books/{file}.txt'
-    output: '{file}.dat'
-    script:  'scripts/wordcount.py'
-  \end{lstlisting}
-  Our last lines of the \texttt{wordcount.py} became:
-  \begin{lstlisting}[language=Python,style=Python]
-# omitting the entire code, except for the call to the
-# word_count()-function:
-if __name__ == '__main__':
-    word_count(snakemake.input[0], snakemake.output[0])
-  \end{lstlisting}
+  \frametitle{\HandsOn{Adding the Plotting Script}}
+  \task{Open an editor and follow along}
+  \begin{onlyenv}<1| handout:0>
+   First, we start with importing a plotting library:
+   \begin{lstlisting}[language=Python,style=Python]
+@import matplotlib@
+   \end{lstlisting}
+  \end{onlyenv}
+  \begin{onlyenv}<2| handout:0>
+   We enforce writing to suppress the interactive mode:
+   \begin{lstlisting}[language=Python,style=Python]
+import matplotlib
+@matplotlib.use("Agg")@
+   \end{lstlisting}
+  \end{onlyenv}
+  \begin{onlyenv}<3| handout:0>
+   We want an alternative interface:
+   \begin{lstlisting}[language=Python,style=Python]
+import matplotlib
+matplotlib.use("Agg")
+@import matplotlib.pyplot as plt@
+   \end{lstlisting}
+  \end{onlyenv}
+  \begin{onlyenv}<4| handout:0>
+   \ldots and need to import a function to read our variant file:
+   \begin{lstlisting}[language=Python,style=Python]
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+@from pysam import VariantFile@
+   \end{lstlisting}
+  \end{onlyenv}
+  \begin{onlyenv}<5| handout:0>
+   Let's start a list comprehension \ldots
+   \begin{lstlisting}[language=Python,style=Python]
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from pysam import VariantFile
+
+@quals = [@
+   \end{lstlisting}
+  \end{onlyenv}
+   \begin{onlyenv}<6| handout:0>
+   \ldots to construct a list of quality scores from our previous outputs:
+   \begin{lstlisting}[language=Python,style=Python]
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from pysam import VariantFile
+
+@quals = [record.qual for record 
+         in VariantFile(snakemake.input[0])]@
+   \end{lstlisting}
+  \end{onlyenv}
+  \begin{onlyenv}<7| handout:0>
+   Finally, plot a histogram \ldots
+   \begin{lstlisting}[language=Python,style=Python]
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from pysam import VariantFile
+
+quals = [record.qual for record 
+         in VariantFile(snakemake.input[0])]
+         
+@plt.hist(quals)@
+   \end{lstlisting}
+  \end{onlyenv}
+  \begin{onlyenv}<8| handout:0>
+   \ldots and save the figure.
+   \begin{lstlisting}[language=Python,style=Python]
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from pysam import VariantFile
+
+quals = [record.qual for record 
+         in VariantFile(snakemake.input[0])]
+         
+plt.hist(quals)
+@plt.savefig(snakemake.output[0])@
+   \end{lstlisting}
+  \end{onlyenv}
+  \begin{onlyenv}<9| handout:1>
+   This should be our final script:
+   \begin{lstlisting}[language=Python,style=Python]
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from pysam import VariantFile
+
+quals = [record.qual for record 
+         in VariantFile(snakemake.input[0])]
+         
+plt.hist(quals)
+plt.savefig(snakemake.output[0])
+   \end{lstlisting}
+  \end{onlyenv}
   
-\end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{The Solution - some Explanation}
-  \question{Why \texttt{[0]} indices?}
-  \vfill
-  \docs{\texttt{snakemake.input} is of type \newline ``\texttt{<class 'snakemake.io.InputFiles'>}'' \newline (same for \texttt{snakemake.output})}
-  \vfill
 \end{frame}
 
 
