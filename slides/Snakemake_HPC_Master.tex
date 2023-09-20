@@ -427,14 +427,17 @@ showstringspaces=false}
        
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \ifbool{generic}
-       {\include{\include{generic/Python_in_Snakemake}}
-       {\include{\include{lifescience/Python_in_Snakemake}}
+       {\include{generic/Python_in_Snakemake}}
+       {\include{lifescience/Python_in_Snakemake}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifbool{generic}
+       {\include{generic/Plotting_DAGs}}
+       {\include{lifescience/Plotting_DAGs}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %TODO: move content into A First Workflow
 \ifbool{generic}{\include{First_Wildcards}}{}
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{HPC_101}
@@ -446,7 +449,7 @@ showstringspaces=false}
 \include{Further_Functionality}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{Exercise}
+%\include{Exercise}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{Plotting_DAGs}
