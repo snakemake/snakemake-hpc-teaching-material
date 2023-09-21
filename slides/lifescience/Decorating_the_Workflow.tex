@@ -296,23 +296,6 @@ $ snakemake --slurm \
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{\HandOn{Running the Worklow as Cluster Jobs}}
-  Our workflow is {\tiny tiny}. It does not merit cluster execution. Yet, for the purpose of this course, please run:
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake --delete-all-output -c1
-  \end{lstlisting}
-  and then
-  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
-$ snakemake --slurm \
-> --default-resources slurm_account=m2_jgu-ngstraining \
->                     slurm_partition=smp
-  \end{lstlisting}
-  \question{Observations?}
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
   \frametitle{The ``Beauty'' of Clusters}
   A HPC cluster:
   \begin{itemize}
@@ -328,8 +311,7 @@ $ snakemake --slurm \
 >   slurm_partition=smp
 > -j unlimited
   \end{lstlisting}
-  together.
-  \hint{You might want to invoke the \texttt{clean}-rule, first.}
+  together. (in a sec.)
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -344,4 +326,22 @@ $ snakemake --slurm \
   \end{itemize}
   \pause
   \warning{Unlimited number of jobs may yield in I/O contention and too many calls to check the job status. Use with care for both issues there is a remedy, which we will meet later!}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Running the Worklow as Cluster Jobs}}
+  Our workflow is {\tiny tiny}. It does not merit cluster execution. Yet, for the purpose of this course, please run:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --delete-all-output -c1
+  \end{lstlisting}
+  and then
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
+$ snakemake --slurm \
+> --default-resources slurm_account=m2_jgu-ngstraining \
+>                     slurm_partition=smp \
+> -j unlimited
+  \end{lstlisting}
+  \question{Observations?}
+ \docs{\emph{ALL} jobs are submitted with equal, minimal resources. For a ``real'' workflow, this will always fail!}
 \end{frame}
