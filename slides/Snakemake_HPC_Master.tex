@@ -448,8 +448,10 @@ showstringspaces=false}
 \include{HPC_101}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{Workflow_Parameterization}
-
+\ifbool{generic}
+      {\include{generic/Decorating_the_Workflow}}
+      {\include{lifescience/Decorating_the_Workflow}}
+      
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{Further_Functionality}
 

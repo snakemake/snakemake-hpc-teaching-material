@@ -1,0 +1,324 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Decorating Workflows - Parameterization}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{Outline}
+    \begin{columns}[t]
+        \begin{column}{.5\textwidth}
+            \tableofcontents[sections={1-9},currentsection]
+        \end{column}
+        \begin{column}{.5\textwidth}
+            \tableofcontents[sections={10-18},currentsection]
+        \end{column}
+    \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{What is this about?}
+   \question[Questions]{\begin{itemize}
+                         \item How can a workflow be made really usable?
+                         \item How can I avoid changing the workflow source for every new input?
+                        \end{itemize}
+                       }
+   \docs[Objectives]{\begin{enumerate}
+                      \item Learn how to make use of configuration files.  
+                      \item Learn how to add parameters to your workflow.
+                     \end{enumerate}}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Configuration Files}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Command Line vs. Configuration File}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \docs{\texttt{Snakemake} has an extensive command line interface (CLI). \emph{Everything} can be configured on the command line. In addition (almost) everything can be specified in a configuration file.}
+  \pause
+  \begin{exampleblock}{Which parameter goes where? Some rules of thumb:}
+    \begin{columns}[t]
+      \begin{column}{0.5\textwidth}
+        The CLI:
+        \begin{itemize}
+         \item frequently changing parameters
+         \item short parameters
+         \item default parameters
+        \end{itemize}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        The Config File:
+        \begin{itemize}
+         \item non-volantile parameters specific to your analysis (those which merit mentioning in paper should always go into a file)
+         \item long parameters
+         \item otherwise workflow specific parameters
+        \end{itemize}
+      \end{column}
+    \end{columns}
+  \end{exampleblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Configuration File}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{The \texttt{Snakemake} \texttt{resources} Section}
+  \texttt{Snakemake} rules provide an additional \altverb{resource} section:
+  \begin{lstlisting}[language=Python,style=Python]
+rule <name>:
+   ...
+   resources:
+      partition='parallel',
+      mem_mb=1800,
+      cpus_per_task=4
+  \end{lstlisting}
+  \hint{Note the \textbf{,}!}
+  \pause
+  \docs{You \emph{may} define \emph{any} resource keyword within any rule.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{The \texttt{Snakemake} \texttt{resources} Section - its Downside}
+  \begin{alertblock}{Every Resource Spec needs a Change per Rule???}
+   You might have noticed, this specification per rule is most untidy. \texttt{Snakemake}'s design principle is: ship workflows which run \emph{everywhere} \& \emph{every time}.
+   \newline \pause
+   Relax: Every bit we can specify:
+   \begin{itemize}
+    \item in a \texttt{Snakefile},
+    \item on the command line,
+    \item and re-usable in configuration files!
+   \end{itemize}
+
+  \end{alertblock}
+
+\end{frame} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{The Configuration File}
+  If observed closely you have seen this file:\newline
+            {\tiny \DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{.6pt}
+\texttt{\$ tree}
+\dirtree{%
+.1 /.
+.2 config.
+.3 samples.yaml .
+.2 {other stuff}.
+}}
+ \pause
+ \docs{You can store a yaml file with \emph{your} workflow configuration -- which may be combined with the desinger's configuration.}
+ \pause
+ \warning{It is better to specify fully qualified paths to your data! The tilde is only there to make a point!}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Using the Configuration File}
+  To point to the configuration file, you can add a flag, e.\,g.:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake ... --configfile ./config/config.yaml  
+  \end{lstlisting}
+  Or, alternatively in your \texttt{Snakefile}:
+  \begin{lstlisting}[language=Python,style=Python]
+configfile: "config.yaml"
+  \end{lstlisting}  
+  \question{How do pick up resource parameters in out \texttt{Snakefile}?!}
+\end{frame} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Working with Configuration Data}
+  \hint{Remember: \texttt{Snakefile}s are Python files.}
+  \pause
+  Given a file \altverb{config.yaml} with contents:
+  \begin{lstlisting}[language=Python,style=Python]
+samples:
+    A: data/samples/A.fastq
+    B: data/samples/B.fastq
+  \end{lstlisting}
+  we can read our samples within our workflow using
+  \begin{lstlisting}[language=Python,style=Python]
+configfile: "config.yaml"
+
+rule bcftools_call:
+    input:
+        bam=expand("sorted_reads/{sample}.bam", 
+            sample=@config["samples"]@),
+        ...
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{A Comparison}
+  \begin{lstlisting}[language=Python,style=Python,basicstyle=\footnotesize]
+rule bcftools_call:
+    input:
+        fa="data/genome.fa",
+        bam=expand("sorted_reads/{sample}.bam",
+                   sample=config["samples"]),
+        bai=expand("sorted_reads/{sample}.bam.bai",
+                   sample=config["samples"])
+  \end{lstlisting}
+  To
+  \begin{lstlisting}[language=Python,style=Python,basicstyle=\footnotesize]
+rule bcftools_call:
+    input:
+        fa="data/genome.fa",
+        bam=expand("sorted_reads/{sample}.bam",
+                    sample=SAMPLES),
+        bai=expand("sorted_reads/{sample}.bam.bai",
+                   sample=SAMPLES)
+  \end{lstlisting}
+  \hint{Benefits:
+        \begin{itemize}
+         \item no more searching in and tinkering with source code
+         \item clean overview in configuration files, which are there where you expect them to be.
+        \end{itemize}}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Input Functions}
+  Since we have stored the path to the FASTQ files in the config file, we can also generalize the rule \altverb{bwa_map} to use these paths. This case is different to the rule \altverb{bcftools_call} we modified above. To understand this, it is important to know that \texttt{Snakemake} workflows are executed in three phases.
+  \begin{itemize}[<+->]
+   \item In the \emph{initialization phase}, the files defining the workflow are parsed and all rules are instantiated.
+   \item In the \emph{DAG phase}, the directed acyclic dependency graph of all jobs is built by filling wildcards and matching input files to output files.
+   \item In the \emph{scheduling phase}, the DAG of jobs is executed, with jobs started according to the available resources.
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Input Functions - II}
+    \begin{alertblock}{Why we cannot do the same all over the Workflow}
+    We cannot determine the FASTQ paths for rule \altverb{bwa_map} from the config file in this phase, \emph{because we don’t even know which jobs will be generated from that rule}. Instead, we need to defer the determination of input files to the DAG phase. This can be achieved by specifying an input function instead of a string as inside of the input directive.
+  \end{alertblock}
+  \begin{lstlisting}[language=Python,style=Python]
+def get_bwa_map_input_fastqs(wildcards):
+    return config["samples"][wildcards.sample]
+
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        get_bwa_map_input_fastqs
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Adding a new Sample}}
+  In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add that sample to the config file and see how \texttt{Snakemake} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake -n --forcerun bcftools_call
+  \end{lstlisting}
+  Copy the file XXX as your \texttt{Snakefile}. 
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Rule Parameters}
+  \warning{Frequently, party programs cannot be used with their defaults, additional parameters are required.}
+   In our workflow, it is reasonable to annotate aligned reads with so-called read groups, that contain metadata like the sample name. \newline
+   To do so, we add to our \altverb{bwa_map}-rule:
+   \begin{lstlisting}[style=Plain,basicstyle=\footnotesize]
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        get_bwa_map_input_fastqs
+    output:
+        "mapped_reads/{sample}.bam"
+    params:
+        rg=r"@RG\tID:{sample}\tSM:{sample}"
+    shell:
+        "bwa mem -R '{params.rg}' {input} "
+        "| samtools view -Sb - > {output}"
+   \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Rule Parameters}
+  This is usually part of the configuration file(s), too.\newline
+  In your config file:
+  \begin{lstlisting}[language=Python,style=Python]
+bwa_map:
+   rg=xxx
+  \end{lstlisting}
+  and in your code:
+  \begin{lstlisting}[language=Python,style=Python]
+rule bwa_map:
+  params:
+     rg=config['bwa_map']['rg']
+  \end{lstlisting}
+  Now, your workflow is configurable!
+\end{frame}
+
+%TODO: enter a slide with a figure illustrating the command line to easy the flow
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The Command Line}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Executor Selection}
+  \texttt{Snakemake} lets you select various executors. Not happy with \mogon? Take another cluster or \lhref{https://snakemake.readthedocs.io/en/stable/executor_tutorial/tutorial.html}{Google Lifescience, Tibanna, Kubernetes, \ldots} \newline
+  We may happily select the most prominent HPC batch system, the one running on \mogon, too:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --slurm
+  \end{lstlisting}
+  Now, \emph{every} rule will submit its jobs as HPC compute jobs.
+  \hint{We will learn how to avoid this, soon-ish.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Default Resources for \texttt{SLURM}}
+  Without specifying our SLURM-account and a (default) partition, submitting batch jobs will fail. \texttt{Snakemake} allows to define so-called default resources (using \altverb{--default-resources}). With them our minimal command line becomes:
+  \begin{lstlisting}[language=Bash, style=Shell, breaklines=true]
+$ snakemake --slurm \
+> --default-resources slurm_account=m2_jgu-ngstraining \
+>                     slurm_partition=smp
+  \end{lstlisting}
+  \hint{Please notice the missing quotation marks! All arguments belong to one parameter.}
+  \docs{We wrote \texttt{slurm\_...} to distinguish from other non-SLURM accounts and similar stuff.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{The Beauty of Clusters}
+  A HPC cluster:
+  \begin{itemize}
+   \item offers great resources
+   \item may hold jobs pending until resources are available!
+  \end{itemize}
+  \pause
+  \texttt{Snakemake} of a semaphore to throttle resource usage, called \altverb{--jobs/-j}. We can now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
+$ snakemake --slurm \
+> --default-resources \ 
+>   slurm_account=m2_jgu-ngstraining \
+>   slurm_partition=smp
+> -j unlimited
+  \end{lstlisting}
+  together.
+  \hint{You might want to invoke the \texttt{clean}-rule, first.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\texttt{SLURM} supporting Features of \texttt{Snakemake}}
+  \texttt{Snakemake} will
+  \begin{itemize}[<+->]
+   \item hold track of your job status (frequency of checks can be adjusted)
+   \item cancel your jobs, when itself is stopped
+   \item track resource consumption (generated with \altverb{--report [FILE]})
+   \item with \altverb{-j unlimited} we allow for an unlimited jumber of spawned jobs!
+  \end{itemize}
+  \pause
+  \warning{Unlimited number of jobs may yield in I/O contention and too many calls to check the job status. Use with care for both issues there is a remedy, which we will meet later!}
+\end{frame}
