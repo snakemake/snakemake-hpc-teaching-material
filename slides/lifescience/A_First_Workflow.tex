@@ -160,6 +160,7 @@ rule bwa_map:
         " | samtools view -Sb - >"
         " mapped_reads/A.bam"
     \end{lstlisting}
+    You will find the working content in \altverb{01_Snakefile}, too.
   \end{onlyenv}
 \end{frame}
 
@@ -275,7 +276,8 @@ rule bwa_map:
         " | samtools view -Sb - >"
         " {output}"
     \end{lstlisting}
-    Since the rule has multiple input files, \texttt{Snakemake} will concatenate them, separated by a whitespace. In other words, \texttt{Snakemake} will replace \altverb{\{input\}} with \altverb{data/genome.fa data/samples/A.fastq} before executing the command. 
+    Since the rule has multiple input files, \texttt{Snakemake} will concatenate them, separated by a whitespace. In other words, \texttt{Snakemake} will replace \altverb{\{input\}} with \altverb{data/genome.fa data/samples/A.fastq} before executing the command.\newline
+    A working example can be found in \altverb{02_Snakefile}.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
