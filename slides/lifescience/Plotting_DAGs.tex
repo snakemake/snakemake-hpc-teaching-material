@@ -45,5 +45,37 @@ $ display <your_workflow.png>
 \begin{frame}
   \frametitle{Your DAG:}
   \centering
-  \includegraphics[width=0.4\textwidth]{workflows/complete_workflow.png}
+  \includegraphics[height=0.5\textheight]{workflows/rulegraph_lifescience.png}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Produce different Plots}}
+  What do you observe, if you try:
+  \begin{lstlisting}[language=Bash, style=Shell,basicstyle=\footnotesize]
+$ snakemake --rulegraph | dot -Tpng > <your_rulegraph.png>
+$ # or
+$ snakemake --filegraph | dot -Tpng > <your_filegraph.png>
+$ # or
+$ snakemake --dag | dot -Tpng > <your_dag.png>
+$ # or --dag again after
+$ snakemake --delete-all-output -c1
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+ \frametitle{Plot Comparison}
+ \begin{figure}
+  \centering
+  \subfloat[\centering \altverb{--rulegraph}]{{ \includegraphics[width=0.2\textwidth, height=0.5\textheight]{workflows/rulegraph_lifescience.png} }}
+  \subfloat[\centering \altverb{--filegraph}]{{ \includegraphics[width=0.2\textwidth, height=0.5\textheight]{workflows/filegraph_lifescience.png} }}
+  \subfloat[\centering \altverb{--dag}, with rules done]{{ \includegraphics[width=0.2\textwidth, height=0.5\textheight]{workflows/dag_lifescience.png} }}
+  \subfloat[\centering \altverb{--dag}, with rules still to do]{{ \includegraphics[width=0.2\textwidth, height=0.5\textheight]{workflows/dag_full_lifescience.png} }}
+\end{figure}
+
+\end{frame}
+
+
+
+
