@@ -286,7 +286,7 @@ rule bwa_map:
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
+\begin{frame}
   \frametitle{Logging - III}
   \question[Questions]{What did you observe? Why is there a distinction per sample?}
   \pause
@@ -296,7 +296,47 @@ rule bwa_map:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Temporary Files}
-  Let's face it: 
+  Let's face it: Most output files of a workflow, particularly more complex ones(!), do not need to be archived. They will only take up storage until someone takes the \includegraphics[height=\baselineskip]{misc/broom.png}.\newline
+  Luckily, \texttt{Snakemake} provides a way to mark a file as ``temporary'' and will delete it, when its not needed any longer.
+  \pause
+  \question{The output of which rules in our workflow should be marked ``temporary''?}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Temporary Files - Reasoning}
+  \begin{center}
+   
+    \begin{tabular}{|p{0.2\textwidth}|p{0.1\textwidth}|p{0.65\textwidth}}
+      Rule & Temp? & Reason\\\hline
+      \altverb{all} & \pause{\color{BrickRed}\bf No} & This rule desingates the final target(s).\\\hline
+      \altverb{bwa_map} & \pause{\color{PineGreen}\bf Yes} & Mappings are derived from the intial input and can be created reproducibly again.\\\hline
+      \altverb{samtools_sort} & \pause{\color{PineGreen}\bf Yes} & Same reason as with \altverb{bwa_map}\\\hline
+      \altverb{bcftools_call} & \pause{\color{BrickRed}\bf No} & This is a result file!\\\hline
+      \altverb{plot_quals} & \pause{\color{BrickRed}\bf No} & This is a result file! See \altverb{all}.\\\hline 
+    \end{tabular}
+  \end{center}
+\end{frame} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Temporary Files - Put to Work}}
+  \texttt{Snakemake}s way to mark outputs as temporary or intermediate is the \altverb{temp()}-function, e.\,g.:
+  \begin{lstlisting}[language=Python,style=Python]
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        get_bwa_map_input_fastqs
+    output:
+        @temp(@"mapped_reads/{sample}.bam"@)@
+    ...
+  \end{lstlisting}
+  \pause
+  Please run:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ du -sh *reads
+  \end{lstlisting}
+  Add the \altverb{temp()} function to \altverb{bwa_map}- and \altverb{samtools_sort}-rules, re-run the workflow and the \altverb{du}-command. What do you observer?
 \end{frame}
 
 
