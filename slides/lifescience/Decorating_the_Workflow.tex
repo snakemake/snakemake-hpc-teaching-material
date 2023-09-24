@@ -175,11 +175,7 @@ rule bcftools_call:
         bai=expand("sorted_reads/{sample}.bam.bai",
                    sample=SAMPLES)
   \end{lstlisting}
-  \hint{Benefits:
-        \begin{itemize}
-         \item no more searching in and tinkering with source code
-         \item clean overview in configuration files, which are there where you expect them to be.
-        \end{itemize}}
+  \bcquestion Which are the benefits?
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -260,6 +256,41 @@ rule bwa_map:
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Logging}
+  \hint{When executing a large workflow, it is usually desirable to store the logging output of each job into a separate file, instead of just printing all logging output to the terminal—when multiple jobs are run in parallel, this would result in chaotic output. - We already observed this!}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Logging - II}
+  \texttt{Snakemake} offers a \altverb{log}-directive for this purpose.  
+  \begin{lstlisting}[language=Python,style=Python]
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        get_bwa_map_input_fastqs
+    output:
+        "mapped_reads/{sample}.bam"
+    log: "logs/bwa_mem/{sample.log}"
+    # we combine stdout & stdout
+    shell:
+        "(bwa mem -R '{params.rg}' {input} "
+        "| samtools view -Sb - > {output}) 2> {log}"
+   \end{lstlisting}
+   \task{Please try this out.}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Temporary Files}
+  Let's face it: 
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Command Line}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -331,16 +362,12 @@ $ snakemake --slurm \
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Running the Worklow as Cluster Jobs}}
-  Our workflow is {\tiny tiny}. It does not merit cluster execution. Yet, for the purpose of this course, please run:
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake --delete-all-output -c1
-  \end{lstlisting}
-  and then
+  Our workflow is {\tiny tiny}. It does not merit cluster execution. Yet, for the purpose of this course, please run (with \altverb{-F} to \emph{enforce} execution):
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --slurm \
 > --default-resources slurm_account=m2_jgu-ngstraining \
 >                     slurm_partition=smp \
-> -j unlimited
+> -j unlimited @-F@
   \end{lstlisting}
   \question{Observations?}
  \docs{\emph{ALL} jobs are submitted with equal, minimal resources. For a ``real'' workflow, this will always fail!}
