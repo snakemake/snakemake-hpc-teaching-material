@@ -133,7 +133,7 @@ rule plot_quals:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Executing this Workflow}
+  \frametitle{\HandsOn{Executing this Workflow}}
   Does our Workflow contain errors? We run a debug trial:
   \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake --debug
@@ -144,4 +144,15 @@ $ snakemake --debug
 % $ snakemake -j4 --forcerun
   \end{lstlisting}
   \question{What do you observe? Why \texttt{-j4}?}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Visualising the Output}}
+  On \mogon{} the linux distro is CentOS (or now AlmaLinux), which provides the \altverb{display}-program to display simple images. We shall invoke:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ display plots/quals.svg
+  \end{lstlisting}
+  The figure has no axis-labels.
+  \question{What does the figure display?}
 \end{frame}
