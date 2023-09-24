@@ -41,6 +41,7 @@
    \item assessing software usability
    \item \ldots
   \end{itemize}
+  \pause
   \docs{What is most commonly meant: Getting performance and scalability markers.}
 \end{frame}
 
@@ -65,7 +66,7 @@ rule bwa_map:
   \frametitle{Repeating Benchmarks}
   \vfill
   \begin{exampleblock}{Repeated benchmarks}
-   It is possible to repeat a benchmark multiple times in order to get a sense for the variability of the measurements. This can be done by annotating the benchmark file, e.\,g., with \altverb{repeat("benchmarks/{sample}.bwa.benchmark.txt", 3)}. \texttt{Snakemake} can be told to run the job three times. The repeated measurements occur as subsequent lines in the tab-delimited benchmark file.
+   It is possible to repeat a benchmark multiple times in order to get a sense for the variability of the measurements. This can be done by annotating the benchmark file, e.\,g., with \altverb{repeat("benchmarks/\{sample\}.bwa.benchmark.txt", 3)}. \texttt{Snakemake} can be told to run the job three times. The repeated measurements occur as subsequent lines in the tab-delimited benchmark file.
   \end{exampleblock}
   \vfill
 \end{frame} 
@@ -79,6 +80,7 @@ rule bwa_map:
    \item not using toy inputs, but real data, possibly different real data
    \item avoiding I/O issues (common with alignment programs)
   \end{itemize}
+  \pause
   \warning{We conclude: \texttt{Snakemake}'s benchmarking capabilities are limited!}
 \end{frame}
 
@@ -109,6 +111,5 @@ $ snakemake --report
     When reporting about a cluster or cloud job, \texttt{Snakemake} sheperd job on the login-node will measure the wall time from submit time to the finish time, not the executing job(s).\newline
     This means: Times can be greatly exegerated!
   \end{alertblock}
-
 \end{frame} 
 
