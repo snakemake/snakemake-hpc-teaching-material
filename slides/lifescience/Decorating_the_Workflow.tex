@@ -259,6 +259,10 @@ rule bwa_map:
 \begin{frame}[fragile]
   \frametitle{Logging}
   \hint{When executing a large workflow, it is usually desirable to store the logging output of each job into a separate file, instead of just printing all logging output to the terminal—when multiple jobs are run in parallel, this would result in chaotic output. - We already observed this!}
+  \pause
+  \task{Log into the workflow: Name all rules, which merit gathering logs.}
+  \pause
+  \docs{In theory \emph{every} rules will profit from logging directives. Only in very rare cases a script or application \emph{cannot} produce output - you will probably not be able to recognize such a case.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
