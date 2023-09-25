@@ -190,6 +190,13 @@ $ snakemake --debug
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
+  \frametitle{Preparing the next exercise:}
+  
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
   \frametitle{We want to plot our Results!}
   Add the following rule to your \altverb{Snakefile} we could plot our variant statistics:
   \begin{lstlisting}[language=Python,style=Python]
@@ -211,7 +218,7 @@ rule plot_quals:
   \frametitle{\HandsOn{Adding the Plotting Script}}
   \task{Open an editor and follow along}
   \begin{onlyenv}<1| handout:0>
-   First, we start with importing a plotting library:
+   First, we start with importing a plotting library; save the script under \altverb{scripts/plot-quals.py}:
    \begin{lstlisting}[language=Python,style=Python]
 @import matplotlib@
    \end{lstlisting}
