@@ -212,10 +212,20 @@ $ # Hint: This is the general syntax:
 $ cp -r <path> ~/.
   \end{lstlisting}
   \hint[Note]{The slides assume that you are working in your HOME. Then typing the \textasciitilde{} is not necessary.}
-  \pause
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{\Interlude{About working with \texttt{Snakefile} Templates}
   \begin{block}{\texttt{Snakefile} Templates}
    Your copied folder contains a folder ``\texttt{Template\_Snakefiles}''. Instead of typing workflows, we will refer to this folder, from where you can copy templates or cloze texts.
   \end{block}
+  \begin{exampleblock}{Working with \texttt{Snakefile}s}
+   \texttt{Snakemake} expexts a worflow file named \texttt{Snakefile}. When you copy a template, e.\,g. \altverb{01_Snakefile}, you best proceed with these steps:
+   \begin{lstlisting}[language=Bash, style=Shell]
+$ cp ~/worflows/Template_Snakefiles/01_Snakefile Snakefile
+   \end{lstlisting}
+  \end{exampleblock}
 \end{frame}
 
 
