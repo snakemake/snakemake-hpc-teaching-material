@@ -206,8 +206,9 @@ $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Copy our Course Sample Data}}
   We shall copy a few install scripts (which also will download some sample data).\newline
-  Please copy \pathtoexercise.
+  Please copy \pathtoexercise.\newline
   \begin{lstlisting}[language=Bash, style=Shell]
+$ # Hint: This is the general syntax:
 $ cp -r <path> ~/.
   \end{lstlisting}
   \hint[Note]{The slides assume that you are working in your HOME. Then typing the \textasciitilde{} is not necessary.}
@@ -390,32 +391,6 @@ $ cp ~/setup/condarc ~/.condarc
         }
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-  \frametitle{The Setup Script}
-  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
-# 0. we are going to use ONE environment with the same
-#    name as the workflow we are going to create
-NAME="snakemake-tutorial"
-
-# 1. On many HPC systems we are going to install via a proxy.
-#    This might ignore TLS, hence we turn off all warnings.
-#    Note: TLS might still be used, but not ALL proxies use it.
-export PYTHONWARNINGS="ignore:Unverified HTTPS request"
-
-# 1. create the environment for the tutorial
-mamba create --name $NAME
-
-# 2. activate the environment
-mamba activate $NAME
-
-# TODO: This step is necessary because of the outdated 
-#       setup, where Python >= 3.10 does not work
-#       with pysam
-mamba install Python=3.9
-  \end{lstlisting}
-  Here we create an environment, activate it and install an older version of Python. Questions to the code?
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
@@ -434,19 +409,6 @@ $ mamba deactivate
   \end{lstlisting}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-  \frametitle{Installing Software \emph{with} Conda - Using Environments II}
-  Using our new environment we can activate it:
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ mamba activate snakemake-tutorial
-  \end{lstlisting}
-  and install ``\texttt{snakemake}'' by running
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ mamba install snakemake
-  \end{lstlisting}
-  Now, we are all set. 
-  \hint{Just that you know: ``\texttt{snakemake}'' is able to install the requested software for you!}
-\end{frame}
+
 
 

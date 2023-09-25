@@ -111,6 +111,21 @@ mamba install --file environment2.txt
   \end{block}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Installing Software \emph{with} Conda - Using Environments II}
+  Using our new environment we can activate it:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ mamba activate snakemake-tutorial
+  \end{lstlisting}
+  and install ``\texttt{snakemake}'' by running
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ mamba install snakemake
+  \end{lstlisting}
+  Now, we are all set. 
+  \hint{Just that you know: ``\texttt{snakemake}'' is able to install the requested software for you!}
+\end{frame}
+
 %TODO: Once VSC is running on logins, we should change this slide
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
