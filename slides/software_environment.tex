@@ -344,27 +344,6 @@ $ conda_initialize # if you have this function
   , where \altverb{(base)} is the ``base'' environment of Conda. This is your starting environment.
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-  \frametitle{Searching Software with Conda v. Mamba}
-  First you might want to look for software. This is done with
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ mamba search <softwarename>
-  \end{lstlisting}
-  \pause
-  \task{Try this with a software which comes to mind.}
-  \pause
-  This will list packages with channel and version information, e.\,g.
-  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
-$ mamba search minimap
-<snip>
-Loading channels: done
-# Name                       Version           Build  Channel             
-minimap                     0.2_r124               0  bioconda            
-minimap                     0.2_r124      h5bf99c6_4  bioconda
-....
-  \end{lstlisting}
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
@@ -387,10 +366,33 @@ always_yes: true # avoid confirmation(s)
   \end{lstlisting}
   To obtain the same resource file, run:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
-$ cp ~/setup/condarc ~/.condarc
+$ cp ../setup/condarc ~/.condarc
   \end{lstlisting}
   More on \altverb{.condarc} on the \lhref{https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html}{official Conda documentation site}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Searching Software with Conda v. Mamba}
+  First you might want to look for software. This is done with
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ mamba search <softwarename>
+  \end{lstlisting}
+  \pause
+  \task{Try this with a software which comes to mind.}
+  \pause
+  This will list packages with channel and version information, e.\,g.
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
+$ mamba search minimap
+<snip>
+Loading channels: done
+# Name                       Version           Build  Channel             
+minimap                     0.2_r124               0  bioconda            
+minimap                     0.2_r124      h5bf99c6_4  bioconda
+....
+  \end{lstlisting}
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
