@@ -84,7 +84,7 @@ rule <name>:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{The \texttt{Snakemake} \texttt{resources} Section - its Downside}
-  \begin{alertblock}{Every Resource Spec needs a Change per Rule???}
+  \begin{block}{Every Resource Spec needs a Change per Rule???}
    You might have noticed, this specification per rule is most untidy. \texttt{Snakemake}'s design principle is: ship workflows which run \emph{everywhere} \& \emph{every time}.
    \newline \pause
    Relax: Every bit we can specify:
@@ -94,7 +94,7 @@ rule <name>:
     \item and re-usable in configuration files!
    \end{itemize}
 
-  \end{alertblock}
+  \end{block}
 
 \end{frame} 
 
@@ -306,12 +306,12 @@ rule bwa_map:
 \begin{frame}[fragile]
   \frametitle{Temporary Files - Reasoning}
   \begin{center}
-   
     \begin{tabular}{|p{0.2\textwidth}|p{0.1\textwidth}|p{0.65\textwidth}}
       Rule & Temp? & Reason\\\hline
       \altverb{all} & \pause{\color{BrickRed}\bf No} & This rule desingates the final target(s).\\\hline
       \altverb{bwa_map} & \pause{\color{PineGreen}\bf Yes} & Mappings are derived from the intial input and can be created reproducibly again.\\\hline
       \altverb{samtools_sort} & \pause{\color{PineGreen}\bf Yes} & Same reason as with \altverb{bwa_map}\\\hline
+      \altverb{samtools_index} & \pause{\color{PineGreen}\bf Yes} & Same reason as with \altverb{bwa_map}\\\hline
       \altverb{bcftools_call} & \pause{\color{BrickRed}\bf No} & This is a result file!\\\hline
       \altverb{plot_quals} & \pause{\color{BrickRed}\bf No} & This is a result file! See \altverb{all}.\\\hline 
     \end{tabular}
@@ -420,5 +420,68 @@ $ snakemake --slurm \
 > -j unlimited @-F@
   \end{lstlisting}
   \question{Observations?}
- \docs{\emph{ALL} jobs are submitted with equal, minimal resources. For a ``real'' workflow, this will always fail!}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{The Downside of working with Defaults}
+  Ok, this should(!) be running, yet you saw the warnings. 
+  \question{Why will a ``real'' workflow fail with all these default settings?}
+  \pause
+  \begin{itemize}
+   \item ``real data'' tend to be biffer - insufficient memory
+   \item ``real runs'' tend to take longer - insufficient wall time
+   \item ``real runs'' tend to run into I/O issues - insufficient workflows
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Back to Configuration Files}
+  In addition to a \altverb{config} directory to hold our samples, \texttt{Snakemake} will accept a directory with profile settings, usually ``\altverb{profile}''.
+  \pause
+  A profile has to adhere to \lhref{https://en.wikipedia.org/wiki/YAML}{\texttt{YAML}-format} and be named \altverb{config.yaml}:
+  \begin{lstlisting}[language=yaml]
+ --- # Indented Block
+  name: John Smith
+  age: 33
+--- # Inline Block
+{name: John Smith, age: 33} 
+  \end{lstlisting}
+  \docs{Note, that the format definition is complex, please consult the linked article for more information.}
+  \vfill You will find a profile template in the copied \altverb{profile}-folder.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Cluster Configuration}
+  \hint{Best abstract the configuration for a cluster from the workflow!}
+  An example for a cluster configuration might look like:
+  \begin{lstlisting}[language=yaml]
+set-resources:
+    bwa_map:
+        runtime: 5
+        mem_mb_per_cpu: 1800
+  \end{lstlisting}
+  \pause
+  \texttt{Snakemake} \lhref{https://snakemake.readthedocs.io/en/stable/executing/cluster.html#advanced-resource-specifications}{offers many more cluster configuration details}, we will revisit some during this course.
+  
+  \vfill You will find a profile template in the copied \altverb{profile}-folder.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+ 
+\end{frame}
+  \frametitle{\HandsOn{Cluster Execution \textbf{with} Configuration}}
+  Please execute the workflow again, now with 
+  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
+$ # first copy the template profile:
+$ cp -r ../profile .
+$ snakemake --slurm \
+> --default-resources slurm_account=m2_jgu-ngstraining \
+>                     slurm_partition=smp \
+> -j unlimited @--workflow-profile ./profile/ -F@
+  \end{lstlisting}
+
 \end{frame}
