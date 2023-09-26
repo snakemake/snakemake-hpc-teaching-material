@@ -435,44 +435,28 @@ $ snakemake --slurm \
   \end{itemize}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{Back to Configuration Files}
-  In addition to a \altverb{config} directory to hold our samples, \texttt{Snakemake} will accept a directory with profile settings, usually ``\altverb{profile}''.
-  \pause
-  A profile has to adhere to \lhref{https://en.wikipedia.org/wiki/YAML}{\texttt{YAML}-format} and be named \altverb{config.yaml}:
-  \begin{lstlisting}[language=yaml]
- --- # Indented Block
-  name: John Smith
-  age: 33
---- # Inline Block
-{name: John Smith, age: 33} 
-  \end{lstlisting}
-  \docs{Note, that the format definition is complex, please consult the linked article for more information.}
-  \vfill You will find a profile template in the copied \altverb{profile}-folder.}
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Cluster Configuration}
   \hint{Best abstract the configuration for a cluster from the workflow!}
-  An example for a cluster configuration might look like:
-  \begin{lstlisting}[language=yaml]
+  In addition to a \altverb{config} directory to hold our samples, \texttt{Snakemake} will accept a directory with profile settings, usually ``\altverb{profile}''.
+  \pause
+  A profile has to adhere to \lhref{https://en.wikipedia.org/wiki/YAML}{\texttt{YAML}-format} and be named \altverb{config.yaml}. An example for a cluster configuration might look like (sorry, no syntax highlighting available):
+  \begin{lstlisting}[style=Plain]
 set-resources:
     bwa_map:
         runtime: 5
         mem_mb_per_cpu: 1800
   \end{lstlisting}
   \pause
-  \texttt{Snakemake} \lhref{https://snakemake.readthedocs.io/en/stable/executing/cluster.html#advanced-resource-specifications}{offers many more cluster configuration details}, we will revisit some during this course.
   
-  \vfill You will find a profile template in the copied \altverb{profile}-folder.}
+  \texttt{Snakemake} \lhref{https://snakemake.readthedocs.io/en/stable/executing/cluster.htmls}{offers many more cluster configuration details}, we will revisit some during this course.
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
- 
-\end{frame}
   \frametitle{\HandsOn{Cluster Execution \textbf{with} Configuration}}
   Please execute the workflow again, now with 
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
@@ -483,5 +467,40 @@ $ snakemake --slurm \
 >                     slurm_partition=smp \
 > -j unlimited @--workflow-profile ./profile/ -F@
   \end{lstlisting}
+  \question{What do you observe? Which rule still provokes a warning?}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Local Rules}
+  \hint[]{Some rules do \emph{not} merit cluster execution!}
+  \pause
+  As a rule of thumb this (almost) always includes
+  \begin{enumerate}
+   \item plotting rules
+   \item rules which perform downloads
+   \item rules which include remote files (e.\,g. to an archive)
+  \end{enumerate}
+  \pause
+  For such a purpose \texttt{Snakemake} offer the \altverb{localrules} directive.
+  \begin{lstlisting}[language=Python,style=Python]
+# its useage is (at or near the top of a Snakefile)
+localrules: rule_a, rule_b, rule_c, ...
+  \end{lstlisting}
 
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Implementing ``\texttt{localrules}''}}
+  Please add
+  \begin{lstlisting}[language=Python,style=Python]
+localrules: plot_quals
+  \end{lstlisting}
+  at the top of your \texttt{Snakefile} and rerun the workflow on this cluster.
+  \pause
+  \question{Which is the impact on the overall execution time?}
+  \pause
+  \hint{Rules which do are not compute intensive are best executed locally. The overhead of submitting a job and waiting for it to finish will not be an issue.}
+\end{frame}
+
