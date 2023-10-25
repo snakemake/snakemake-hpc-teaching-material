@@ -84,7 +84,7 @@ $ module purge
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  {Modules -- looking for specific modules}
+  \frametitle{Modules -- looking for specific modules}
   Looking up modules:
   \begin{lstlisting}[language=Bash, style=Shell]
 $ module spider <search string>
@@ -113,7 +113,7 @@ numlib/FFTW/3.3.10-gompi-2021b
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}
   \frametitle{Requesting software installs}
-  Your favorite software solution is not installed?
+  Your favourite software solution is not installed?
   \begin{exampleblock}{Request software installation}
     Use our \lhref{https://hpc.uni-mainz.de/high-performance-computing/service-angebot/softwareinstallation/}{little form}.\newline
     We are sorry to be this formal, but otherwise we cannot easily accommodate your needs.
@@ -127,7 +127,7 @@ numlib/FFTW/3.3.10-gompi-2021b
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{That's all Folks}
+  \frametitle{That´s all Folks}
    \vspace{-0.8em}
   \begin{alertblock}{Why we will not go in depth now}
 You can learn more about modules in 101-HPC courses. Later, we will learn how to use \texttt{Snakemake} workflows, particularly curated ones, available on the web. We \emph{could} re-write and adapt them for Mogon, it is better to only parameterize them for Mogon and do leave the workflow itself unaltered. This is less cumbersome and as workflow systems, including \texttt{Snakemake}, rely on Conda, we will have an in-depth intro to Conda, instead.
@@ -193,109 +193,103 @@ $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{We will favour \emph{Mamba} over Conda!}
+  \frametitle{We will favour \emph{\textmu-Mamba} over Conda!}
   Everyone is talking about ``Conda'' as a package manger -- and this is correct! But:
-  \begin{block}{Why we recommend using ``Mamba''}
+  \begin{block}{Why we recommend using ``\textmu-Mamba''}
    Mamba is a ``drop-in'' for Conda. This means: \emph{every command is the same}, execpt we will write \altverb{mamba} where usuall \altverb{conda} would be.\newline
    Why?\newline
-   Mamba is an implementation of Conda, written in \CC{}. It is able to carry out some tasks in parallel and works considerably faster.
+   Mamba is an implementation of Conda, written in \CC{}. It is able to carry out some tasks in parallel and works considerably faster. In turn, \textmu-Mamba is a staticically compiled version of Mamba and does not require a ``base'' environment (we will learn about environments, soon).
   \end{block}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-  \frametitle{\HandsOn{Copy our Course Sample Data}}
-  We shall copy a few install scripts (which also will download some sample data).\newline
-  Please copy \pathtoexercise.\newline
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ # Hint: This is the general syntax:
-$ cp -r <path> ~/.
-  \end{lstlisting}
-  \hint[Note]{The slides assume that you are working in your HOME. Then typing the \textasciitilde{} is not necessary.}
-\end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% \begin{frame}[fragile]
+%   \frametitle{\HandsOn{Copy our Course Sample Data}}
+%   We shall copy a few install scripts (which also will download some sample data).\newline
+%   Please copy \pathtoexercise.\newline
+%   \begin{lstlisting}[language=Bash, style=Shell]
+% $ # Hint: This is the general syntax:
+% $ cp -r <path> ~/.
+%   \end{lstlisting}
+%   \hint[Note]{The slides assume that you are working in your HOME. Then typing the \textasciitilde{} is not necessary.}
+% \end{frame}
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% \begin{frame}[fragile]
+%   \frametitle{\Interlude{About working with \texttt{Snakefile} Templates}}
+%   \begin{block}{\texttt{Snakefile} Templates}
+%    Your copied folder contains a folder ``\texttt{Template\_Snakefiles}''. Instead of typing workflows, we will refer to this folder, from where you can copy templates or cloze texts.
+%   \end{block}
+%   \begin{exampleblock}{Working with \texttt{Snakefile}s}
+%    \texttt{Snakemake} expexts a worflow file named \texttt{Snakefile}. When you copy a template, e.\,g. \altverb{01_Snakefile}, you best proceed with these steps:
+%    \begin{lstlisting}[language=Bash, style=Shell,basicstyle=\footnotesize]
+% $ cp ~/worflows/Template_Snakefiles/01_Snakefile Snakefile
+%    \end{lstlisting}
+%   \end{exampleblock}
+% \end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{\Interlude{About working with \texttt{Snakefile} Templates}}
-  \begin{block}{\texttt{Snakefile} Templates}
-   Your copied folder contains a folder ``\texttt{Template\_Snakefiles}''. Instead of typing workflows, we will refer to this folder, from where you can copy templates or cloze texts.
-  \end{block}
-  \begin{exampleblock}{Working with \texttt{Snakefile}s}
-   \texttt{Snakemake} expexts a worflow file named \texttt{Snakefile}. When you copy a template, e.\,g. \altverb{01_Snakefile}, you best proceed with these steps:
-   \begin{lstlisting}[language=Bash, style=Shell,basicstyle=\footnotesize]
-$ cp ~/worflows/Template_Snakefiles/01_Snakefile Snakefile
-   \end{lstlisting}
-  \end{exampleblock}
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-  \frametitle{Installing \sout{Conda} Mamba - II}
+  \frametitle{Installing \sout{Conda}/\textmu-Mamba - II}
   Please and run
   \begin{lstlisting}[language=Bash, style=Shell]
-$ bash ./setup/01_install_mamba.sh
+$ "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
   \end{lstlisting}
-  We will work through the questions together, please be patient!
-  \begin{block}{Our setup Scripts}
-   We are using setup scripts to simplify commands. We are going to highlight and discuss all ``mamba-related'' code therein.
-  \end{block}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-  \frametitle{Installing \sout{Conda} Mamba - III}
+\begin{frame}
+  \frametitle{Installing \sout{Conda}/\textmu-Mamba - III}
+  You need to confirm (with ``Enter'')
   \begin{itemize}[<+->]
-   \item You need to confirm the license. Scroll with ``blank'' and confirm with ``\altverb{yes}''.
-   \item Next, you need to set the prefix. For the course you can install Mamba/Conda in your \altverb{HOME}, else, agree in your group(s) on a path in your project and use the project directory, e.\,g. 
-   \begin{lstlisting}[language=Bash, style=Shell, breaklines=true ]
-[/home/<username>/mambaforge] >>> /lustre/project/<myproject>/mambaforge
-   \end{lstlisting}
-   \item Finally, you will be asked to initialize Miniconda. Please confirm with ``\verb+yes+''. Thereby \emph{Conda} is installed, too!
-  \end{itemize}
+   \item the binary folder.
+   \item the shell you are using (just to be on the save side)
+   \item whether conda-forge shall be configured (this is a major resource channel)
+   \item the prefix location (where \textmu-Mamba shall be placed)
+  \end{itemize} 
+  The tool will tell up about the modification of your \verb+.bashrc+ file (which is executed upon \emph{every} login, we will discuss this in a minute).
 \end{frame}
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% \begin{frame}[fragile]
+%   \frametitle{The Install Script}
+%   The install script reads:
+%   \begin{lstlisting}[language=Bash, style=Shell]
+% # 1. download mamba-forge
+% echo "downloading Mambaforge"
+% curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh -o Mambaforge-Linux-x86_64.sh
+% 
+% # 2. inform the user that all requests have to be confirmed
+% echo "going to install Mambaforge. Please confirm all questions with 'yes'"
+% sleep 2
+% 
+% # 3. starting the installation process
+% bash Mambaforge-Linux-x86_64.sh
+%   \end{lstlisting}
+%   Basically, download \& install - any questions?
+% \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{The Install Script}
-  The install script reads:
-  \begin{lstlisting}[language=Bash, style=Shell]
-# 1. download mamba-forge
-echo "downloading Mambaforge"
-curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh -o Mambaforge-Linux-x86_64.sh
-
-# 2. inform the user that all requests have to be confirmed
-echo "going to install Mambaforge. Please confirm all questions with 'yes'"
-sleep 2
-
-# 3. starting the installation process
-bash Mambaforge-Linux-x86_64.sh
-  \end{lstlisting}
-  Basically, download \& install - any questions?
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-  \frametitle{Installing \sout{Conda} Mamba - IV}
+  \frametitle{Installing \sout{Conda}/\textmu-Mamba - IV}
   \footnotesize
   \begin{columns}[t]
     \begin{column}{0.5\textwidth}
        You now have a section like this in your ``\texttt{\textasciitilde/.bashrc}'':
        \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny, breaklines=true]
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('<prefix>/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'mamba init' !!
+export MAMBA_EXE='/home/cm/.local/bin/micromamba';
+export MAMBA_ROOT_PREFIX='/home/cm/micromamba';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
 if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
+    eval "$__mamba_setup"
 else
-    if [ -f "<prefix>/etc/profile.d/conda.sh" ]; then
-        . "<prefix>/etc/profile.d/conda.sh"
-    else
-        export PATH="<prefix>/bin:$PATH"
-    fi
+    alias micromamba="$MAMBA_EXE"  # Fallback on help from mamba activate
 fi
-unset __conda_setup
-# <<< conda initialize <<<
+unset __mamba_setup
+# <<< mamba initialize <<<
       \end{lstlisting}
       \bcattention \emph{Every} time you log-in this will be executed. Also, here, ``\texttt{<prefix>}'' denotes \emph{your} prefix.
     \end{column}
@@ -304,23 +298,21 @@ unset __conda_setup
        Please edit your ``\texttt{\textasciitilde/.bashrc}'' file and put part in a function, to re-gain manual control:
        \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny, breaklines=true]
 @function conda_initialize {@
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('<prefix>/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'mamba init' !!
+export MAMBA_EXE='/home/cm/.local/bin/micromamba';
+export MAMBA_ROOT_PREFIX='/home/cm/micromamba';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
 if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
+    eval "$__mamba_setup"
 else
-    if [ -f "<prefix>/etc/profile.d/conda.sh" ]; then
-        . "<prefix>/etc/profile.d/conda.sh"
-    else
-        export PATH="<prefix>/bin:$PATH"
-    fi
+    alias micromamba="$MAMBA_EXE"  # Fallback on help from mamba activate
 fi
-unset __conda_setup
-# <<< conda initialize <<<
+unset __mamba_setup
+# <<< mamba initialize <<<
 @}@
       \end{lstlisting}
-      \bcattention Add the highlighted lines and your login will be faster!
+      \bcattention Add the highlighted lines and your login will be faster! Also, this allows to separate the module environment and conda-related environments safely.
     \end{column}
   \end{columns}
 \end{frame}
@@ -337,11 +329,6 @@ $ bash
 $ source ~/.bashrc
 $ conda_initialize # if you have this function
   \end{lstlisting}
-  Then your command line should look like:
-  \begin{lstlisting}[language=Bash, style=Shell]
-(base) ... $
-  \end{lstlisting}
-  , where \altverb{(base)} is the ``base'' environment of Conda. This is your starting environment.
 \end{frame}
 
 
@@ -376,7 +363,7 @@ $ cp ../setup/condarc ~/.condarc
   \frametitle{Searching Software with Conda v. Mamba}
   First you might want to look for software. This is done with
   \begin{lstlisting}[language=Bash, style=Shell]
-$ mamba search <softwarename>
+$ micromamba search <softwarename>
   \end{lstlisting}
   \pause
   \task{Try this with a software which comes to mind.}
@@ -413,8 +400,9 @@ minimap                     0.2_r124      h5bf99c6_4  bioconda
   \frametitle{Conda Environments}
   With Conda/Mamba, we can activate and deactivate environments, which bundle our software. E.\,g. a software stack per workflow to ensure reproducible runs.
     \pause
-  To list the available environments we can run
+  To generate a new we can run
   \begin{lstlisting}[language=Bash, style=Shell]
+$ micromamba create --pyc -f environment.txt -p /lustre/project/m2_zdvhpc/meesters/test_micromamba
 $ mamba info --envs
   \end{lstlisting}
   We can create, activate and deactivate environments with
