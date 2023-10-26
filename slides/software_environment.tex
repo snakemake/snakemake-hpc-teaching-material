@@ -171,11 +171,11 @@ $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{We will favour \emph{\textmu-Mamba} over Conda!}
-  Everyone is talking about ``Conda'' as a package manger -- and this is correct! But:
+  Everyone is knows ``Conda'' as a package manger -- and this is correct! But:
   \begin{block}{Why we recommend using ``\textmu-Mamba''}
-   Mamba is a ``drop-in'' for Conda. This means: \emph{every command is the same}, execpt we will write \altverb{mamba} where usuall \altverb{conda} would be.\newline
+   Conda carries some overhead. Alternative implementations can be faster and require less files. Mamba is a ``drop-in'' for Conda. This means: \emph{every command is the same}, except we will write \altverb{mamba} where usuall \altverb{conda} would be.\newline
    Why?\newline
-   Mamba is an implementation of Conda, written in \CC{}. It is able to carry out some tasks in parallel and works considerably faster. In turn, \textmu-Mamba is a staticically compiled version of Mamba and does not require a ``base'' environment (we will learn about environments, soon), which means even less overhead.
+   Mamba is an implementation of Conda, written in \CC{}. It is able to carry out some tasks in parallel and works considerably faster. In turn, \textmu-Mamba is a statically compiled version of Mamba and does not require a ``base'' environment (we will learn about environments, soon), which means even less overhead.
   \end{block}
 \end{frame}
 
