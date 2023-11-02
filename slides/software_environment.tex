@@ -103,20 +103,6 @@ numlib/FFTW/3.3.10-gompi-2021b
    \task[Look inside a module to know what will be loaded and set]{Do ``\texttt{module show <module>}''}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}
-  \frametitle{Requesting software installs}
-  Your favourite software solution is not installed?
-  \begin{exampleblock}{Request software installation}
-    Use our \lhref{https://hpc.uni-mainz.de/high-performance-computing/service-angebot/softwareinstallation/}{little form}.\newline
-    We are sorry to be this formal, but otherwise we cannot easily accommodate your needs.
-  \end{exampleblock}
-  \pause
-  \warning[Please note:]{Software not incorporated in so-called easyconfigs, cannot be installed quickly.\newline
-    But we will try to do our best.}
-  \vfill
-\end{frame}
-
 %TODO: should we offer more or less on modules?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
@@ -188,9 +174,9 @@ $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{We will favour \emph{\textmu-Mamba} over Conda!}
-  Everyone is talking about ``Conda'' as a package manger -- and this is correct! But:
+  Many know ``Conda'' as a package manager -- and this is correct! But:
   \begin{block}{Why we recommend using ``\textmu-Mamba''}
-   Mamba is a ``drop-in'' for Conda. This means: \emph{every command is the same}, execpt we will write \altverb{mamba} where usuall \altverb{conda} would be.\newline
+   Conda carries some overhead. Alternative implementations can be faster and require less files. Mamba is a ``drop-in'' for Conda. This means: \emph{every command is the same}, except we will write \altverb{mamba} where usuall \altverb{conda} would be.\newline
    Why?\newline
    Mamba is an implementation of Conda, written in \CC{}. It is able to carry out some tasks in parallel and works considerably faster. In turn, \textmu-Mamba is a staticically compiled version of Mamba and does not require a ``base'' environment (we will learn about environments, soon), which means even less overhead.
   \end{block}
@@ -295,7 +281,7 @@ unset __mamba_setup
 \begin{frame}[fragile]
   \frametitle{Why this function in your \texttt{.bashrc}?}
   \docs{\begin{itemize}[<+->]
-  		\item \emph{every} time you log in, the code in your \texttt{.bashrc} will be exectud. Depeding on your conda setup, this can be incredebly slow (another reason to use Mamba or \textmu-Mamba).
+  		\item \emph{every} time you log in, the code in your \texttt{.bashrc} will be exectud. Depeding on your conda setup, this can be incredibly slow (another reason to use Mamba or \textmu-Mamba).
   		\item automatic inclusion of Conda/Mamba might cause interference with modules
   		\item Now, you can run \verb+conda_initialize+ in the login shell, jobs scripts, etc. upon demand and deactivate if needed.
   	\end{itemize}}
@@ -316,20 +302,23 @@ $ conda_initialize # if you have this function
 \end{frame}
 
 
+%TODO: the webproxy might be different or non-existing elsewhere.
+%TODO: program a cluster switch
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Reducing Search Overhead - the \texttt{.condarc}-File}
-  On \mogon{} the number of Conda channels (the repositories) is reduced by the whitelisting. Nevertheless, it helps to reduce the search time with a resource file, including  a number of definitions, \emph{before} starting:
+  On many HPC clusters the number of Conda channels (the repositories) is reduced by the whitelisting. Nevertheless, it helps to reduce the search time with a resource file, including  a number of definitions, \emph{before} starting:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
 $ cat .condarc
 create_default_packages:
-  - setuptools
+  - setuptools # since Python is often needed
+# these channels cover most of the required software
 channels:
   - conda-forge
   - bioconda
   - defaults
   - r
-proxy_servers:
+proxy_servers: # in case a proxy server is present
   http: http://webproxy.zdv.uni-mainz.de:8888
 ssl_verify: false
 auto_update_conda: false
@@ -354,7 +343,7 @@ $ micromamba search <softwarename>
   \pause
   This will list packages with channel and version information, e.\,g.
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
-$ mamba search minimap
+$ micromamba search minimap
 <snip>
 Loading channels: done
 # Name                       Version           Build  Channel             
@@ -366,11 +355,11 @@ minimap                     0.2_r124      h5bf99c6_4  bioconda
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
+\begin{frame}
   \frametitle{Installing Software \emph{with} Conda \& Mamba - Using Environments}
   \hint{It is a good habit to have
         \begin{itemize}
-          \item \emph{an} environment per workflow
+          \item \emph{one} environment per workflow
           \item the environment named as the workflow
           \item this way, we have a bundle of tools, activate the environment for it
           \item \texttt{snakemake} workflows will install the tools you need for a particular workflow - only \emph{if} these tools are still missing
