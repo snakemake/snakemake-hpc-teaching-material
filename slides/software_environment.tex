@@ -358,9 +358,14 @@ minimap                     0.2_r124      h5bf99c6_4  bioconda
     \pause
   To generate a new we can run
   \begin{lstlisting}[language=Bash, style=Shell]
-$ micromamba create --pyc -f environment.txt -p /lustre/project/m2_zdvhpc/meesters/test_micromamba
-$ mamba info --envs
+$ micromamba create --pyc -f environment.txt -n <environment_name>
   \end{lstlisting}
+  This will create a new environment with a given name in your home directory. Alternatively, i.\,e. when dealing with file number quotas, you can point the environment to a different filesystem, e.\,g.:
+  \begin{lstlisting}[language=Bash, style=Shell] 
+$ micromamba create --pyc -f environment.txt -p /path/to/project/fs/<environment_name>
+   \end{lstlisting}
+
+\begin{frame}[fragile]
   We can create, activate and deactivate environments with
   \begin{lstlisting}[language=Bash, style=Shell]
 $ mamba create --name <environment name>
