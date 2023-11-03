@@ -425,10 +425,16 @@ dependencies:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-	\frametitle{Environment Creation -- Continued}
-	
-
-	
+  \frametitle{Environment Creation -- Continued}
+  Now, we want to create an environment:
+  \begin{lstlisting}[language=Bash, style=Shell]
+micromamba create --pyc -f environment.yaml  -n snakemake-tutorial
+  \end{lstlisting}
+  Here, we are using
+  \begin{itemize}
+    \item \altverb{-f environment.yaml} - our downloaded software definition file
+    \item \altverb{--pyc} - a flag to "compile" Python source code to byte code (Python would do this anyway, but why whait?)
+  \end{itemize}
 \end{frame}		
 % -f environment.txt
 
