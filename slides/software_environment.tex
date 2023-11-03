@@ -367,20 +367,70 @@ minimap                     0.2_r124      h5bf99c6_4  bioconda
         }
 \end{frame}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Conda Environments}
+  \frametitle{Conda / Mamba Environments}
   With Conda/Mamba, we can activate and deactivate environments, which bundle our software. E.\,g. a software stack per workflow to ensure reproducible runs.
     \pause
   To generate a new we can run
   \begin{lstlisting}[language=Bash, style=Shell]
-$ micromamba create --pyc -f environment.txt -n <environment_name>
+$ micromamba create @-n@ <environment_name>
   \end{lstlisting}
   This will create a new environment with a given name in your home directory. Alternatively, i.\,e. when dealing with file number quotas, you can point the environment to a different filesystem, e.\,g.:
   \begin{lstlisting}[language=Bash, style=Shell] 
-$ micromamba create --pyc -f environment.txt -p /path/to/project/fs/<environment_name>
+$ micromamba create \
+>  @-p@ /path/to/project/fs/<environment_name>
    \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+	\frametitle{Installing Software along with Environment Creation}
+	In order to install software, we can install it piece by piece or with a textfile:
+	\begin{lstlisting}[style=Plain]
+snakemake-minimal >=7.3
+jinja2
+matplotlib
+graphviz
+bcftools =1.15
+samtools =1.15
+bwa =0.7.17
+pysam =0.19
+pygments
+   \end{lstlisting}
+   Here, we find software names, line by line. Some with version specification, some without (will take the highest available).
+\end{frame}	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+	\frametitle{Installing Software along with Environment Creation}
+	Software definitions for workflows are often supplied as YAML files. We can take them, too:
+	\begin{lstlisting}[style=Plain]
+channels:
+- conda-forge
+- bioconda
+dependencies:
+- snakemake-minimal >=7.3
+- jinja2
+- matplotlib
+- graphviz
+- bcftools =1.15
+- samtools =1.15
+- bwa =0.7.17
+- pysam =0.19
+- pygments
+    \end{lstlisting}
+    This is similar to the text file - we may also define channels to search in.
+\end{frame}	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+	\frametitle{Environment Creation -- Continued}
+	
+
+	
+\end{frame}		
+% -f environment.txt
 
 \begin{frame}[fragile]
   We can create, activate and deactivate environments with
@@ -390,7 +440,6 @@ $ mamba activate <environment name>
 $ mamba deactivate
   \end{lstlisting}
 \end{frame}
-
 
 
 
