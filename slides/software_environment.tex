@@ -414,76 +414,42 @@ $ micromamba create --pyc -f environment.yaml -n snakemake-tutorial
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Listing Environments}
-   To see all your environments run:
+   Over time you will have several environments. (So far, there is one.) To list them all, simply run:
   \begin{lstlisting}[language=Bash, style=Shell]
 $ micromamba env list
   \end{lstlisting}
 \end{frame} 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Creating, Activating, Deactivating Environments}
+  We can create, activate and deactivate environments with
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ micromamba create [other args] -n <environment name>
+$ micromamba activate <environment name>
+$ micromamba deactivate
+  \end{lstlisting}
+   \task{Activate the environment you just created!}
+\end{frame}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-%\begin{frame}[fragile]
-%	\frametitle{Installing Software along with Environment Creation}
-%	In order to install software, we can install it piece by piece or with a textfile:
-%	\begin{lstlisting}[style=Plain]
-%snakemake-minimal >=7.3
-%jinja2
-%matplotlib
-%graphviz
-%bcftools =1.15
-%samtools =1.15
-%bwa =0.7.17
-%pysam =0.19
-%pygments
-%   \end{lstlisting}
-%   Here, we find software names, line by line. Some with version specification, some without (will take the highest available).
-%\end{frame}	
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-%\begin{frame}[fragile]
-%	\frametitle{Installing Software along with Environment Creation}
-%	Software definitions for workflows are often supplied as YAML files. We can take them, too:
-%	\begin{lstlisting}[style=Plain]
-%channels:
-%- conda-forge
-%- bioconda
-%dependencies:
-%- snakemake-minimal >=7.3
-%- jinja2
-%- matplotlib
-%- graphviz
-%- bcftools =1.15
-%- samtools =1.15
-%- bwa =0.7.17
-%- pysam =0.19
-%- pygments
-%    \end{lstlisting}
-%    This is similar to the text file - we may also define channels to search in.
-%\end{frame}	
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-%\begin{frame}[fragile]
-%  \frametitle{Environment Creation -- Continued}
-%  Now, we want to create an environment:
-%  \begin{lstlisting}[language=Bash, style=Shell]
-%micromamba create --pyc -f environment.yaml  -n snakemake-tutorial
-%  \end{lstlisting}
-%  Here, we are using
-%  \begin{itemize}
-%    \item \altverb{-f environment.yaml} - our downloaded software definition file
-%    \item \altverb{--pyc} - a flag to "compile" Python source code to byte code (Python would do this anyway, but why whait?)
-%  \end{itemize}
-%\end{frame}		
-%
-%\begin{frame}[fragile]
-%  We can create, activate and deactivate environments with
-%  \begin{lstlisting}[language=Bash, style=Shell]
-%$ mamba create --name <environment name>
-%$ mamba activate <environment name>
-%$ mamba deactivate
-%  \end{lstlisting}
-%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+   \frametitle{\Interlude{Managing your Prompt}}
+   \question{Did you notice the last line in your \texttt{.condarc} file? What does it do?} 
+   Remember:
+     \begin{lstlisting}[language=Bash, style=Shell]
+$ cat .condarc
+....
+env_prompt: '($(basename {default_env})) '
+   \end{lstlisting}
+   \pause
+   It causes an unnamed environment prompt to shrink, e.\,g.:
+   \begin{lstlisting}[language=Bash, style=Plain]
+(my_env) user@host:directory $
+# instead of
+(/some/long/path/my_env) user@host:directory $
+   \end{lstlisting}
+\end{frame}
 
 
 
