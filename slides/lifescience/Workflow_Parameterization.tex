@@ -17,11 +17,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{What is this about?}
-   \question[Questions]{\begin{itemize}
-                         \item How do we add execution parameters?
-                         \item How do we tune scientific parameters?
-                        \end{itemize}
-                       }
+   \begin{question}[Questions]
+   	 \begin{itemize}
+        \item How do we add execution parameters?
+        \item How do we tune scientific parameters?
+     \end{itemize}
+   \end{question}
    \docs[Objectives]{\begin{enumerate} 
                       \item Learn to use parameters relevant for the batch systems.
                       \item Learn how to tune \texttt{Snakemake} on the command line.
@@ -190,9 +191,12 @@ $ cat ./config/samples.yaml
 path: '~/workflows/books'
 limit: 10
   \end{lstlisting}
-  \question{How do pick up resource parameters in out \texttt{Snakefile}?!}
+  \begin{question}
+  	How do pick up resource parameters in out \texttt{Snakefile}?!
+  \end{question}
 \end{frame} 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\Interlude{Introducing Python's \texttt{os} Library}}
   Python has a library to provide functions to deal with operating systems, including file systems. Check out:
@@ -294,7 +298,9 @@ set-resources:
 }}
     \end{column}
     \begin{column}{0.5\textwidth}
-      \question{Why keep the workflow parameterization and the cluster parameterization apart?}
+      \begin{question}
+      	Why keep the workflow parameterization and the cluster parameterization apart?
+      \end{question}
       \pause
       \docs[Answer]{Workflow parameter is workflow specific, cluster parameterization is executor specific!}
     \end{column}
