@@ -334,6 +334,7 @@ proxy_servers: # in case a proxy server is present
 ssl_verify: false
 auto_update_conda: false
 always_yes: true # avoid confirmation(s)
+env_prompt: '($(basename {default_env})) '
   \end{lstlisting}
   To obtain the same resource file, run:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
@@ -394,6 +395,32 @@ $ micromamba create \
 >  @-p@ /path/to/project/fs/<environment_name>
    \end{lstlisting}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Creating your own Environment}}
+  Now, create your first environment. We will
+  \begin{itemize}
+  	\item work in the \altverb{HOME} directory with
+  	\item a \textit{named} environment
+  	\item use the downloaded \altverb{environment.yaml} file to define the software stack
+  	\item pre-compile all Python files with the \altverb{--pyc} flag
+  \end{itemize}
+  \begin{lstlisting}[language=Bash, style=Shell,breaklines=true]
+$ micromamba create --pyc -f environment.yaml -n snakemake-tutorial
+  \end{lstlisting}	
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Listing Environments}
+   To see all your environments run:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ micromamba env list
+  \end{lstlisting}
+\end{frame} 
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 %\begin{frame}[fragile]
