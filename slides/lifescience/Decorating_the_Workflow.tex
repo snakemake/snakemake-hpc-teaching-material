@@ -17,11 +17,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{What is this about?}
-   \question[Questions]{\begin{itemize}
-                         \item How can a workflow be made really usable?
-                         \item How can I avoid changing the workflow source for every new input?
-                        \end{itemize}
-                       }
+   \begin{question}[Questions]
+   	  \begin{itemize}
+         \item How can a workflow be made really usable?
+         \item How can I avoid changing the workflow source for every new input?
+      \end{itemize}
+   \end{question}
    \docs[Objectives]{\begin{enumerate}
                       \item Learn how to make use of configuration files.  
                       \item Learn how to add parameters to your workflow.
@@ -127,7 +128,9 @@ $ snakemake ... --configfile ./config/config.yaml
   \begin{lstlisting}[language=Python,style=Python]
 configfile: "config.yaml"
   \end{lstlisting}  
-  \question{How do pick up resource parameters in out \texttt{Snakefile}?!}
+  \begin{question}
+  	How do pick up resource parameters in out \texttt{Snakefile}?!
+  \end{question}
 \end{frame} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -288,7 +291,9 @@ rule bwa_map:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Logging - III}
-  \question[Questions]{What did you observe? Why is there a distinction per sample?}
+  \begin{question}[Questions]
+  	 What did you observe? Why is there a distinction per sample?
+  \end{question}
   \pause
   \docs{This rule's output will not clutter the terminal any more. All necessary information is in a log \emph{per} sample: If one attempt to map goes wrong, the specific error can be found in the sample log.}
 \end{frame}
@@ -299,7 +304,9 @@ rule bwa_map:
   Let's face it: Most output files of a workflow, particularly more complex ones(!), do not need to be archived. They will only take up storage until someone takes the \includegraphics[height=\baselineskip]{misc/broom.png}.\newline
   Luckily, \texttt{Snakemake} provides a way to mark a file as ``temporary'' and will delete it, when its not needed any longer.
   \pause
-  \question{The output of which rules in our workflow should be marked ``temporary''?}
+  \begin{question}
+  	The output of which rules in our workflow should be marked ``temporary''?
+  \end{question}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -419,14 +426,18 @@ $ snakemake --slurm \
 >                     slurm_partition=smp \
 > -j unlimited @-F@
   \end{lstlisting}
-  \question{Observations?}
+  \begin{question}
+  	Observations?
+  \end{question}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{The Downside of working with Defaults}
   Ok, this should(!) be running, yet you saw the warnings. 
-  \question{Why will a ``real'' workflow fail with all these default settings?}
+  \begin{question}
+  	Why will a ``real'' workflow fail with all these default settings?
+  \end{question}
   \pause
   \begin{itemize}
    \item ``real data'' tend to be biffer - insufficient memory
@@ -467,7 +478,9 @@ $ snakemake --slurm \
 >                     slurm_partition=smp \
 > -j unlimited @--workflow-profile ./profile/ -F@
   \end{lstlisting}
-  \question{What do you observe? Which rule still provokes a warning?}
+  \begin{question}
+  	What do you observe? Which rule still provokes a warning?
+  \end{question}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -499,7 +512,9 @@ localrules: plot_quals
   \end{lstlisting}
   at the top of your \texttt{Snakefile} and rerun the workflow on this cluster.
   \pause
-  \question{Which is the impact on the overall execution time?}
+  \begin{question}
+  	Which is the impact on the overall execution time?
+  \end{question}
   \pause
   \hint{Rules which do are not compute intensive are best executed locally. The overhead of submitting a job and waiting for it to finish will not be an issue.}
 \end{frame}
