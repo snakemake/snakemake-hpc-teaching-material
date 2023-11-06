@@ -17,11 +17,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 	\frametitle{What is this about?}
-	\question[Questions]{\begin{itemize}
+	\begin{question}[Questions]\begin{itemize}
 			\item How do I get the software for a particular workflow?
 			\item What is the difference in different build systems and software environments? Why does it matter for me?
 		\end{itemize}
-	}
+	\end{question}
 	\docs[Objectives]{\begin{enumerate}
 			\item Introducing the "Module" system provided on HPC clusters (briefly).
 			\item Learning how to install software with "Conda".
@@ -435,7 +435,9 @@ $ micromamba deactivate
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
    \frametitle{\Interlude{Managing your Prompt}}
-   \question{Did you notice the last line in your \texttt{.condarc} file? What does it do?} 
+   \begin{question}
+   	Did you notice the last line in your \texttt{.condarc} file? What does it do?
+   \end{question} 
    Remember:
      \begin{lstlisting}[language=Bash, style=Shell]
 $ cat .condarc
