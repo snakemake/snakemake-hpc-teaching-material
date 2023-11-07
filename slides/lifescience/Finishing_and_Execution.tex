@@ -17,7 +17,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{What is this about?}
-   \question[Questions]{So far our workflow will not run properly. Why? What do we need to change?}
+   \begin{question}[Questions]
+      So far our workflow will not run properly. Why? What do we need to change?}
+   \end{question}
    \docs[Objectives]{\begin{enumerate}
                       \item Understanding the target idea.
                       \item Running simple workflows.
@@ -41,7 +43,9 @@
   \docs{If no target is given at the command line, \texttt{Snakemake} will define the first rule of the \texttt{Snakefile} as the target.}
   Conventially, this rule is named \altverb{all}. This means that we add a rule at the top of our workflow:\newline
   \begin{onlyenv}<1| handout:0>
-   \question{Which is our target file?}
+   \begin{question}
+   	  Which is our target file?
+   \end{question}
    \begin{lstlisting}[language=Python,style=Python]
  rule all:
     input: 
@@ -143,7 +147,9 @@ $ snakemake --debug
   \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake -j4 --forcerun
   \end{lstlisting}
-  \question{What do you observe? Why \texttt{-j4}?}
+  \begin{question}
+  	What do you observe? Why \altverb{-j4}?
+  \end{question}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -154,5 +160,7 @@ $ snakemake -j4 --forcerun
 $ display plots/quals.svg
   \end{lstlisting}
   The figure has no axis-labels.
-  \question{What does the figure display?}
+  \begin{question}
+  	What does the figure display?
+  \end{question}
 \end{frame}
