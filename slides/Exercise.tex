@@ -36,9 +36,11 @@ tar czvf <tarfilename>.tar.gz \
   \end{lstlisting}
   \pause
   \task{Write a rule \texttt{make\_archive} using all \texttt{dat}-files and all plots as inputs, including \texttt{results.txt}.}
-  \hint[Hints]{\begin{itemize}
-                \item Use \texttt{07\_Snakefile} as a template. It contains a new plotting rule, too.
-                \item Use the \texttt{expand()}-function to get the directories contents.
-                \item What do you need to change in the \texttt{all} rule to run the entire workflow?
-               \end{itemize}}
+  \begin{hint}[Hints]
+  	 \begin{itemize}
+       \item Use \texttt{07\_Snakefile} as a template. It contains a new plotting rule, too.
+       \item Use the \texttt{expand()}-function to get the directories contents.
+       \item What do you need to change in the \texttt{all} rule to run the entire workflow?
+     \end{itemize}
+   \end{hint}
 \end{frame}
