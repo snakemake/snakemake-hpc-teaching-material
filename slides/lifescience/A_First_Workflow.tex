@@ -71,7 +71,9 @@ $ snakemake <other arguments> \
     \end{minipage}
     \end{column}
     \begin{column}{0.5\textwidth}
-      \hint{Our long term goal:\newline Have a orderly overview and seperation of data and code. We will start with one \texttt{Snakefile}.}
+      \begin{hint}
+      	Our long term goal:\newline Have a orderly overview and seperation of data and code. We will start with one \texttt{Snakefile}.
+      \end{hint}
     \end{column}
   \end{columns}
 \end{frame}
@@ -199,7 +201,9 @@ $ snakemake -np mapped_reads/A.bam
   \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake --cores=1 mapped_reads/A.bam
   \end{lstlisting}
-  \hint[Note:]{The \altverb{--cores=1} is necessary, because we are executing ``locally'' and \texttt{Snakemake} would like to know how much of the resources we may use (you can try without, though, to see what happens).}
+  \begin{hint}[Note:]
+  	The \altverb{--cores=1} is necessary, because we are executing ``locally'' and \texttt{Snakemake} would like to know how much of the resources we may use (you can try without, though, to see what happens).
+  \end{hint}
   You should see the expected output (\altverb[Bash]{ls}) and lines which reads:
   \begin{lstlisting}[style=Plain, basicstyle=\footnotesize]
 1 of 1 steps (100%) done
@@ -379,7 +383,9 @@ rule samtools_index:
     shell:
         "samtools index {input}"
   \end{lstlisting}
-  \hint[Note]{You will find this code in the next cloze text. It is not worth proceeding without the next step.}
+  \begin{hint}[Note]
+  	You will find this code in the next cloze text. It is not worth proceeding without the next step.
+  \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
