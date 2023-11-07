@@ -22,11 +22,13 @@
 			\item What is the difference in different build systems and software environments? Why does it matter for me?
 		\end{itemize}
 	\end{question}
-	\docs[Objectives]{\begin{enumerate}
+	\begin{docs}[Objectives]
+	  \begin{enumerate}
 			\item Introducing the "Module" system provided on HPC clusters (briefly).
 			\item Learning how to install software with "Conda".
 			\item Knowing how to avoid conflicts between the different software provisioning schemes.
-	\end{enumerate}}
+	  \end{enumerate}
+    \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -290,16 +292,18 @@ unset __mamba_setup
   \end{columns}
 \end{frame}
 
-%TODO see #6
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-%\begin{frame}[fragile]
-%  \frametitle{Why this function in your \texttt{.bashrc}?}
-%  \docs{\begin{itemize}[<+->]
-%  		\item \emph{every} time you log in, the code in your \texttt{.bashrc} will be exectud. Depeding on your conda setup, this can be incredibly slow (another reason to use Mamba or \textmu-Mamba).
-%  		\item automatic inclusion of Conda/Mamba might cause interference with modules
-%  		\item Now, you can run \verb+conda_initialize+ in the login shell, jobs scripts, etc. upon demand and deactivate if needed.
-%  	\end{itemize}}
-%\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Why this function in your \texttt{.bashrc}?}
+  \begin{docs}
+  	\begin{itemize}[<+->]
+  		\item \emph{every} time you log in, the code in your \texttt{.bashrc} will be exectud. Depeding on your conda setup, this can be incredibly slow (another reason to use Mamba or \textmu-Mamba).
+  		\item automatic inclusion of Conda/Mamba might cause interference with modules
+  		\item Now, you can run \verb+conda_initialize+ in the login shell, jobs scripts, etc. upon demand and deactivate if needed.
+  	\end{itemize}
+  \end{docs}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
