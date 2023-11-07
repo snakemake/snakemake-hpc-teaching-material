@@ -72,7 +72,9 @@
 $ snakemake --slurm
   \end{lstlisting}
   Now, \emph{every} rule will submit its jobs as HPC compute jobs.
-  \hint{We will learn how to avoid this, soon-ish.}
+  \begin{hint}
+  	We will learn how to avoid this, soon-ish.
+  \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -84,7 +86,9 @@ $ snakemake --slurm \
 > --default-resources slurm_account=m2_jgu-ngstraining \
 >                     slurm_partition=smp
   \end{lstlisting}
-  \hint{Please notice the missing quotation marks! All arguments belong to one parameter.}
+  \begin{hint}
+  	Please notice the missing quotation marks! All arguments belong to one parameter.
+  \end{hint}
   \docs{We wrote \texttt{slurm\_...} to distinguish from other non-SLURM accounts and similar stuff.}
 \end{frame}
 
@@ -106,7 +110,9 @@ $ snakemake --slurm \
 > -j unlimited
   \end{lstlisting}
   together.
-  \hint{You might want to invoke the \texttt{clean}-rule, first.}
+  \begin{hint}
+  	You might want to invoke the \altverb{clean}-rule, first.
+  \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -140,7 +146,9 @@ rule <name>:
       mem_mb=1800,
       cpus_per_task=4
   \end{lstlisting}
-  \hint{Note the \textbf{,}!}
+  \begin{hint}
+  	Note the \textbf{,}!
+  \end{hint}
   \pause
   \docs{You \emph{may} define \emph{any} resource keyword within any rule.}
 \end{frame}
@@ -230,7 +238,9 @@ limit: 10
   \begin{lstlisting}[language=Python,style=Python]
 input_path = config["path"]
   \end{lstlisting}
-  \hint{We know, its useless: if our \texttt{path} is a relative path, every derived path is relative to our current working directory!}
+  \begin{hint}
+  	We know, its useless: if our \texttt{path} is a relative path, every derived path is relative to our current working directory!
+  \end{hint}
   \pause
   Luckily, \texttt{Snakefile}s are Python-Code:
   \begin{lstlisting}[language=Python,style=Python]
