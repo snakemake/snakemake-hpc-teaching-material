@@ -23,11 +23,13 @@
         \item How do we tune scientific parameters?
      \end{itemize}
    \end{question}
-   \docs[Objectives]{\begin{enumerate} 
+   \begin{docs}[Objectives]
+   	 \begin{enumerate} 
                       \item Learn to use parameters relevant for the batch systems.
                       \item Learn how to tune \texttt{Snakemake} on the command line.
                       \item Learn how to tune \texttt{Snakemake} with configuration files.
-                     \end{enumerate}}
+     \end{enumerate}
+   \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -35,7 +37,9 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \docs{\texttt{Snakemake} has an extensive command line interface (CLI). \emph{Everything} can be configured on the command line. In addition (almost) everything can be specified in a configuration file.}
+  \begin{docs}
+  	\texttt{Snakemake} has an extensive command line interface (CLI). \emph{Everything} can be configured on the command line. In addition (almost) everything can be specified in a configuration file.
+  \end{docs}
   \pause
   \begin{exampleblock}{Which parameter goes where? Some rules of thumb:}
     \begin{columns}[t]
@@ -89,7 +93,9 @@ $ snakemake --slurm \
   \begin{hint}
   	Please notice the missing quotation marks! All arguments belong to one parameter.
   \end{hint}
-  \docs{We wrote \texttt{slurm\_...} to distinguish from other non-SLURM accounts and similar stuff.}
+  \begin{docs}
+  	We wrote \texttt{slurm\_...} to distinguish from other non-SLURM accounts and similar stuff.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -150,7 +156,9 @@ rule <name>:
   	Note the \textbf{,}!
   \end{hint}
   \pause
-  \docs{You \emph{may} define \emph{any} resource keyword within any rule.}
+  \begin{docs}
+  	You \emph{may} define \emph{any} resource keyword within any rule.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -183,7 +191,9 @@ rule <name>:
 .2 {other stuff}.
 }}
  \pause
- \docs{You can store a yaml file with \emph{your} workflow configuration -- which may be combined with the desinger's configuration.}
+ \begin{docs}
+ 	You can store a yaml file with \emph{your} workflow configuration -- which may be combined with the desinger's configuration.
+ \end{docs}
  \pause
  \begin{warning}
  	It is better to specify fully qualified paths to your data! The tilde is only there to make a point!
@@ -291,7 +301,9 @@ set-resources:
         runtime: 10
         tasks: 2
   \end{lstlisting}
-  \docs{This works for multiple rules. We will re-visit this during the course. You may refer to the \lhref{https://snakemake.readthedocs.io/en/stable/executing/cluster.html}{\texttt{Snakemake} cluster documentation} for details.}
+  \begin{docs}
+  	This works for multiple rules. We will re-visit this during the course. You may refer to the \lhref{https://snakemake.readthedocs.io/en/stable/executing/cluster.html}{\texttt{Snakemake} cluster documentation} for details.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -316,7 +328,9 @@ set-resources:
       	Why keep the workflow parameterization and the cluster parameterization apart?
       \end{question}
       \pause
-      \docs[Answer]{Workflow parameter is workflow specific, cluster parameterization is executor specific!}
+      \begin{docs}[Answer]
+      	Workflow parameter is workflow specific, cluster parameterization is executor specific!
+      \end{docs}
     \end{column}
   \end{columns}
 \end{frame}
