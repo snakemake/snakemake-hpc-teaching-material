@@ -47,7 +47,9 @@ glob_wildcards('books/{book}.txt')
   \begin{lstlisting}[language=Python,style=Python,basicstyle=\tiny]
 DATS = glob_wildcards('books/{book}.txt').book
   \end{lstlisting}
-  \task{Create a rule \texttt{make\_archive}}
+  \begin{task}
+  	Create a rule \altverb{make_archive}
+  \end{task}
   \footnotesize
   Hints:
       \begin{itemize}
@@ -65,7 +67,9 @@ rule make_archive:
 \begin{frame}[fragile]
   \frametitle{The \texttt{all}}
   The UNIX-make system per default has an \texttt{all} rule - snakemake derives this philosohy to create a default target.
-  \task{Create an \texttt{all} as the first rule to expect \texttt{zipf\_analysis.tar.gz} (our final output) as input.}
+  \begin{task}
+  	Create \altverb{all} as the first rule to expect \altverb{zipf_analysis.tar.gz} (our final output) as input.
+  \end{task}
 \end{frame}
 
 
