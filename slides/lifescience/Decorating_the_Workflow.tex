@@ -114,7 +114,9 @@ rule <name>:
  \pause
  \docs{You can store a yaml file with \emph{your} workflow configuration -- which may be combined with the desinger's configuration.}
  \pause
- \warning{It is better to specify fully qualified paths to your data! The tilde is only there to make a point!}
+ \begin{warning}
+ 	It is better to specify fully qualified paths to your data! The tilde is only there to make a point!
+ \end{warning}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -222,10 +224,12 @@ $ snakemake -n --forcerun bcftools_call
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Rule Parameters}
-  \warning{Frequently, party programs cannot be used with their defaults, additional parameters are required.}
-   In our workflow, it is reasonable to annotate aligned reads with so-called read groups, that contain metadata like the sample name. \newline
-   To do so, we add to our \altverb{bwa_map}-rule:
-   \begin{lstlisting}[style=Plain,basicstyle=\footnotesize]
+  \begin{warning}
+  	Frequently, party programs cannot be used with their defaults, additional parameters are required.
+  \end{warning}
+  In our workflow, it is reasonable to annotate aligned reads with so-called read groups, that contain metadata like the sample name. \newline
+  To do so, we add to our \altverb{bwa_map}-rule:
+  \begin{lstlisting}[style=Plain,basicstyle=\footnotesize]
 rule bwa_map:
     input:
         "data/genome.fa",
@@ -237,7 +241,7 @@ rule bwa_map:
     shell:
         "bwa mem -R '{params.rg}' {input} "
         "| samtools view -Sb - > {output}"
-   \end{lstlisting}
+  \end{lstlisting}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -413,7 +417,9 @@ $ snakemake --slurm \
    \item with \altverb{-j unlimited} we allow for an unlimited jumber of spawned jobs!
   \end{itemize}
   \pause
-  \warning{Unlimited number of jobs may yield in I/O contention and too many calls to check the job status. Use with care for both issues there is a remedy, which we will meet later!}
+  \begin{warning}
+  	Unlimited number of jobs may yield in I/O contention and too many calls to check the job status. Use with care for both issues there is a remedy, which we will meet later!
+  \end{warning}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
