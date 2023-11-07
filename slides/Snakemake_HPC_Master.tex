@@ -100,8 +100,7 @@
 \end{tikzpicture}}
 
 \usepackage[tikz]{bclogo}
-\newcommand{\task}[2][Over to you]{\begin{bclogo}[arrondi=0.1,logo=\bcoutil]{#1} #2 \end{bclogo}}
-\newcommand{\exercise}[3][Excercise]{\begin{bclogo}[arrondi=0.1,logo=\bcoutil]{#1 Number: #2} #3 \end{bclogo}}
+\newenvironment{task}[1][Task]{\bclogo[arrondi=0.1,logo=\bcoutil]{#1}}{\endbclogo}
 \newenvironment{docs}[1][Documentation]{\bclogo[arrondi=0.1,logo=\bcplume]{#1}}{\endbclogo}
 \newenvironment{hint}[1][Hint]{\bclogo[arrondi=0.1,logo=\bcinfo]{#1}}{\endbclogo}
 \newenvironment{warning}[1][Warning]{\bclogo[arrondi=0.1,logo=\bcattention]{#1}}{\endbclogo}
