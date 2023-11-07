@@ -121,8 +121,9 @@ srun echo "Hello World from job $SLURM_JOB_ID on node $(hostname)"
 \end{minipage}\newline
 \begin{minipage}[t][0.3\textheight][t]{1.0\linewidth}
   \begin{onlyenv}<1>
-    \task{
-    Save the script as \texttt{hello\_world.sh} and submit it with the following statement:}
+    \begin{task}
+      Save the script as \texttt{hello\_world.sh} and submit it with the following statement:
+    \end{task}
     \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ sbatch hello_world.sh
 \end{lstlisting}
