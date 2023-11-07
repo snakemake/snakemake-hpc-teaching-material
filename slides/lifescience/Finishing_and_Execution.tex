@@ -20,10 +20,12 @@
    \begin{question}[Questions]
       So far our workflow will not run properly. Why? What do we need to change?
    \end{question}
-   \docs[Objectives]{\begin{enumerate}
+   \begin{docs}[Objectives]
+   	  \begin{enumerate}
                       \item Understanding the target idea.
                       \item Running simple workflows.
-                     \end{enumerate}}
+      \end{enumerate}
+    \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -33,14 +35,18 @@
 \begin{frame}
   \frametitle{Why Target Rules}
   So far, we always executed the workflow by specifying a target file at the command line. How cumbersome!\newline
-  \docs{We remember: \texttt{Snakemake} will automatically determine for a given rule, which expected outcomes are missing and execute all necessary rules, accordingly.\newline\pause
-        The ``trick'' is that a workflow can have a ``target'' rule, which specifies the \emph{final} output(s) of a workflow. Any invokation of \texttt{Snakemake} will then execute \emph{all} rules of a workflow.}
+  \begin{docs}
+  	We remember: \texttt{Snakemake} will automatically determine for a given rule, which expected outcomes are missing and execute all necessary rules, accordingly.\newline\pause
+        The ``trick'' is that a workflow can have a ``target'' rule, which specifies the \emph{final} output(s) of a workflow. Any invokation of \texttt{Snakemake} will then execute \emph{all} rules of a workflow.
+   \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Best Practice}
-  \docs{If no target is given at the command line, \texttt{Snakemake} will define the first rule of the \texttt{Snakefile} as the target.}
+  \begin{docs}
+  	If no target is given at the command line, \texttt{Snakemake} will define the first rule of the \texttt{Snakefile} as the target.
+  \end{docs}
   Conventially, this rule is named \altverb{all}. This means that we add a rule at the top of our workflow:\newline
   \begin{onlyenv}<1| handout:0>
    \begin{question}
