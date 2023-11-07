@@ -88,8 +88,10 @@
 \begin{frame}[fragile]
   \setcounter{handson}{\value{preframe_handson}}
   \frametitle{\HandsOn{Your first job script}}
-  \hint{From now on, we will be scripting examples (cloze-based). For this you will
-        need an editor. If you do not know any other editor, use \texttt{gedit}:}
+  \begin{hint}
+  	    From now on, we will be scripting examples (cloze-based). For this you will
+        need an editor. If you do not know any other editor, use \texttt{gedit}:
+  \end{hint}
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\scriptsize]
 $ # cd into appropriate directory
 $ # Start gedit with the command 
@@ -150,7 +152,9 @@ $ sbatch hello_world.sh
    \end{itemize}
   \end{block}
   \pause
-  \hint[What's next]{We are going to parameterize our workflow\textbf{s} for clusters and for our applications in \texttt{Snakemake}!}
+  \begin{hint}[What's next]
+    We are going to parameterize our workflow\textbf{s} for clusters and for our applications in \texttt{Snakemake}!
+  \end{hint}
 \end{frame}
 
 
