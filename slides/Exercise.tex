@@ -13,18 +13,19 @@
     \end{columns}
 \end{frame}
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{What is this about?}
-   \question[Questions]{\begin{itemize}
-                         \item Are you able to implement your first rule?
-                        \end{itemize}
-                       }
-   \docs[Objectives]{\begin{enumerate}
-                      \item Put your knowlegde to work.
-                     \end{enumerate}}
+   \begin{question}[Questions]
+   	  \begin{itemize}
+         \item Are you able to implement your first rule?
+      \end{itemize}
+   \end{question}
+   \begin{docs}[Objectives]
+   	 \begin{enumerate}
+        \item Put your knowlegde to work.
+     \end{enumerate}
+   \end{docs}
 \end{frame}  
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -36,10 +37,14 @@ tar czvf <tarfilename>.tar.gz \
     <list of input (directories)>
   \end{lstlisting}
   \pause
-  \task{Write a rule \texttt{make\_archive} using all \texttt{dat}-files and all plots as inputs, including \texttt{results.txt}.}
-  \hint[Hints]{\begin{itemize}
-                \item Use \texttt{07\_Snakefile} as a template. It contains a new plotting rule, too.
-                \item Use the \texttt{expand()}-function to get the directories contents.
-                \item What do you need to change in the \texttt{all} rule to run the entire workflow?
-               \end{itemize}}
+  \begin{task}
+  	Write a rule \altverb{make_archive} using all \altverb{dat}-files and all plots as inputs, including \altverb{results.txt}.
+  \end{task}
+  \begin{hint}[Hints]
+  	 \begin{itemize}
+       \item Use \texttt{07\_Snakefile} as a template. It contains a new plotting rule, too.
+       \item Use the \texttt{expand()}-function to get the directories contents.
+       \item What do you need to change in the \texttt{all} rule to run the entire workflow?
+     \end{itemize}
+   \end{hint}
 \end{frame}

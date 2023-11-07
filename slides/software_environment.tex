@@ -1,11 +1,40 @@
 \section{Software Environment}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Outline}
+	\begin{columns}[t]
+		\begin{column}{.5\textwidth}
+			\tableofcontents[sections={1-9},currentsection]
+		\end{column}
+		\begin{column}{.5\textwidth}
+			\tableofcontents[sections={10-18},currentsection]
+		\end{column}
+	\end{columns}
+\end{frame}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{What is this about?}
+	\begin{question}[Questions]\begin{itemize}
+			\item How do I get the software for a particular workflow?
+			\item What is the difference in different build systems and software environments? Why does it matter for me?
+		\end{itemize}
+	\end{question}
+	\begin{docs}[Objectives]
+	  \begin{enumerate}
+			\item Introducing the "Module" system provided on HPC clusters (briefly).
+			\item Learning how to install software with "Conda".
+			\item Knowing how to avoid conflicts between the different software provisioning schemes.
+	  \end{enumerate}
+    \end{docs}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Software on HPC Systems}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}
   \frametitle{Modules}
   \vspace{-1.3em}
@@ -16,8 +45,8 @@
   \vfill
 \end{frame}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%TODO: discuss: is this too dense? This works for lmod (see next slide on the spider command). Too specific?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   {Modules -- Command Overview}
   \vspace{-1em}
@@ -47,7 +76,7 @@ $ module purge
   \vfill
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Modules -- looking for specific modules}
   Looking up modules:
@@ -55,11 +84,14 @@ $ module purge
 $ module spider <search string>
   \end{lstlisting}
   \pause
-  \task[Looking for area specific modules]{Try looking for an area specific 
-    module, e.\,g. in ``\texttt{bwa}''}
+  \begin{task}[Looking for area specific modules]
+  	Try looking for an area specific 
+    module, e.\,g. in ``\texttt{bwa}''
+  \end{task}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%TODO: this slides works with the naming scheme on Mogon - not necessarily on other clusters
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
    {Modules with easybuild\newline Or: What is this fuzz at the end of module names?}
    You will have seen modules like:
@@ -72,25 +104,13 @@ numlib/FFTW/3.3.10-gompi-2021b
     \footnotesize \verb+<topic>/<name>/<version>-<toolchain>-<toolchain-version>+
    \end{block}
    \pause
-   \task[Look inside a module to know what will be loaded and set]{Do ``\texttt{module show <module>}''}
+   \begin{task}[Look inside a module to know what will be loaded and set]
+   	  Do ``\altverb{module show <module>}''
+   \end{task}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}
-  \frametitle{Requesting software installs}
-  Your favourite software solution is not installed?
-  \begin{exampleblock}{Request software installation}
-    Use our \lhref{https://hpc.uni-mainz.de/high-performance-computing/service-angebot/softwareinstallation/}{little form}.\newline
-    We are sorry to be this formal, but otherwise we cannot easily accommodate your needs.
-  \end{exampleblock}
-  \pause
-  \warning[Please note:]{Software not incorporated in so-called easyconfigs, cannot be installed quickly.\newline
-    But we will try to do our best.}
-  \vfill
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%TODO: should we offer more or less on modules?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{That's all Folks}
    \vspace{-0.8em}
@@ -104,10 +124,10 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
   \end{alertblock}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \subsection{Using Conda}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}<handout:0> 
   \frametitle{Your Work Environment with Conda}
   \begin{columns}
@@ -120,7 +140,7 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
   \end{columns}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}
   \frametitle{Conda vs. Module Files}
   \begin{columns}
@@ -144,7 +164,7 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Installing Conda}
   You \emph{could} run
@@ -152,23 +172,50 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
 $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
   \end{lstlisting}
   to retrieve (Mini)Conda (a flavour of conda with less overhead).
-  \hint{\footnotesize URL is from \url{https://docs.conda.io/en/latest/miniconda.html}.\newline However, we are going to use tweaked scripts provided to you.}
+  \begin{hint}
+  	\footnotesize URL is from \url{https://docs.conda.io/en/latest/miniconda.html}.\newline However, we are going to use tweaked scripts provided to you.
+  \end{hint}
   \pause
-  \hint{However, instead of downloading, we will work through this together on the slides to come.}
+  \begin{hint}
+  	However, instead of downloading, we will work through this together on the slides to come.
+  \end{hint}
 \end{frame} 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{We will favour \emph{\textmu-Mamba} over Conda!}
-  Everyone is talking about ``Conda'' as a package manger -- and this is correct! But:
+  Many know ``Conda'' as a package manager -- and this is correct! But:
   \begin{block}{Why we recommend using ``\textmu-Mamba''}
-   Mamba is a ``drop-in'' for Conda. This means: \emph{every command is the same}, execpt we will write \altverb{mamba} where usuall \altverb{conda} would be.\newline
+   Conda carries some overhead. Alternative implementations can be faster and require less files. Mamba is a ``drop-in'' for Conda. This means: \emph{every command is the same}, except we will write \altverb{mamba} where usuall \altverb{conda} would be.\newline
    Why?\newline
    Mamba is an implementation of Conda, written in \CC{}. It is able to carry out some tasks in parallel and works considerably faster. In turn, \textmu-Mamba is a staticically compiled version of Mamba and does not require a ``base'' environment (we will learn about environments, soon), which means even less overhead.
   \end{block}
 \end{frame}
 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+	\frametitle{Installing \sout{Conda}/\textmu-Mamba}
+	Please run
+	\begin{lstlisting}[language=Bash, style=Shell]
+$ "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
+	\end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}
+  \frametitle{Installing \sout{Conda}/\textmu-Mamba - II}
+  You need to confirm (with ``Enter'')
+  \begin{itemize}[<+->]
+	\item the binary folder.
+	\item the shell you are using (just to be on the save side)
+	\item whether conda-forge shall be configured (this is a major resource channel)
+	\item the prefix location (where \textmu-Mamba shall be placed)
+  \end{itemize} 
+  The tool will tell up about the modification of your \altverb{.bashrc} file (which is executed upon \emph{every} login, we will discuss this in a minute).
+\end{frame}
+	
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 % \begin{frame}[fragile]
 %   \frametitle{\HandsOn{Copy our Course Sample Data}}
 %   We shall copy a few install scripts (which also will download some sample data).\newline
@@ -177,27 +224,13 @@ $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 % $ # Hint: This is the general syntax:
 % $ cp -r <path> ~/.
 %   \end{lstlisting}
-%   \hint[Note]{The slides assume that you are working in your HOME. Then typing the \textasciitilde{} is not necessary.}
+%   \begin{hint}[Note]
+%	  The slides assume that you are working in your HOME. Then typing the \textasciitilde{} is not necessary.
+%   \end{hint}
 % \end{frame}
-% 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-% \begin{frame}[fragile]
-%   \frametitle{\Interlude{About working with \texttt{Snakefile} Templates}}
-%   \begin{block}{\texttt{Snakefile} Templates}
-%    Your copied folder contains a folder ``\texttt{Template\_Snakefiles}''. Instead of typing workflows, we will refer to this folder, from where you can copy templates or cloze texts.
-%   \end{block}
-%   \begin{exampleblock}{Working with \texttt{Snakefile}s}
-%    \texttt{Snakemake} expexts a worflow file named \texttt{Snakefile}. When you copy a template, e.\,g. \altverb{01_Snakefile}, you best proceed with these steps:
-%    \begin{lstlisting}[language=Bash, style=Shell,basicstyle=\footnotesize]
-% $ cp ~/worflows/Template_Snakefiles/01_Snakefile Snakefile
-%    \end{lstlisting}
-%   \end{exampleblock}
-% \end{frame}
-
-
-
  
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+ 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 % \begin{frame}[fragile]
 %   \frametitle{The Install Script}
 %   The install script reads:
@@ -216,9 +249,9 @@ $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 %   Basically, download \& install - any questions?
 % \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Installing \sout{Conda}/\textmu-Mamba - IV}
+  \frametitle{Installing \sout{Conda}/\textmu-Mamba - III}
   \footnotesize
   \begin{columns}[t]
     \begin{column}{0.5\textwidth}
@@ -263,17 +296,20 @@ unset __mamba_setup
   \end{columns}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Why this function in your \texttt{.bashrc}?}
-  \docs{\begin{itemize}[<+->]
-  		\item \emph{every} time you log in, the code in your \texttt{.bashrc} will be exectud. Depeding on your conda setup, this can be incredebly slow (another reason to use Mamba or \textmu-Mamba).
+  \begin{docs}
+  	\begin{itemize}[<+->]
+  		\item \emph{every} time you log in, the code in your \texttt{.bashrc} will be exectud. Depeding on your conda setup, this can be incredibly slow (another reason to use Mamba or \textmu-Mamba).
   		\item automatic inclusion of Conda/Mamba might cause interference with modules
   		\item Now, you can run \verb+conda_initialize+ in the login shell, jobs scripts, etc. upon demand and deactivate if needed.
-  	\end{itemize}}
+  	\end{itemize}
+  \end{docs}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Initializing Conda \& Mamba}
   To initialize Conda, simply run
@@ -283,29 +319,36 @@ $ bash
   or (better)
   \begin{lstlisting}[language=Bash, style=Shell]
 $ source ~/.bashrc
+  \end{lstlisting}
+  Subsequently, run: 
+  \begin{lstlisting}[language=Bash, style=Shell]
 $ conda_initialize # if you have this function
   \end{lstlisting}
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%TODO: the webproxy might be different or non-existing elsewhere.
+%TODO: program a cluster switch
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Reducing Search Overhead - the \texttt{.condarc}-File}
-  On \mogon{} the number of Conda channels (the repositories) is reduced by the whitelisting. Nevertheless, it helps to reduce the search time with a resource file, including  a number of definitions, \emph{before} starting:
+  On many HPC clusters the number of Conda channels (the repositories) is reduced by the whitelisting. Nevertheless, it helps to reduce the search time with a resource file, including  a number of definitions, \emph{before} starting:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
 $ cat .condarc
 create_default_packages:
-  - setuptools
+  - setuptools # since Python is often needed
+# these channels cover most of the required software
 channels:
   - conda-forge
   - bioconda
   - defaults
   - r
-proxy_servers:
+proxy_servers: # in case a proxy server is present
   http: http://webproxy.zdv.uni-mainz.de:8888
 ssl_verify: false
 auto_update_conda: false
 always_yes: true # avoid confirmation(s)
+env_prompt: '($(basename {default_env})) '
   \end{lstlisting}
   To obtain the same resource file, run:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
@@ -314,7 +357,7 @@ $ cp ../setup/condarc ~/.condarc
   More on \altverb{.condarc} on the \lhref{https://conda.io/projects/conda/en/latest/user-guide/configuration/use-condarc.html}{official Conda documentation site}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Searching Software with Conda v. Mamba}
   First you might want to look for software. This is done with
@@ -322,11 +365,13 @@ $ cp ../setup/condarc ~/.condarc
 $ micromamba search <softwarename>
   \end{lstlisting}
   \pause
-  \task{Try this with a software which comes to mind.}
+  \begin{task}
+  	Try this with a software which comes to mind.
+  \end{task}
   \pause
   This will list packages with channel and version information, e.\,g.
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
-$ mamba search minimap
+$ micromamba search minimap
 <snip>
 Loading channels: done
 # Name                       Version           Build  Channel             
@@ -337,38 +382,96 @@ minimap                     0.2_r124      h5bf99c6_4  bioconda
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}
   \frametitle{Installing Software \emph{with} Conda \& Mamba - Using Environments}
-  \hint{It is a good habit to have
+  \begin{hint}It is a good habit to have
         \begin{itemize}
-          \item \emph{an} environment per workflow
+          \item \emph{one} environment per workflow
           \item the environment named as the workflow
           \item this way, we have a bundle of tools, activate the environment for it
           \item \texttt{snakemake} workflows will install the tools you need for a particular workflow - only \emph{if} these tools are still missing
          \end{itemize}
-        }
+  \end{hint}
+  \begin{hint}[Note]
+  	For now we will not use \texttt{snakemake} to install our software. This topic will be covered later.
+  \end{hint}
 \end{frame}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Conda Environments}
+  \frametitle{Conda / Mamba Environments}
   With Conda/Mamba, we can activate and deactivate environments, which bundle our software. E.\,g. a software stack per workflow to ensure reproducible runs.
     \pause
   To generate a new we can run
   \begin{lstlisting}[language=Bash, style=Shell]
-$ micromamba create --pyc -f environment.txt -p /lustre/project/m2_zdvhpc/meesters/test_micromamba
-$ mamba info --envs
+$ micromamba create @-n@ <environment_name>
   \end{lstlisting}
-  We can create, activate and deactivate environments with
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ mamba create --name <environment name>
-$ mamba activate <environment name>
-$ mamba deactivate
-  \end{lstlisting}
+  This will create a new environment with a given name in your home directory. Alternatively, i.\,e. when dealing with file number quotas, you can point the environment to a different filesystem, e.\,g.:
+  \begin{lstlisting}[language=Bash, style=Shell] 
+$ micromamba create \
+>  @-p@ /path/to/project/fs/<environment_name>
+   \end{lstlisting}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Creating your own Environment}}
+  Now, create your first environment. We will
+  \begin{itemize}
+  	\item work in the \altverb{HOME} directory with
+  	\item a \textit{named} environment
+  	\item use the downloaded \altverb{environment.yaml} file to define the software stack
+  	\item pre-compile all Python files with the \altverb{--pyc} flag
+  \end{itemize}
+  \begin{lstlisting}[language=Bash, style=Shell,breaklines=true]
+$ micromamba create --pyc -f environment.yaml -n snakemake-tutorial
+  \end{lstlisting}	
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Listing Environments}
+   Over time you will have several environments. (So far, there is one.) To list them all, simply run:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ micromamba env list
+  \end{lstlisting}
+\end{frame} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Creating, Activating, Deactivating Environments}
+  We can create, activate and deactivate environments with
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ micromamba create [other args] -n <environment name>
+$ micromamba activate <environment name>
+$ micromamba deactivate
+  \end{lstlisting}
+   \begin{task}
+   	  Activate the environment you just created!
+   \end{task}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+   \frametitle{\Interlude{Managing your Prompt}}
+   \begin{question}
+   	Did you notice the last line in your \texttt{.condarc} file? What does it do?
+   \end{question} 
+   Remember:
+     \begin{lstlisting}[language=Bash, style=Shell]
+$ cat .condarc
+....
+env_prompt: '($(basename {default_env})) '
+   \end{lstlisting}
+   \pause
+   It causes an unnamed environment prompt to shrink, e.\,g.:
+   \begin{lstlisting}[language=Bash, style=Plain]
+(my_env) user@host:directory $
+# instead of
+(/some/long/path/my_env) user@host:directory $
+   \end{lstlisting}
+\end{frame}
 
 
 

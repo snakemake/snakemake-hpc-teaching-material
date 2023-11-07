@@ -17,16 +17,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{What is this about?}
-   \question[Questions]{\begin{itemize}
-                         \item How do we add execution parameters?
-                         \item How do we tune scientific parameters?
-                        \end{itemize}
-                       }
-   \docs[Objectives]{\begin{enumerate} 
+   \begin{question}[Questions]
+   	 \begin{itemize}
+        \item How do we add execution parameters?
+        \item How do we tune scientific parameters?
+     \end{itemize}
+   \end{question}
+   \begin{docs}[Objectives]
+   	 \begin{enumerate} 
                       \item Learn to use parameters relevant for the batch systems.
                       \item Learn how to tune \texttt{Snakemake} on the command line.
                       \item Learn how to tune \texttt{Snakemake} with configuration files.
-                     \end{enumerate}}
+     \end{enumerate}
+   \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -34,7 +37,9 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \docs{\texttt{Snakemake} has an extensive command line interface (CLI). \emph{Everything} can be configured on the command line. In addition (almost) everything can be specified in a configuration file.}
+  \begin{docs}
+  	\texttt{Snakemake} has an extensive command line interface (CLI). \emph{Everything} can be configured on the command line. In addition (almost) everything can be specified in a configuration file.
+  \end{docs}
   \pause
   \begin{exampleblock}{Which parameter goes where? Some rules of thumb:}
     \begin{columns}[t]
@@ -71,7 +76,9 @@
 $ snakemake --slurm
   \end{lstlisting}
   Now, \emph{every} rule will submit its jobs as HPC compute jobs.
-  \hint{We will learn how to avoid this, soon-ish.}
+  \begin{hint}
+  	We will learn how to avoid this, soon-ish.
+  \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -83,8 +90,12 @@ $ snakemake --slurm \
 > --default-resources slurm_account=m2_jgu-ngstraining \
 >                     slurm_partition=smp
   \end{lstlisting}
-  \hint{Please notice the missing quotation marks! All arguments belong to one parameter.}
-  \docs{We wrote \texttt{slurm\_...} to distinguish from other non-SLURM accounts and similar stuff.}
+  \begin{hint}
+  	Please notice the missing quotation marks! All arguments belong to one parameter.
+  \end{hint}
+  \begin{docs}
+  	We wrote \texttt{slurm\_...} to distinguish from other non-SLURM accounts and similar stuff.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -105,7 +116,9 @@ $ snakemake --slurm \
 > -j unlimited
   \end{lstlisting}
   together.
-  \hint{You might want to invoke the \texttt{clean}-rule, first.}
+  \begin{hint}
+  	You might want to invoke the \altverb{clean}-rule, first.
+  \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -119,7 +132,9 @@ $ snakemake --slurm \
    \item with \altverb{-j unlimited} we allow for an unlimited jumber of spawned jobs!
   \end{itemize}
   \pause
-  \warning{Unlimited number of jobs may yield in I/O contention and too many calls to check the job status. Use with care for both issues there is a remedy, which we will meet later!}
+  \begin{warning}
+  	Unlimited number of jobs may yield in I/O contention and too many calls to check the job status. Use with care for both issues there is a remedy, which we will meet later!
+  \end{warning}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -137,9 +152,13 @@ rule <name>:
       mem_mb=1800,
       cpus_per_task=4
   \end{lstlisting}
-  \hint{Note the \textbf{,}!}
+  \begin{hint}
+  	Note the \textbf{,}!
+  \end{hint}
   \pause
-  \docs{You \emph{may} define \emph{any} resource keyword within any rule.}
+  \begin{docs}
+  	You \emph{may} define \emph{any} resource keyword within any rule.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -172,9 +191,13 @@ rule <name>:
 .2 {other stuff}.
 }}
  \pause
- \docs{You can store a yaml file with \emph{your} workflow configuration -- which may be combined with the desinger's configuration.}
+ \begin{docs}
+ 	You can store a yaml file with \emph{your} workflow configuration -- which may be combined with the desinger's configuration.
+ \end{docs}
  \pause
- \warning{It is better to specify fully qualified paths to your data! The tilde is only there to make a point!}
+ \begin{warning}
+ 	It is better to specify fully qualified paths to your data! The tilde is only there to make a point!
+ \end{warning}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -190,9 +213,12 @@ $ cat ./config/samples.yaml
 path: '~/workflows/books'
 limit: 10
   \end{lstlisting}
-  \question{How do pick up resource parameters in out \texttt{Snakefile}?!}
+  \begin{question}
+  	How do pick up resource parameters in out \texttt{Snakefile}?!
+  \end{question}
 \end{frame} 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\Interlude{Introducing Python's \texttt{os} Library}}
   Python has a library to provide functions to deal with operating systems, including file systems. Check out:
@@ -208,7 +234,9 @@ limit: 10
 >>> output_path = os.path.join(os.path.dirname(input_path),
                                "results")
   \end{lstlisting}
-  \task{Try \altverb{os.path.join('asdf', 'foo')} yourself. What do you observe? Use this output as input for \altverb{os.path.dirname()}. What do you observe?}
+  \begin{task}
+  	Try \altverb{os.path.join('asdf', 'foo')} yourself. What do you observe? Use this output as input for \altverb{os.path.dirname()}. What do you observe?
+  \end{task}
   \vfill
 \end{frame}
 
@@ -222,7 +250,9 @@ limit: 10
   \begin{lstlisting}[language=Python,style=Python]
 input_path = config["path"]
   \end{lstlisting}
-  \hint{We know, its useless: if our \texttt{path} is a relative path, every derived path is relative to our current working directory!}
+  \begin{hint}
+  	We know, its useless: if our \texttt{path} is a relative path, every derived path is relative to our current working directory!
+  \end{hint}
   \pause
   Luckily, \texttt{Snakefile}s are Python-Code:
   \begin{lstlisting}[language=Python,style=Python]
@@ -273,7 +303,9 @@ set-resources:
         runtime: 10
         tasks: 2
   \end{lstlisting}
-  \docs{This works for multiple rules. We will re-visit this during the course. You may refer to the \lhref{https://snakemake.readthedocs.io/en/stable/executing/cluster.html}{\texttt{Snakemake} cluster documentation} for details.}
+  \begin{docs}
+  	This works for multiple rules. We will re-visit this during the course. You may refer to the \lhref{https://snakemake.readthedocs.io/en/stable/executing/cluster.html}{\texttt{Snakemake} cluster documentation} for details.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -294,9 +326,13 @@ set-resources:
 }}
     \end{column}
     \begin{column}{0.5\textwidth}
-      \question{Why keep the workflow parameterization and the cluster parameterization apart?}
+      \begin{question}
+      	Why keep the workflow parameterization and the cluster parameterization apart?
+      \end{question}
       \pause
-      \docs[Answer]{Workflow parameter is workflow specific, cluster parameterization is executor specific!}
+      \begin{docs}[Answer]
+      	Workflow parameter is workflow specific, cluster parameterization is executor specific!
+      \end{docs}
     \end{column}
   \end{columns}
 \end{frame}

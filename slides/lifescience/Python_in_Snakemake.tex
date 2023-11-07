@@ -17,15 +17,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{What is this about?}
-   \question[Questions]{\begin{itemize}
-                         \item How can I automatically manage dependencies and outputs?
-                         \item How can I use Python code to add features to my pipeline?
-                        \end{itemize}
-                       }
-   \docs[Objectives]{\begin{enumerate}
+   \begin{question}[Questions]
+   	 \begin{itemize}
+        \item How can I automatically manage dependencies and outputs?
+        \item How can I use Python code to add features to my pipeline?
+     \end{itemize}
+   \end{question}
+   \begin{docs}[Objectives]
+   	  \begin{enumerate}
                       \item Use variables, functions, and imports in a Snakefile. 
                       \item Learn to use the \texttt{run} action to execute Python code as an action.
-                     \end{enumerate}}
+       \end{enumerate}
+   \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -33,10 +36,12 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
- \frametitle{Why Python in \texttt{Snakefile}?}
- Sometimes we do \emph{not} want to run $3^{\mathsf{rd}}$ party code, but run the occasional script for data manipulation or plotting or \ldots 
- \pause
- \docs{\texttt{Snakefile}s are Python code (albeit special Python code)!)}
+  \frametitle{Why Python in \texttt{Snakefile}?}
+  Sometimes we do \emph{not} want to run $3^{\mathsf{rd}}$ party code, but run the occasional script for data manipulation   or plotting or \ldots 
+  \pause
+  \begin{docs}
+  	\texttt{Snakefile}s are Python code (albeit special Python code)!)
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -46,7 +51,9 @@
 \begin{frame}[fragile]
   \frametitle{Using functions in \texttt{Snakefile}s}
   We already met the \altverb{expand()}-function. Let's revisit it in detail!
-  \task{Start Python and follow along!}
+  \begin{task}
+  	Start Python and follow along!
+  \end{task}
   \begin{lstlisting}[language=Python,style=Python]
 from snakemake.io import expand, glob_wildcards
   \end{lstlisting}
@@ -61,9 +68,13 @@ from snakemake.io import expand, glob_wildcards
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Using functions in \texttt{Snakefile}s II}
-  \question{What is the result?}
+  \begin{question}
+  	What is the result?
+  \end{question}
   \pause
-  \hint[Answer:]{Every permutation of \altverb{wildcard1} and \altverb{wildcard2}!}
+  \begin{hint}[Answer:]
+  	Every permutation of \altverb{wildcard1} and \altverb{wildcard2}!
+  \end{hint}
   \pause
   Let us try \altverb{glob_wildcards()}, now:
   \begin{lstlisting}[language=Python,style=Python]
@@ -71,7 +82,9 @@ glob_wildcards('data/samples/{replicas}.fastq').replicas
   \end{lstlisting}
   \pause
   Wow! So, easy!
-  \question{What happend? What happens if you leave \texttt{.replicas} away?}
+  \begin{question}
+  	What happend? What happens if you leave \altverb{.replicas} away?
+  \end{question}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -105,7 +118,9 @@ glob_wildcards('data/samples/{replicas}.fastq').replicas
   \frametitle{\Interlude{Meeting the \texttt{run} Action}}
   \vspace{-0.5em}
   It is possible to run Python snippets in \texttt{Snakemake}. For this, we have to replace the \altverb{shell:} action by a \altverb{run:} action:\vspace{-0.5em}
-  \task{Imaging this code in a \altverb{Snakefile}:}\vspace{-0.5em}
+  \begin{task}
+  	Imaging this code in a \altverb{Snakefile}:
+  \end{task}\vspace{-0.5em}
   \begin{lstlisting}[language=Python,style=Python, basicstyle=\footnotesize]
 # at the top of the file
 import glob
@@ -119,7 +134,9 @@ rule print_sample_names:
 
   \end{lstlisting}\vspace{-0.5em}
   \pause\footnotesize
-  \hint[The idea:]{This allows for Python snippets in rules without saving Python files, e.\,g. for short data mangling or plotting.}
+  \begin{hint}[The idea:]
+     This allows for Python snippets in rules without saving Python files, e.\,g. for short data mangling or plotting.
+  \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -132,7 +149,9 @@ rule print_sample_names:
   \begin{lstlisting}[language=Python,style=Python]
 shell:  'some_command -i {input} -o {output}'
   \end{lstlisting}
-  \question{Isn't this rather tedious, considering that \texttt{Snakemake} is written in Python? Could we forward rule specific information to our scripts?}
+  \begin{question}
+  	Isn't this rather tedious, considering that \texttt{Snakemake} is written in Python? Could we forward rule specific information to our scripts?
+  \end{question}
 \end{frame}
 
 \begingroup
@@ -210,13 +229,17 @@ rule plot_quals:
   \end{lstlisting}
   It uses the \altverb{script} directive and expects a directory \altverb{scripts} relative to our \altverb{Snakefile}.
   \pause
-  \task{Create the missing directory.}
+  \begin{task}
+  	Create the missing directory.
+  \end{task}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Adding the Plotting Script}}
-  \task{Open an editor and follow along}
+  \begin{task}
+  	Open an editor and follow along.
+  \end{task}
   \begin{onlyenv}<1| handout:0>
    First, we start with importing a plotting library; save the script under \altverb{scripts/plot-quals.py}:
    \begin{lstlisting}[language=Python,style=Python]

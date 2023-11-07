@@ -18,3 +18,11 @@ For every issue:
 
 - create a branch `"<shortname>_<issue_number>"`
 - do a merge (request) 
+
+# Progress
+
+In order to see TODO items, run the `todo` script, e.g.
+
+```bash
+$ todo slides/*tex
+``` 
