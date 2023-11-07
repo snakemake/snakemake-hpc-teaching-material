@@ -20,11 +20,13 @@
    \begin{question}[Questions]
    	 How do I write a simple workflow?
    \end{question}
-   \docs[Objectives]{\begin{enumerate}
+   \begin{docs}[Objectives]
+   	 \begin{enumerate}
                       \item Understand the components of a Snakefile: rules, inputs, outputs, and actions.
                       \item Write a simple Snakefile.
                       \item Run Snakemake from the shell.
-                     \end{enumerate}}
+     \end{enumerate}
+   \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -96,7 +98,9 @@ rule bwa_map:
         " | samtools view -Sb - >"
         " mapped_reads/A.bam"
     \end{lstlisting}
-    \docs{This code is build file, which for \texttt{Snakemake} is called a \texttt{Snakefile} -- a file executed by \texttt{Snakemake}.}
+    \begin{docs}
+    	This code is build file, which for \texttt{Snakemake} is called a \texttt{Snakefile} -- a file executed by \texttt{Snakemake}.
+    \end{docs}
     \end{onlyenv}
   \begin{onlyenv}<2| handout:0>
    We are going to ``map'' our reads onto the genome.
@@ -245,7 +249,9 @@ $ touch mapped_reads/A.bam
   \end{itemize}
   upon re-run \texttt{Snakemake} will only rebuild the files that, either directly or indirectly, depend on the file that changed. This is called an \emph{incremental build}.
   \pause
-  \docs{By explicitly recording the inputs to and outputs from steps in our analysis and the dependencies between files, Snakefiles act as a type of documentation, reducing the number of things we have to remember.}
+  \begin{docs}
+  	By explicitly recording the inputs to and outputs from steps in our analysis and the dependencies between files, Snakefiles act as a type of documentation, reducing the number of things we have to remember.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -353,7 +359,9 @@ rule samtools_sort:
   \frametitle{Using Wildcards}
   The rule will take  input file from the \altverb{mapped_reads} directory and store a sorted version in the \altverb{sorted_reads} directory.
   \pause
-  \docs{\texttt{Snakemake} will automatically create missing directories!}
+  \begin{docs}
+  	\texttt{Snakemake} will automatically create missing directories!
+  \end{docs}
   You noticed \altverb{-T sorted_reads/\{wildcards.sample\}}?
   \pause
   For sorting, \texttt{samtools} requires a prefix specified with the flag \altverb{-T}. Here, we need the value of the wildcard \altverb{sample}. \texttt{Snakemake} allows to access wildcards in the shell command via the wildcards object that has an attribute with the value for each wildcard.
@@ -367,7 +375,9 @@ rule samtools_sort:
 $ snakemake -np sorted_reads/B.bam
   \end{lstlisting}
   you will notice that \texttt{Snakemake} wants to run the first rule \altverb{bwa_map} and then the rule \altverb{samtools_sort} to create the desired target file.
-  \docs{Dependencies are resolved automatically by matching file names.}
+  \begin{docs}
+  	Dependencies are resolved automatically by matching file names.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
