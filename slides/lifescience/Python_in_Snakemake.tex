@@ -66,7 +66,9 @@ from snakemake.io import expand, glob_wildcards
   	What is the result?
   \end{question}
   \pause
-  \hint[Answer:]{Every permutation of \altverb{wildcard1} and \altverb{wildcard2}!}
+  \begin{hint}[Answer:]
+  	Every permutation of \altverb{wildcard1} and \altverb{wildcard2}!}
+  \end{hint}
   \pause
   Let us try \altverb{glob_wildcards()}, now:
   \begin{lstlisting}[language=Python,style=Python]
@@ -124,7 +126,9 @@ rule print_sample_names:
 
   \end{lstlisting}\vspace{-0.5em}
   \pause\footnotesize
-  \hint[The idea:]{This allows for Python snippets in rules without saving Python files, e.\,g. for short data mangling or plotting.}
+  \being{hint}[The idea:]
+     This allows for Python snippets in rules without saving Python files, e.\,g. for short data mangling or plotting.
+  \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
