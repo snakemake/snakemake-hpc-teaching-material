@@ -23,10 +23,12 @@
         \item How can the redundancy in a workflow be reduced?
      \end{itemize}
    \end{question}
-   \docs[Objectives]{\begin{enumerate}
+   \begin{docs}[Objectives]
+   	 \begin{enumerate}
                       \item Use \texttt{Snakemake} wildcards to simplify our rules.
                       \item Output files are a product not only of input files but of the scripts or code that created the output files.
-                     \end{enumerate}}
+      \end{enumerate}
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -35,13 +37,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Rule number One: Don't repeat Yourself!}
-
-Our \texttt{Snakefile} has enormous redundancy: 
-\begin{itemize}
- \item names of in-/output files are repeated
- \item rules for every in-/output
-\end{itemize}
-\docs{\texttt{Snakefile}s are a form of code and, in any code, repeated code can lead to problems (e.g. we rename a data file in one part of the \texttt{Snakefile} but forget to rename it elsewhere).}
+  Our \texttt{Snakefile} has enormous redundancy: 
+  \begin{itemize}
+    \item names of in-/output files are repeated
+    \item rules for every in-/output
+  \end{itemize}
+  \begin{docs}
+  	\texttt{Snakefile}s are a form of code and, in any code, repeated code can lead to problems (e.g. we rename a data file in one part of the \texttt{Snakefile} but forget to rename it elsewhere).
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
