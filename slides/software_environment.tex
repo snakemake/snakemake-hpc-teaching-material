@@ -84,8 +84,10 @@ $ module purge
 $ module spider <search string>
   \end{lstlisting}
   \pause
-  \task[Looking for area specific modules]{Try looking for an area specific 
-    module, e.\,g. in ``\texttt{bwa}''}
+  \begin{task}[Looking for area specific modules]
+  	Try looking for an area specific 
+    module, e.\,g. in ``\texttt{bwa}''
+  \end{task}
 \end{frame}
 
 %TODO: this slides works with the naming scheme on Mogon - not necessarily on other clusters
@@ -102,7 +104,9 @@ numlib/FFTW/3.3.10-gompi-2021b
     \footnotesize \verb+<topic>/<name>/<version>-<toolchain>-<toolchain-version>+
    \end{block}
    \pause
-   \task[Look inside a module to know what will be loaded and set]{Do ``\texttt{module show <module>}''}
+   \begin{task}[Look inside a module to know what will be loaded and set]
+   	  Do ``\altverb{module show <module>}''
+   \end{task}
 \end{frame}
 
 %TODO: should we offer more or less on modules?
@@ -361,7 +365,9 @@ $ cp ../setup/condarc ~/.condarc
 $ micromamba search <softwarename>
   \end{lstlisting}
   \pause
-  \task{Try this with a software which comes to mind.}
+  \begin{task}
+  	Try this with a software which comes to mind.
+  \end{task}
   \pause
   This will list packages with channel and version information, e.\,g.
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
@@ -441,7 +447,9 @@ $ micromamba create [other args] -n <environment name>
 $ micromamba activate <environment name>
 $ micromamba deactivate
   \end{lstlisting}
-   \task{Activate the environment you just created!}
+   \begin{task}
+   	  Activate the environment you just created!
+   \end{task}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
