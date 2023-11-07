@@ -17,16 +17,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 	\frametitle{What is this about?}
-	\question[Questions]{\begin{itemize}
+	\begin{question}[Questions]\begin{itemize}
 			\item How do I get the software for a particular workflow?
 			\item What is the difference in different build systems and software environments? Why does it matter for me?
 		\end{itemize}
-	}
-	\docs[Objectives]{\begin{enumerate}
+	\end{question}
+	\begin{docs}[Objectives]
+	  \begin{enumerate}
 			\item Introducing the "Module" system provided on HPC clusters (briefly).
 			\item Learning how to install software with "Conda".
 			\item Knowing how to avoid conflicts between the different software provisioning schemes.
-	\end{enumerate}}
+	  \end{enumerate}
+    \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -82,8 +84,10 @@ $ module purge
 $ module spider <search string>
   \end{lstlisting}
   \pause
-  \task[Looking for area specific modules]{Try looking for an area specific 
-    module, e.\,g. in ``\texttt{bwa}''}
+  \begin{task}[Looking for area specific modules]
+  	Try looking for an area specific 
+    module, e.\,g. in ``\texttt{bwa}''
+  \end{task}
 \end{frame}
 
 %TODO: this slides works with the naming scheme on Mogon - not necessarily on other clusters
@@ -100,7 +104,9 @@ numlib/FFTW/3.3.10-gompi-2021b
     \footnotesize \verb+<topic>/<name>/<version>-<toolchain>-<toolchain-version>+
    \end{block}
    \pause
-   \task[Look inside a module to know what will be loaded and set]{Do ``\texttt{module show <module>}''}
+   \begin{task}[Look inside a module to know what will be loaded and set]
+   	  Do ``\altverb{module show <module>}''
+   \end{task}
 \end{frame}
 
 %TODO: should we offer more or less on modules?
@@ -166,9 +172,13 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
 $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
   \end{lstlisting}
   to retrieve (Mini)Conda (a flavour of conda with less overhead).
-  \hint{\footnotesize URL is from \url{https://docs.conda.io/en/latest/miniconda.html}.\newline However, we are going to use tweaked scripts provided to you.}
+  \begin{hint}
+  	\footnotesize URL is from \url{https://docs.conda.io/en/latest/miniconda.html}.\newline However, we are going to use tweaked scripts provided to you.
+  \end{hint}
   \pause
-  \hint{However, instead of downloading, we will work through this together on the slides to come.}
+  \begin{hint}
+  	However, instead of downloading, we will work through this together on the slides to come.
+  \end{hint}
 \end{frame} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -214,7 +224,9 @@ $ "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
 % $ # Hint: This is the general syntax:
 % $ cp -r <path> ~/.
 %   \end{lstlisting}
-%   \hint[Note]{The slides assume that you are working in your HOME. Then typing the \textasciitilde{} is not necessary.}
+%   \begin{hint}[Note]
+%	  The slides assume that you are working in your HOME. Then typing the \textasciitilde{} is not necessary.
+%   \end{hint}
 % \end{frame}
  
  
@@ -284,16 +296,18 @@ unset __mamba_setup
   \end{columns}
 \end{frame}
 
-%TODO see #6
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-%\begin{frame}[fragile]
-%  \frametitle{Why this function in your \texttt{.bashrc}?}
-%  \docs{\begin{itemize}[<+->]
-%  		\item \emph{every} time you log in, the code in your \texttt{.bashrc} will be exectud. Depeding on your conda setup, this can be incredibly slow (another reason to use Mamba or \textmu-Mamba).
-%  		\item automatic inclusion of Conda/Mamba might cause interference with modules
-%  		\item Now, you can run \verb+conda_initialize+ in the login shell, jobs scripts, etc. upon demand and deactivate if needed.
-%  	\end{itemize}}
-%\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{Why this function in your \texttt{.bashrc}?}
+  \begin{docs}
+  	\begin{itemize}[<+->]
+  		\item \emph{every} time you log in, the code in your \texttt{.bashrc} will be exectud. Depeding on your conda setup, this can be incredibly slow (another reason to use Mamba or \textmu-Mamba).
+  		\item automatic inclusion of Conda/Mamba might cause interference with modules
+  		\item Now, you can run \verb+conda_initialize+ in the login shell, jobs scripts, etc. upon demand and deactivate if needed.
+  	\end{itemize}
+  \end{docs}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
@@ -351,7 +365,9 @@ $ cp ../setup/condarc ~/.condarc
 $ micromamba search <softwarename>
   \end{lstlisting}
   \pause
-  \task{Try this with a software which comes to mind.}
+  \begin{task}
+  	Try this with a software which comes to mind.
+  \end{task}
   \pause
   This will list packages with channel and version information, e.\,g.
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
@@ -369,15 +385,17 @@ minimap                     0.2_r124      h5bf99c6_4  bioconda
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}
   \frametitle{Installing Software \emph{with} Conda \& Mamba - Using Environments}
-  \hint{It is a good habit to have
+  \begin{hint}It is a good habit to have
         \begin{itemize}
           \item \emph{one} environment per workflow
           \item the environment named as the workflow
           \item this way, we have a bundle of tools, activate the environment for it
           \item \texttt{snakemake} workflows will install the tools you need for a particular workflow - only \emph{if} these tools are still missing
          \end{itemize}
-        }
-  \hint[Note]{For now we will not use \texttt{snakemake} to install our software. This topic will be covered later.}
+  \end{hint}
+  \begin{hint}[Note]
+  	For now we will not use \texttt{snakemake} to install our software. This topic will be covered later.
+  \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -429,13 +447,17 @@ $ micromamba create [other args] -n <environment name>
 $ micromamba activate <environment name>
 $ micromamba deactivate
   \end{lstlisting}
-   \task{Activate the environment you just created!}
+   \begin{task}
+   	  Activate the environment you just created!
+   \end{task}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
    \frametitle{\Interlude{Managing your Prompt}}
-   \question{Did you notice the last line in your \texttt{.condarc} file? What does it do?} 
+   \begin{question}
+   	Did you notice the last line in your \texttt{.condarc} file? What does it do?
+   \end{question} 
    Remember:
      \begin{lstlisting}[language=Bash, style=Shell]
 $ cat .condarc

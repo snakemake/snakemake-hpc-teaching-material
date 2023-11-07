@@ -17,15 +17,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{What is this about?}
-   \question[Questions]{\begin{itemize}
-                         \item How can a workflow be made really usable?
-                         \item How can I avoid changing the workflow source for every new input?
-                        \end{itemize}
-                       }
-   \docs[Objectives]{\begin{enumerate}
+   \begin{question}[Questions]
+   	  \begin{itemize}
+         \item How can a workflow be made really usable?
+         \item How can I avoid changing the workflow source for every new input?
+      \end{itemize}
+   \end{question}
+   \begin{docs}[Objectives]
+   	 \begin{enumerate}
                       \item Learn how to make use of configuration files.  
                       \item Learn how to add parameters to your workflow.
-                     \end{enumerate}}
+     \end{enumerate}
+   \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -37,7 +40,9 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \docs{\texttt{Snakemake} has an extensive command line interface (CLI). \emph{Everything} can be configured on the command line. In addition (almost) everything can be specified in a configuration file.}
+  \begin{docs}
+  	\texttt{Snakemake} has an extensive command line interface (CLI). \emph{Everything} can be configured on the command line. In addition (almost) everything can be specified in a configuration file.
+  \end{docs}
   \pause
   \begin{exampleblock}{Which parameter goes where? Some rules of thumb:}
     \begin{columns}[t]
@@ -76,9 +81,13 @@ rule <name>:
       mem_mb=1800,
       cpus_per_task=4
   \end{lstlisting}
-  \hint{Note the \textbf{,}!}
+  \begin{hint}
+  	Note the \textbf{,}!
+  \end{hint}
   \pause
-  \docs{You \emph{may} define \emph{any} resource keyword within any rule.}
+  \begin{docs}
+  	You \emph{may} define \emph{any} resource keyword within any rule.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -111,9 +120,13 @@ rule <name>:
 .2 {other stuff}.
 }}
  \pause
- \docs{You can store a yaml file with \emph{your} workflow configuration -- which may be combined with the desinger's configuration.}
+ \begin{docs}
+ 	You can store a yaml file with \emph{your} workflow configuration -- which may be combined with the desinger's configuration.
+ \end{docs}
  \pause
- \warning{It is better to specify fully qualified paths to your data! The tilde is only there to make a point!}
+ \begin{warning}
+ 	It is better to specify fully qualified paths to your data! The tilde is only there to make a point!
+ \end{warning}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -127,13 +140,17 @@ $ snakemake ... --configfile ./config/config.yaml
   \begin{lstlisting}[language=Python,style=Python]
 configfile: "config.yaml"
   \end{lstlisting}  
-  \question{How do pick up resource parameters in out \texttt{Snakefile}?!}
+  \begin{question}
+  	How do pick up resource parameters in out \texttt{Snakefile}?!
+  \end{question}
 \end{frame} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Working with Configuration Data}
-  \hint{Remember: \texttt{Snakefile}s are Python files.}
+  \begin{hint}
+  	Remember: \texttt{Snakefile}s are Python files.
+  \end{hint}
   \pause
   Given a file \altverb{config.yaml} with contents:
   \begin{lstlisting}[language=Python,style=Python]
@@ -219,10 +236,12 @@ $ snakemake -n --forcerun bcftools_call
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Rule Parameters}
-  \warning{Frequently, party programs cannot be used with their defaults, additional parameters are required.}
-   In our workflow, it is reasonable to annotate aligned reads with so-called read groups, that contain metadata like the sample name. \newline
-   To do so, we add to our \altverb{bwa_map}-rule:
-   \begin{lstlisting}[style=Plain,basicstyle=\footnotesize]
+  \begin{warning}
+  	Frequently, party programs cannot be used with their defaults, additional parameters are required.
+  \end{warning}
+  In our workflow, it is reasonable to annotate aligned reads with so-called read groups, that contain metadata like the sample name. \newline
+  To do so, we add to our \altverb{bwa_map}-rule:
+  \begin{lstlisting}[style=Plain,basicstyle=\footnotesize]
 rule bwa_map:
     input:
         "data/genome.fa",
@@ -234,7 +253,7 @@ rule bwa_map:
     shell:
         "bwa mem -R '{params.rg}' {input} "
         "| samtools view -Sb - > {output}"
-   \end{lstlisting}
+  \end{lstlisting}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -258,11 +277,17 @@ rule bwa_map:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Logging}
-  \hint{When executing a large workflow, it is usually desirable to store the logging output of each job into a separate file, instead of just printing all logging output to the terminal—when multiple jobs are run in parallel, this would result in chaotic output. - We already observed this!}
+  \begin{hint}
+  	When executing a large workflow, it is usually desirable to store the logging output of each job into a separate file, instead of just printing all logging output to the terminal—when multiple jobs are run in parallel, this would result in chaotic output. - We already observed this!
+  \end{hint}
   \pause
-  \task{Log into the workflow: Name all rules, which merit gathering logs.}
+  \begin{task}
+  	Log into the workflow: Name all rules, which merit gathering logs.
+  \end{task}
   \pause
-  \docs{In theory \emph{every} rules will profit from logging directives. Only in very rare cases a script or application \emph{cannot} produce output - you will probably not be able to recognize such a case.}
+  \begin{docs}
+  	In theory \emph{every} rules will profit from logging directives. Only in very rare cases a script or application \emph{cannot} produce output - you will probably not be able to recognize such a case.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -282,15 +307,21 @@ rule bwa_map:
         "(bwa mem -R '{params.rg}' {input} "
         "| samtools view -Sb - > {output}) 2> {log}"
    \end{lstlisting}
-   \task{Please try this out.}
+   \begin{task}
+     Please try this out.
+   \end{task}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Logging - III}
-  \question[Questions]{What did you observe? Why is there a distinction per sample?}
+  \begin{question}[Questions]
+  	 What did you observe? Why is there a distinction per sample?
+  \end{question}
   \pause
-  \docs{This rule's output will not clutter the terminal any more. All necessary information is in a log \emph{per} sample: If one attempt to map goes wrong, the specific error can be found in the sample log.}
+  \begin{docs}
+  	This rule's output will not clutter the terminal any more. All necessary information is in a log \emph{per} sample: If one attempt to map goes wrong, the specific error can be found in the sample log.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -299,7 +330,9 @@ rule bwa_map:
   Let's face it: Most output files of a workflow, particularly more complex ones(!), do not need to be archived. They will only take up storage until someone takes the \includegraphics[height=\baselineskip]{misc/broom.png}.\newline
   Luckily, \texttt{Snakemake} provides a way to mark a file as ``temporary'' and will delete it, when its not needed any longer.
   \pause
-  \question{The output of which rules in our workflow should be marked ``temporary''?}
+  \begin{question}
+  	The output of which rules in our workflow should be marked ``temporary''?
+  \end{question}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -359,7 +392,9 @@ $ du -sh *reads
 $ snakemake --slurm
   \end{lstlisting}
   Now, \emph{every} rule will submit its jobs as HPC compute jobs.
-  \hint{We will learn how to avoid this, soon-ish.}
+  \begin{hint}
+  	We will learn how to avoid this, soon-ish.
+  \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -371,8 +406,12 @@ $ snakemake --slurm \
 > --default-resources slurm_account=m2_jgu-ngstraining \
 >                     slurm_partition=smp
   \end{lstlisting}
-  \hint{Please notice the missing quotation marks! All arguments belong to one parameter.}
-  \docs{We choose \texttt{slurm\_...}-prefixes to distinguish from other non-SLURM accounts and similar stuff.}
+  \begin{hint}
+  	Please notice the missing quotation marks! All arguments belong to one parameter.
+  \end{hint}
+  \begin{docs}
+  	We choose \altverb{slurm_...}-prefixes to distinguish from other non-SLURM accounts and similar stuff.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -406,7 +445,9 @@ $ snakemake --slurm \
    \item with \altverb{-j unlimited} we allow for an unlimited jumber of spawned jobs!
   \end{itemize}
   \pause
-  \warning{Unlimited number of jobs may yield in I/O contention and too many calls to check the job status. Use with care for both issues there is a remedy, which we will meet later!}
+  \begin{warning}
+  	Unlimited number of jobs may yield in I/O contention and too many calls to check the job status. Use with care for both issues there is a remedy, which we will meet later!
+  \end{warning}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -419,14 +460,18 @@ $ snakemake --slurm \
 >                     slurm_partition=smp \
 > -j unlimited @-F@
   \end{lstlisting}
-  \question{Observations?}
+  \begin{question}
+  	Observations?
+  \end{question}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{The Downside of working with Defaults}
   Ok, this should(!) be running, yet you saw the warnings. 
-  \question{Why will a ``real'' workflow fail with all these default settings?}
+  \begin{question}
+  	Why will a ``real'' workflow fail with all these default settings?
+  \end{question}
   \pause
   \begin{itemize}
    \item ``real data'' tend to be biffer - insufficient memory
@@ -439,7 +484,9 @@ $ snakemake --slurm \
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Cluster Configuration}
-  \hint{Best abstract the configuration for a cluster from the workflow!}
+  \begin{hint}
+  	Best abstract the configuration for a cluster from the workflow!
+  \end{hint}
   In addition to a \altverb{config} directory to hold our samples, \texttt{Snakemake} will accept a directory with profile settings, usually ``\altverb{profile}''.
   \pause
   A profile has to adhere to \lhref{https://en.wikipedia.org/wiki/YAML}{\texttt{YAML}-format} and be named \altverb{config.yaml}. An example for a cluster configuration might look like (sorry, no syntax highlighting available):
@@ -467,13 +514,17 @@ $ snakemake --slurm \
 >                     slurm_partition=smp \
 > -j unlimited @--workflow-profile ./profile/ -F@
   \end{lstlisting}
-  \question{What do you observe? Which rule still provokes a warning?}
+  \begin{question}
+  	What do you observe? Which rule still provokes a warning?
+  \end{question}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Local Rules}
-  \hint[]{Some rules do \emph{not} merit cluster execution!}
+  \begin{hint}[]
+  	Some rules do \emph{not} merit cluster execution!
+  \end{hint}
   \pause
   As a rule of thumb this (almost) always includes
   \begin{enumerate}
@@ -499,8 +550,12 @@ localrules: plot_quals
   \end{lstlisting}
   at the top of your \texttt{Snakefile} and rerun the workflow on this cluster.
   \pause
-  \question{Which is the impact on the overall execution time?}
+  \begin{question}
+  	Which is the impact on the overall execution time?
+  \end{question}
   \pause
-  \hint{Rules which do are not compute intensive are best executed locally. The overhead of submitting a job and waiting for it to finish will not be an issue.}
+  \begin{hint}
+  	Rules which do are not compute intensive are best executed locally. The overhead of submitting a job and waiting for it to finish will not be an issue.
+  \end{hint}
 \end{frame}
 

@@ -17,14 +17,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{What is this about?}
-   \question[Questions]{\begin{itemize}
-                         \item How does ordinary job submission work on a cluster?
-                         \item How does it work using Snakemake? (Which parameterization is necessary?)
-                        \end{itemize}
-                       }
-   \docs[Objectives]{\begin{enumerate} 
-                      \item Get a feeling for the SLURM batch system.
-                     \end{enumerate}}
+    \begin{question}
+   	  \begin{itemize}
+        \item How does ordinary job submission work on a cluster?
+        \item How does it work using Snakemake? (Which parameterization is necessary?)
+      \end{itemize}
+   \end{question}
+   \begin{docs}[Objectives]
+   	 \begin{enumerate}
+   	 	\item Get a feeling for the SLURM batch system.
+     \end{enumerate}
+   \end{docs}
 \end{frame}
 
 
@@ -87,14 +90,18 @@
 \begin{frame}[fragile]
   \setcounter{handson}{\value{preframe_handson}}
   \frametitle{\HandsOn{Your first job script}}
-  \hint{From now on, we will be scripting examples (cloze-based). For this you will
-        need an editor. If you do not know any other editor, use \texttt{gedit}:}
+  \begin{hint}
+  	    From now on, we will be scripting examples (cloze-based). For this you will
+        need an editor. If you do not know any other editor, use \texttt{gedit}:
+  \end{hint}
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\scriptsize]
 $ # cd into appropriate directory
 $ # Start gedit with the command 
 $ gedit &
   \end{lstlisting}
-  \hint{The \texttt{\&} will put the editor into the background.} 
+  \begin{hint}
+  	The \texttt{\&} will put the editor into the background.
+  \end{hint} 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -114,8 +121,9 @@ srun echo "Hello World from job $SLURM_JOB_ID on node $(hostname)"
 \end{minipage}\newline
 \begin{minipage}[t][0.3\textheight][t]{1.0\linewidth}
   \begin{onlyenv}<1>
-    \task{
-    Save the script as \texttt{hello\_world.sh} and submit it with the following statement:}
+    \begin{task}
+      Save the script as \texttt{hello\_world.sh} and submit it with the following statement:
+    \end{task}
     \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ sbatch hello_world.sh
 \end{lstlisting}
@@ -149,7 +157,9 @@ $ sbatch hello_world.sh
    \end{itemize}
   \end{block}
   \pause
-  \hint[What's next]{We are going to parameterize our workflow\textbf{s} for clusters and for our applications in \texttt{Snakemake}!}
+  \begin{hint}[What's next]
+    We are going to parameterize our workflow\textbf{s} for clusters and for our applications in \texttt{Snakemake}!
+  \end{hint}
 \end{frame}
 
 
