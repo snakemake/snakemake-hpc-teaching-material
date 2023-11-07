@@ -23,10 +23,12 @@
          \item How can I avoid changing the workflow source for every new input?
       \end{itemize}
    \end{question}
-   \docs[Objectives]{\begin{enumerate}
+   \begin{docs}[Objectives]
+   	 \begin{enumerate}
                       \item Learn how to make use of configuration files.  
                       \item Learn how to add parameters to your workflow.
-                     \end{enumerate}}
+     \end{enumerate}
+   \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -38,7 +40,9 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \docs{\texttt{Snakemake} has an extensive command line interface (CLI). \emph{Everything} can be configured on the command line. In addition (almost) everything can be specified in a configuration file.}
+  \begin{docs}
+  	\texttt{Snakemake} has an extensive command line interface (CLI). \emph{Everything} can be configured on the command line. In addition (almost) everything can be specified in a configuration file.
+  \end{docs}
   \pause
   \begin{exampleblock}{Which parameter goes where? Some rules of thumb:}
     \begin{columns}[t]
@@ -81,7 +85,9 @@ rule <name>:
   	Note the \textbf{,}!
   \end{hint}
   \pause
-  \docs{You \emph{may} define \emph{any} resource keyword within any rule.}
+  \begin{docs}
+  	You \emph{may} define \emph{any} resource keyword within any rule.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -114,7 +120,9 @@ rule <name>:
 .2 {other stuff}.
 }}
  \pause
- \docs{You can store a yaml file with \emph{your} workflow configuration -- which may be combined with the desinger's configuration.}
+ \begin{docs}
+ 	You can store a yaml file with \emph{your} workflow configuration -- which may be combined with the desinger's configuration.
+ \end{docs}
  \pause
  \begin{warning}
  	It is better to specify fully qualified paths to your data! The tilde is only there to make a point!
@@ -275,7 +283,9 @@ rule bwa_map:
   \pause
   \task{Log into the workflow: Name all rules, which merit gathering logs.}
   \pause
-  \docs{In theory \emph{every} rules will profit from logging directives. Only in very rare cases a script or application \emph{cannot} produce output - you will probably not be able to recognize such a case.}
+  \begin{docs}
+  	In theory \emph{every} rules will profit from logging directives. Only in very rare cases a script or application \emph{cannot} produce output - you will probably not be able to recognize such a case.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -305,7 +315,9 @@ rule bwa_map:
   	 What did you observe? Why is there a distinction per sample?
   \end{question}
   \pause
-  \docs{This rule's output will not clutter the terminal any more. All necessary information is in a log \emph{per} sample: If one attempt to map goes wrong, the specific error can be found in the sample log.}
+  \begin{docs}
+  	This rule's output will not clutter the terminal any more. All necessary information is in a log \emph{per} sample: If one attempt to map goes wrong, the specific error can be found in the sample log.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -393,7 +405,9 @@ $ snakemake --slurm \
   \begin{hint}
   	Please notice the missing quotation marks! All arguments belong to one parameter.
   \end{hint}
-  \docs{We choose \texttt{slurm\_...}-prefixes to distinguish from other non-SLURM accounts and similar stuff.}
+  \begin{docs}
+  	We choose \altverb{slurm_...}-prefixes to distinguish from other non-SLURM accounts and similar stuff.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
