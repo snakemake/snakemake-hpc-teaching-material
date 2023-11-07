@@ -281,7 +281,9 @@ rule bwa_map:
   	When executing a large workflow, it is usually desirable to store the logging output of each job into a separate file, instead of just printing all logging output to the terminal—when multiple jobs are run in parallel, this would result in chaotic output. - We already observed this!
   \end{hint}
   \pause
-  \task{Log into the workflow: Name all rules, which merit gathering logs.}
+  \begin{task}
+  	Log into the workflow: Name all rules, which merit gathering logs.
+  \end{task}
   \pause
   \begin{docs}
   	In theory \emph{every} rules will profit from logging directives. Only in very rare cases a script or application \emph{cannot} produce output - you will probably not be able to recognize such a case.
@@ -305,7 +307,9 @@ rule bwa_map:
         "(bwa mem -R '{params.rg}' {input} "
         "| samtools view -Sb - > {output}) 2> {log}"
    \end{lstlisting}
-   \task{Please try this out.}
+   \begin{task}
+     Please try this out.
+   \end{task}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
