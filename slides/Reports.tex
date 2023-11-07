@@ -23,10 +23,12 @@
         \item When I want to write a publication, which software(s) version(s) have I been using?
      \end{itemize}
    \end{question}
-   \docs[Objectives]{\begin{enumerate}
-                      \item Learn the implications and limitations of benchmarks.
-                      \item Learning how to generate and interprate reports with \texttt{Snakemake}.
-                     \end{enumerate}}
+   \begin{docs}[Objectives]
+   	  \begin{enumerate}
+         \item Learn the implications and limitations of benchmarks.
+         \item Learning how to generate and interprate reports with \texttt{Snakemake}.
+      \end{enumerate}
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -43,7 +45,9 @@
    \item \ldots
   \end{itemize}
   \pause
-  \docs{What is most commonly meant: Getting performance and scalability markers.}
+  \begin{docs}
+  	What is most commonly meant: Getting performance and scalability markers.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -59,7 +63,9 @@ rule bwa_map:
         "benchmarks/{sample}.bwa.benchmark.txt"
     ...
   \end{lstlisting} 
-  \docs{\texttt{Snakemake} will measure the wall clock time and memory usage (in MiB) and store it in the file in tab-delimited format.}
+  \begin{docs}
+  	\texttt{Snakemake} will measure the wall clock time and memory usage (in MiB) and store it in the file in tab-delimited format.
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
