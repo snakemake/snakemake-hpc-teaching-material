@@ -166,9 +166,13 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
 $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
   \end{lstlisting}
   to retrieve (Mini)Conda (a flavour of conda with less overhead).
-  \hint{\footnotesize URL is from \url{https://docs.conda.io/en/latest/miniconda.html}.\newline However, we are going to use tweaked scripts provided to you.}
+  \begin{hint}
+  	\footnotesize URL is from \url{https://docs.conda.io/en/latest/miniconda.html}.\newline However, we are going to use tweaked scripts provided to you.
+  \end{hint}
   \pause
-  \hint{However, instead of downloading, we will work through this together on the slides to come.}
+  \begin{hint}
+  	However, instead of downloading, we will work through this together on the slides to come.
+  \begin{hint}
 \end{frame} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -214,7 +218,9 @@ $ "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
 % $ # Hint: This is the general syntax:
 % $ cp -r <path> ~/.
 %   \end{lstlisting}
-%   \hint[Note]{The slides assume that you are working in your HOME. Then typing the \textasciitilde{} is not necessary.}
+%   \begin{hint}[Note]
+%	  The slides assume that you are working in your HOME. Then typing the \textasciitilde{} is not necessary.
+%   \end{hint}
 % \end{frame}
  
  
@@ -369,15 +375,17 @@ minimap                     0.2_r124      h5bf99c6_4  bioconda
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}
   \frametitle{Installing Software \emph{with} Conda \& Mamba - Using Environments}
-  \hint{It is a good habit to have
+  \begin{hint}It is a good habit to have
         \begin{itemize}
           \item \emph{one} environment per workflow
           \item the environment named as the workflow
           \item this way, we have a bundle of tools, activate the environment for it
           \item \texttt{snakemake} workflows will install the tools you need for a particular workflow - only \emph{if} these tools are still missing
          \end{itemize}
-        }
-  \hint[Note]{For now we will not use \texttt{snakemake} to install our software. This topic will be covered later.}
+  \end{hint}
+  \begin{hint}[Note]
+  	For now we will not use \texttt{snakemake} to install our software. This topic will be covered later.
+  \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
