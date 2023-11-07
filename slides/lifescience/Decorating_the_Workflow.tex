@@ -140,7 +140,9 @@ configfile: "config.yaml"
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Working with Configuration Data}
-  \hint{Remember: \texttt{Snakefile}s are Python files.}
+  \begin{hint}
+  	Remember: \texttt{Snakefile}s are Python files.
+  \end{hint}
   \pause
   Given a file \altverb{config.yaml} with contents:
   \begin{lstlisting}[language=Python,style=Python]
@@ -267,7 +269,9 @@ rule bwa_map:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Logging}
-  \hint{When executing a large workflow, it is usually desirable to store the logging output of each job into a separate file, instead of just printing all logging output to the terminal—when multiple jobs are run in parallel, this would result in chaotic output. - We already observed this!}
+  \begin{hint}
+  	When executing a large workflow, it is usually desirable to store the logging output of each job into a separate file, instead of just printing all logging output to the terminal—when multiple jobs are run in parallel, this would result in chaotic output. - We already observed this!
+  \end{hint}
   \pause
   \task{Log into the workflow: Name all rules, which merit gathering logs.}
   \pause
@@ -372,7 +376,9 @@ $ du -sh *reads
 $ snakemake --slurm
   \end{lstlisting}
   Now, \emph{every} rule will submit its jobs as HPC compute jobs.
-  \hint{We will learn how to avoid this, soon-ish.}
+  \begin{hint}
+  	We will learn how to avoid this, soon-ish.
+  \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -384,7 +390,9 @@ $ snakemake --slurm \
 > --default-resources slurm_account=m2_jgu-ngstraining \
 >                     slurm_partition=smp
   \end{lstlisting}
-  \hint{Please notice the missing quotation marks! All arguments belong to one parameter.}
+  \begin{hint}
+  	Please notice the missing quotation marks! All arguments belong to one parameter.
+  \end{hint}
   \docs{We choose \texttt{slurm\_...}-prefixes to distinguish from other non-SLURM accounts and similar stuff.}
 \end{frame}
 
