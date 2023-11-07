@@ -77,7 +77,9 @@ rule <name>:
       mem_mb=1800,
       cpus_per_task=4
   \end{lstlisting}
-  \hint{Note the \textbf{,}!}
+  \begin{hint}
+  	Note the \textbf{,}!
+  \end{hint}
   \pause
   \docs{You \emph{may} define \emph{any} resource keyword within any rule.}
 \end{frame}
@@ -456,7 +458,9 @@ $ snakemake --slurm \
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Cluster Configuration}
-  \hint{Best abstract the configuration for a cluster from the workflow!}
+  \begin{hint}
+  	Best abstract the configuration for a cluster from the workflow!
+  \end{hint}
   In addition to a \altverb{config} directory to hold our samples, \texttt{Snakemake} will accept a directory with profile settings, usually ``\altverb{profile}''.
   \pause
   A profile has to adhere to \lhref{https://en.wikipedia.org/wiki/YAML}{\texttt{YAML}-format} and be named \altverb{config.yaml}. An example for a cluster configuration might look like (sorry, no syntax highlighting available):
@@ -492,7 +496,9 @@ $ snakemake --slurm \
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Local Rules}
-  \hint[]{Some rules do \emph{not} merit cluster execution!}
+  \begin{hint}[]
+  	Some rules do \emph{not} merit cluster execution!
+  \end{hint}
   \pause
   As a rule of thumb this (almost) always includes
   \begin{enumerate}
@@ -522,6 +528,8 @@ localrules: plot_quals
   	Which is the impact on the overall execution time?
   \end{question}
   \pause
-  \hint{Rules which do are not compute intensive are best executed locally. The overhead of submitting a job and waiting for it to finish will not be an issue.}
+  \begin{hint}
+  	Rules which do are not compute intensive are best executed locally. The overhead of submitting a job and waiting for it to finish will not be an issue.
+  \end{hint}
 \end{frame}
 
