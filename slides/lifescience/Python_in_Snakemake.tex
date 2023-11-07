@@ -17,11 +17,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{What is this about?}
-   \question[Questions]{\begin{itemize}
-                         \item How can I automatically manage dependencies and outputs?
-                         \item How can I use Python code to add features to my pipeline?
-                        \end{itemize}
-                       }
+   \begin{question}[Questions]
+   	 \begin{itemize}
+        \item How can I automatically manage dependencies and outputs?
+        \item How can I use Python code to add features to my pipeline?
+     \end{itemize}
+   \end{question}
    \docs[Objectives]{\begin{enumerate}
                       \item Use variables, functions, and imports in a Snakefile. 
                       \item Learn to use the \texttt{run} action to execute Python code as an action.
@@ -61,7 +62,9 @@ from snakemake.io import expand, glob_wildcards
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Using functions in \texttt{Snakefile}s II}
-  \question{What is the result?}
+  \begin{question}
+  	What is the result?
+  \end{question}
   \pause
   \hint[Answer:]{Every permutation of \altverb{wildcard1} and \altverb{wildcard2}!}
   \pause
@@ -71,7 +74,9 @@ glob_wildcards('data/samples/{replicas}.fastq').replicas
   \end{lstlisting}
   \pause
   Wow! So, easy!
-  \question{What happend? What happens if you leave \texttt{.replicas} away?}
+  \begin{question}
+  	What happend? What happens if you leave \altverb{.replicas} away?
+  \end{question}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -132,7 +137,9 @@ rule print_sample_names:
   \begin{lstlisting}[language=Python,style=Python]
 shell:  'some_command -i {input} -o {output}'
   \end{lstlisting}
-  \question{Isn't this rather tedious, considering that \texttt{Snakemake} is written in Python? Could we forward rule specific information to our scripts?}
+  \begin{question}
+  	Isn't this rather tedious, considering that \texttt{Snakemake} is written in Python? Could we forward rule specific information to our scripts?
+  \end{question}
 \end{frame}
 
 \begingroup
