@@ -17,11 +17,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{What is this about?}
-   \question[Questions]{\begin{itemize}
-                         \item The workflow still is pretty verbose, how can we be more concise?
-                         \item How can the redundancy in a workflow be reduced?
-                        \end{itemize}
-                       }
+   \begin{question}[Questions]
+   	 \begin{itemize}
+        \item The workflow still is pretty verbose, how can we be more concise?
+        \item How can the redundancy in a workflow be reduced?
+     \end{itemize}
+   \end{question}
    \docs[Objectives]{\begin{enumerate}
                       \item Use \texttt{Snakemake} wildcards to simplify our rules.
                       \item Output files are a product not only of input files but of the scripts or code that created the output files.
@@ -136,7 +137,9 @@ rule count_words:
     output: '{file}.dat'
     shell:  'python {input.wc} {input.book} {output}'
   \end{lstlisting}
-  \explanation{\altverb{\{file\}} is another arbitrary wildcard, that we can use as a placeholder for any generic book to analyse. Note that we don’t have to use \emph{``file''} as the name of our wildcard — it can be anything we want! Condition: Only available for \altverb{input} and \altverb{output}, not for actions!}
+  \begin{explanation}
+  	\altverb{\{file\}} is another arbitrary wildcard, that we can use as a placeholder for any generic book to analyse. Note that we don’t have to use \emph{``file''} as the name of our wildcard — it can be anything we want! Condition: Only available for \altverb{input} and \altverb{output}, not for actions!
+  \end{explanation}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
