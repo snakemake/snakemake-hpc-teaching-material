@@ -1,0 +1,8 @@
+\frametitle{Running Workflows on Cluster (or other environment)}
+  Most likely a specific workflow never has been testing on \emph{your} computer before. It is almost ensured it will run on arbitrary servers, but clusters are a different story. \newline
+  So
+  \begin{itemize}[<+->]
+   \item try to parameterize your workflow as learned
+   \item if it gives issues and you know how to correct it, ``fork'' the worklow and create a pull request
+   \item if you cannot fix it, create a bug report
+  \end{itemize}
