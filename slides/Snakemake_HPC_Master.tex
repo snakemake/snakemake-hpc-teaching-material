@@ -7,15 +7,7 @@
 % to typeset only a few slide sets, set them here during development
 %\includeonly{Why_Workflows}
 
-
 \usepackage{etoolbox}
-
-% is this a generic introduction or one for lifescientists?
-\newbool{generic} %\booltrue{generic} 
-\boolfalse{generic} % = lifescience-oriented
-% is this an introduction held at the JGU Mainz?
-
-
 %\setbeamertemplate{mini frames}[box]
 \usepackage{babel}
 \usepackage[utf8]{inputenc}
@@ -29,16 +21,6 @@
 
 \usepackage{color,colortbl}
 \usepackage{upquote}
-% \usepackage{showexpl}
-% \lstset{
-%     basicstyle=\ttfamily\small,
-%     commentstyle=\itshape\ttfamily\small,
-%     showspaces=false,
-%     showstringspaces=false,
-%     breaklines=true,
-%     breakautoindent=false,
-%     captionpos=t
-% }
 
 \definecolor{pblue}{RGB}{45,106,148}
 \definecolor{pdarkblue}{RGB}{35,71,100}
@@ -420,41 +402,25 @@ showstringspaces=false}
 \include{software_environment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifbool{generic}
-       {\include{generic/Getting_Started}}
-       {\include{lifescience/Getting_Started}}
+\include{lifescience/Getting_Started}
            
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifbool{generic}
-       {\include{generic/A_First_Workflow}}
-       {\include{lifescience/A_First_Workflow}}
+\include{lifescience/A_First_Workflow}
        
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifbool{generic}
-       {\include{generic/Python_in_Snakemake}}
-       {\include{lifescience/Python_in_Snakemake}}
+\include{lifescience/Python_in_Snakemake}
        
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifbool{generic}
-       {\include{generic/Finishing_and_Execution}}
-       {\include{lifescience/Finishing_and_Execution}}
+\include{lifescience/Finishing_and_Execution}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifbool{generic}
-       {\include{generic/Plotting_DAGs}}
-       {\include{lifescience/Plotting_DAGs}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%TODO: move content into A First Workflow
-\ifbool{generic}{\include{First_Wildcards}}{}
+\include{lifescience/Plotting_DAGs}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{HPC_101}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifbool{generic}
-      {\include{generic/Decorating_the_Workflow}}
-      {\include{lifescience/Decorating_the_Workflow}}
+\include{lifescience/Decorating_the_Workflow}
       
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{Reports}    
