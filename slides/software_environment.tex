@@ -17,17 +17,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 	\frametitle{What is this about?}
-	\question[Questions]{\begin{itemize}
+	\begin{question}[Questions]\begin{itemize}
 			\item How do I get the software for a particular workflow?
 			\item What is the difference in different build systems and software environments? Why does it matter for me?
 		\end{itemize}
-	}
-	\docs[Objectives]{\begin{enumerate}
+	\end{question}
+	\begin{docs}[Objectives]
+	  \begin{enumerate}
 			\item Introducing the "Module" system provided on HPC clusters (briefly).
 			\item Learning how to install software with "Conda".
 			\item Knowing how to avoid conflicts between the different software provisioning schemes.
-	\end{enumerate}}
-\end{frame}  
+	  \end{enumerate}
+    \end{docs}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Software on HPC Systems}
@@ -186,7 +188,7 @@ $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
   \begin{block}{Why we recommend using ``\textmu-Mamba''}
    Conda carries some overhead. Alternative implementations can be faster and require less files. Mamba is a ``drop-in'' for Conda. This means: \emph{every command is the same}, except we will write \altverb{mamba} where usuall \altverb{conda} would be.\newline
    Why?\newline
-   Mamba is an implementation of Conda, written in \CC{}. It is able to carry out some tasks in parallel and works considerably faster. In turn, \textmu-Mamba is a statically compiled version of Mamba and does not require a ``base'' environment (we will learn about environments, soon), which means even less overhead.
+   Mamba is an implementation of Conda, written in \CC{}. It is able to carry out some tasks in parallel and works considerably faster. In turn, \textmu-Mamba is a staticically compiled version of Mamba and does not require a ``base'' environment (we will learn about environments, soon), which means even less overhead.
   \end{block}
 \end{frame}
 
@@ -298,13 +300,6 @@ unset __mamba_setup
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Why this function in your \texttt{.bashrc}?}
-<<<<<<< HEAD
-  \begin{itemize}[<+->]
-  		\item \emph{every} time you log in, the code in your \texttt{.bashrc} will be executed. Depending on your conda setup, this can be incredibly slow (another reason to use Mamba or \textmu-Mamba).
-  		\item automatic inclusion of Conda/Mamba might cause interference with modules
-  		\item Now, you can run \verb+conda_initialize+ in the login shell, jobs scripts, etc. upon demand and deactivate if needed.
-  	\end{itemize}
-=======
   \begin{docs}
   	\begin{itemize}[<+->]
   		\item \emph{every} time you log in, the code in your \texttt{.bashrc} will be exectud. Depeding on your conda setup, this can be incredibly slow (another reason to use Mamba or \textmu-Mamba).
@@ -312,7 +307,6 @@ unset __mamba_setup
   		\item Now, you can run \verb+conda_initialize+ in the login shell, jobs scripts, etc. upon demand and deactivate if needed.
   	\end{itemize}
   \end{docs}
->>>>>>> 27cd1a757de9a4e32b9bc392862ab28acee0246e
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
