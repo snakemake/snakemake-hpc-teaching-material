@@ -3,7 +3,7 @@
 # You want latexmk to *always* run, because make does not have all the info.
 # Also, include non-file targets in .PHONY so they are run regardless of any
 # file of the given name existing.
-.PHONY: Snakemake_HPC_Master.pdf all clean
+.PHONY: Snakemake_HPC_Creators.pdf Snakemake_HPC_Users.pdf all clean
 
 # The first rule in a Makefile is the one executed by default ("make"). It
 # should always be the "all" rule, so that "make" and "make all" are identical.
@@ -31,11 +31,11 @@ all: Snakemake_HPC_Master.pdf
 # -interaction=nonstopmode keeps the pdflatex backend from stopping at a
 # missing file reference and interactively asking you for an alternative.
 
-Snakemake_HPC_Master.pdf: Snakemake_HPC_Master.tex #$(figs)
+Snakemake_HPC_Creators.pdf: Snakemake_HPC_Creators.tex 
 	latexmk -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-make        $(basename $@).tex
 
-Snakemake_HPC_Master.pdf: Snakemake_HPC_Master.tex
+Snakemake_HPC_Users.pdf: Snakemake_HPC_Users.tex
 	latexmk -pdf -pdflatex="pdflatex -interaction=nonstopmode" -use-make        $(basename $@).tex
 
 clean:
-	latexmk -C; rm *snm *nav *vrb
+	latexmk -C; rm *snm *nav *vrb *aux *log *toc
