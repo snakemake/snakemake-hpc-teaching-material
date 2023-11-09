@@ -1,0 +1,55 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Getting your Sample Data}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Outline}
+	\begin{columns}[t]
+		\begin{column}{.5\textwidth}
+			\tableofcontents[sections={1-9},currentsection]
+		\end{column}
+		\begin{column}{.5\textwidth}
+			\tableofcontents[sections={10-18},currentsection]
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{What is this about?}
+	\begin{question}[Questions]\begin{itemize}
+			\item No Question: We just need to get sample data!
+		\end{itemize}
+	\end{question}
+	\begin{docs}[Objectives]
+		\begin{enumerate}
+			\item And that, getting sample data and software definitions is our objective.
+		\end{enumerate}
+	\end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Copy our Course Sample Data}}
+  We shall copy a few install scripts (which also will download some sample data).\newline
+  Please copy \texttt{\missingcommand{pathtoexercise}}.\newline
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ cp -r <path> ~/.
+  \end{lstlisting}
+  \begin{hint}[Note]
+	The slides assume that you are working in your HOME. Then typing the \textasciitilde{} is not necessary.
+  \end{hint}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Copy our Tutorial Sample Data}}
+  Please run the \altverb{get_data.sh} script you just copied:
+  \begin{lstlisting}[language=Bash, style=Shell,basicstyle=\footnotesize]
+$ bash get_data.sh
+  \end{lstlisting}
+  \begin{task}
+  	This script will download and unpack the sample data for this course. Please take a look in this
+  	script to understand it. 
+  \end{task}
+\end{frame}
