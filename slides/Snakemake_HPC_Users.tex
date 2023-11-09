@@ -1,5 +1,5 @@
 %-------------------------------------------------------%
-%       Snakemake-Intro                                 %
+%       Snakemake-Intro for HPC Users                   %
 %-------------------------------------------------------%
 
 \documentclass[english,xcolor=pdftex,dvipsnames]{beamer} 
@@ -7,15 +7,7 @@
 % to typeset only a few slide sets, set them here during development
 %\includeonly{Why_Workflows}
 
-
 \usepackage{etoolbox}
-
-% is this a generic introduction or one for lifescientists?
-\newbool{generic} %\booltrue{generic} 
-\boolfalse{generic} % = lifescience-oriented
-% is this an introduction held at the JGU Mainz?
-
-
 %\setbeamertemplate{mini frames}[box]
 \usepackage{babel}
 \usepackage[utf8]{inputenc}
@@ -29,16 +21,6 @@
 
 \usepackage{color,colortbl}
 \usepackage{upquote}
-% \usepackage{showexpl}
-% \lstset{
-%     basicstyle=\ttfamily\small,
-%     commentstyle=\itshape\ttfamily\small,
-%     showspaces=false,
-%     showstringspaces=false,
-%     breaklines=true,
-%     breakautoindent=false,
-%     captionpos=t
-% }
 
 \definecolor{pblue}{RGB}{45,106,148}
 \definecolor{pdarkblue}{RGB}{35,71,100}
@@ -374,11 +356,13 @@ showstringspaces=false}
 
 
 
-\title[Introduction to Workflow Programming]{An Introduction to HPC-conformant Scientific Workflows} 
-\subtitle{Workflow Course - Edition 3} %TODO: Is there a way to retrieve this from the command line?
+\title[Introduction to Using Snakemake Workflows on Clusters]{An Introduction to Using Snakemake Workflows on HPC Clusters with the SLURM Batch Sytem} 
+%TODO: What should the subtitle be like? Should there be an Edition? How to keep track?
+%\subtitle{Workflow Course - Edition 3} 
 %TODO: How shall we call ourself?
 \author[C. Meesters]{The HPC-Group}
 %\institute{\includegraphics[height=2cm,width=2cm]{../images/logos/jgu_logo_kasten.jpg}}
+% TODO: How do we insert a date, which is up to date? Should we insert one, here?
 \date{September 2023}
 
 \hypersetup{colorlinks,linkcolor=,urlcolor=links}
@@ -414,67 +398,30 @@ showstringspaces=false}
 \include{common/contributions}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{Why_Workflows}
+\include{common/Why_Workflows}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{software_environment}
+\include{common/software_environment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifbool{generic}
-       {\include{generic/Getting_Started}}
-       {\include{lifescience/Getting_Started}}
-           
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifbool{generic}
-       {\include{generic/A_First_Workflow}}
-       {\include{lifescience/A_First_Workflow}}
-       
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifbool{generic}
-       {\include{generic/Python_in_Snakemake}}
-       {\include{lifescience/Python_in_Snakemake}}
-       
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifbool{generic}
-       {\include{generic/Finishing_and_Execution}}
-       {\include{lifescience/Finishing_and_Execution}}
+%\include{users/Selecting_Workflows}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifbool{generic}
-       {\include{generic/Plotting_DAGs}}
-       {\include{lifescience/Plotting_DAGs}}
+%\include{common/Using_Workflow_Configs}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%TODO: move content into A First Workflow
-\ifbool{generic}{\include{First_Wildcards}}{}
+\include{common/Plotting_DAGs}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{HPC_101}
+\include{common/HPC_101}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\ifbool{generic}
-      {\include{generic/Decorating_the_Workflow}}
-      {\include{lifescience/Decorating_the_Workflow}}
+%\include{common/Workflow_Parametizing_for_HPC}
       
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{Reports}    
+\include{common/Reports}    
       
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%TODO: move into generic ``Decorating_the_Workflow''
-%\include{Further_Functionality}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\include{Exercise}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{Selecting_Workflows}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{Workflow_Parameterization_2}
-
-
-
+%\include{common/Contributing} % TODO: should include reporting issues
 \end{document}
 
