@@ -7,7 +7,7 @@
 
 # The first rule in a Makefile is the one executed by default ("make"). It
 # should always be the "all" rule, so that "make" and "make all" are identical.
-all: Snakemake_HPC_Master.pdf
+all: Snakemake_HPC_Creators.pdf Snakemake_HPC_Users.pdf
 
 # CUSTOM BUILD RULES
 
