@@ -329,9 +329,28 @@ showstringspaces=false}
 \newcommand{\mogonI}{\textsc{mogon}\,\Rmnum{1}\xspace}
 \newcommand{\mogonII}{\textsc{mogon}\,\Rmnum{2}\xspace}
 
-\newcommand{\pathtoexercise}[1]{\path{/lustre/project/m2_jgu-ngstraing/workflows/#1}}
-\newcommand{\pathtoclozure}[1]{\path{/lustre/project/hpckurs/bash-course/cloze/#1}}
-\newcommand{\pathtosolution}[1]{\path{/lustre/project/hpckurs/bash-course/solutions/#1}}
+% this package provides the option to read parameters from a configuration file
+\usepackage{readarray}
+
+\readdef{config/config.dat}{\data}
+\readarray\data\MyDat[-,3]
+\newcommand\missingcommand[1]{\csname DATA#1\endcsname}
+%\MyDatROWS{} rows of data read.
+
+\newcounter{datacount}
+\setcounter{datacount}{0}%
+\whiledo{\value{datacount} < \MyDatROWS}{%
+	\stepcounter{datacount}%
+	\expandafter\xdef\csname DATA\MyDat[\arabic{datacount},1]\endcsname{%
+		\MyDat[\arabic{datacount},3]}%
+}
+
+
+
+%\newcommand{\pathtoexercise}[1]{\path{/lustre/project/m2_jgu-ngstraing/workflows/#1}}
+%\newcommand{\pathtoexercise}[1]{\path{ \DTLfetch{data}{thekey}{#1}{thevalue}   }}
+%\newcommand{\pathtoclozure}[1]{\path{/lustre/project/hpckurs/bash-course/cloze/#1}}
+%\newcommand{\pathtosolution}[1]{\path{/lustre/project/hpckurs/bash-course/solutions/#1}}
 
 \setcounter{tocdepth}{1}
 
@@ -398,10 +417,13 @@ showstringspaces=false}
 \include{common/contributions}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{Why_Workflows}
+\include{common/Why_Workflows}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{software_environment}
+\include{creators/Sample_Data}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{common/software_environment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{creators/Getting_Started}
