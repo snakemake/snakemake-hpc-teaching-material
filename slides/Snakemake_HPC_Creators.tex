@@ -334,7 +334,7 @@ showstringspaces=false}
 
 \readdef{config/config.dat}{\data}
 \readarray\data\MyDat[-,3]
-\newcommand\missingcommand[1]{\csname DATA#1\endcsname}
+\newcommand\configparam[1]{\csname DATA#1\endcsname}
 %\MyDatROWS{} rows of data read.
 
 \newcounter{datacount}
