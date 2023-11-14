@@ -1,4 +1,4 @@
-# Snakemake Workflows for HPC-Users
+# The Snakemake Teaching Alliance
 
 ## Purpose
 
