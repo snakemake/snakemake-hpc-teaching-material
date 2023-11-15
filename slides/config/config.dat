@@ -1,3 +1,5 @@
+editorfile = "common/editor_gedit_mainz.tex"
+
 pathtoexercise = "/lustre/project/hpckurs/workflows/"
 pathtoclozure = "/lustre/project/hpckurs/cloze/"
 pathtosolution = "/lustre/project/hpckurs/solutions/"
