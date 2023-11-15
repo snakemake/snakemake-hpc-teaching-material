@@ -334,7 +334,7 @@ showstringspaces=false}
 
 \readdef{config/config.dat}{\data}
 \readarray\data\MyDat[-,3]
-\newcommand\missingcommand[1]{\csname DATA#1\endcsname}
+\newcommand\configparam[1]{\csname DATA#1\endcsname}
 %\MyDatROWS{} rows of data read.
 
 \newcounter{datacount}
@@ -378,9 +378,7 @@ showstringspaces=false}
 \title[Introduction to Workflow Programming]{An Introduction to HPC-conformant Scientific Workflows} 
 %TODO: What should the subtitle be like? Should there be an Edition? How to keep track?
 \subtitle{Workflow Course - Edition 3} 
-%TODO: How shall we call ourself?
-\author[C. Meesters]{The HPC-Group}
-%\institute{\includegraphics[height=2cm,width=2cm]{../images/logos/jgu_logo_kasten.jpg}}
+\author[Snakemake Teaching Alliance]{The "Snakemake Teaching Alliance"}
 % TODO: How do we insert a date, which is up to date? Should we insert one, here?
 \date{September 2023}
 
