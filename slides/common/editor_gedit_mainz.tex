@@ -34,14 +34,63 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \frametitle{Editor vs. IDE}
+  \frametitle{Editor vs. IDEs (Integrated Development Environments)}
+  \footnotesize
   \begin{columns}[t]
   	\begin{column}{.5\textwidth}
-  		\tableofcontents[sections={1-9},currentsection]
+  	  {\normalsize\textbf Editors:}
+  	  \begin{figure}[t]
+  		 \includegraphics[height=3cm]{editors_and_IDEs/gedit.png}
+  		 \caption*{\texttt{gedit} editor as started on Mogon.}
+  	  \end{figure}
+      \vfill
+  	  \begin{itemize}
+  	  	\item show syntax highlighting
+  	  	\item can edit and save text files
+  	  \end{itemize}  
   	\end{column}
   	\begin{column}{.5\textwidth}
-  		\tableofcontents[sections={10-18},currentsection]
+  	  {\normalsize\textbf IDEs:}
+  	  \begin{figure}[t]
+  	  	\includegraphics[width=\textwidth]{editors_and_IDEs/MOD_VSC.png}
+  		\caption*{\texttt{VSC} as started via MogonOnDemand.}
+  	  \end{figure}
+      \vfill
+      \begin{itemize}
+         \item everything an editor can do
+         \item handle projects
+         \item SCM support
+         \item encapsulates environments
+         \item \ldots
+      \end{itemize}  
   	\end{column}
   \end{columns}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Starting \texttt{gedit}}
+  \begin{columns}[t]
+  	 \begin{column}{.5\textwidth}[t]
+  	   \texttt{gedit} is a simple-to-use text editor, very suitable for beginners.\newline
+  	   \begin{hint}
+  	     You may use any \emph{any} editor of your liking. These slides introduce \texttt{gedit} as a common denominator.
+  	   \end{hint}
+        Start \textit{gedit}:
+       \begin{lstlisting}[language=Bash, style=Shell]
+$ gedit @&@
+$ #or
+$ gedit <path to file> @&@
+      \end{lstlisting}
+      The \altverb{@} starts the process in the background, if you forgot it:
+      \begin{lstlisting}[language=Bash, style=Shell]
+$ [Ctrl+z]
+$ bg
+      \end{lstlisting}	
+    \end{column}
+    \begin{column}{.5\textwidth}[t]
+      \includegraphics[height=3cm]{editors_and_IDEs/gedit.png}	
+      If you want to turn on syntax highlighting for \texttt{Snakefile}s, you have to select \texttt{Python3} as the language. (We will do this, when we hit\texttt{Snakefile}s for the first time.)
+    \end{column} 
+  \end{columns}
+\end{frame}
