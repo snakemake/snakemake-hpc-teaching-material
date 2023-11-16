@@ -68,14 +68,24 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}<handout:0>
+  \frametitle{Which Editor or IDE should I be using?}
+  \begin{hint}
+     You may use any \emph{any} editor of your liking. These slides introduce \texttt{gedit} as a common denominator.
+  \end{hint}
+  Rule of thumb:
+  \begin{itemize}[<+->]
+  	\item start simple, e.\,g. with \texttt{gedit} or \texttt{nano}
+  	\item go for an IDE, when the project requires it. Usually projects give recommendations or even requirements.
+  \end{itemize}
+\end{frame} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Starting \texttt{gedit}}
-  \begin{columns}[t]
-  	 \begin{column}{.5\textwidth}[t]
+  \begin{columns}[T]
+  	 \begin{column}{.5\textwidth}
   	   \texttt{gedit} is a simple-to-use text editor, very suitable for beginners.\newline
-  	   \begin{hint}
-  	     You may use any \emph{any} editor of your liking. These slides introduce \texttt{gedit} as a common denominator.
-  	   \end{hint}
         Start \textit{gedit}:
        \begin{lstlisting}[language=Bash, style=Shell]
 $ gedit @&@
@@ -88,9 +98,12 @@ $ [Ctrl+z]
 $ bg
       \end{lstlisting}	
     \end{column}
-    \begin{column}{.5\textwidth}[t]
-      \includegraphics[height=3cm]{editors_and_IDEs/gedit.png}	
+    \begin{column}{.5\textwidth}
+      \includegraphics[height=3cm]{editors_and_IDEs/gedit.png}	\newline
       If you want to turn on syntax highlighting for \texttt{Snakefile}s, you have to select \texttt{Python3} as the language. (We will do this, when we hit\texttt{Snakefile}s for the first time.)
     \end{column} 
   \end{columns}
+  \begin{hint}[Note]
+    We will exercise and show this, when we start coding!
+  \end{hint}
 \end{frame}
