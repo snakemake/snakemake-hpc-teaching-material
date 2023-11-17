@@ -10,14 +10,21 @@ This repository contains (better: will contain) teaching material to teach for
 
 all tailored for HPC systems.
 
-## Getting started
+## Getting started / Onboarding
 
-If you want to participate in the development: Just notify us (issue) and we will add your github account.
+If you want to participate in the development: Just notify us (issue) and we will add your github account. Alternatively, you may fork the repo and create PRs from there.
 
-For every issue:
+Workflow for pull requests:
 
-- create a branch `"<shortname>_<issue_number>"`
-- do a pull (request) 
+- create or take an issue to work on (you may assign others or no one). Issues ought to be as specific as possible. We may break "big issues" into smaller ones
+- create a branch `"<shortname>_<issue_number>"`. Only in rare case (closely related issues) bundle the work on issues into one branch. The parent branch should always be "main"
+- commit your work to branch
+- push to origin (your own fork of the snakemake-hpc-teaching-material repository)
+- create a [pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) 
+- assign arbitrary reviewer (or wait until someone takes on this pull reqeust)
+- (s.o. else) perform review (switch to branch and try; check the quality)
+- merge and delete source branch
+
 
 ## Progress
 
