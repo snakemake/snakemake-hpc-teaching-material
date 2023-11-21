@@ -1,3 +1,4 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Software Environment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -12,7 +13,6 @@
 		\end{column}
 	\end{columns}
 \end{frame}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -90,18 +90,17 @@ $ module spider <search string>
   \end{task}
 \end{frame}
 
-%TODO: this slides works with the naming scheme on Mogon - not necessarily on other clusters
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-   {Modules with easybuild\newline Or: What is this fuzz at the end of module names?}
-   You will have seen modules like:
+  \frametitle{Module Naming Schemes}
+   You might have seen module names like:
    \begin{lstlisting}[language=Bash, style=Shell]
 numlib/FFTW/3.3.10-gompi-2021b   
    \end{lstlisting}
+   Actual module naming schemes differ from cluster to cluster.
    \pause
-   \begin{block}{Easybuild Naming Scheme}
-    We are building our modules with \lhref{https://easybuilders.github.io/easybuild/}{easybuild} and adopted the following naming scheme for modules:\newline
-    \footnotesize \verb+<topic>/<name>/<version>-<toolchain>-<toolchain-version>+
+   \begin{block}{Using Modules with \texttt{Snakemake}}
+     We will learn how to use modules with 
    \end{block}
    \pause
    \begin{task}[Look inside a module to know what will be loaded and set]
@@ -109,13 +108,12 @@ numlib/FFTW/3.3.10-gompi-2021b
    \end{task}
 \end{frame}
 
-%TODO: should we offer more or less on modules?
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{That's all Folks}
    \vspace{-0.8em}
   \begin{alertblock}{Why we will not go in depth now}
-You can learn more about modules in 101-HPC courses. Later, we will learn how to use \texttt{Snakemake} workflows, particularly curated ones, available on the web. We \emph{could} re-write and adapt them for Mogon, it is better to only parameterize them for Mogon and do leave the workflow itself unaltered. This is less cumbersome and as workflow systems, including \texttt{Snakemake}, rely on Conda, we will have an in-depth intro to Conda, instead.
+You can learn more about modules in 101-HPC courses. Later, we will learn how to use \texttt{Snakemake} workflows, particularly curated ones, available on the web. We \emph{could} re-write and adapt them for a specific cluster, it is better to only parameterize them and do leave the workflow itself unaltered, portable. This is less cumbersome and as workflow systems, including \texttt{Snakemake}, rely on Conda, we will have an in-depth intro to Conda, instead.
   \end{alertblock}
   \vfill
   \begin{alertblock}{Do not mix Conda with Modules}
