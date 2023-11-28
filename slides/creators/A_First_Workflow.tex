@@ -276,8 +276,39 @@ rule bwa_map:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Introducing Wildcards}
-  \altverb{input} and \altverb{output} can be referenced in our file, with an expression called ``wildcard'':
+	\frametitle{\HandsOn{Introducing Wildcards}}
+	\altverb{\{input\}} and \altverb{\{output\}} are so-called "wildcards": We can use them 
+	to reference our in- and output in the \altverb{shell} directive, e.\,g.:
+	\begin{lstlisting}[language=Python,style=Python]
+rule foo:
+   input: input.txt,
+          input2.txt
+   output: output.txt
+   # The following command will concatenate
+   # the input files.
+   shell: "cat {input} > {output}
+    \end{lstlisting}
+    \begin{docs}
+      If the in-/output has multiple lines, like in out example, \texttt{Snakemake} will concatenate them, separated by a whitespace. In other words \altverb{\{input\}} will contain \altverb{input.txt input2.txt}.
+    \end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Introducing Wildcards}}
+	\begin{task}
+	   Your task is simple to introduce the \altverb{\{input\}} and \altverb{\{output\}}  wildcards in our current \altverb{bwa_map} rule. Replace the input and output within the \altverb{shell} directive using these wildcards.
+	\end{task}
+    \begin{hint}
+       Remember, \texttt{Snakemake} will concatenate multiline in- or output. Refer to  \altverb{02_Snakefile} in your tutorial folder for the task setting.
+    \end{hint}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Introducing Wildcards - The "Solution"}
+  Now, \altverb{\{input\}} and \altverb{\{output\}} reference the in- and output:
   \begin{lstlisting}[language=Python,style=Python]
 rule bwa_map:
     input:
@@ -290,8 +321,8 @@ rule bwa_map:
         " | samtools view -Sb - >"
         " {output}"
     \end{lstlisting}
-    Since the rule has multiple input files, \texttt{Snakemake} will concatenate them, separated by a whitespace. In other words, \texttt{Snakemake} will replace \altverb{\{input\}} with \altverb{data/genome.fa data/samples/A.fastq} before executing the command.\newline
-    A working example can be found in \altverb{02_Snakefile}.
+    As we have multiline input \texttt{Snakemake} will replace \altverb{\{input\}} with \altverb{data/genome.fa data/samples/A.fastq} before executing the command.\newline
+    A working solution can be found in \pathtosolutions{02_Snakefile}.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
