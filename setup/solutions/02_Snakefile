@@ -1,8 +1,3 @@
-#TASK: Within the 'shell' directive change
-#      the inputs to the '{input}' wildcard
-#      and the output to the '{output}'
-#      wildcard, respectively.
-
 rule bwa_map:
     input:
         "data/genome.fa",
