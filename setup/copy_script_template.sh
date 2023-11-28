@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Please note: if your ssh-configuration contains "ForwardX11 yes" rsync
+# might not return. In this case, use a config without X11 forwarding.
+
 CLUSTER_ALIAS=<cluster_name>
 
 scp condarc "${CLUSTER_ALIAS}:/path/to/setup/dir"
