@@ -281,15 +281,15 @@ rule bwa_map:
 	to reference our in- and output in the \altverb{shell} directive, e.\,g.:
 	\begin{lstlisting}[language=Python,style=Python]
 rule foo:
-   input: input.txt,
-          input2.txt
-   output: output.txt
+   input: replicate_1.txt,
+          replicate_2.txt
+   output: result.txt
    # The following command will concatenate
    # the input files.
    shell: "cat {input} > {output}
     \end{lstlisting}
     \begin{docs}
-      If the in-/output has multiple lines, like in out example, \texttt{Snakemake} will concatenate them, separated by a whitespace. In other words \altverb{\{input\}} will contain \altverb{input.txt input2.txt}.
+      If the in-/output has multiple lines, like in out example, \texttt{Snakemake} will concatenate them, separated by a whitespace. In other words \altverb{\{input\}} will contain \altverb{replicate_1.txt replicate_2.txt}.
     \end{docs}
 \end{frame}
 
@@ -303,7 +303,6 @@ rule foo:
        Remember, \texttt{Snakemake} will concatenate multiline in- or output. Refer to  \altverb{02_Snakefile} in your tutorial folder for the task setting.
     \end{hint}
 \end{frame}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
