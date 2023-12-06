@@ -99,7 +99,7 @@ rule bwa_map:
         " mapped_reads/A.bam"
     \end{lstlisting}
     \begin{docs}
-    	This code is build file, which for \texttt{Snakemake} is called a \texttt{Snakefile} -- a file executed by \texttt{Snakemake}.
+    	This code is build file, which for \texttt{Snakemake} is called a \newline "\texttt{Snakefile}" -- a file executed by \texttt{Snakemake}.
     \end{docs}
     \end{onlyenv}
   \begin{onlyenv}<2| handout:0>
@@ -326,8 +326,17 @@ rule bwa_map:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Further Workflow Decoration}\footnotesize 
-  \texttt{Snakemake} allows generalizing rules by using named wildcards. Simply replace the \altverb{A} in the second input file and in the output file with the wildcard \altverb{\{sample\}}, to yield:
+  \frametitle{\HandsOn{Further Workflow Decoration}}
+  (Usually), experiments consists of more than one input, e.\,g. several replicas might be present.\newline
+  \begin{task}{Introducing the \altverb{sample} Wildcard}
+    \texttt{Snakemake} allows generalizing rules by using named wildcards, too. Simply replace the \altverb{A} in the second input file and in the output file with the wildcard \altverb{\{sample\}}.\newline
+    You may refer to the \pathtoclozure{03_Snakefile} template.
+  \end{task}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Further Workflow Decoration -- Solution} 
   \begin{lstlisting}[language=Python,style=Python,basicstyle=\footnotesize]
 rule bwa_map:
     input:
@@ -355,6 +364,10 @@ $ snakemake -np mapped_reads/B.bam
       If your workflow does not work, find the solution in \pathtosolutions{03_Snakefile}.
     \end{hint}
   \end{task}
+  \begin{docs}{Background}
+  When \texttt{Snakemake} determines that this rule can be applied to generate a target file by replacing the wildcard \altverb{\{sample\}} in the output file with an appropriate value, it will propagate that value to all occurrences of \altverb{\{sample\}} in the input files and thereby determine the necessary input for the resulting job.\newline
+      \pathtosolutions{03_Snakefile}
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -388,9 +401,35 @@ $ snakemake -np mapped_reads/{A,B}.bam
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{One Caveat!}
+  \begin{alertblock}{Multiple Wildcards}
+    You can have multiple wildcards in your file paths, however, to avoid conflicts with other jobs of the same rule, \emph{all output files} of a rule \emph{have to contain exactly the same wildcards}.
+  \end{alertblock}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Sorting Alignments}
   For later steps, we need the read alignments in the BAM files to be sorted. This can be achieved with the \lhref{https://www.htslib.org/}{\texttt{samtools}} \altverb{sort} command. We add the following rule beneath the \altverb{bwa_map} rule:
+  \begin{lstlisting}[language=Python,style=Python]
+rule samtools_sort:
+    input:
+        ...
+    output:
+        ...
+    shell:
+        "samtools sort -T sorted_reads/{wildcards.sample} "
+        "-O bam {input} > {output}"
+  \end{lstlisting}
+  \begin{task}
+  	Please refer to your template \altverb{04_Snakefile}. 
+  \end{task}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Using Wildcards}
   \begin{lstlisting}[language=Python,style=Python]
 rule samtools_sort:
     input:
@@ -401,10 +440,6 @@ rule samtools_sort:
         "samtools sort -T sorted_reads/{wildcards.sample} "
         "-O bam {input} > {output}"
   \end{lstlisting}
-  %TODO check cloze text correct?
-  \begin{task}
-  	Please refer to your template \altverb{03_Snakefile}.
-  \end{task}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

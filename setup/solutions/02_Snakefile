@@ -5,7 +5,6 @@ rule bwa_map:
     output:
         "mapped_reads/A.bam"
     shell:
-        "bwa mem data/genome.fa"
-        " data/samples/A.fastq"
+        "bwa mem {input}"
         " | samtools view -Sb - >"
-        " mapped_reads/A.bam"
+        " {output}"
