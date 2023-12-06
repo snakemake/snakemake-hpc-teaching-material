@@ -340,9 +340,10 @@ showstringspaces=false}
 		\MyDat[\arabic{datacount},3]}%
 }
 
-\newcommand{\pathtosetup}[1]{\path{/lustre/project/hpckurs/workflows/#1}}
-\newcommand{\pathtoclozure}[1]{\path{/lustre/project/hpckurs/workflows/tutoturial/#1}}
-\newcommand{\pathtosolutions}[1]{\path{/lustre/project/hpckurs/workflows/solutions/#1}}
+%\newcommand{\pathtosetup}[1]{\path{/lustre/project/hpckurs/workflows/#1}}
+\newcommand{\pathtosetup}[1]{\texttt{\configparam{pathtosetup}/#1}}
+\newcommand{\pathtoclozure}[1]{\texttt{\configparam{pathtoclozure}/#1}}
+\newcommand{\pathtosolutions}[1]{\texttt{\configparam{pathtosolutions}/#1}}
 
 \setcounter{tocdepth}{1}
 

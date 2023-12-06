@@ -47,6 +47,23 @@ $ snakemake <other arguments> \
   \end{exampleblock}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Specifiying \texttt{Snakefile}s (Details)}
+	\begin{docs}[\texttt{Snakemake}s Default \texttt{Snakefile}]
+		The workflow definition in form of a snakefile. Usually, you should not need to specify this. By default, \texttt{Snakemake} will search for "\altverb{Snakefile}", "\altverb{snakefile}", "\altverb{workflow/Snakefile}", "\altverb{workflow/snakefile}" beneath the current working directory, in this order.\newline
+		When using a different layout, you can use
+		\begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake <other arguments> \
+> --snakefile <path to snakefile>
+	    \end{lstlisting}
+	\end{docs}
+    \pause
+    \begin{hint}
+      On clusters we recommend working from \altverb{HOME} and configuring workflows such that they point to data on project file systems. How and the reasons why will be covered.
+    \end{hint}
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{A first Step or ``Rule''}
@@ -168,7 +185,7 @@ rule bwa_map:
         " | samtools view -Sb - >"
         " mapped_reads/A.bam"
     \end{lstlisting}
-    You will find the working content in \altverb{01_Snakefile}, too.
+    You will find the working content in \pathtoclozure{01\_Snakefile}, too.
   \end{onlyenv}
 \end{frame}
 
@@ -300,7 +317,7 @@ rule foo:
 	   Your task is simple to introduce the \altverb{\{input\}} and \altverb{\{output\}}  wildcards in our current \altverb{bwa_map} rule. Replace the input and output within the \altverb{shell} directive using these wildcards.
 	\end{task}
     \begin{hint}
-       Remember, \texttt{Snakemake} will concatenate multiline in- or output. Refer to  \altverb{02_Snakefile} in your tutorial folder for the task setting.
+       Remember, \texttt{Snakemake} will concatenate multiline in- or output. Refer to  \altverb{02\_Snakefile} in your tutorial folder for the task setting.
     \end{hint}
 \end{frame}
 
@@ -321,7 +338,7 @@ rule bwa_map:
         " {output}"
     \end{lstlisting}
     As we have multiline input \texttt{Snakemake} will replace \altverb{\{input\}} with \altverb{data/genome.fa data/samples/A.fastq} before executing the command.\newline
-    A working solution can be found in \pathtosolutions{02_Snakefile}.
+    A working solution can be found in \pathtosolutions{02\_Snakefile}.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -330,7 +347,7 @@ rule bwa_map:
   (Usually), experiments consists of more than one input, e.\,g. several replicas might be present.\newline
   \begin{task}{Introducing the \altverb{sample} Wildcard}
     \texttt{Snakemake} allows generalizing rules by using named wildcards, too. Simply replace the \altverb{A} in the second input file and in the output file with the wildcard \altverb{\{sample\}}.\newline
-    You may refer to the \pathtoclozure{03_Snakefile} template.
+    You may refer to the \pathtoclozure{03\_Snakefile} template.
   \end{task}
 \end{frame}
 
@@ -354,19 +371,19 @@ rule bwa_map:
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Mini-Task: add the \texttt{sample} Wildcard}}
   \begin{task}
-  	Simply refer to your current \texttt{Snakefile} or to the cloze text in \pathtoclozure{03_Snakefile}. Replace the \altverb{A} in the second input file and in the output file with the wildcard \altverb{\{sample\}}.\newline
+  	Simply refer to your current \texttt{Snakefile} or to the cloze text in \pathtoclozure{03\_Snakefile}. Replace the \altverb{A} in the second input file and in the output file with the wildcard \altverb{\{sample\}}.\newline
   	Then run:
     \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake -np mapped_reads/B.bam
     \end{lstlisting}
     \texttt{Snakemake} will determine that the rule \altverb{bwa_map} can be applied to generate the target file by replacing the wildcard \altverb{\{sample\}} with the value \altverb{B}.
     \begin{hint}
-      If your workflow does not work, find the solution in \pathtosolutions{03_Snakefile}.
+      If your workflow does not work, find the solution in \pathtosolutions{03\_Snakefile}.
     \end{hint}
   \end{task}
   \begin{docs}{Background}
   When \texttt{Snakemake} determines that this rule can be applied to generate a target file by replacing the wildcard \altverb{\{sample\}} in the output file with an appropriate value, it will propagate that value to all occurrences of \altverb{\{sample\}} in the input files and thereby determine the necessary input for the resulting job.\newline
-      \pathtosolutions{03_Snakefile}
+      \pathtosolutions{03\_Snakefile}
   \end{docs}
 \end{frame}
 
@@ -423,7 +440,7 @@ rule samtools_sort:
         "-O bam {input} > {output}"
   \end{lstlisting}
   \begin{task}
-  	Please refer to your template \altverb{04_Snakefile}. 
+  	Please refer to your template \altverb{04\_Snakefile}. 
   \end{task}
 \end{frame}
 
@@ -536,7 +553,7 @@ rule bcftools_call:
         "bcftools mpileup -f {input.fa} {input.bam} | "
         "bcftools call -mv - > {output}"
   \end{lstlisting}
-  This is part of \altverb{05_Snakefile}.
+  This is part of \altverb{05\_Snakefile}.
 \end{frame}
 
 
