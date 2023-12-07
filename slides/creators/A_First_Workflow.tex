@@ -370,6 +370,7 @@ rule bwa_map:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Mini-Task: add the \texttt{sample} Wildcard}}
+  \vspace{-0.5em}
   \begin{task}
   	Simply refer to your current \texttt{Snakefile} or to the cloze text in \pathtoclozure{03\_Snakefile}. Replace the \altverb{A} in the second input file and in the output file with the wildcard \altverb{\{sample\}}.\newline
   	Then run:
@@ -377,8 +378,9 @@ rule bwa_map:
 $ snakemake -np mapped_reads/B.bam
     \end{lstlisting}
     \texttt{Snakemake} will determine that the rule \altverb{bwa_map} can be applied to generate the target file by replacing the wildcard \altverb{\{sample\}} with the value \altverb{B}.
+    \vspace{-0.5em}
     \begin{hint}
-      If your workflow does not work, find the solution in\newline\pathtosolutions{03\_Snakefile}.
+      If your workflow does not work, find the solution in\newline\pathtosolutions{\\03\_Snakefile}.
     \end{hint}
   \end{task}
   \begin{docs}{Background}
