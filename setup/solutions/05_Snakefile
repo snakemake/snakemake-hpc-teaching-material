@@ -1,14 +1,9 @@
 # our samples are pre-configured
 SAMPLES = ["A", "B"]
 
-#TASK: figure out, which your target is
-#      This is the final target of our work-
-#      flow, so far.
-#      Then, test the workflow:
-#      $ snakemake --cores=1 --snakefile 05_Snakefile
 rule all:
     input:
-        <target>
+        "calls/all.vcf"
 
 rule bwa_map:
     input:

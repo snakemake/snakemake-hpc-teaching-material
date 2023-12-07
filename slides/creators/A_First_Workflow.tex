@@ -549,8 +549,57 @@ rule bcftools_call:
         "bcftools mpileup -f {input.fa} {input.bam} | "
         "bcftools call -mv - > {output}"
   \end{lstlisting}
-  This is part of \altverb{05\_Snakefile}.
+  We will meet this rule in \pathtoclozure{05\_Snakefile} -- in the next exercise.
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Adding a Target Rule}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Why Target Rules?}
+	So far, we always executed the workflow by specifying a target file at the command line. How cumbersome!\newline
+	\begin{docs}
+		We remember: \texttt{Snakemake} will automatically determine for a given rule, which expected outcomes are missing and execute all necessary rules, accordingly.\newline\pause
+		The ``trick'' is that a workflow can have a ``target'' rule, which specifies the \emph{final} output(s) of a workflow. Any invokation of \texttt{Snakemake} will then execute \emph{all} rules of a workflow.
+	\end{docs}
+\end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Target Rule Practice}}
+	\begin{docs}
+		If no target is given at the command line, \texttt{Snakemake} will define the first rule of the \texttt{Snakefile} as the target.
+	\end{docs}
+	Conventionally, this rule is named \altverb{all}. This means that we add a rule at the top of our workflow:\newline
+	\begin{onlyenv}<1| handout:0>
+		\begin{question}
+			Which is our target file?
+		\end{question}
+		\begin{lstlisting}[language=Python,style=Python]
+rule all:
+	input: 
+		\end{lstlisting}
+	\end{onlyenv}
+	\begin{onlyenv}<2| handout:1>
+	   \begin{task}
+	   	  Take the template \pathtoclozure{05\_Snakefile} and fill in the target in the \altverb{all} rule.
+	   \end{task}
+	\end{onlyenv}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Target Rule Practice -- Solution}
+	Our target rule is:
+	\begin{lstlisting}[language=Python,style=Python]
+rule all:
+	input: 
+		"calls/all.vcf"
+	\end{lstlisting}
+    \pause
+    \begin{hint}
+       Essentially, you can add all output files you want to keep (e.\,g. plots, final results) to \altverb{all}.
+    \end{hint}
+    The solution can be found at \pathtosolutions{\\05\_Snakefile}
+\end{frame}
