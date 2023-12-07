@@ -421,7 +421,7 @@ $ snakemake -np mapped_reads/{A,B}.bam
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Sorting Alignments}
+  \frametitle{\HandsOn{Sorting Alignments}}
   For later steps, we need the read alignments in the BAM files to be sorted. This can be achieved with the \lhref{https://www.htslib.org/}{\texttt{samtools}} \altverb{sort} command. We add the following rule beneath the \altverb{bwa_map} rule:
   \begin{lstlisting}[language=Python,style=Python]
 rule samtools_sort:
@@ -434,13 +434,13 @@ rule samtools_sort:
         "-O bam {input} > {output}"
   \end{lstlisting}
   \begin{task}
-  	Please refer to your template \altverb{04\_Snakefile}. 
+  	Please refer to your template \pathtoclozure{04\_Snakefile} and fill in \altverb{input} and \altverb{output}.
   \end{task}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Using Wildcards}
+  \frametitle{Sorting Alignments / Using Wildcards Solution}
   \begin{lstlisting}[language=Python,style=Python]
 rule samtools_sort:
     input:
@@ -451,6 +451,7 @@ rule samtools_sort:
         "samtools sort -T sorted_reads/{wildcards.sample} "
         "-O bam {input} > {output}"
   \end{lstlisting}
+  You will find this solution in \pathtosolutions{04\_Snakefile}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
