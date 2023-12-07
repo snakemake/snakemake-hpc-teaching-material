@@ -3,4 +3,4 @@ condarcfile = common/condarc_mogon.tex
 % see the README for explanations.
 pathtosetup = /lustre/project/hpckurs/workflows/setup
 pathtoclozure = tutorial
-pathtosolutions = /lustre/project/hpckurs/workflows/solutions/
+pathtosolutions = /lustre/project/hpckurs/workflows/solutions
