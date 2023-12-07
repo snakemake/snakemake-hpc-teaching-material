@@ -451,18 +451,18 @@ rule samtools_sort:
         "samtools sort -T sorted_reads/{wildcards.sample} "
         "-O bam {input} > {output}"
   \end{lstlisting}
-  You will find this solution in \pathtosolutions{04\_Snakefile}
+  You will find this solution in \pathtosolutions{\\04\_Snakefile}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Using Wildcards}
+  \frametitle{Sorting Alignments / Using Wildcards Background}
   The rule will take  input file from the \altverb{mapped_reads} directory and store a sorted version in the \altverb{sorted_reads} directory.
   \pause
   \begin{docs}
   	\texttt{Snakemake} will automatically create missing directories!
   \end{docs}
-  You noticed \altverb{-T sorted_reads/\{wildcards.sample\}}?
+  You noticed \altverb{-T sorted_reads/\{wildcards.sample\}}? 
   \pause
   For sorting, \texttt{samtools} requires a prefix specified with the flag \altverb{-T}. Here, we need the value of the wildcard \altverb{sample}. \texttt{Snakemake} allows to access wildcards in the shell command via the wildcards object that has an attribute with the value for each wildcard.
 \end{frame}
@@ -508,7 +508,8 @@ expand("sorted_reads/{sample}.bam", sample=SAMPLES)
  \end{lstlisting}
  we obtain a list where the given pattern \altverb{sorted_reads/\{sample\}.bam} was formatted with the values in a given list of samples \altverb{SAMPLES}, i.\,e.
  \begin{lstlisting}[language=Python,style=Python]
-["sorted_reads/A.bam", "sorted_reads/B.bam"]
+SAMPLES = ["sorted_reads/A.bam", 
+           "sorted_reads/B.bam"]
  \end{lstlisting}
 \end{frame}
 
