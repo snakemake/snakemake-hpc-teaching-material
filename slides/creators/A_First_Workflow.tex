@@ -560,7 +560,7 @@ rule bcftools_call:
 \begin{frame}
 	\frametitle{Introducing: Target Rules}
 	\begin{question}[Why Target Rules?]
-	  So far, we always executed the workflow by specifying a target file at the command line. How cumbersome!\newline\pause
+	  So far, we always executed the workflow by specifying a target file at the command line. How cumbersome!\newline
 	  I would be better to make \texttt{Snakemake} figure out, which jobs to run. Right?
 	\end{question}
     \pause
@@ -599,8 +599,8 @@ rule all:
 	Our target rule is:
 	\begin{lstlisting}[language=Python,style=Python]
 rule all:
-	input: 
-		"calls/all.vcf"
+    input: 
+	    "calls/all.vcf"
 	\end{lstlisting}
     \pause
     \begin{hint}
