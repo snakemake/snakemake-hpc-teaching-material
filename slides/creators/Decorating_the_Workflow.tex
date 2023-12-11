@@ -19,7 +19,7 @@
   \frametitle{What is this about?}
    \begin{question}[Questions]
    	  \begin{itemize}
-         \item How can a workflow be made really usable?
+         \item How can a workflow be made really usable on a cluster?
          \item How can I avoid changing the workflow source for every new input?
       \end{itemize}
    \end{question}
@@ -70,44 +70,6 @@
 \subsection{The Configuration File}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{The \texttt{Snakemake} \texttt{resources} Section}
-  \texttt{Snakemake} rules provide an additional \altverb{resource} section:
-  \begin{lstlisting}[language=Python,style=Python]
-rule <name>:
-   ...
-   resources:
-      partition='parallel',
-      mem_mb=1800,
-      cpus_per_task=4
-  \end{lstlisting}
-  \begin{hint}
-  	Note the \textbf{,}!
-  \end{hint}
-  \pause
-  \begin{docs}
-  	You \emph{may} define \emph{any} resource keyword within any rule.
-  \end{docs}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-  \frametitle{The \texttt{Snakemake} \texttt{resources} Section - its Downside}
-  \begin{block}{Every Resource Spec needs a Change per Rule???}
-   You might have noticed, this specification per rule is most untidy. \texttt{Snakemake}'s design principle is: ship workflows which run \emph{everywhere} \& \emph{every time}.
-   \newline \pause
-   Relax: Every bit we can specify:
-   \begin{itemize}
-    \item in a \texttt{Snakefile},
-    \item on the command line,
-    \item and re-usable in configuration files!
-   \end{itemize}
-
-  \end{block}
-
-\end{frame} 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{The Configuration File}
   If observed closely you have seen this file:\newline
@@ -138,7 +100,7 @@ $ snakemake ... --configfile ./config/config.yaml
   \end{lstlisting}
   Or, alternatively in your \texttt{Snakefile}:
   \begin{lstlisting}[language=Python,style=Python]
-configfile: "config.yaml"
+configfile: "config/config.yaml"
   \end{lstlisting}  
   \begin{question}
   	How do pick up resource parameters in out \texttt{Snakefile}?!
@@ -226,11 +188,14 @@ rule bwa_map:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Adding a new Sample}}
-  In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add that sample to the config file and see how \texttt{Snakemake} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
-  \begin{lstlisting}[language=Bash, style=Shell]
+  \begin{task}
+  	 Refer to \pathtoclozure{\\07\_Snakefile} as the current workflow example containing the mentioned input function.\newline
+  	 In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add that sample to the config file and see how \texttt{Snakemake} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
+  	 \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake -n --forcerun bcftools_call
-  \end{lstlisting}
-  Copy the file XXX as your \texttt{Snakefile}. 
+  	 \end{lstlisting}
+  \end{task}
+ 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
