@@ -5,12 +5,12 @@
 	\vspace{-2em}
 	\begin{minipage}[t][0.32\textheight][t]{1.0\linewidth}
 		\begin{lstlisting}[language=Bash, style=Shell, basicstyle=\scriptsize]
-			#!/bin/bash
+#!/bin/bash
 			
-			#SBATCH -A m2_jgu-ngstraining
-			#SBATCH -p smp
-			
-			srun echo "Hello World from job $SLURM_JOB_ID on node $(hostname)"
+#SBATCH -A m2_jgu-ngstraining
+#SBATCH -p smp
+
+srun echo "Hello World from job $SLURM_JOB_ID on node $(hostname)"
 		\end{lstlisting}
 	\end{minipage}\newline
 	\begin{minipage}[t][0.3\textheight][t]{1.0\linewidth}
