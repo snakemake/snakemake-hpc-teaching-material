@@ -1,14 +1,13 @@
 configfile: "config/config.yaml"
 
-
 rule all:
     input:
-        "plots/quals.svg"
+        "plots/quals.svg",
+        "calls/all.vcf"
 
 
 def get_bwa_map_input_fastqs(wildcards):
     return config["samples"][wildcards.sample]
-
 
 rule bwa_map:
     input:
