@@ -278,6 +278,22 @@ rule bwa_map:
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Logging in Practice}}
+  \begin{task}
+  	 Remember, the general to implement a logging directive syntax is:
+  	 \begin{lstlisting}[language=Python,style=Python]
+rule <name>:
+    ...
+    log: "path/to/logs/{wildcard.log}
+  	\end{lstlisting}
+    Implement the log directive for all rules you consider worth being logged. What do you observe?
+    \newline
+    You can take the \pathtoclozure{//xxx} sample file to proceed.
+  \end{task}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Logging - III}
   \begin{question}[Questions]
@@ -336,7 +352,6 @@ $ du -sh *reads
   \end{lstlisting}
   Add the \altverb{temp()} function to \altverb{bwa_map}- and \altverb{samtools_sort}-rules, re-run the workflow and the \altverb{du}-command. What do you observer?
 \end{frame}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Command Line}
