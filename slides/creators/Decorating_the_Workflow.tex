@@ -225,10 +225,10 @@ rule bwa_map:
 \begin{frame}[fragile]
   \frametitle{Rule Parameters}
   This is usually part of the configuration file(s), too.\newline
-  In your config file:
+  In your config file (\altverb{r"<something"} stands for "raw strings"):
   \begin{lstlisting}[language=Python,style=Python]
 bwa_map:
-   rg=xxx
+   rg=r"@RG\tID:{sample}\tSM:{sample}"
   \end{lstlisting}
   and in your code:
   \begin{lstlisting}[language=Python,style=Python]
