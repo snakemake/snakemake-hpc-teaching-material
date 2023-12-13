@@ -270,11 +270,11 @@ rule bwa_map:
     # we combine stdout & stdout
     shell:
         "(bwa mem -R '{params.rg}' {input} "
-        "| samtools view -Sb - > {output}) 2> {log}"
+        "| samtools view -Sb - > {output}) 6> {log}"
    \end{lstlisting}
-   \begin{task}
-     Please try this out.
-   \end{task}
+   \begin{docs}[Background]
+     \altverb{&} bundles the \altverb{stderr} and \altverb{stdout} stream and \altverb{>} redirects both to the log file. 
+   \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
