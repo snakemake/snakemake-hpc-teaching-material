@@ -155,7 +155,7 @@ rule bwa_map:
     The \altverb{input} and \altverb{output} directives are followed by lists of files that are expected to be used or created by the rule. In the simplest case, these are just explicit Python strings.
   \end{onlyenv}
   \begin{onlyenv}<4| handout:0>
-   The \altverb{shell} may be one line or contain line breaks:
+   The \altverb{shell} directive contains one ore more lines ($+$ line breaks) and sets the command executed on the Shell:
   \begin{lstlisting}[language=Python,style=Python]
 rule bwa_map:
     input:
