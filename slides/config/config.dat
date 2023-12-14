@@ -4,6 +4,10 @@ condarcfile = common/condarc_mogon.tex
 pathtosetup = /lustre/project/hpckurs/workflows
 pathtoclozure = workflows/tutorial
 pathtosolutions = /lustre/project/hpckurs/solutions
+% Editors recommendations are a matter of taste and technological
+% setups (e.g. on-demand setups). Hence, specify an editor-slide,
+% here:
+editor_slide = common/geany_command_line.tex
 % This is the selected slide to explain the 'Hello World' script
 % to introduce SLURM. It requires different account and partition
 % settings on every cluster.
