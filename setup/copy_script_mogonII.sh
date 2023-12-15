@@ -12,4 +12,4 @@ scp condarc "${CLUSTER_ALIAS}:/lustre/project/hpckurs/workflows/condarc"
 scp get_tutorial.sh "${CLUSTER_ALIAS}:/lustre/project/hpckurs/workflows/get_tutorial.sh"
 
 rsync -rtlv --chmod=D755 "tutorial" "${CLUSTER_ALIAS}:/lustre/project/hpckurs/workflows"
-rsync -rtlv --chmod=D755 "solutions" "${CLUSTER_ALIAS}:/lustre/project/hpckurs/solutions"
+rsync -rtlv --chmod=D755 "solutions" "${CLUSTER_ALIAS}:/lustre/project/hpckurs"
