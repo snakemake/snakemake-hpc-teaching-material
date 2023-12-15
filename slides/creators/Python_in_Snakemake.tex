@@ -227,9 +227,11 @@ rule plot_quals:
   \end{task}
 \end{frame}
 
+\setcounter{preframe_handson}{\value{handson}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Adding the Plotting Script}}
+  \setcounter{handson}{\value{preframe_handson}}
   \begin{task}
   	Open an editor and follow along.
   \end{task}
@@ -330,8 +332,6 @@ plt.hist(quals)
 plt.savefig(snakemake.output[0])
    \end{lstlisting}
   \end{onlyenv}
-  
-
 \end{frame}
 
 
