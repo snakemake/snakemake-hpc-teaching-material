@@ -1,0 +1,136 @@
+\input{common/wrapper}
+
+\subsection*{Advanced}
+
+\begin{frame}{Creating New Wrappers}
+    Creating snakemake wrappers is as easy as creating the three constituent parts:
+    \begin{description}[<+->]
+        \item[\texttt{meta.yaml}:] A documentation file, containing information about the tool and the wrapper
+        \item[\texttt{environment.yaml}:] A conda environment to install the tool and its dependencies
+        \item[\texttt{wrapper.py}:] The python code to run the tool 
+    \end{description}
+    \only<1>{
+        Contents of the documentation:
+        \begin{itemize}
+            \item The name of the wrapper and the tool it wraps
+            \item Links to the tool source code
+            \item Description of the input and output files that should be supplied by any rule using the wrapper
+            \item Optionally, some documentation of custom arguments like \altverb{extra}
+            \item When contributing to the community: Authors of the wrapper
+        \end{itemize}
+    }
+    \only<2>{
+        Software Environment:
+        \begin{itemize}
+            \item Install all necessary tools and dependencies to run the wrapper code (including python libraries)
+            \item Preferably tool versions should be fixed, s.t. later usage of the same wrapper results in the same output
+        \end{itemize}
+    }
+    \only<3>{
+        The wrapper code:
+        \begin{itemize}
+            \item Translate the snakemake rule parameters into a valid invocation of the tool
+            \item Apply necessary pre- and postprocessing steps to guarantee valid output
+        \end{itemize}
+    }
+    \only<4>{
+        \begin{docs}
+            Wrappers can be improved by providing \altverb{Unit Tests} that can validate the wrapper code
+            and tool versions with known output.
+        \end{docs}
+    }
+\end{frame}
+
+\begin{frame}[fragile]{Creating New Wrappers: Python Code}
+    \altverb{wrapper.py} is the core component of any wrapper as it takes care of running the actual
+    program.
+    \begin{onlyenv}<2>
+        \begin{lstlisting}[language=Python,style=Python,gobble=12]
+            # Core setup of a `wrapper.py` script
+            # 1. Python Imports
+            import tempfile
+            import os
+            from snakemake.shell import shell
+        \end{lstlisting}
+    \end{onlyenv}
+    \begin{onlyenv}<3>
+        \begin{lstlisting}[language=Python,style=Python,gobble=12]
+            # Core setup of a `wrapper.py` script
+            # 2. Fetch the snakemake input and output parameter
+            extra = snakemake.params.get("extra", "")
+        \end{lstlisting}
+        The snakemake object has the attributes \altverb{input}, \altverb{output} and \altverb{params}
+        containing the respective rule parameter.
+    \end{onlyenv}
+    \begin{onlyenv}<4>
+        \begin{lstlisting}[language=Python,style=Python,gobble=12]
+            # Core setup of a `wrapper.py` script
+                                            Default value
+                                                 @vvvv@
+            extra = snakemake.params.get("extra", "")
+                                         @^^^^^^^@
+                                    Name of the parameter
+        \end{lstlisting}
+        The snakemake object has the attributes \altverb{input}, \altverb{output} and \altverb{params}
+        containing the respective rule parameter.
+    \end{onlyenv}
+    \begin{onlyenv}<5>
+        \begin{lstlisting}[language=Python,style=Python,gobble=12]
+            # Core setup of a `wrapper.py` script
+            extra = snakemake.params.get("extra", "")
+            reads = snakemake.input.get("reads", [])
+            output = snakemake.output[0]
+        \end{lstlisting}
+        \begin{itemize}
+            \item These values can also be addressed as arrays
+            \item The wrapper must take care of checking for errors in the input and raise Exceptions if necessary
+        \end{itemize}
+    \end{onlyenv}
+    \begin{hint}
+        The \altverb{snakemake} object provides access to snakemake variables from inside the
+        wrapper script.
+    \end{hint}
+\end{frame}
+
+\begin{frame}[fragile]{Creating New Wrappers: Helper Functions}
+    Snakemake provides several helper functions that make it easier to code wrappers.
+    \begin{lstlisting}[language=Python,style=Python,gobble=8]
+        # Snakemake Helper Functions
+
+        # Run a specific tool on the command line.
+        snakemake.shell("/bin/true")
+
+        # Format the log statement of the current rule, s.t. it can be applied to a shell command.
+        snakemake.log_fmt_shell(stdout=True, stderr=True, append=False)
+
+        # Define the executable used to launch your shell commands.
+        snakemake.shell.executable("/bin/bash")
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}{Assembling the new Wrapper}
+    With these ingredients, you can write wrappers for your own tools.
+    Recap of the steps required to create a new wrapper:
+    \begin{itemize}
+        \item Pick the tool and write the wrapper
+        \item Test the wrapper and document how to use it
+        \item Optionally, write some unit testing code for the wrapper
+        \item Use it in your workflows
+    \end{itemize}
+    \begin{docs}
+        If you write new wrappers, please contribute them to the community effort.
+    \end{docs}
+\end{frame}
+
+\begin{frame}{Contributing Wrappers to the Community}
+    New wrappers are always welcome at \lhref{https://github.com/snakemake/snakemake-wrappers}{snakemake-wrappers}.
+    In order to contribute a new wrapper, please provide:
+    \begin{itemize}
+        \item A Wrapper, including \altverb{meta.yaml}, \altverb{environment.yaml} and \altverb{wrapper.py}
+        \item A simple unit test with some example data
+    \end{itemize}
+    \begin{hint}
+        Your example serves as the main documentation for the wrapper, so make sure to document
+        the usage of any custom parameters, input and output variables.
+    \end{hint}
+\end{frame}
