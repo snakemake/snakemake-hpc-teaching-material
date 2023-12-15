@@ -1,0 +1,140 @@
+\section{Snakemake Wrappers}
+
+\subsection*{Basics}
+
+\begin{frame}
+    \frametitle{Outline}
+    \begin{columns}[t]
+        \begin{column}{.5\textwidth}
+            \tableofcontents[sections={1-9},currentsection]
+        \end{column}
+        \begin{column}{.5\textwidth}
+            \tableofcontents[sections={10-18},currentsection]
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}
+    \frametitle{What is this about?}
+    \begin{question}[Questions]
+        \begin{itemize}
+            \item What is a snakemake Wrapper?
+            \item How can snakemake wrappers be used to write reproducible workflows?
+        \end{itemize}
+    \end{question}
+    \begin{docs}[Objectives]
+        \begin{enumerate}
+            \item Introduce the concept of snakemake wrappers
+            \item Include snakemake wrappers in your workflows
+            \item Reproducibility of snakemake wrappers
+        \end{enumerate}
+    \end{docs}
+\end{frame}
+
+\begin{frame}{Introduction to Wrappers}
+    For a single tool, Snakemake Wrappers do:
+    \begin{itemize}[<+->]
+        \item Document usage
+        \item Describe the dependencies
+        \item Provide a way to call the tool with information from snakemake
+    \end{itemize}
+    This setup makes snakemake wrappers reusable across multiple workflows.
+\end{frame}
+
+\begin{frame}{Introduction to Wrappers}
+    Wrappers consist of three components:
+    \begin{enumerate}
+        \item A description of their usage (\altverb{meta.yaml})
+        \item A conda environment description of all dependencies of the tool (\altverb{environment.yaml})
+        \item A python script that invokes the tool (\altverb{wrapper.py})
+    \end{enumerate}
+    Since they are reusable, there is a large repository online of tried and tested 
+    wrappers written by the community: \lhref{https://github.com/snakemake/snakemake-wrappers}{snakemake-wrappers}
+\end{frame}
+
+\begin{frame}[fragile]{Using Wrappers}
+    Using snakemake wrappers can be achieved easily:
+    \begin{lstlisting}[language=Python,style=Python]
+rule bwa_map:
+    input:
+        reads=["input/{sample}_1.fq.gz", "input/{sample}_2.fq.gz"],
+        idx=multiext("genome", ".amb", ".ann", ".bwt", ".pac", ".sa"),
+    output:
+        "output/{sample}.bam"
+    params:
+        extra=r"-R '@RG\tID:{sample}\tSM:{sample}'",
+        sorting="none",  # Can be 'none', 'samtools' or 'picard'.
+        sort_order="queryname",  # Can be 'queryname' or 'coordinate'.
+        sort_extra="",  # Extra args for samtools/picard.
+    threads: 8
+    wrapper:
+        "v3.2.0/bio/bwa/mem"
+    \end{lstlisting}
+    \begin{docs}
+        This example uses the community snakemake-wrappers repository \altverb{bwa-mem} wrapper.
+    \end{docs}
+\end{frame}
+
+\begin{frame}[fragile]{Using Wrappers: In- and Output}
+    Input and Output of the rules has to match the definition of the snakemake wrapper.
+    \begin{lstlisting}[language=Python,style=Python]
+rule bwa_map:
+    input:
+        reads=["input/{sample}_1.fq.gz", "input/{sample}_2.fq.gz"],
+        idx=multiext("genome", ".amb", ".ann", ".bwt", ".pac", ".sa"),
+    output:
+        "output/{sample}.bam"
+    ...
+    \end{lstlisting}
+    \begin{docs}
+        The \altverb{bwa-mem} wrapper expects an input object with two attributes
+        \altverb{reads} and \altverb{idx} and writes to a single output file.
+    \end{docs}
+\end{frame}
+
+\begin{frame}[fragile]{Using Wrappers: Parameters}
+    Parameters may be used by wrappers to influence the behaviour, settings or resource usage.
+    \begin{lstlisting}[language=Python,style=Python]
+rule bwa_map:
+    ...
+    params:
+        extra=r"-R '@RG\tID:{sample}\tSM:{sample}'",
+        sorting="none",  # Can be 'none', 'samtools' or 'picard'.
+        sort_order="queryname",  # Can be 'queryname' or 'coordinate'.
+        sort_extra="",  # Extra args for samtools/picard.
+    threads: 8
+    ...
+    \end{lstlisting}
+    \begin{docs}
+        \altverb{bwa-mem} supports custom arguments like \altverb{sort_order} and
+        the common \altverb{extra} flag, that is used to supply command line parameters
+        for the invocation of the tool. The \altverb{threads} and \altverb{resources}
+        settings from a snakemake rule are also commonly used to set memory or parallelization
+        parameters for each tool.
+    \end{docs}
+\end{frame}
+
+\begin{frame}[fragile]{Using Wrappers: Calling a Wrapper}
+    The \altverb{wrapper} directive signals that snakemake should execute this rule with
+    a wrapper.
+    \begin{lstlisting}[language=Python,style=Python]
+rule bwa_map:
+    ...
+    wrapper:
+        "v3.2.0/bio/bwa/mem"
+    \end{lstlisting}
+    \begin{docs}
+        The path to the tool is given relative to the repository or path given by the \altverb{--wrapper-prefix}
+        flag, which defaults to the \lhref{https://github.com/snakemake/snakemake-wrappers}{snakemake-wrappers} repository.
+    \end{docs}
+\end{frame}
+
+\begin{frame}{Advantages of Wrappers}
+    Using wrappers has many great advantages compared to \altverb{run} or \altverb{shell}:
+    \begin{itemize}[<+->]
+        \item Code is reusable across workflows and can be shared with others
+        \item Complex invocations of tools do not clutter your snakemake workflow definitions
+        \item With versioned wrappers, you workflow is easily reproducible
+        \item Community wrappers often get you started quickly using a new tool correctly
+    \end{itemize}
+\end{frame}
