@@ -47,4 +47,4 @@ This repo contains some unique commands:
 
 You can get in touch with us, if you want to host a course at your site. If possible, we are happy to teach a course at your site and teach you teaching (teach the teacher).
 
-Everyone who wants to teach the course will find more information here.
+Everyone who wants to teach the course will find more information [here](https://github.com/cmeesters/snakemake-hpc-teaching-material/Teaching_Elsewhere.md).
