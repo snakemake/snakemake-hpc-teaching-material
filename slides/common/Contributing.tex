@@ -145,17 +145,64 @@
 \begin{frame}
 	\frametitle{Reporting Application Issues}
 	\begin{question}[Where to?]
-		The issue tracker of your application (if any). 
+		The \includegraphics[height=\texorpdfstring{\fontcharht\font`\B}]{logos/GitHub-logo.png} issue tracker of your application (if any). 
 	\end{question}
 	\pause
-	\begin{question}[What?]
-		Any application specific error. Try running the application with the input and parameters specified in the workflow (get them with \altverb{snakemake -p} to print the shell command or other debug flags). If the application breaks, report the failure. Else, it might be the workflow.
-	\end{question}
-	\pause
-	\begin{question}[How?]
-		Indicate the error message and what is leading to it. If you need special input to reproduce the issue, upload the input somewhere or attach minimal input to the issue report.
-	\end{question}
+	\begin{adjustbox}{max totalsize={.9\textwidth}{.7\textheight},center}
+		% example: https://www.latex4technics.com/?note=28EK
+		\begin{tikzpicture}[scale=0.8, auto, every node/.style={font=\footnotesize, >=stealth}]
+			\tikzset{
+				rblock/.style={draw, shape=rectangle,rounded corners=0.8em,align=center,minimum width=1.5cm,minimum height=0.5 cm, fill=green!30},
+				decision/.style={diamond, 
+					minimum width=3cm, 
+					minimum height=1cm, 
+					text centered, 
+					draw=black, 
+					fill=green!30},
+				block/.style= {draw, rectangle,rounded corners, align=center,minimum width=2cm,minimum height=1cm,text width= 2cm, fill=red!30},
+				block1/.style= {draw, rectangle,rounded corners, align=center,minimum width=3 cm,minimum height=1cm,text width= 3cm, fill=red!30},
+				io/.style = {draw, shape=trapezium , trapezium left angle=60, trapezium right angle=120, minimum width=2 cm, text centered, draw=black, fill=blue!30},
+				subblock/.style= {draw, rectangle,rounded corners, align=center,minimum width=1cm,minimum height=1cm, fill=red!30},
+				superblock/.style= {draw, rectangle,rounded corners, align=center,minimum width=4 cm,minimum height=1cm, fill=red!30},
+				decision/.style = {draw,diamond, aspect =2, minimum width=3cm, minimum height=1cm, text centered,text width= 1.8 cm, draw=black, inner sep=0pt, fill=orange!30},
+				line/.style = {draw, -latex'}
+			}
+			\node [rblock]  (start) {Start Workflow};
+			\node [decision, right of=start, xshift=2cm] (error) {Crash?};
+			\node [block, above of=error, yshift=1cm,text width= 4cm] (rerun) {\begin{minipage}{4cm}
+					Try re-run with \newline \altverb{--rerun-incomplete}
+			\end{minipage}};
+			\node [block, right of=error, xshift=2cm] (logs) {Check the logs!};
+			\node [decision, right of=logs, xshift=2cm] (application) {Application crash?};
+			
+			\node [block, below of=application, text width=4cm, yshift=-1cm] (print)
+			{\begin{minipage}{4cm}
+					Try running with \altverb{-p} (to print the shell command)
+			\end{minipage}};
+			
+			\node [block, below of=print, yshift=-1cm] (report) {Report command, in- and output.};
+			
+			\path [line] (start) -- (error);
+			\path [line] (error) -- (rerun);
+			\draw [line, -] (rerun) -- (error);
+			\path [line] (error) -- (logs);
+			
+			\path [line] (logs) -- (application);
+			
+			\path [line] (application) -- (print);
+			\path [line] (print) -- (report);
+			
+			\pause
+			\node[below of=start, text width=8cm,font=\normalsize, yshift=-1.5cm] {\begin{question}[How?]
+					Indicate the error message and what is leading to it. If you need special input to reproduce the issue, upload the input somewhere or attach minimal input to the issue report.
+				\end{question}};
+		   \onslide<1->	
+		\end{tikzpicture}
+	
+	\end{adjustbox}
 \end{frame}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
