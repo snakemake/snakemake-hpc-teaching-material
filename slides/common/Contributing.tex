@@ -96,11 +96,22 @@
   	   	%\Loop[dist = 4cm, dir = SOWE, label = 6](Program.west)
   	   \end{tikzpicture}}
   	\end{column}
-  \end{columns}
+  \end{columns}	
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{What is the Nature of the Issue?}
+  \texttt{Snakemake} helps you to identify the nature of an issue:
+  \begin{enumerate}[<+->]
+  	\item It will report to you in which \altverb{rule} the error occurred \textbf{and/or}
+  	\item a so-called "traceback" to point the issue within its code.
+  	\item The workflow will indicate log files on the screen.
+  \end{enumerate}
   \pause
-  \begin{hint}
-  	It is important to figure out the underlying issue before reporting anything!
-  \end{hint}	
+  \begin{docs}{Looking into Log Files}
+  	Look into the log file. It \textit{should} tell you the error. \pause If not, report it to the workflow developer (next slides). 
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
