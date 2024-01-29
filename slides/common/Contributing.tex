@@ -25,9 +25,9 @@
 	\end{question}
 	\begin{docs}[Objectives]
 		\begin{enumerate}
-			\item Getting to know \texttt{GitHub}.
 			\item Learn how to figure out where an error comes from.
 			\item Learning how to create a \emph{meaningful} issue report.
+			\item Getting to know \texttt{GitHub}.
 		\end{enumerate}
 	\end{docs}
 \end{frame}
@@ -38,12 +38,12 @@
   \ldots and do not know what and how to contribute!
   \pause
   \begin{block}{Open Source is \emph{NOT JUST} about Programming}
-  	\lhref{https://opensource.guide/how-to-contribute/}{You can}
+  	\lhref{https://opensource.guide/how-to-contribute/}{You can contribute by}
   	\begin{itemize}[<+->]
-  		\item contribute by writing whats wrong (issue reports)
-  		\item contribute by writing how it's done (documentation)
-  		\item contribute by organizing events (bringing people together)
-  		\item contribute by checking (test the code submissions of other's)
+  		\item writing whats wrong (issue reports)
+  		\item writing how it's done (documentation)
+  		\item organizing events (bringing people together)
+  		\item checking (test the code submissions of other's)
   		\item etc. etc. etc.
   	\end{itemize}
   \end{block} 
@@ -84,37 +84,51 @@
   	   	\SOEA(Issue){Computer}
   	   	
   	   	
-  	   	\Edge[label = 1, style={->}](Issue)(Program)
-  	   	\Edge[label = 2, style={->,bend right}](Issue)(Workflow)
-  	   	\Edge[label = 3, style={->,bend left}](Issue)(Computer)
+  	   	\Edge[label = 1, style={<-}](Issue)(Program)
+  	   	\Edge[label = 2, style={<-,bend right}](Issue)(Workflow)
+  	   	\Edge[label = 3, style={<-,bend left}](Issue)(Computer)
   	   	%\Edge[label = 4](Issue)(Computer)
   	   	%\Loop[dist = 4cm, dir = NO, label = 5](Computer.west)
   	   	%\Loop[dist = 4cm, dir = SO, label = 6](Program.east)
   	   	%\tikzset{EdgeStyle/.append style = {bend left = 50}}
   	   	\Edge[label = 4,style={<-,bend left}](Workflow)(Program)
-  	   	\Edge[label = 5,style={<-,bend left}](Computer)(Workflow)
+  	   	\Edge[label = 5,style={->,bend left}](Computer)(Workflow)
   	   	%\Loop[dist = 4cm, dir = SOWE, label = 6](Program.west)
   	   \end{tikzpicture}}
   	\end{column}
-  \end{columns}
+  \end{columns}	
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{What is the Nature of the Issue?}
+  \texttt{Snakemake} helps you to identify the nature of an issue:
+  \begin{enumerate}[<+->]
+  	\item It will report to you in which \altverb{rule} the error occurred \textbf{and/or}
+  	\item a so-called "traceback" to point the issue within its code.
+  	\item The workflow will indicate log files on the screen.
+  \end{enumerate}
   \pause
-  \begin{hint}
-  	It is important to figure out the underlying issue before reporting anything!
-  \end{hint}	
+  \begin{docs}{Looking into Log Files}
+  	Look into the log file. It \textit{should} tell you the error. \pause If not, report it to the workflow developer (next slides). 
+  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Do I need a \texttt{GitHub} account?}
-  It may change, but today many software projects are either hosted on some institutional \texttt{GitLab} or the global git server of Microsoft, \texttt{GitHub}.\newline
-  If you want to report an issue or even contribute back to the project with anything else, you will need an account. \lhref{This page}{https://docs.github.com/en/get-started/onboarding/getting-started-with-your-github-account} describe how. 
+  Today many software projects are either hosted on the global git server, \texttt{GitHub}.
+  \begin{docs}
+  	If you want to report an issue or even contribute back to the project, you will need an account. \lhref{https://docs.github.com/en/get-started/onboarding/getting-started-with-your-github-account}{This page} describes how. 
+  \end{docs}
+  
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 	\frametitle{Reporting Cluster Issues}
-	\begin{question}[Where to?]
-	  Report them to your cluster admins (chat, mail ticket, etc.)
+	\begin{question}[Where?]
+	  Report them to your cluster admins (\includegraphics[height=\texorpdfstring{\fontcharht\font`\B}]{logos/mattermost.png} chat, \Email{} mail ticket, etc.)
 	\end{question}
     \pause
     \begin{question}[What?]
@@ -122,31 +136,76 @@
     \end{question}
     \pause
     \begin{question}[How?]
-      Give a meaningful brief statement. "I can't do \altverb{ls} on \altverb{/some/path}." is more meaningful than "The filesystem stopped working!" and "For me too!" messages.\newline
-      \bcattention Check your mails! Has some maintenance been scheduled?
+      Give a meaningful statement. "I can't do \altverb{ls} on \altverb{/some/path}." is more meaningful than "The filesystem stopped working!"\newline
+      \bcattention Check your \Email{}! Has some maintenance been scheduled?
     \end{question}	
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 	\frametitle{Reporting Application Issues}
-	\begin{question}[Where to?]
-		The issue tracker of your application (if any). 
+	\begin{question}[Where?]
+		The \includegraphics[height=\texorpdfstring{\fontcharht\font`\B}]{logos/GitHub-logo.png} issue tracker of your application (if any). 
 	\end{question}
 	\pause
-	\begin{question}[What?]
-		Any application specific error. Try running the application with the input and parameters specified in the workflow (get them with \altverb{snakemake -p} to print the shell command or other debug flags). If the application breaks, report the failure. Else, it might be the workflow.
-	\end{question}
-	\pause
-	\begin{question}[How?]
-		Indicate the error message and what is leading to it. If you need special input to reproduce the issue, upload the input somewhere or attach minimal input to the issue report.
-	\end{question}
+	\begin{adjustbox}{max totalsize={.9\textwidth}{.7\textheight},center}
+		% example: https://www.latex4technics.com/?note=28EK
+		\begin{tikzpicture}[scale=0.8, auto, every node/.style={font=\footnotesize, >=stealth}]
+			\tikzset{
+				rblock/.style={draw, shape=rectangle,rounded corners=0.8em,align=center,minimum width=1.5cm,minimum height=0.5 cm, fill=green!30},
+				decision/.style={diamond, 
+					minimum width=3cm, 
+					minimum height=1cm, 
+					text centered, 
+					draw=black, 
+					fill=green!30},
+				block/.style= {draw, rectangle,rounded corners, align=center,minimum width=2cm,minimum height=1cm,text width= 2cm, fill=red!30},
+				block1/.style= {draw, rectangle,rounded corners, align=center,minimum width=3 cm,minimum height=1cm,text width= 3cm, fill=red!30},
+				io/.style = {draw, shape=trapezium , trapezium left angle=60, trapezium right angle=120, minimum width=2 cm, text centered, draw=black, fill=blue!30},
+				subblock/.style= {draw, rectangle,rounded corners, align=center,minimum width=1cm,minimum height=1cm, fill=red!30},
+				superblock/.style= {draw, rectangle,rounded corners, align=center,minimum width=4 cm,minimum height=1cm, fill=red!30},
+				decision/.style = {draw,diamond, aspect =2, minimum width=3cm, minimum height=1cm, text centered,text width= 1.8 cm, draw=black, inner sep=0pt, fill=orange!30},
+				line/.style = {draw, -latex'}
+			}
+			\node [rblock]  (start) {Start Workflow};
+			\node [decision, right of=start, xshift=2cm] (error) {Crash?};
+			\node [block, above of=error, yshift=1cm,text width= 4cm] (rerun) {\begin{minipage}{4cm}
+					Try re-run with \newline \altverb{--rerun-incomplete}
+			\end{minipage}};
+			\node [block, right of=error, xshift=2cm] (logs) {Check the logs!};
+			\node [decision, right of=logs, xshift=2cm] (application) {Application crash?};
+			
+			\node [block, below of=application, text width=4cm, yshift=-1cm] (print)
+			{\begin{minipage}{4cm}
+					Try running with \altverb{-p} (to print the shell command)
+			\end{minipage}};
+			
+			\node [block, below of=print, yshift=-1cm] (report) {Report command, in- and output.};
+			
+			\path [line] (start) -- (error);
+			\path [line] (error) -- (rerun);
+			\draw [line, -] (rerun) -- (error);
+			\path [line] (error) -- (logs);
+			
+			\path [line] (logs) -- (application);
+			
+			\path [line] (application) -- (print);
+			\path [line] (print) -- (report);
+			
+			\pause
+			\node[below of=start, text width=8cm,font=\normalsize, yshift=-1.5cm] {\begin{question}[How?]
+					Provide the error message. It's often helpful to provide (sample) input to the developer to reproduce the issue.
+				\end{question}};
+		   \onslide<1->	
+		\end{tikzpicture}
+	
+	\end{adjustbox}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 	\frametitle{Reporting Workflow Issues}
-	\begin{question}[Where to?]
+	\begin{question}[Where?]
 		The issue tracker at your workflow. For \texttt{Snakemake} somewhere in the \lhref{https://snakemake.github.io/snakemake-workflow-catalog/}{catalog}. 
 	\end{question}
 	\pause
@@ -155,23 +214,23 @@
 	\end{question}
 	\pause
 	\begin{question}[How?]
-		Indicate the error message and what is leading to it. If you need special input to reproduce the issue, upload the input somewhere or attach minimal input to the issue report.
+		Provide the error message. It's often helpful to provide (sample) input to the developer to reproduce the issue.
 	\end{question}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Reporting \texttt{Snakemake} Issues}
-  \begin{question}[Where to?]
+  \begin{question}[Where?]
   	 The \lhref{https://github.com/snakemake/snakemake/issues}{issue tracker of the \texttt{Snakemake} project}.
   \end{question}	
   \pause
   \begin{question}[What?]
-  	Clearly unexpected behaviour. Or tracebacks pointing to \texttt{Snakemake} itself. 
+  	Unexpected behavior and tracebacks pointing to \texttt{Snakemake} itself. 
   \end{question}
   \pause
   \begin{question}[How?]
-  	Indicate the error message and what is leading to it (e.\,g. the command line you used). If you need special input to reproduce the issue, upload the input somewhere or attach minimal input to the issue report.
+  	Read the error message and check input and parameters. Report an issue, when you are sure of it.
   \end{question}
 \end{frame}
 
