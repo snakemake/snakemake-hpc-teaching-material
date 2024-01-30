@@ -24,7 +24,7 @@
    \end{question}
    \begin{docs}[Objectives]
    	  \begin{enumerate} 
-                      \item Learn to plot workflows using \texttt{Snakemake} and \texttt{GraphViz}.
+                      \item Learn to plot workflows using \Snakemake{} and GraphViz.
       \end{enumerate}
    \end{docs}
 \end{frame}
@@ -32,7 +32,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Plotting the Workflow}}
-  \texttt{Snakemake} has a build-in plotting feature. Run 
+  \Snakemake{} has a build-in plotting feature. Run 
   \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake --rulegraph | dot -Tpng > <your_workflow.png>
   \end{lstlisting}

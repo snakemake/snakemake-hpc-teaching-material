@@ -26,7 +26,7 @@
    \begin{docs}[Objectives]
    	  \begin{enumerate}
          \item Learn the implications and limitations of benchmarks.
-         \item Learning how to generate and interprate reports with \texttt{Snakemake}.
+         \item Learning how to generate and interpret reports with \Snakemake{}.
       \end{enumerate}
   \end{docs}
 \end{frame}
@@ -53,7 +53,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Generating Benchmarks}
-  Similar to crating a logfile, we are provided with a \altverb{benchmark}-directive, which can point to a bechmarking file:
+  Similar to crating a logfile, we are provided with a \altverb{benchmark}-directive, which can point to a benchmarking file:
   \begin{lstlisting}[language=Python,style=Python]
 rule bwa_map:
     ...
@@ -64,7 +64,7 @@ rule bwa_map:
     ...
   \end{lstlisting} 
   \begin{docs}
-  	\texttt{Snakemake} will measure the wall clock time and memory usage (in MiB) and store it in the file in tab-delimited format.
+  	\Snakemake{} will measure the wall clock time and memory usage (in MiB) and store it in the file in tab-delimited format.
   \end{docs}
 \end{frame}
 
@@ -73,7 +73,7 @@ rule bwa_map:
   \frametitle{Repeating Benchmarks}
   \vfill
   \begin{exampleblock}{Repeated benchmarks}
-   It is possible to repeat a benchmark multiple times in order to get a sense for the variability of the measurements. This can be done by annotating the benchmark file, e.\,g., with \altverb{repeat("benchmarks/\{sample\}.bwa.benchmark.txt", 3)}. \texttt{Snakemake} can be told to run the job three times. The repeated measurements occur as subsequent lines in the tab-delimited benchmark file.
+   It is possible to repeat a benchmark multiple times in order to get a sense for the variability of the measurements. This can be done by annotating the benchmark file, e.\,g., with \altverb{repeat("benchmarks/\{sample\}.bwa.benchmark.txt", 3)}. \Snakemake{} can be told to run the job three times. The repeated measurements occur as subsequent lines in the tab-delimited benchmark file.
   \end{exampleblock}
   \vfill
 \end{frame} 
@@ -89,7 +89,7 @@ rule bwa_map:
   \end{itemize}
   \pause
   \begin{warning}
-  	We conclude: \texttt{Snakemake}'s benchmarking capabilities are limited!
+  	We conclude: \Snakemake{}'s benchmarking capabilities are limited!
   \end{warning}
 \end{frame}
 
@@ -98,8 +98,8 @@ rule bwa_map:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{\texttt{Snakemake} Reports}
-  Asking \texttt{Snakemake} for a report on a completed workflow is as easy as:
+  \frametitle{\Snakemake{} Reports}
+  Asking \Snakemake{} for a report on a completed workflow is as easy as:
   \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake --report
   \end{lstlisting}
@@ -108,10 +108,10 @@ $ snakemake --report
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \frametitle{\texttt{Snakemake} Reports and Cluster Jobs}
+  \frametitle{\Snakemake{} Reports and Cluster Jobs}
   \begin{alertblock}{Why reports about Cluster Jobs can be misleading.}
-    When reporting about a cluster or cloud job, \texttt{Snakemake} sheperd job on the login-node will measure the wall time from submit time to the finish time, not the executing job(s).\newline
-    This means: Times can be greatly exegerated!
+    When reporting about a cluster or cloud job, \Snakemake{} shepherd job on the login-node will measure the wall time from submit time to the finish time, not the executing job(s).\newline
+    This means: Times can be greatly exaggerated!
   \end{alertblock}
 \end{frame} 
 

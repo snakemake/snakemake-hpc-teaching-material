@@ -36,11 +36,11 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \frametitle{Why Python in \texttt{Snakefile}?}
+  \frametitle{Why Python in a \altverb{Snakefile}?}
   Sometimes we do \emph{not} want to run $3^{\mathsf{rd}}$ party code, but run the occasional script for data manipulation   or plotting or \ldots 
   \pause
   \begin{docs}
-  	\texttt{Snakefile}s are Python code (albeit special Python code)!)
+  	\altverb{Snakefile}s are Python code (albeit special Python code)!)
   \end{docs}
 \end{frame}
 
@@ -49,7 +49,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Using functions in \texttt{Snakefile}s}
+  \frametitle{Using functions in \altverb{Snakefile}s}
   We already met the \altverb{expand()}-function. Let's revisit it in detail!
   \begin{task}
   	Start Python and follow along!
@@ -57,7 +57,7 @@
   \begin{lstlisting}[language=Python,style=Python]
 from snakemake.io import expand, glob_wildcards
   \end{lstlisting}
-   \altverb{expand()} is used frequently, to expand a \texttt{Snakemake} wildcard(s) into a set of filenames:
+   \altverb{expand()} is used frequently, to expand a \Snakemake{} wildcard(s) into a set of filenames:
   \begin{lstlisting}[language=Python,style=Python]
 >>> expand('folder/{wildcard1}_{wildcard2}.txt',
 ...        wildcard1=['a', 'b', 'c'],
@@ -67,7 +67,7 @@ from snakemake.io import expand, glob_wildcards
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Using functions in \texttt{Snakefile}s II}
+  \frametitle{Using functions in \altverb{Snakefile}s II}
   \begin{question}
   	What is the result?
   \end{question}
@@ -117,7 +117,7 @@ glob_wildcards('data/samples/{replicas}.fastq').replicas
 \begin{frame}[fragile]
   \frametitle{\Interlude{Meeting the \texttt{run} Action}}
   \vspace{-0.5em}
-  It is possible to run Python snippets in \texttt{Snakemake}. For this, we have to replace the \altverb{shell:} action by a \altverb{run:} action:\vspace{-0.5em}
+  It is possible to run Python snippets in \Snakemake{}. For this, we have to replace the \altverb{shell:} action by a \altverb{run:} action:\vspace{-0.5em}
   \begin{task}
   	Imaging this code in a \altverb{Snakefile}:
   \end{task}\vspace{-0.5em}
@@ -144,13 +144,13 @@ rule print_sample_names:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{\texttt{Snakemake} Specials for Python}
+  \frametitle{\Snakemake{} Specials for Python}
   Remember this part:
   \begin{lstlisting}[language=Python,style=Python]
 shell:  'some_command -i {input} -o {output}'
   \end{lstlisting}
   \begin{question}
-  	Isn't this rather tedious, considering that \texttt{Snakemake} is written in Python? Could we forward rule specific information to our scripts?
+  	Isn't this rather tedious, considering that \Snakemake{} is written in Python? Could we forward rule specific information to our scripts?
   \end{question}
 \end{frame}
 
@@ -158,8 +158,8 @@ shell:  'some_command -i {input} -o {output}'
 \setbeamertemplate{footline}{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{\texttt{Snakemake}'s features for external Scripts}
-  In addition to the \altverb{shell} and \altverb{run} directives, \texttt{Snakemake} offers a \altverb{script} directive, too:
+  \frametitle{\Snakemake's features for external Scripts}
+  In addition to the \altverb{shell} and \altverb{run} directives, \Snakemake{} offers a \altverb{script} directive, too:
   \begin{lstlisting}[language=Python,style=Python]
 rule NAME:
     input:
@@ -195,7 +195,7 @@ do_something(snakemake@input[[1]], snakemake@output[[1]])
 \begin{frame}[fragile]
   \frametitle{\Interlude{Debugging external Scripts}}
   \begin{exampleblock}{Debugging Python Scripts}
-  To debug Python scripts, you can invoke \texttt{Snakemake} with
+  To debug Python scripts, you can invoke \Snakemake{} with
   \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake --debug
   \end{lstlisting}
@@ -203,7 +203,7 @@ $ snakemake --debug
   \end{exampleblock}
   \pause
   \begin{exampleblock}{Debugging R Scripts}
-  To debug R scripts, you can save the workspace with \altverb{save.image()}, and invoke R after \texttt{Snakemake} has terminated. 
+  To debug R scripts, you can save the workspace with \altverb{save.image()}, and invoke R after \Snakemake{} has terminated. 
   \end{exampleblock}
 \end{frame}
 
