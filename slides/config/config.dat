@@ -7,6 +7,8 @@ pathtoexercise = "/lustre/project/hpckurs/workflows/"
 pathtoclozure = "/lustre/project/hpckurs/cloze/"
 pathtosolution = "/lustre/project/hpckurs/solutions/"
 %
+% editor file as present on your cluster
+editorfile = "common/editor_gedit_mainz.tex"
 % date of presentation
 %
 %date = "\today"
