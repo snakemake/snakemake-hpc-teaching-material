@@ -1,7 +1,10 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Snakemake Wrappers}
 
-\subsection*{Basics}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Basics}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
     \frametitle{Outline}
     \begin{columns}[t]
@@ -14,6 +17,7 @@
     \end{columns}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
     \frametitle{What is this about?}
     \begin{question}[Questions]
@@ -31,6 +35,7 @@
     \end{docs}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Introduction to Wrappers}
     For a single tool, Snakemake Wrappers do:
     \begin{itemize}[<+->]
@@ -41,6 +46,7 @@
     This setup makes snakemake wrappers reusable across multiple workflows.
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Introduction to Wrappers}
     Wrappers consist of three components:
     \begin{enumerate}
@@ -52,6 +58,7 @@
     wrappers written by the community: \lhref{https://github.com/snakemake/snakemake-wrappers}{snakemake-wrappers}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Using Wrappers}
     Using snakemake wrappers can be achieved easily:
     \begin{lstlisting}[language=Python,style=Python]
@@ -75,6 +82,7 @@ rule bwa_map:
     \end{docs}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Using Wrappers: In- and Output}
     Input and Output of the rules has to match the definition of the snakemake wrapper.
     \begin{lstlisting}[language=Python,style=Python]
@@ -92,6 +100,7 @@ rule bwa_map:
     \end{docs}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Using Wrappers: Parameters}
     Parameters may be used by wrappers to influence the behaviour, settings or resource usage.
     \begin{lstlisting}[language=Python,style=Python]
@@ -114,6 +123,7 @@ rule bwa_map:
     \end{docs}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Using Wrappers: Calling a Wrapper}
     The \altverb{wrapper} directive signals that snakemake should execute this rule with
     a wrapper.
@@ -129,6 +139,7 @@ rule bwa_map:
     \end{docs}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Advantages of Wrappers}
     Using wrappers has many great advantages compared to \altverb{run} or \altverb{shell}:
     \begin{itemize}[<+->]
