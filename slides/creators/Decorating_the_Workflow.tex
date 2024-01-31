@@ -41,7 +41,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \begin{docs}
-  	\texttt{Snakemake} has an extensive command line interface (CLI). \emph{Everything} can be configured on the command line. In addition (almost) everything can be specified in a configuration file.
+  	\Snakemake{} has an extensive command line interface (CLI). \emph{Everything} can be configured on the command line. In addition (almost) everything can be specified in a configuration file.
   \end{docs}
   \pause
   \begin{exampleblock}{Which parameter goes where? Some rules of thumb:}
@@ -68,6 +68,44 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Configuration File}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{The \Snakemake{} \texttt{resources} Section}
+  \Snakemake{} rules provide an additional \altverb{resource} section:
+  \begin{lstlisting}[language=Python,style=Python]
+rule <name>:
+   ...
+   resources:
+      partition='parallel',
+      mem_mb=1800,
+      cpus_per_task=4
+  \end{lstlisting}
+  \begin{hint}
+  	Note the \textbf{,}!
+  \end{hint}
+  \pause
+  \begin{docs}
+  	You \emph{may} define \emph{any} resource keyword within any rule.
+  \end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{The \Snakemake{} \texttt{resources} Section - its Downside}
+  \begin{block}{Every Resource Spec needs a Change per Rule???}
+   You might have noticed, this specification per rule is most untidy. \Snakemake's design principle is: ship workflows which run \emph{everywhere} \& \emph{every time}.
+   \newline \pause
+   Relax: Every bit we can specify:
+   \begin{itemize}
+    \item in a \altverb{Snakefile},
+    \item on the command line,
+    \item and re-usable in configuration files!
+   \end{itemize}
+
+  \end{block}
+
+\end{frame} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -98,12 +136,12 @@
   \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake ... --configfile ./config/config.yaml  
   \end{lstlisting}
-  Or, alternatively in your \texttt{Snakefile}:
+  Or, alternatively in your \altverb{Snakefile}:
   \begin{lstlisting}[language=Python,style=Python]
 configfile: "config/config.yaml"
   \end{lstlisting}  
   \begin{question}
-  	How do pick up resource parameters in out \texttt{Snakefile}?!
+  	How do pick up resource parameters in out \altverb{Snakefile}?!
   \end{question}
 \end{frame} 
 
@@ -111,7 +149,7 @@ configfile: "config/config.yaml"
 \begin{frame}[fragile]
   \frametitle{Working with Configuration Data}
   \begin{hint}
-  	Remember: \texttt{Snakefile}s are Python files.
+  	Remember: \altverb{Snakefile}s are Python files.
   \end{hint}
   \pause
   Given a file \altverb{config.yaml} with contents:
@@ -160,7 +198,7 @@ rule bcftools_call:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Input Functions}
-  Since we have stored the path to the FASTQ files in the config file, we can also generalize the rule \altverb{bwa_map} to use these paths. This case is different to the rule \altverb{bcftools_call} we modified above. To understand this, it is important to know that \texttt{Snakemake} workflows are executed in three phases.
+  Since we have stored the path to the FASTQ files in the config file, we can also generalize the rule \altverb{bwa_map} to use these paths. This case is different to the rule \altverb{bcftools_call} we modified above. To understand this, it is important to know that \Snakemake{} workflows are executed in three phases.
   \begin{itemize}[<+->]
    \item In the \emph{initialization phase}, the files defining the workflow are parsed and all rules are instantiated.
    \item In the \emph{DAG phase}, the directed acyclic dependency graph of all jobs is built by filling wildcards and matching input files to output files.
@@ -188,6 +226,7 @@ rule bwa_map:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Adding a new Sample}}
+<<<<<<< HEAD
   \begin{task}
   	 Refer to \pathtoclozure{\\07\_Snakefile} as the current workflow example containing the mentioned input function.\newline
   	 In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add that sample to the config file and see how \texttt{Snakemake} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
@@ -196,6 +235,13 @@ $ snakemake -n --forcerun bcftools_call
   	 \end{lstlisting}
   \end{task}
  
+=======
+  In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add that sample to the config file and see how \Snakemake{} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake -n --forcerun bcftools_call
+  \end{lstlisting}
+  Copy the file XXX as your \altverb{Snakefile}. 
+>>>>>>> main
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -258,7 +304,7 @@ rule bwa_map:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Logging - II}
-  \texttt{Snakemake} offers a \altverb{log}-directive for this purpose.  
+  \Snakemake{} offers a \altverb{log}-directive for this purpose.  
   \begin{lstlisting}[language=Python,style=Python]
 rule bwa_map:
     input:
@@ -309,7 +355,7 @@ rule <name>:
 \begin{frame}[fragile]
   \frametitle{Temporary Files}
   Let's face it: Most output files of a workflow, particularly more complex ones(!), do not need to be archived. They will only take up storage until someone takes the \includegraphics[height=\baselineskip]{misc/broom.png}.\newline
-  Luckily, \texttt{Snakemake} provides a way to mark a file as ``temporary'' and will delete it, when its not needed any longer.
+  Luckily, \Snakemake{} provides a way to mark a file as ``temporary'' and will delete it, when its not needed any longer.
   \pause
   \begin{question}
   	The output of which rules in our workflow should be marked ``temporary''?
@@ -335,7 +381,7 @@ rule <name>:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Temporary Files - Put to Work}}
-  \texttt{Snakemake}s way to mark outputs as temporary or intermediate is the \altverb{temp()}-function, e.\,g.:
+  \Snakemake{}s way to mark outputs as temporary or intermediate is the \altverb{temp()}-function, e.\,g.:
   \begin{lstlisting}[language=Python,style=Python]
 rule bwa_map:
     input:
@@ -366,7 +412,7 @@ $ du -sh *reads
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Executor Selection}
-  \texttt{Snakemake} lets you select various executors. Not happy with HPC clusters? Pay for a cloud \lhref{https://snakemake.readthedocs.io/en/stable/executor_tutorial/tutorial.html}{Google Lifescience, Tibanna, Kubernetes, \ldots} \newline
+  \Snakemake{} lets you select various executors. Not happy with HPC clusters? Pay for a cloud \lhref{https://snakemake.readthedocs.io/en/stable/executor_tutorial/tutorial.html}{Google Lifescience, Tibanna, Kubernetes, \ldots} \newline
   Meanwhile we select the most prominent HPC batch system by:
   \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake --slurm
@@ -380,7 +426,7 @@ $ snakemake --slurm
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Default Resources for \texttt{SLURM}}
-  Without specifying our SLURM-account and a (default) partition, submitting batch jobs will fail. \texttt{Snakemake} allows to define so-called default resources (using \altverb{--default-resources}). With them our minimal command line becomes:
+  Without specifying our SLURM-account and a (default) partition, submitting batch jobs will fail. \Snakemake{} allows to define so-called default resources (using \altverb{--default-resources}). With them our minimal command line becomes:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --slurm \
 > --default-resources slurm_account=m2_jgu-ngstraining \
@@ -403,7 +449,7 @@ $ snakemake --slurm \
    \item may hold jobs pending until resources are available!
   \end{itemize}
   \pause
-  \texttt{Snakemake} offers a semaphore to throttle resource usage, called \altverb{--jobs/-j}. We can now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
+  \Snakemake{} offers a semaphore to throttle resource usage, called \altverb{--jobs/-j}. We can now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --slurm \
 > --default-resources \ 
@@ -416,8 +462,8 @@ $ snakemake --slurm \
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{\texttt{SLURM} supporting Features of \texttt{Snakemake}}
-  \texttt{Snakemake} will
+  \frametitle{\texttt{SLURM} supporting Features of \Snakemake{}}
+  \Snakemake{} will
   \begin{itemize}[<+->]
    \item hold track of your job status (frequency of checks can be adjusted)
    \item cancel your jobs, when itself is stopped
@@ -467,7 +513,7 @@ $ snakemake --slurm \
   \begin{hint}
   	Best abstract the configuration for a cluster from the workflow!
   \end{hint}
-  In addition to a \altverb{config} directory to hold our samples, \texttt{Snakemake} will accept a directory with profile settings, usually ``\altverb{profile}''.
+  In addition to a \altverb{config} directory to hold our samples, \Snakemake{} will accept a directory with profile settings, usually ``\altverb{profile}''.
   \pause
   A profile has to adhere to \lhref{https://en.wikipedia.org/wiki/YAML}{\texttt{YAML}-format} and be named \altverb{config.yaml}. An example for a cluster configuration might look like (sorry, no syntax highlighting available):
   \begin{lstlisting}[style=Plain]
@@ -478,7 +524,7 @@ set-resources:
   \end{lstlisting}
   \pause
   
-  \texttt{Snakemake} \lhref{https://snakemake.readthedocs.io/en/stable/executing/cluster.htmls}{offers many more cluster configuration details}, we will revisit some during this course.
+  \Snakemake{} \lhref{https://snakemake.readthedocs.io/en/stable/executing/cluster.htmls}{offers many more cluster configuration details}, we will revisit some during this course.
 
 \end{frame}
 
@@ -513,7 +559,7 @@ $ snakemake --slurm \
    \item rules which include remote files (e.\,g. to an archive)
   \end{enumerate}
   \pause
-  For such a purpose \texttt{Snakemake} offer the \altverb{localrules} directive.
+  For such a purpose \Snakemake{} offers the \altverb{localrules} directive.
   \begin{lstlisting}[language=Python,style=Python]
 # its useage is (at or near the top of a Snakefile)
 localrules: rule_a, rule_b, rule_c, ...
@@ -528,7 +574,7 @@ localrules: rule_a, rule_b, rule_c, ...
   \begin{lstlisting}[language=Python,style=Python]
 localrules: plot_quals
   \end{lstlisting}
-  at the top of your \texttt{Snakefile} and rerun the workflow on this cluster.
+  at the top of your \Snakemake{} and rerun the workflow on this cluster.
   \pause
   \begin{question}
   	Which is the impact on the overall execution time?

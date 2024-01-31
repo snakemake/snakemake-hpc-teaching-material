@@ -99,7 +99,7 @@ numlib/FFTW/3.3.10-gompi-2021b
    \end{lstlisting}
    Actual module naming schemes differ from cluster to cluster.
    \pause
-   \begin{block}{Using Modules with \texttt{Snakemake}}
+   \begin{block}{Using Modules with \Snakemake{}}
      We will learn how to use modules with 
    \end{block}
    \pause
@@ -113,7 +113,7 @@ numlib/FFTW/3.3.10-gompi-2021b
   \frametitle{That's all Folks}
    \vspace{-0.8em}
   \begin{alertblock}{Why we will not go in depth now}
-You can learn more about modules in 101-HPC courses. Later, we will learn how to use \texttt{Snakemake} workflows, particularly curated ones, available on the web. We \emph{could} re-write and adapt them for a specific cluster, it is better to only parameterize them and do leave the workflow itself unaltered, portable. This is less cumbersome and as workflow systems, including \texttt{Snakemake}, rely on Conda, we will have an in-depth intro to Conda, instead.
+You can learn more about modules in 101-HPC courses. Later, we will learn how to use \Snakemake{} workflows, particularly curated ones, available on the web. We \emph{could} re-write and adapt them for a specific cluster, it is better to only parameterize them and do leave the workflow itself unaltered, portable. This is less cumbersome and as workflow systems, including \Snakemake{}, rely on Conda, we will have an in-depth intro to Conda, instead.
   \end{alertblock}
   \vfill
   \begin{alertblock}{Do not mix Conda with Modules}
@@ -325,11 +325,11 @@ minimap                     0.2_r124      h5bf99c6_4  bioconda
           \item \emph{one} environment per workflow
           \item the environment named as the workflow
           \item this way, we have a bundle of tools, activate the environment for it
-          \item \texttt{Snakemake} workflows will install the tools you need for a particular workflow - only \emph{if} these tools are still missing
+          \item \Snakemake{} workflows will install the tools you need for a particular workflow - only \emph{if} these tools are still missing
          \end{itemize}
   \end{hint}
   \begin{hint}[Note]
-  	For now we will not use \texttt{Snakemake} to install our software. This topic will be covered later.
+  	For now we will not use \Snakemake{} to install our software. This topic will be covered later.
   \end{hint}
 \end{frame}
 
