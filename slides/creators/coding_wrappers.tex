@@ -1,7 +1,7 @@
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Coding own Wrappers}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Creating new Wrappers}
     Creating snakemake wrappers is as easy as creating the three constituent parts:
     \begin{description}[<+->]
@@ -41,6 +41,7 @@
     }
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Creating New Wrappers: Python Code}
     \altverb{wrapper.py} is the core component of any wrapper as it takes care of running the actual
     program.
@@ -92,6 +93,7 @@
     \end{hint}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Creating New Wrappers: Helper Functions}
     Snakemake provides several helper functions that make it easier to code wrappers.
     \begin{lstlisting}[language=Python,style=Python,gobble=8]
@@ -108,6 +110,7 @@
     \end{lstlisting}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Assembling the new Wrapper}
     With these ingredients, you can write wrappers for your own tools.
     Recap of the steps required to create a new wrapper:
@@ -122,6 +125,7 @@
     \end{docs}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Contributing Wrappers to the Community}
     New wrappers are always welcome at \lhref{https://github.com/snakemake/snakemake-wrappers}{snakemake-wrappers}.
     In order to contribute a new wrapper, please provide:
