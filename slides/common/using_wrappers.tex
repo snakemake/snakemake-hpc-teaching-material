@@ -15,35 +15,35 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Basics}
+\subsection{Using Wrappers}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
     \frametitle{What is this about?}
     \begin{question}[Questions]
         \begin{itemize}
-            \item What is a snakemake Wrapper?
-            \item How can snakemake wrappers be used to write reproducible workflows?
+            \item What is a Snakemake Wrapper?
+            \item How can Snakemake wrappers be used to write reproducible workflows?
         \end{itemize}
     \end{question}
     \begin{docs}[Objectives]
         \begin{enumerate}
-            \item Introduce the concept of snakemake wrappers
-            \item Include snakemake wrappers in your workflows
-            \item Reproducibility of snakemake wrappers
+            \item Introduce the concept of Snakemake wrappers
+            \item Include Snakemake wrappers in your workflows
+            \item Reproducibility of Snakemake wrappers
         \end{enumerate}
     \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Introduction to Wrappers}
-    For a single tool, Snakemake Wrappers do:
+    For a single tool, \Snakemake{} Wrappers do:
     \begin{itemize}[<+->]
         \item Document usage
         \item Describe the dependencies
-        \item Provide a way to call the tool with information from snakemake
+        \item Provide a way to call the tool with information from Snakemake
     \end{itemize}
-    This setup makes snakemake wrappers reusable across multiple workflows.
+    This setup makes Snakemake wrappers reusable across multiple workflows.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -60,7 +60,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Using Wrappers}
-    Using snakemake wrappers can be achieved easily:
+    Using \Snakemake{} wrappers can be achieved easily:
     \begin{lstlisting}[language=Python,style=Python]
 rule bwa_map:
     input:
@@ -78,7 +78,7 @@ rule bwa_map:
         "v3.2.0/bio/bwa/mem"
     \end{lstlisting}
     \begin{docs}
-        This example uses the community snakemake-wrappers repository \altverb{bwa-mem} wrapper.
+        This example uses the community Snakemake wrappers repository \altverb{bwa-mem} wrapper.
     \end{docs}
 \end{frame}
 
@@ -118,34 +118,34 @@ rule bwa_map:
         \altverb{bwa-mem} supports custom arguments like \altverb{sort_order} and
         the common \altverb{extra} flag, that is used to supply command line parameters
         for the invocation of the tool. The \altverb{threads} and \altverb{resources}
-        settings from a snakemake rule are also commonly used to set memory or parallelization
+        settings from a Snakemake rule are also commonly used to set memory or parallelization
         parameters for each tool.
     \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}[fragile]{Using Wrappers: Calling a Wrapper}
-%     The \altverb{wrapper} directive signals that snakemake should execute this rule with
-%     a wrapper.
-%     \begin{lstlisting}[language=Python,style=Python]
-% rule bwa_map:
-%     ...
-%     wrapper:
-%         "v3.2.0/bio/bwa/mem"
-%     \end{lstlisting}
-%     \begin{docs}
-%         The path to the tool is given relative to the repository or path given by the \altverb{--wrapper-prefix}
-%         flag, which defaults to the \lhref{https://github.com/snakemake/snakemake-wrappers}{snakemake-wrappers} repository.
-%     \end{docs}
-% \end{frame}
-% 
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% \begin{frame}{Advantages of Wrappers}
-%     Using wrappers has many great advantages compared to \altverb{run} or \altverb{shell}:
-%     \begin{itemize}[<+->]
-%         \item Code is reusable across workflows and can be shared with others
-%         \item Complex invocations of tools do not clutter your snakemake workflow definitions
-%         \item With versioned wrappers, you workflow is easily reproducible
-%         \item Community wrappers often get you started quickly using a new tool correctly
-%     \end{itemize}
-% \end{frame}
+ \begin{frame}[fragile]{Using Wrappers: Calling a Wrapper}
+     The \altverb{wrapper} directive signals that \Snakemake{} should execute this rule with
+     a wrapper.
+     \begin{lstlisting}[language=Python,style=Python]
+ rule bwa_map:
+     ...
+     wrapper:
+         "v3.2.0/bio/bwa/mem"
+     \end{lstlisting}
+     \begin{docs}
+         The path to the tool is given relative to the repository or path given by the \altverb{--wrapper-prefix}
+         flag, which defaults to the \lhref{https://github.com/snakemake/snakemake-wrappers}{snakemake-wrappers} repository.
+     \end{docs}
+ \end{frame}
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \begin{frame}{Advantages of Wrappers}
+     Using wrappers has many great advantages compared to \altverb{run} or \altverb{shell}:
+     \begin{itemize}[<+->]
+         \item Code is reusable across workflows and can be shared with others
+         \item Complex invocations of tools do not clutter your \Snakemake{} workflow definitions
+         \item With versioned wrappers, you workflow is easily reproducible
+         \item Community wrappers often get you started quickly using a new tool correctly
+     \end{itemize}
+ \end{frame}
