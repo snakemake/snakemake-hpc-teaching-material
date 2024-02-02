@@ -1,0 +1,13 @@
+teacher:
+  name: "Dr. Christian Meesters"
+  role: "Computational Scientist - NHR SouthWest"
+  organization: "Johannes Gutenberg Universität (JGU)"
+  # optional
+  organization2: "NHR Südwest"
+  address: "Anselm-Franz-von-Bentzel-Weg 12"
+  city:    "55099 Mainz"
+  url:     "hpc.uni-mainz.de"
+course:
+  date: "8. and 9. February 2024"
+  sign_date: "9. February 2023"
+

@@ -1,0 +1,21 @@
+\documentclass[a4paper,10pt]{article}
+%\documentclass[a4paper,10pt]{scrartcl}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{multicol}
+\usepackage[letterpaper, margin=1.5cm]{geometry}
+
+
+\usepackage{graphicx}
+\renewcommand\familydefault{\sfdefault}
+
+\begin{document}
+\pagestyle{empty}
+
+<% for participant in pfiles %>
+  \include{<<participant>>.pdf}
+<% endfor %>
+
+\end{document}
+
