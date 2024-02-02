@@ -64,11 +64,18 @@ The course take about two days (app. 12 hours) and covered:
      Instructor - <<instructor.name>>\newline
      \footnotesize{<<instructor.role>>}\newline
   \phantom{H}
-  Instructor's Institution\newline
-  <<instructor.organization>> \newline
-  <<instructor.organization2>> \newline
-  <<instructor.address>>\newline
-  <<instructor.city>>\newline
+  <% if instructor.organization %>
+     <<instructor.organization|default("~", true)>> \newline
+  <% endif %>
+  <% if instructor.organization %>
+    <<instructor.organization2|default("~", true)>> \newline
+  <% endif %>
+  <% if instructor.organization %>
+     <<instructor.address|default("~", true)>>\newline
+  <% endif %>
+  <% if instructor.organization %>
+     <<instructor.city|default("~", true)>>\newline
+  <% endif %>
  \end{minipage}
  \end{flushright}
 
