@@ -1,0 +1,117 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+import argparse
+import glob
+import os
+from pathlib import Path
+import sys
+import subprocess
+import yaml
+
+PATH = os.path.split(os.path.realpath(__file__))[0]
+
+from jinja2 import Environment, FileSystemLoader
+
+options = { 'block_start_string': '<%',
+            'block_end_string': '%>',
+            'variable_start_string': '<<',
+            'variable_end_string': '>>',
+          }
+
+jinja_env = Environment(loader = FileSystemLoader(PATH), **options)
+
+class Participant(dict):
+    def __init__(self,
+                 name    = None,
+                 surname = None):
+        self['name']    = name.lstrip() #name.decode('utf-8')
+        self['surname'] = surname.lstrip() #surname.decode('utf-8')
+    def __repr__(self):
+        return '%s_%s' % (self['name'], self['surname'][0])
+
+def render_people(env, template):
+    template=template#.encode('utf-8')
+    tpl = jinja_env.get_template(template)
+    x = tpl.render(env)#.encode('utf-8')
+    return x
+
+def to_file(tex, fname='out.tex', path='.'):
+    with open(os.path.join(path, fname), 'w') as f:
+        f.write(tex)
+
+def run_pdflatex(fname='out.tex', path='.'):
+    return subprocess.call(['pdflatex', '-quiet', fname], cwd=path)
+
+def concatenate_pdfs():
+    fnames = glob.glob('*_intro_cert.pdf')
+    items  = ['pdfunite', 'all_participants_certifications.pdf']
+    items[1:1] = fnames
+    print(items)
+    subprocess.call(items)
+
+def parse_participants(infile, only_name, name_index=2,
+                       surname_index=3):
+    people = list()
+    #infile.readline() # skip header
+    for line in infile:
+        items = line.split(',')
+        if only_name: 
+            if not only_name in line: continue
+        participant = Participant(items[name_index].strip('"'),
+                                  items[surname_index].strip('"'))
+        people.append(participant)
+    if only_name and not people: # not found
+        raise AssertionError("name not found")
+    return people
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description = "Certificate Generator for the Snakemake HPC Teaching Alliance")
+    parser.add_argument('--exportfile', dest = 'exportfile', nargs = '?', type = argparse.FileType('r'),
+                        default = sys.stdin, help = "Specifies partipant csv export file (input file name)")
+    parser.add_argument('--date', dest = 'date', help = 'Desired date')
+    parser.add_argument('--sign-date', dest = 'sign_date', help = '')
+    parser.add_argument('--select-name', dest = 'only_name', help = 'only generate for matching name')
+    parser.add_argument('--name-index', dest = 'nindex', type=int,
+                        default = 1, help = "defines name index in export files")
+    parser.add_argument('--surname-index', dest = 'sindex',
+                        type=int,
+                        default = 0, help = "defines surname index in export files")
+    parser.add_argument('--config', dest = 'configfile', nargs = '?', type = argparse.FileType('r'), help = "configuration file in YAML format")
+
+    args = parser.parse_args()
+
+    participants = parse_participants(args.exportfile, args.only_name, name_index = args.nindex, surname_index = args.sindex)
+
+    data = yaml.safe_load(Path(args.configfile).read_text())
+
+    # add the path to the measurements
+    data['PATH']   = PATH
+    if not data.has_key('date'):
+        try:
+            data['date']   = args.date
+        except:
+            raise AssertionError("Unable to find 'date' in the configfile, please indicate as '--date' on the command line")
+    if not data.has_key('sign_date'):
+        try:
+            data['sign_date'] = args.sign_date 
+        except
+            raise AssertionError("Unable to find 'sign_date' in the configfile, please indicate as '--sign-date' on the command line")
+    for member in participants:
+        data['member'] = {'name': member['name'],  
+                          'surname': member['surname']}
+        tex = render_people(data, 'template.tex')
+        to_file(tex, fname='%s_%s_HPC_intro_cert.tex' % (member['surname'], member['name']))
+        run_pdflatex(fname='%s_%s_HPC_intro_cert.tex' % (member['surname'], member['name']))
+    concatenate_pdfs()
+    if not args.only_name:
+        #    for fname in glob.glob('cert*pdf'):
+        #    os.remove(fname)
+        for fname in glob.glob('*aux'):
+            os.remove(fname)
+        for fname in glob.glob('*intro_cert.tex'):
+            os.remove(fname)
+        for fname in glob.glob('*intro_cert.log'):
+            os.remove(fname)
+
+
