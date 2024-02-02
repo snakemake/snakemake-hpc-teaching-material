@@ -25,8 +25,8 @@ class Participant(dict):
     def __init__(self,
                  name    = None,
                  surname = None):
-        self['name']    = name.lstrip() #name.decode('utf-8')
-        self['surname'] = surname.lstrip() #surname.decode('utf-8')
+        self['name']    = name.strip() #name.decode('utf-8')
+        self['surname'] = surname.strip() #surname.decode('utf-8')
     def __repr__(self):
         return '%s_%s' % (self['name'], self['surname'][0])
 
@@ -69,6 +69,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description = "Certificate Generator for the Snakemake HPC Teaching Alliance")
     parser.add_argument('--exportfile', dest = 'exportfile', nargs = '?', type = argparse.FileType('r'),
                         default = sys.stdin, help = "Specifies partipant csv export file (input file name)")
+    parser.add_argument('--textemplate', dest = 'templatefile', nargs = '?', type = str,
+                        default = 'template_english.tex', help = "Specifies the tex template")
     parser.add_argument('--date', dest = 'date', help = 'Desired date')
     parser.add_argument('--sign-date', dest = 'sign_date', help = '')
     parser.add_argument('--select-name', dest = 'only_name', help = 'only generate for matching name')
@@ -77,7 +79,7 @@ if __name__ == '__main__':
     parser.add_argument('--surname-index', dest = 'sindex',
                         type=int,
                         default = 0, help = "defines surname index in export files")
-    parser.add_argument('--config', dest = 'configfile', nargs = '?', type = argparse.FileType('r'), help = "configuration file in YAML format")
+    parser.add_argument('--config', dest = 'configfile', nargs = '?', type = str, help = "configuration file in YAML format")
 
     args = parser.parse_args()
 
@@ -87,20 +89,20 @@ if __name__ == '__main__':
 
     # add the path to the measurements
     data['PATH']   = PATH
-    if not data.has_key('date'):
+    if not 'date' in data:
         try:
             data['date']   = args.date
         except:
             raise AssertionError("Unable to find 'date' in the configfile, please indicate as '--date' on the command line")
-    if not data.has_key('sign_date'):
+    if not 'sign_date' in data:
         try:
             data['sign_date'] = args.sign_date 
-        except
+        except:
             raise AssertionError("Unable to find 'sign_date' in the configfile, please indicate as '--sign-date' on the command line")
     for member in participants:
         data['member'] = {'name': member['name'],  
                           'surname': member['surname']}
-        tex = render_people(data, 'template.tex')
+        tex = render_people(data, args.templatefile)
         to_file(tex, fname='%s_%s_HPC_intro_cert.tex' % (member['surname'], member['name']))
         run_pdflatex(fname='%s_%s_HPC_intro_cert.tex' % (member['surname'], member['name']))
     concatenate_pdfs()
