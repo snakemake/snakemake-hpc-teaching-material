@@ -107,4 +107,54 @@ $ snakemake --report
 \end{frame} 
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\Snakemake{} Reports - adding Output}
+  \begin{docs}
+  	 Each output file that shall be part of the report has to be marked with the \altverb{report} flag, which optionally points to a caption in \lhref{https://docutils.sourceforge.io/docs/user/rst/quickstart.html}{restructured text format}.
+  \end{docs}
+  An example for our workflow would be:
+  \begin{lstlisting}[language=Python,style=Python]
+rule plot_quals:
+    input:
+        "calls/all.vcf"
+    output:
+        @report("plots/quals.svg",@ 
+               @caption="report/qual.rst")@
+    script:
+        "scripts/plot-quals.py"
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Writing an Annotation}}
+  Let's write the file \altverb{report/qual.rst}! It shall contain our caption.
+  \pause
+  Our solution might(!) look like this:
+  \begin{lstlisting}
+Number of variations (deviations from reference) 
+per experimental record. 
+  \end{lstlisting}	
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Adding our Figure to the Report}}
+	Now add the highlighted lines:
+	\begin{lstlisting}[language=Python,style=Python]
+rule plot_quals:
+    input:
+	    "calls/all.vcf"
+	output:
+		@report("plots/quals.svg",@ 
+		@caption="report/qual.rst")@
+	script:
+		"scripts/plot-quals.py"
+	\end{lstlisting}
+    \begin{task}{Re-Run our report generator:}
+    	\altverb{snakemake --report}
+    \end{task}
+\end{frame}
+
 
