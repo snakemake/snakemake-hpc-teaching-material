@@ -106,12 +106,5 @@ $ snakemake --report
   This will generate a file called ``\altverb{report.html}'', which you can visualize with a browser.
 \end{frame} 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-  \frametitle{\Snakemake{} Reports and Cluster Jobs}
-  \begin{alertblock}{Why reports about Cluster Jobs can be misleading.}
-    When reporting about a cluster or cloud job, \Snakemake{} shepherd job on the login-node will measure the wall time from submit time to the finish time, not the executing job(s).\newline
-    This means: Times can be greatly exaggerated!
-  \end{alertblock}
-\end{frame} 
+
 
