@@ -68,7 +68,8 @@
   \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 \usepackage{subfig}
 \usepackage{tikz}
-\usetikzlibrary{arrows,shapes,backgrounds,positioning,shadows,decorations,trees,decorations.pathreplacing,people}
+\usetikzlibrary{arrows,shapes,backgrounds,positioning,shadows,decorations,trees,decorations.pathreplacing}
+%\usepackage{tikzpeople}
 \usepackage{smartdiagram}
 
 
@@ -349,7 +350,7 @@ showstringspaces=false}
 
 %\newcommand{\pathtoexercise}[1]{\path{/lustre/project/m2_jgu-ngstraing/workflows/#1}}
 %\newcommand{\pathtoexercise}[1]{\path{ \DTLfetch{data}{thekey}{#1}{thevalue}   }}
-%\newcommand{\pathtoclozure}[1]{\path{/lustre/project/hpckurs/bash-course/cloze/#1}}
+\newcommand{\pathtoclozure}[1]{\path{workflows/tutorial/#1}}
 %\newcommand{\pathtosolution}[1]{\path{/lustre/project/hpckurs/bash-course/solutions/#1}}
 
 \setcounter{tocdepth}{1}
