@@ -10,6 +10,7 @@ ssh mogon_nox "mkdir -p ${BASEPATH}"
 
 scp condarc "${CLUSTER_ALIAS}:/lustre/project/hpckurs/workflows/condarc"
 scp get_tutorial.sh "${CLUSTER_ALIAS}:/lustre/project/hpckurs/workflows/get_tutorial.sh"
+scp install_micromamba.sh "${CLUSTER_ALIAS}:/lustre/project/hpckurs/workflows/install_micromamba.sh"
 
 rsync -rtlv --chmod=D755 "tutorial" "${CLUSTER_ALIAS}:/lustre/project/hpckurs/workflows"
 rsync -rtlv --chmod=D755 "solutions" "${CLUSTER_ALIAS}:/lustre/project/hpckurs"
