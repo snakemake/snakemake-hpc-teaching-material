@@ -226,22 +226,14 @@ rule bwa_map:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Adding a new Sample}}
-<<<<<<< HEAD
   \begin{task}
-  	 Refer to \pathtoclozure{\\07\_Snakefile} as the current workflow example containing the mentioned input function.\newline
-  	 In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add that sample to the config file and see how \texttt{Snakemake} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
+  	 Refer to \pathtoclozure{07_Snakefile} as the current workflow example containing the mentioned input function.\newline
+  	 In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add that sample to the config file and see how \Snakemake{} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
   	 \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake -n --forcerun bcftools_call
   	 \end{lstlisting}
   \end{task}
- 
-=======
-  In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add that sample to the config file and see how \Snakemake{} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake -n --forcerun bcftools_call
-  \end{lstlisting}
   Copy the file XXX as your \altverb{Snakefile}. 
->>>>>>> main
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -271,7 +263,7 @@ rule bwa_map:
 \begin{frame}[fragile]
   \frametitle{Rule Parameters}
   This is usually part of the configuration file(s), too.\newline
-  In your config file (\altverb{r"<something"} stands for "raw strings"):
+  If you put this in your config file (the \altverb{r} in \altverb{r"<something>"} stands for "raw strings"):
   \begin{lstlisting}[language=Python,style=Python]
 bwa_map:
    rg=r"@RG\tID:{sample}\tSM:{sample}"
@@ -282,7 +274,7 @@ rule bwa_map:
   params:
      rg=config['bwa_map']['rg']
   \end{lstlisting}
-  Now, your workflow is configurable!
+  You have a configurable workflow!
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -505,7 +497,6 @@ $ snakemake --slurm \
    \item ``real runs'' tend to run into I/O issues - insufficient workflows
   \end{itemize}
 \end{frame}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
