@@ -186,7 +186,7 @@ rule bwa_map:
         " | samtools view -Sb - >"
         " mapped_reads/A.bam"
     \end{lstlisting}
-    You will find working content in the file \pathtoclozure{01\_Snakefile}, too.
+    You will find working content in the file \pathtoclozure{01_Snakefile}, too.
   \end{onlyenv}
 \end{frame}
 
@@ -318,7 +318,7 @@ rule foo:
 	   Your task is simple to introduce the \altverb{\{input\}} and \altverb{\{output\}}  wildcards in our current \altverb{bwa_map} rule. Replace the input and output within the \altverb{shell} directive using these wildcards.
 	\end{task}
     \begin{hint}
-       Remember, \texttt{Snakemake} will concatenate multiline in- or output. Refer to  \altverb{02\_Snakefile} in your tutorial folder for the task setting.
+       Remember, \texttt{Snakemake} will concatenate multiline in- or output. Refer to  \altverb{02_Snakefile} in your tutorial folder for the task setting.
     \end{hint}
 \end{frame}
 
@@ -339,7 +339,7 @@ rule bwa_map:
         " {output}"
     \end{lstlisting}
     Since the rule has multiple input files, \Snakemake{} will concatenate them, separated by a whitespace. In other words, \Snakemake{} will replace \altverb{\{input\}} with \altverb{data/genome.fa data/samples/A.fastq} before executing the command.\newline
-    A working example can be found in \altverb{02_Snakefile}.
+    A working example can be found in \altverb{02_Snakefile} in the solution folder.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
