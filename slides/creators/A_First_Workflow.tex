@@ -308,7 +308,7 @@ rule foo:
    shell: "cat {input} > {output}
     \end{lstlisting}
     \begin{docs}
-      If the in-/output has multiple lines, like in this example, \texttt{Snakemake} will concatenate them, separated by a whitespace. In other words \altverb{\{input\}} will contain \altverb{replicate_1.txt replicate_2.txt}.
+      If the in-/output has multiple lines, like in this example, \Snakemake{} will concatenate them, separated by a whitespace. In other words \altverb{\{input\}} will contain \altverb{replicate_1.txt replicate_2.txt}.
     \end{docs}
 \end{frame}
 
@@ -319,7 +319,7 @@ rule foo:
 	   Your task is simple to introduce the \altverb{\{input\}} and \altverb{\{output\}}  wildcards in our current \altverb{bwa_map} rule. Replace the input and output within the \altverb{shell} directive using these wildcards.
 	\end{task}
     \begin{hint}
-       Remember, \texttt{Snakemake} will concatenate multiline in- or output. Refer to  \altverb{02_Snakefile} in your tutorial folder for the task setting.
+       Remember, \Snakemake{} will concatenate multiline in- or output. Refer to  \altverb{02_Snakefile} in your tutorial folder for the task setting.
     \end{hint}
 \end{frame}
 
