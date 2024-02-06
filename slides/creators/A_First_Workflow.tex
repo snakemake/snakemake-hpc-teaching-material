@@ -542,12 +542,12 @@ rule bcftools_call:
 	\frametitle{Introducing: Target Rules}
 	\begin{question}[Why Target Rules?]
 	  So far, we always executed the workflow by specifying a target file at the command line. How cumbersome!\newline
-	  I would be better to make \texttt{Snakemake} figure out, which jobs to run. Right?
+	  I would be better to make \Snakemake{} figure out, which jobs to run. Right?
 	\end{question}
     \pause
 	\begin{docs}
-		We remember: \texttt{Snakemake} will automatically determine for a given rule, which expected outcomes are missing and execute all necessary rules, accordingly.\newline\pause
-		The ``trick'' is that a workflow can have a ``target'' rule, which specifies the \emph{final} output(s) of a workflow. Any invokation of \texttt{Snakemake} will then execute \emph{all} rules of a workflow.
+		We remember: \Snakemake{} will automatically determine for a given rule, which expected outcomes are missing and execute all necessary rules, accordingly.\newline\pause
+		The ``trick'' is that a workflow can have a ``target'' rule, which specifies the \emph{final} output(s) of a workflow. Any invocation of Snakemake will then execute \emph{all} rules of a workflow.
 	\end{docs}
 \end{frame}
 
