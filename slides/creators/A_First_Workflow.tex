@@ -204,12 +204,12 @@ rule bwa_map:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Testing our \altverb{Snakefile}}
+  \frametitle{Testing our Snakefile}
   When a workflow is executed, \Snakemake{} tries to generate given target files. Target files can be specified via the command line. By executing
   \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake -np mapped_reads/A.bam
   \end{lstlisting}
-  in the working directory containing the \altverb{Snakefile}, we tell \Snakemake{} to generate the target file \altverb{mapped_reads/A.bam}.\newline
+  in the working directory containing the \altverb{Snakefile}, we tell \\\Snakemake{} to generate the target file \altverb{mapped_reads/A.bam}.\newline
   We are using 
   \begin{itemize}[<+->]
    \item \altverb{-n/--dry-run} to show the \emph{planned} execution and
