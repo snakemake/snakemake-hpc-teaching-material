@@ -521,15 +521,15 @@ SAMPLES = ["A", "B"]
   Now, we can add the following rule to our \altverb{Snakefile}:
   \begin{lstlisting}[language=Python,style=Python,basicstyle=\footnotesize]
 rule bcftools_call:
-    input:
-        fa="data/genome.fa",
-        bam=@expand("sorted_reads/{sample}.bam", sample=SAMPLES),@
-        bai=@expand("sorted_reads/{sample}.bam.bai", sample=SAMPLES)@
-    output:
-        "calls/all.vcf"
-    shell:
-        "bcftools mpileup -f {input.fa} {input.bam} | "
-        "bcftools call -mv - > {output}"
+  input:
+    fa="data/genome.fa",
+    bam=@expand("sorted_reads/{sample}.bam", sample=SAMPLES),@
+    ai=@expand("sorted_reads/{sample}.bam.bai", sample=SAMPLES)@
+  output:
+    "calls/all.vcf"
+  shell:
+    "bcftools mpileup -f {input.fa} {input.bam} | "
+     "bcftools call -mv - > {output}"
   \end{lstlisting}
   We will meet this rule in \altverb{05_Snakefile} of our tutorial folder -- in the next exercise.
 \end{frame}
