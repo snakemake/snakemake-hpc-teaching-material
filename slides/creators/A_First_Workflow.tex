@@ -416,7 +416,7 @@ rule samtools_sort:
         "-O bam {input} > {output}"
   \end{lstlisting}
   \begin{task}
-  	Please refer to your template \newline \pathtoclozure{04\_Snakefile} and fill in \altverb{input} and \altverb{output}.
+  	Please refer to your template \newline \altverb{04_Snakefile} in the tutorial folder and fill in \altverb{input} and \altverb{output}.
   \end{task}
 \end{frame}
 
@@ -433,7 +433,7 @@ rule samtools_sort:
         "samtools sort -T sorted_reads/{wildcards.sample} "
         "-O bam {input} > {output}"
   \end{lstlisting}
-  You will find this solution in \pathtosolutions{\\04\_Snakefile}
+  You will find this solution in \pathtosolutions{04_Snakefile}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -531,7 +531,7 @@ rule bcftools_call:
         "bcftools mpileup -f {input.fa} {input.bam} | "
         "bcftools call -mv - > {output}"
   \end{lstlisting}
-  We will meet this rule in \pathtoclozure{05\_Snakefile} -- in the next exercise.
+  We will meet this rule in \altverb{05_Snakefile} of our tutorial folder -- in the next exercise.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
