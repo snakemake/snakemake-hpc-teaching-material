@@ -6,11 +6,11 @@ CLUSTER_ALIAS="mogon_nox" # nox stands for "no X11 forwarding"
 BASEPATH="/lustre/project/hpckurs/workflows" # repeated used
 
 # creating remote directory:
-ssh mogon_nox "mkdir -p ${BASEPATH}"
+ssh ${CLUSTER_ALIAS} "mkdir -p ${BASEPATH}"
 
-scp condarc "${CLUSTER_ALIAS}:/lustre/project/hpckurs/workflows/condarc"
-scp get_tutorial.sh "${CLUSTER_ALIAS}:/lustre/project/hpckurs/workflows/get_tutorial.sh"
-scp install_micromamba.sh "${CLUSTER_ALIAS}:/lustre/project/hpckurs/workflows/install_micromamba.sh"
+scp condarc "${CLUSTER_ALIAS}:${BASEPATH}/condarc"
+scp get_tutorial.sh "${CLUSTER_ALIAS}:${BASEPATH}/get_tutorial.sh"
+scp install_micromamba.sh "${CLUSTER_ALIAS}:${BASEPATH}/install_micromamba.sh"
 
-rsync -rtlv --chmod=D755 "tutorial" "${CLUSTER_ALIAS}:/lustre/project/hpckurs/workflows"
+rsync -rtlv --chmod=D755 "tutorial" "${CLUSTER_ALIAS}:${BASEPATH}"
 rsync -rtlv --chmod=D755 "solutions" "${CLUSTER_ALIAS}:/lustre/project/hpckurs"
