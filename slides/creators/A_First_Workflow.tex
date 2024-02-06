@@ -100,7 +100,7 @@ $ snakemake <other arguments> \
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Our first \altverb{Snakefile}!}
+  \frametitle{Our first Snakefile!}
   \begin{onlyenv}<1| handout:0>
     Our first ``\altverb{rule}''; we want to map reads onto a reference genome. 
     \begin{lstlisting}[language=Python,style=Python]
@@ -186,7 +186,7 @@ rule bwa_map:
         " | samtools view -Sb - >"
         " mapped_reads/A.bam"
     \end{lstlisting}
-    You will find working content in the file \pathtoclozure{01_Snakefile}, too.
+    You will find working content in the file \altverb{01_Snakefile} in your tutorial folder, too.
   \end{onlyenv}
 \end{frame}
 
