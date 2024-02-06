@@ -51,8 +51,9 @@ $ snakemake <other arguments> \
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
 	\frametitle{Specifiying Snakefiles (Details)}
-	\begin{docs}[\Snakemake's Default \altverb{Snakefile}]
-		The workflow definition in form of a snakefile. Usually, you should not need to specify this. By default, \Snakemake{} will search for "\altverb{Snakefile}", "\altverb{snakefile}", "\altverb{workflow/Snakefile}", "\altverb{workflow/snakefile}" beneath the current working directory, in this order.\newline
+	% impossible to use \Snakemake command in environment header
+	\begin{docs}[Snakemake's default \altverb{Snakefile}]
+		The workflow definition in form of a snakefile. Usually, you should not need to specify this. By default, \Snakemake{} will search for "\altverb{Snakefile}", "\altverb{snakefile}","\altverb{workflow/Snakefile}", \\"\altverb{workflow/snakefile}" beneath the current working directory, in this order.\newline
 		When using a different layout, you can use
 		\begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake <other arguments> \
