@@ -555,7 +555,7 @@ rule bcftools_call:
 \begin{frame}[fragile]
 	\frametitle{\HandsOn{Target Rule Practice}}
 	\begin{docs}
-		If no target is given at the command line, \texttt{Snakemake} will define the first rule of the \texttt{Snakefile} as the target.
+		If no target is given at the command line, \Snakemake{} will define the first rule of the \altverb{Snakefile} as the target.
 	\end{docs}
 	Conventionally, this rule is named \altverb{all}. This means that we add a rule at the top of our workflow:\newline
 	\begin{onlyenv}<1| handout:0>
@@ -569,7 +569,7 @@ rule all:
 	\end{onlyenv}
 	\begin{onlyenv}<2| handout:1>
 	   \begin{task}
-	   	  Take the template \pathtoclozure{05\_Snakefile} and fill in the target in the \altverb{all} rule. Try to run the workflow!
+	   	  Take the template \altverb{05_Snakefile} and fill in the target in the \altverb{all} rule. Try to run the workflow!
 	   \end{task}
 	\end{onlyenv}
 \end{frame}
@@ -581,7 +581,7 @@ rule all:
 	\begin{lstlisting}[language=Python,style=Python]
 rule all:
     input: 
-	    "calls/all.vcf"
+        "calls/all.vcf"
 	\end{lstlisting}
     \pause
     \begin{hint}
