@@ -406,7 +406,7 @@ $ du -sh *reads
   \Snakemake{} lets you select various executors. Not happy with HPC clusters? Pay for a cloud \lhref{https://snakemake.readthedocs.io/en/stable/executor_tutorial/tutorial.html}{Google Lifescience, Tibanna, Kubernetes, \ldots} \newline
   Meanwhile we select the most prominent HPC batch system by:
   \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake --slurm
+$ snakemake --executor slurm
   \end{lstlisting}
   Now, \emph{every} rule will submit its jobs as HPC compute jobs.
   \begin{hint}
@@ -419,7 +419,7 @@ $ snakemake --slurm
   \frametitle{Default Resources for \texttt{SLURM}}
   Without specifying our SLURM-account and a (default) partition, submitting batch jobs will fail. \Snakemake{} allows to define so-called default resources (using \altverb{--default-resources}). With them our minimal command line becomes:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
-$ snakemake --slurm \
+$ snakemake --executor slurm \
 > --default-resources slurm_account=m2_jgu-ngstraining \
 >                     slurm_partition=smp
   \end{lstlisting}
@@ -442,7 +442,7 @@ $ snakemake --slurm \
   \pause
   \Snakemake{} offers a semaphore to throttle resource usage, called \altverb{--jobs/-j}. We can now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
-$ snakemake --slurm \
+$ snakemake --executor slurm \
 > --default-resources \ 
 >   slurm_account=m2_jgu-ngstraining \
 >   slurm_partition=smp
@@ -463,7 +463,7 @@ $ snakemake --slurm \
   \end{itemize}
   \pause
   \begin{warning}
-  	Unlimited number of jobs may yield in I/O contention and too many calls to check the job status. Use with care for both issues there is a remedy, which we will meet later!
+  	"Unlimited" number of jobs may yield in I/O contention and too many calls to check the job status. Use with care for both issues there is a remedy, which we will meet later!
   \end{warning}
 \end{frame}
 
@@ -472,7 +472,7 @@ $ snakemake --slurm \
   \frametitle{\HandsOn{Running the Worklow as Cluster Jobs}}
   Our workflow is {\tiny tiny}. It does not merit cluster execution. Yet, for the purpose of this course, please run (with \altverb{-F} to \emph{enforce} execution):
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
-$ snakemake --slurm \
+$ snakemake --executor slurm \
 > --default-resources slurm_account=m2_jgu-ngstraining \
 >                     slurm_partition=smp \
 > -j unlimited @-F@
@@ -491,7 +491,7 @@ $ snakemake --slurm \
   \end{question}
   \pause
   \begin{itemize}
-   \item ``real data'' tend to be biffer - insufficient memory
+   \item ``real data'' tend to be differ - insufficient memory
    \item ``real runs'' tend to take longer - insufficient wall time
    \item ``real runs'' tend to run into I/O issues - insufficient workflows
   \end{itemize}
@@ -525,7 +525,7 @@ set-resources:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ # first copy the template profile:
 $ cp -r ../profile .
-$ snakemake --slurm \
+$ snakemake --executor slurm \
 > --default-resources slurm_account=m2_jgu-ngstraining \
 >                     slurm_partition=smp \
 > -j unlimited @--workflow-profile ./profile/ -F@
