@@ -97,21 +97,71 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{The \texttt{Snakemake} \texttt{resources} Section}
-	\texttt{Snakemake} rules provide an additional \altverb{resource} section:
-	\begin{lstlisting}[language=Python,style=Python]
-		rule <name>:
-		...
-		resources:
-		partition='parallel',
-		mem_mb=1800,
-		cpus_per_task=4
-	\end{lstlisting}
-	\begin{hint}
-		Note the \textbf{,}!
-	\end{hint}
-	\pause
-	\begin{docs}
-		You \emph{may} define \emph{any} resource keyword within any rule.
-	\end{docs}
+  \frametitle{\Snakemake{} Profiles}
+  Two kinds of profiles are supported:
+  \begin{itemize}[<+->]
+  	\item A global profile that is defined in a system-wide or user-specific configuration directory (on Linux, this will be \altverb{\~/.config/snakemake} and \altverb{/etc/xdg/snakemake}, you can find the answer for your system via \altverb{snakemake --help}).
+  	\item A workflow specific profile that is defined via a flag (\altverb{--workflow-profile}) or searched in a default location (profile/default) in the working directory or next to the \altverb{Snakefile}.
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Your Profile}
+    \begin{onlyenv}<1| handout:0>
+      Our first line forces the use of the \lhref{https://yte-template-engine.github.io/}{\bf{Y}AML \bf{T}emplate \bf{E}ngine} to parse the following lines accordingly.
+      \begin{lstlisting}[language=Bash, style=Shell]
+__use_yte__: true  	 
+      \end{lstlisting}
+    \end{onlyenv}
+    \begin{onlyenv}<2| handout:0>
+      Now, our default executor is SLURM.
+      \begin{lstlisting}[language=Bash, style=Shell]
+__use_yte__: true
+executor: slurm
+     \end{lstlisting}
+     No more, \altverb{snakemake --executor slurm ...}!
+   \end{onlyenv}
+   \begin{onlyenv}<3| handout:0>
+   	 The next line tells Snakemake to wait for a minute, if output files are not present. This is more than enough time, even for NFS-Filesystems. 
+   	 \begin{lstlisting}[language=Bash, style=Shell]
+__use_yte__: true
+executor: slurm
+latency-wait: 60
+   	 \end{lstlisting}
+    \end{onlyenv}
+    \begin{onlyenv}<4| handout:0>
+      The entire rest, will tell the storage plugin (\altverb{snakemake-storage-plugin-fs}) to stage in to the node-local storage on Mogon, for \emph{every} job and to copy back your results. When dealing with I/O intensive jobs, this can boost your performance tremendously. 
+      \begin{lstlisting}[language=Bash, style=Shell]
+__use_yte__: true
+executor: slurm
+latency-wait: 60
+default-storage-provider: fs
+shared-fs-usage:
+  - persistence
+  - sources
+  - source-cache
+local-storage-prefix: /localscratch/$SLURM_JOB_ID
+    \end{lstlisting}
+   \end{onlyenv}
+  %TODO remove this part, once the snakemake release is ready
+   \begin{onlyenv}<5| handout:0>
+    \begin{hint}{Note:}
+       The current \Snakemake{} development will bring a feature to annotate files for their I/O pattern, such that only specific files will undergo the stage-in/-out process.
+    \end{hint}
+  \end{onlyenv}
+  \begin{onlyenv}<6| handout:1>
+  	You may copy this setup from \texttt{\configparam{pathtosetup}/config.yaml} to the \altverb{\~/.config/snakemake}-folder - unless your local admins provide a cluster-wide configuration.
+  	\begin{lstlisting}[language=Bash, style=Shell]
+__use_yte__: true
+executor: slurm
+latency-wait: 60
+default-storage-provider: fs
+shared-fs-usage:
+  - persistence
+  - sources
+  - source-cache
+local-storage-prefix: /localscratch/$SLURM_JOB_ID
+  	 \end{lstlisting}
+  \end{onlyenv}
 \end{frame}
