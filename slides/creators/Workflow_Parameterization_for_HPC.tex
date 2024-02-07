@@ -19,35 +19,20 @@
   \frametitle{What is this about?}
   \begin{question}[Questions]
    	\begin{itemize}
-      \item How do we add execution parameters?
-      \item How do we tune scientific parameters?
+      \item How do we avoid I/O contention?
+      \item How do we account for file system latency?
     \end{itemize}
   \end{question}
    \begin{docs}[Objectives]
    	 \begin{enumerate} 
-        \item Learn to use parameters relevant for the batch systems.
-        \item Learn how to tune \Snakemake{} with configuration files.
+        \item Learn how to tune \Snakemake{} to mitigate I/O contention.
+        \item Learn how to configure \Snakemake{} to allow for file system latency.
     \end{enumerate}
   \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-	\frametitle{The \texttt{Snakemake} \texttt{resources} Section - its Downside}
-	\begin{block}{Every Resource Spec needs a Change per Rule???}
-		You might have noticed, this specification per rule is most untidy. \texttt{Snakemake}'s design principle is: ship workflows which run \emph{everywhere} \& \emph{every time}.
-		\newline \pause
-		Relax: Every parameter can be specified:
-		\begin{itemize}
-			\item in a \texttt{Snakefile},
-			\item on the command line,
-			\item and re-usable in configuration files!
-		\end{itemize}
-	\end{block}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[label=random]
 	\frametitle{\Interlude{What is Random Access?}}
 	\vspace{-1.5em}
 	\begin{figure}
@@ -80,7 +65,35 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{The Configuration File}
+\begin{frame}
+  \frametitle{\Interlude{What is File System Latency?}}
+    \centering
+	\begin{tikzpicture}[line cap=rect,line width=3pt, 
+		datastore/.style={draw, rounded rectangle, rounded rectangle east arc=concave, rounded rectangle arc length=150},
+		]
+	  \tikzstyle{storage} = [rectangle, minimum width=3cm, minimum height=1cm, text width=3cm, text centered, draw=black]
+	  
+	  \filldraw [fill=cyan] (0,0) circle [radius=1cm];
+	  \foreach \angle [count=\xi] in {60,30,...,-270}
+	  {
+		\draw[line width=0.5pt] (\angle:0.9cm) -- (\angle:1cm);
+		\node[font=\small] at (\angle:0.68cm) {\textsf{\xi}};
+	  }
+	  \foreach \angle in {0,90,180,270}
+	  \draw[line width=1pt] (\angle:0.8cm) -- (\angle:1cm);
+	  \draw (0,0) -- (120:0.4cm);
+	  \draw (0,0) -- (90:.5cm);
+	  
+	  \node (sto1) [datastore] at (-4, 0) {Storage};
+	  \node at (4, 0) {\includegraphics[width=.25\textwidth]{misc/data_center.png}};
+  \end{tikzpicture}
+  \begin{docs}{File System Latency}
+  	The time it takes from the file system to the client and back.
+  \end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Global Workflow Configuration}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
