@@ -144,24 +144,25 @@ shared-fs-usage:
 local-storage-prefix: /localscratch/$SLURM_JOB_ID
     \end{lstlisting}
    \end{onlyenv}
-  %TODO remove this part, once the snakemake release is ready
+  
    \begin{onlyenv}<5| handout:0>
-    \begin{hint}{Note:}
-       The current \Snakemake{} development will bring a feature to annotate files for their I/O pattern, such that only specific files will undergo the stage-in/-out process.
-    \end{hint}
   \end{onlyenv}
   \begin{onlyenv}<6| handout:1>
-  	You may copy this setup from \texttt{\configparam{pathtosetup}/config.yaml} to the \altverb{\~/.config/snakemake}-folder - unless your local admins provide a cluster-wide configuration.
+  	%TODO remove this part, once the snakemake release is ready
+  	\begin{warning}
+  	  Currently, we are working on way to annotate susceptible I/O pattern, the highlighted parts are not yet functional.
+  	\end{warning}
+  	%You may copy this setup from \texttt{\configparam{pathtosetup}/config.yaml} to the \altverb{\~/.config/snakemake}-folder - unless your local admins provide a cluster-wide configuration.
   	\begin{lstlisting}[language=Bash, style=Shell]
 __use_yte__: true
 executor: slurm
-latency-wait: 60
-default-storage-provider: fs
-shared-fs-usage:
-  - persistence
-  - sources
-  - source-cache
-local-storage-prefix: /localscratch/$SLURM_JOB_ID
+@latency-wait: 60@
+@default-storage-provider: fs@
+@shared-fs-usage:@
+@  - persistence@
+@  - sources@
+@  - source-cache@
+@local-storage-prefix: /localscratch/$SLURM_JOB_ID@
   	 \end{lstlisting}
   \end{onlyenv}
 \end{frame}
