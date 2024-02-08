@@ -402,3 +402,15 @@ showstringspaces=false}
 % the style to all pictures.
 \tikzstyle{every picture}+=[remember picture]
 \tikzstyle{na} = [baseline=-.5ex]
+
+% Add an include hook to error when a file is missing,
+% to be able to recognize missing \include files on the
+% CI.
+% from: https://tex.stackexchange.com/questions/620515/how-to-force-latex-to-error-when-an-include-file-is-missing-misspelled
+\makeatletter
+\def\mkfilename#1{%
+  \if\relax\detokenize\expandafter{#1}\relax\else#1/\fi}
+\AddToHook{include/before}%
+  {\IfFileExists{\mkfilename\CurrentFilePath\CurrentFile}{}
+     {\GenericError{}{Error: File \mkfilename\CurrentFilePath\CurrentFile.tex not found!}{\@gobble}{}}}
+\makeatother
