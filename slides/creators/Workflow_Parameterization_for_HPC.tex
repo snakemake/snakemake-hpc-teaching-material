@@ -66,6 +66,37 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
+	\frametitle{\Interlude{What is Random Access?}}
+	\begin{question}
+	  \begin{itemize}
+	  	\item What causes Random Access?
+	  	\item Why is it harmful? What can we do?
+	  \end{itemize}
+    \end{question}
+	\pause
+	\begin{columns}[t]
+	  \begin{column}{0.5\textwidth}
+	  	Causes:
+	  	\hrule
+	  	\begin{itemize}
+	  	  \item a number of (threaded) apps accessing the same file space (e.g. reference data)
+	  	  \item a number of apps accessing a file space exceeding the file system cache size
+	  	\end{itemize}
+  	     Will slow parallel file systems and your data analysis!
+	  \end{column}
+      \begin{column}{0.5\textwidth}
+      	Remedies:
+      	\hrule
+      	\begin{itemize}
+      		\item copy data to/from compute nodes equipped with SSD
+      		\item use a RAM disk (RAM = random access memory) - which many clusters provide
+      	\end{itemize}
+      \end{column}
+	\end{columns}	
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
   \frametitle{\Interlude{What is File System Latency?}}
     \centering
 	\begin{tikzpicture}[line cap=rect,line width=3pt, 
