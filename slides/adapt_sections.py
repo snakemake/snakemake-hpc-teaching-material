@@ -49,8 +49,11 @@ def count_matching_lines(fp):
 def count_sections(file_list):
     count = 0
     for fname in file_list:
-        with open(fname) as fp:
-            count += count_matching_lines(fp)
+        try:
+            with open(fname) as fp:
+               count += count_matching_lines(fp)
+        except:
+            print(f"Error treating: '{fname}'")
     return count
 
 def define_boundaries(section_count):
@@ -62,8 +65,12 @@ def define_boundaries(section_count):
 
 def find_and_replace(boundaries, fname):
     # tex files aren't big, read all content in memory
-    with open(fname) as infile:
-        lines = infile.readlines()
+    try:
+        with open(fname) as infile:
+            lines = infile.readlines()
+    except:
+        print(f"Error treating: '{fname}'")
+        return
 
     # get the matching 'currentsection' lines
     first_done, second_done = False, False
