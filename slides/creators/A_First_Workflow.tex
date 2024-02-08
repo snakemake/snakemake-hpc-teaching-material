@@ -305,7 +305,7 @@ rule foo:
    output: result.txt
    # The following command will concatenate
    # the input files.
-   shell: "cat {input} > {output}
+   shell: "cat {input} > {output}"
     \end{lstlisting}
     \begin{docs}
       If the in-/output has multiple lines, like in this example, \Snakemake{} will concatenate them, separated by a whitespace. In other words \altverb{\{input\}} will contain \altverb{replicate_1.txt replicate_2.txt}.
