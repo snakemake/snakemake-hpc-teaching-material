@@ -127,7 +127,8 @@
 \begin{frame}
   \frametitle{\Interlude{What is File System Latency? II}}
   \begin{docs}{Background}
-  	Some clusters use NFS (Network File System). There file system latency \emph{can} be an issue.\newline
+  	Some clusters use NFS (Network File System). There, file system latency \emph{can} be an issue.\newline
+  	\pause
   	On parallel file systems, the latency usually is very low. 
   \end{docs}	
 \end{frame}
@@ -139,6 +140,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\Snakemake{} Profiles}
+  \begin{hint}
+  	Profiles can shorten your command lines and be an easy remedy for the described issues!
+  \end{hint}
+  \pause
   Two kinds of profiles are supported:
   \begin{itemize}[<+->]
   	\item A global profile that is defined in a system-wide or user-specific configuration directory (on Linux, this will be \altverb{\~/.config/snakemake} and \altverb{/etc/xdg/snakemake}, you can find the answer for your system via \altverb{snakemake --help}).
