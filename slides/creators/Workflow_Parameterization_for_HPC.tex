@@ -144,10 +144,7 @@ shared-fs-usage:
 local-storage-prefix: /localscratch/$SLURM_JOB_ID
     \end{lstlisting}
    \end{onlyenv}
-  
-   \begin{onlyenv}<5| handout:0>
-  \end{onlyenv}
-  \begin{onlyenv}<6| handout:1>
+  \begin{onlyenv}<5| handout:0>
   	%TODO remove this part, once the snakemake release is ready
   	\begin{warning}
   	  Currently, we are working on way to annotate susceptible I/O pattern, the highlighted parts are not yet functional.
@@ -165,4 +162,51 @@ executor: slurm
 @local-storage-prefix: /localscratch/$SLURM_JOB_ID@
   	 \end{lstlisting}
   \end{onlyenv}
+   \begin{onlyenv}<6| handout:1>
+   	The complete configuration out to be in \altverb{\~/.config/snakemake/config.yaml}
+   	\begin{lstlisting}[language=Bash, style=Shell]
+__use_yte__: true
+executor: slurm
+latency-wait: 60
+default-storage-provider: fs
+shared-fs-usage:
+- persistence
+- sources
+- source-cache
+local-storage-prefix: /localscratch/$SLURM_JOB_ID
+    \end{lstlisting}
+  \end{onlyenv}
 \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Running with a Profile I}}
+	Enter 
+	\begin{lstlisting}[language=Bash, style=Shell]
+export SNAKEMAKE_PROFILE="$HOME/.config/snakemake"
+    \end{lstlisting}
+	in your \altverb{.bashrc}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Running with a Profile II}}
+	Copy the configuration file:
+	\begin{lstlisting}[language=Bash, style=Shell]
+$ mkdir -p ~/.config/snakemake
+$ cp ~/workflows/config.yaml \
+> ~/.config/snakemake/.
+	\end{lstlisting}
+    Activate the new settings:
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ source ~/.bashrc
+    \end{lstlisting}
+    And run the workflow - just for fun:
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake -F # just this one flag!
+    \end{lstlisting}
+\end{frame}
+
+	
+
