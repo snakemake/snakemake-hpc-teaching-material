@@ -299,7 +299,7 @@ rule bwa_map:
         get_bwa_map_input_fastqs
     output:
         "mapped_reads/{sample}.bam"
-    log: "logs/bwa_mem/{sample.log}"
+    log: "logs/bwa_mem/{sample}.log"
     # we combine stdout & stdout
     shell:
         "(bwa mem -R '{params.rg}' {input} "
