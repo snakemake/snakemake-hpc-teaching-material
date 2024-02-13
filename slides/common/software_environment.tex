@@ -6,10 +6,10 @@
 	\frametitle{Outline}
 	\begin{columns}[t]
 		\begin{column}{.5\textwidth}
-			\tableofcontents[sections={1-9},currentsection]
+            \tableofcontents[sections={1-7},currentsection]
 		\end{column}
 		\begin{column}{.5\textwidth}
-			\tableofcontents[sections={10-18},currentsection]
+            \tableofcontents[sections={8-15},currentsection]
 		\end{column}
 	\end{columns}
 \end{frame}
@@ -161,7 +161,6 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
   \end{columns}
 \end{frame}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Installing Conda}
@@ -196,6 +195,8 @@ $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 	Please run
 	\begin{lstlisting}[language=Bash, style=Shell]
 $ "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
+# or in your sample folder
+$ bash install_micromamba.sh
 	\end{lstlisting}
 \end{frame}
 
@@ -222,8 +223,8 @@ $ "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
        \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny, breaklines=true]
 # >>> mamba initialize >>>
 # !! Contents within this block are managed by 'mamba init' !!
-export MAMBA_EXE='/home/cm/.local/bin/micromamba';
-export MAMBA_ROOT_PREFIX='/home/cm/micromamba';
+export MAMBA_EXE='/home/<user>/.local/bin/micromamba';
+export MAMBA_ROOT_PREFIX='/home/<prefix>';
 __mamba_setup="$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__mamba_setup"
@@ -237,13 +238,13 @@ unset __mamba_setup
     \end{column}
     \begin{column}{0.5\textwidth}
        \pause
-       Please edit your ``\texttt{\textasciitilde/.bashrc}'' file and put part in a function, to re-gain manual control:
+       {\footnotesize Please edit your ``\texttt{\textasciitilde/.bashrc}'' file and put part in a function, to re-gain manual control:}
        \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny, breaklines=true]
 @function conda_initialize {@
 # >>> mamba initialize >>>
 # !! Contents within this block are managed by 'mamba init' !!
-export MAMBA_EXE='/home/cm/.local/bin/micromamba';
-export MAMBA_ROOT_PREFIX='/home/cm/micromamba';
+export MAMBA_EXE='/home/<user>/.local/bin/micromamba';
+export MAMBA_ROOT_PREFIX='/home/<prefix>';
 __mamba_setup="$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__mamba_setup"
@@ -254,7 +255,6 @@ unset __mamba_setup
 # <<< mamba initialize <<<
 @}@
       \end{lstlisting}
-      \bcattention Add the highlighted lines! and your login will be faster! Also, this allows to separate the module environment and conda-related environments safely.
     \end{column}
   \end{columns}
 \end{frame}
@@ -354,7 +354,7 @@ $ micromamba create \
   \frametitle{\HandsOn{Creating your own Environment}}
   Now, create your first environment. We will
   \begin{itemize}
-  	\item work in the \altverb{HOME} directory with
+  	\item work in the \altverb{snakemake_tutorial} directory with
   	\item a \textit{named} environment
   	\item use the downloaded \altverb{environment.yaml} file to define the software stack
   	\item pre-compile all Python files with the \altverb{--pyc} flag

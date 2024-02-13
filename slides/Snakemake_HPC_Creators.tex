@@ -2,10 +2,16 @@
 %       Snakemake-Intro for Workflow Creators for HPC Users       %
 %-----------------------------------------------------------------%
 
+% this code will compile the document as handout with
+% $ pdflatex -synctex=1 -interaction=nonstopmode "\def\ishandout{1} \input{Snakemake_HPC_Creators.tex}"
+\ifdefined\ishandout
+  \PassOptionsToClass{handout}{beamer}
+\fi
+
 \documentclass[english,xcolor=pdftex,dvipsnames]{beamer} 
 
 % to typeset only a few slide sets, set them here during development
-%\includeonly{Why_Workflows}
+%\includeonly{creators/Sample_Data}
 
 
 \input{common/preamble}
@@ -53,14 +59,15 @@
 \include{common/Plotting_DAGs}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{common/Reports}    
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{common/HPC_101}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{creators/Decorating_the_Workflow}
       
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{common/Reports}    
-      
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %TODO: move into generic ``Decorating_the_Workflow''
 %\include{Further_Functionality}
@@ -73,9 +80,15 @@
 %\include{creators/Uploading_Workflows}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{common/Workflow_Parameterization_for_HPC}
+\include{creators/Workflow_Parameterization_for_HPC}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{common/Software_Provisioning_with_Snakemake}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{common/using_wrappers}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\include{creators/coding_wrappers}
 \end{document}
 

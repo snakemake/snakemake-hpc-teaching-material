@@ -71,6 +71,7 @@
 \usetikzlibrary{arrows,shapes,backgrounds,positioning,shadows,decorations,trees,decorations.pathreplacing, graphs}
 \usepackage{tkz-graph}
 
+%\usepackage{tikzpeople}
 \usepackage{smartdiagram}
 \usesmartdiagramlibrary{additions}
 
@@ -354,8 +355,8 @@ showstringspaces=false}
 
 %\newcommand{\pathtoexercise}[1]{\path{/lustre/project/m2_jgu-ngstraing/workflows/#1}}
 %\newcommand{\pathtoexercise}[1]{\path{ \DTLfetch{data}{thekey}{#1}{thevalue}   }}
-%\newcommand{\pathtoclozure}[1]{\path{/lustre/project/hpckurs/bash-course/cloze/#1}}
-%\newcommand{\pathtosolution}[1]{\path{/lustre/project/hpckurs/bash-course/solutions/#1}}
+\newcommand{\pathtoclozure}[1]{\path{workflows/tutorial/#1}}
+\newcommand{\pathtosolutions}[1]{\path{/lustre/project/hpckurs/solutions/#1}}
 
 \setcounter{tocdepth}{1}
 
@@ -406,3 +407,15 @@ showstringspaces=false}
 % the style to all pictures.
 \tikzstyle{every picture}+=[remember picture]
 \tikzstyle{na} = [baseline=-.5ex]
+
+% Add an include hook to error when a file is missing,
+% to be able to recognize missing \include files on the
+% CI.
+% from: https://tex.stackexchange.com/questions/620515/how-to-force-latex-to-error-when-an-include-file-is-missing-misspelled
+\makeatletter
+\def\mkfilename#1{%
+  \if\relax\detokenize\expandafter{#1}\relax\else#1/\fi}
+\AddToHook{include/before}%
+  {\IfFileExists{\mkfilename\CurrentFilePath\CurrentFile}{}
+     {\GenericError{}{Error: File \mkfilename\CurrentFilePath\CurrentFile.tex not found!}{\@gobble}{}}}
+\makeatother

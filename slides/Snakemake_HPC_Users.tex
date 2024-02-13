@@ -2,6 +2,13 @@
 %       Snakemake-Intro for HPC Users                   %
 %-------------------------------------------------------%
 
+
+% this code will compile the document as handout with
+% $ pdflatex -synctex=1 -interaction=nonstopmode "\def\ishandout{1} \input{Snakemake_HPC_Users.tex}"
+\ifdefined\ishandout
+\PassOptionsToClass{handout}{beamer}
+\fi
+
 \documentclass[english,xcolor=pdftex,dvipsnames]{beamer} 
 
 % to typeset only a few slide sets, set them here during development
@@ -33,7 +40,7 @@
 \include{users/Selecting_Workflows}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{common/Using_Workflow_Configs}
+% \include{common/Using_Workflow_Configs}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{common/Plotting_DAGs}
@@ -42,12 +49,15 @@
 \include{common/HPC_101}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{common/Workflow_Parametizing_for_HPC}
+\include{common/Workflow_Parameterization_for_HPC}
       
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{common/Reports}    
-      
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{common/Contributing} 
+\include{common/using_wrappers}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \include{common/Contributing} 
 \end{document}
 

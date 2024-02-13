@@ -6,10 +6,10 @@
     \frametitle{Outline}
     \begin{columns}[t]
         \begin{column}{.5\textwidth}
-            \tableofcontents[sections={1-9},currentsection]
+            \tableofcontents[sections={1-7},currentsection]
         \end{column}
         \begin{column}{.5\textwidth}
-            \tableofcontents[sections={10-18},currentsection]
+            \tableofcontents[sections={8-15},currentsection]
         \end{column}
     \end{columns}
 \end{frame}
@@ -19,7 +19,7 @@
   \frametitle{What is this about?}
    \begin{question}[Questions]
    	  \begin{itemize}
-         \item How can a workflow be made really usable?
+         \item How can a workflow be made really usable on a cluster?
          \item How can I avoid changing the workflow source for every new input?
       \end{itemize}
    \end{question}
@@ -123,10 +123,6 @@ rule <name>:
  \begin{docs}
  	You can store a yaml file with \emph{your} workflow configuration -- which may be combined with the desinger's configuration.
  \end{docs}
- \pause
- \begin{warning}
- 	It is better to specify fully qualified paths to your data! The tilde is only there to make a point!
- \end{warning}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -138,10 +134,10 @@ $ snakemake ... --configfile ./config/config.yaml
   \end{lstlisting}
   Or, alternatively in your \altverb{Snakefile}:
   \begin{lstlisting}[language=Python,style=Python]
-configfile: "config.yaml"
+configfile: "config/config.yaml"
   \end{lstlisting}  
   \begin{question}
-  	How do pick up resource parameters in out \altverb{Snakefile}?!
+  	How can you pick up that info in your \altverb{Snakefile}?!
   \end{question}
 \end{frame} 
 
@@ -165,7 +161,7 @@ configfile: "config.yaml"
 rule bcftools_call:
     input:
         bam=expand("sorted_reads/{sample}.bam", 
-            sample=@config["samples"]@),
+        sample=@config["samples"]@),
         ...
   \end{lstlisting}
 \end{frame}
@@ -226,22 +222,24 @@ rule bwa_map:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Adding a new Sample}}
-  In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add that sample to the config file and see how \Snakemake{} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
-  \begin{lstlisting}[language=Bash, style=Shell]
+  \begin{task}
+  	 Refer to your tutorial file \altverb{07_Snakefile} as the current workflow example containing the mentioned input function.\newline
+  	 In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add that sample to the config file and see how \Snakemake{} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
+  	 \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake -n --forcerun bcftools_call
-  \end{lstlisting}
-  Copy the file XXX as your \altverb{Snakefile}. 
+  	 \end{lstlisting}
+  \end{task}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Rule Parameters}
   \begin{warning}
-  	Frequently, party programs cannot be used with their defaults, additional parameters are required.
+  	Frequently, $3^\mathsf{rd}$ party programs cannot be used with their defaults, additional parameters are required.
   \end{warning}
   In our workflow, it is reasonable to annotate aligned reads with so-called read groups, that contain metadata like the sample name. \newline
   To do so, we add to our \altverb{bwa_map}-rule:
-  \begin{lstlisting}[style=Plain,basicstyle=\footnotesize]
+  \begin{lstlisting}[style=Plain,basicstyle=\small]
 rule bwa_map:
     input:
         "data/genome.fa",
@@ -260,18 +258,18 @@ rule bwa_map:
 \begin{frame}[fragile]
   \frametitle{Rule Parameters}
   This is usually part of the configuration file(s), too.\newline
-  In your config file:
+  If you put this in your config file (the \altverb{r} in \altverb{r"<something>"} stands for "raw strings"):
   \begin{lstlisting}[language=Python,style=Python]
 bwa_map:
-   rg=xxx
+   rg=r"@RG\tID:{sample}\tSM:{sample}"
   \end{lstlisting}
   and in your code:
   \begin{lstlisting}[language=Python,style=Python]
 rule bwa_map:
   params:
-     rg=config['bwa_map']['rg']
+     @rg=config['bwa_map']['rg']@
   \end{lstlisting}
-  Now, your workflow is configurable!
+  You have a configurable workflow!
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -282,7 +280,7 @@ rule bwa_map:
   \end{hint}
   \pause
   \begin{task}
-  	Log into the workflow: Name all rules, which merit gathering logs.
+  	Look into the workflow: Name all rules, which merit gathering logs.
   \end{task}
   \pause
   \begin{docs}
@@ -301,15 +299,31 @@ rule bwa_map:
         get_bwa_map_input_fastqs
     output:
         "mapped_reads/{sample}.bam"
-    log: "logs/bwa_mem/{sample.log}"
+    log: "logs/bwa_mem/{sample}.log"
     # we combine stdout & stdout
     shell:
         "(bwa mem -R '{params.rg}' {input} "
-        "| samtools view -Sb - > {output}) 2> {log}"
+        "| samtools view -Sb - > {output}) 6> {log}"
    \end{lstlisting}
-   \begin{task}
-     Please try this out.
-   \end{task}
+   \begin{docs}[Background]
+     \altverb{&} bundles the \altverb{stderr} and \altverb{stdout} stream and \altverb{>} redirects both to the log file. 
+   \end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Logging in Practice}}
+  \begin{task}
+  	 Remember, the general to implement a logging directive syntax is:
+  	 \begin{lstlisting}[language=Python,style=Python]
+rule <name>:
+    ...
+    log: "path/to/logs/{wildcard.log}
+  	\end{lstlisting}
+    Implement the log directive for all rules you consider worth being logged. What do you observe?
+    \newline
+    You can take the \altverb{08_Snakemake} sample file to proceed.
+  \end{task}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -372,13 +386,12 @@ $ du -sh *reads
   Add the \altverb{temp()} function to \altverb{bwa_map}- and \altverb{samtools_sort}-rules, re-run the workflow and the \altverb{du}-command. What do you observer?
 \end{frame}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Command Line}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \frametitle{Parameterization via the Command Line}
+  \frametitle{Parametrization via the Command Line}
   \centering
   \includegraphics[width=0.55\textwidth]{misc/command_line_logo.png}
 \end{frame}
@@ -389,7 +402,7 @@ $ du -sh *reads
   \Snakemake{} lets you select various executors. Not happy with HPC clusters? Pay for a cloud \lhref{https://snakemake.readthedocs.io/en/stable/executor_tutorial/tutorial.html}{Google Lifescience, Tibanna, Kubernetes, \ldots} \newline
   Meanwhile we select the most prominent HPC batch system by:
   \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake --slurm
+$ snakemake --executor slurm
   \end{lstlisting}
   Now, \emph{every} rule will submit its jobs as HPC compute jobs.
   \begin{hint}
@@ -402,7 +415,7 @@ $ snakemake --slurm
   \frametitle{Default Resources for \texttt{SLURM}}
   Without specifying our SLURM-account and a (default) partition, submitting batch jobs will fail. \Snakemake{} allows to define so-called default resources (using \altverb{--default-resources}). With them our minimal command line becomes:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
-$ snakemake --slurm \
+$ snakemake --executor slurm \
 > --default-resources slurm_account=m2_jgu-ngstraining \
 >                     slurm_partition=smp
   \end{lstlisting}
@@ -425,7 +438,7 @@ $ snakemake --slurm \
   \pause
   \Snakemake{} offers a semaphore to throttle resource usage, called \altverb{--jobs/-j}. We can now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
-$ snakemake --slurm \
+$ snakemake --executor slurm \
 > --default-resources \ 
 >   slurm_account=m2_jgu-ngstraining \
 >   slurm_partition=smp
@@ -442,11 +455,11 @@ $ snakemake --slurm \
    \item hold track of your job status (frequency of checks can be adjusted)
    \item cancel your jobs, when itself is stopped
    \item track resource consumption (generated with \altverb{--report [FILE]})
-   \item with \altverb{-j unlimited} we allow for an unlimited jumber of spawned jobs!
+   \item with \altverb{-j unlimited} we allow for an unlimited number of spawned jobs!
   \end{itemize}
   \pause
   \begin{warning}
-  	Unlimited number of jobs may yield in I/O contention and too many calls to check the job status. Use with care for both issues there is a remedy, which we will meet later!
+  	"Unlimited" number of jobs may yield in I/O contention and too many calls to check the job status. Use with care for both issues there is a remedy, which we will meet later!
   \end{warning}
 \end{frame}
 
@@ -455,7 +468,7 @@ $ snakemake --slurm \
   \frametitle{\HandsOn{Running the Worklow as Cluster Jobs}}
   Our workflow is {\tiny tiny}. It does not merit cluster execution. Yet, for the purpose of this course, please run (with \altverb{-F} to \emph{enforce} execution):
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
-$ snakemake --slurm \
+$ snakemake --executor slurm \
 > --default-resources slurm_account=m2_jgu-ngstraining \
 >                     slurm_partition=smp \
 > -j unlimited @-F@
@@ -474,12 +487,11 @@ $ snakemake --slurm \
   \end{question}
   \pause
   \begin{itemize}
-   \item ``real data'' tend to be biffer - insufficient memory
+   \item ``real data'' tend to be differ - insufficient memory
    \item ``real runs'' tend to take longer - insufficient wall time
    \item ``real runs'' tend to run into I/O issues - insufficient workflows
   \end{itemize}
 \end{frame}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
@@ -509,7 +521,7 @@ set-resources:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ # first copy the template profile:
 $ cp -r ../profile .
-$ snakemake --slurm \
+$ snakemake --executor slurm \
 > --default-resources slurm_account=m2_jgu-ngstraining \
 >                     slurm_partition=smp \
 > -j unlimited @--workflow-profile ./profile/ -F@
