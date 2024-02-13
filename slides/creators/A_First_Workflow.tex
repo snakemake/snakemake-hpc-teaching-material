@@ -35,7 +35,7 @@
   \frametitle{Before we begin \ldots}
   \begin{exampleblock}{Working with closure Files}
     To ease the excercises and save typing time, all exercises are supplied as cloze texts.\linebreak
-    \Snakemake{} relies on a file called \Snakemake{} to be present. You can either rename your cloze texts like
+    \Snakemake{} relies on a file called \altverb{Snakefile} to be present. You can either rename your cloze texts like
     \begin{lstlisting}[language=Bash, style=Shell]
 $ cp <number>_Snakefile Snakefile
     \end{lstlisting}
@@ -50,9 +50,10 @@ $ snakemake <other arguments> \
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Specifiying \texttt{Snakefile}s (Details)}
-	\begin{docs}[\texttt{Snakemake}s Default \texttt{Snakefile}]
-		The workflow definition in form of a snakefile. Usually, you should not need to specify this. By default, \texttt{Snakemake} will search for "\altverb{Snakefile}", "\altverb{snakefile}", "\altverb{workflow/Snakefile}", "\altverb{workflow/snakefile}" beneath the current working directory, in this order.\newline
+	\frametitle{Specifiying Snakefiles (Details)}
+	% impossible to use \Snakemake command in environment header
+	\begin{docs}[Snakemake's default \altverb{Snakefile}]
+		The workflow definition in form of a snakefile. Usually, you should not need to specify this. By default, \Snakemake{} will search for "\altverb{Snakefile}", "\altverb{snakefile}","\altverb{workflow/Snakefile}", \\"\altverb{workflow/snakefile}" beneath the current working directory, in this order.\newline
 		When using a different layout, you can use
 		\begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake <other arguments> \
@@ -100,7 +101,7 @@ $ snakemake <other arguments> \
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Our first \altverb{Snakefile}!}
+  \frametitle{Our first Snakefile!}
   \begin{onlyenv}<1| handout:0>
     Our first ``\altverb{rule}''; we want to map reads onto a reference genome. 
     \begin{lstlisting}[language=Python,style=Python]
@@ -186,16 +187,16 @@ rule bwa_map:
         " | samtools view -Sb - >"
         " mapped_reads/A.bam"
     \end{lstlisting}
-    You will find working content in the file \pathtoclozure{01\_Snakefile}, too.
+    You will find working content in the file \altverb{01_Snakefile} in your tutorial folder, too.
   \end{onlyenv}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \frametitle{\altverb{Snakefile}s are Python Files}
+  \frametitle{Snakefiles are Python Files}
   \begin{block}{Some Background}
-     \begin{enumerate}
-       \item Like Python, you can use either tabs or spaces for indentation — don’t mix! Consensus is to only use spaces.
+     \begin{enumerate}[<+->]
+       \item Like Python, you can use either tabs or spaces for indentation — don’t mix! Consensus is to only use \emph{spaces}.
        \item Together, the target, dependencies, and actions form a rule. A rule is a recipe for how to make things.
   \end{enumerate}
   \end{block}
@@ -203,12 +204,12 @@ rule bwa_map:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Testing our \altverb{Snakefile}}
+  \frametitle{Testing our Snakefile}
   When a workflow is executed, \Snakemake{} tries to generate given target files. Target files can be specified via the command line. By executing
   \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake -np mapped_reads/A.bam
   \end{lstlisting}
-  in the working directory containing the \altverb{Snakefile}, we tell \Snakemake{} to generate the target file \altverb{mapped_reads/A.bam}.\newline
+  in the working directory containing the \altverb{Snakefile}, we tell \\\Snakemake{} to generate the target file \altverb{mapped_reads/A.bam}.\newline
   We are using 
   \begin{itemize}[<+->]
    \item \altverb{-n/--dry-run} to show the \emph{planned} execution and
@@ -245,12 +246,6 @@ $ snakemake --cores=1 mapped_reads/A.bam
   \begin{lstlisting}[style=Plain, basicstyle=\footnotesize]
 Nothing to be done (all requested files are present and up to date).
   \end{lstlisting}
-  \pause
-  Now, do:
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ touch mapped_reads/A.bam
-  \end{lstlisting}
-  And run \Snakemake{} once more.
   \begin{question}
   	What happens? Why?
   \end{question}
@@ -304,10 +299,10 @@ rule foo:
    output: result.txt
    # The following command will concatenate
    # the input files.
-   shell: "cat {input} > {output}
+   shell: "cat {input} > {output}"
     \end{lstlisting}
     \begin{docs}
-      If the in-/output has multiple lines, like in this example, \texttt{Snakemake} will concatenate them, separated by a whitespace. In other words \altverb{\{input\}} will contain \altverb{replicate_1.txt replicate_2.txt}.
+      If the in-/output has multiple lines, like in this example, \Snakemake{} will concatenate them, separated by a whitespace. In other words \altverb{\{input\}} will contain \altverb{replicate_1.txt replicate_2.txt}.
     \end{docs}
 \end{frame}
 
@@ -318,7 +313,7 @@ rule foo:
 	   Your task is simple to introduce the \altverb{\{input\}} and \altverb{\{output\}}  wildcards in our current \altverb{bwa_map} rule. Replace the input and output within the \altverb{shell} directive using these wildcards.
 	\end{task}
     \begin{hint}
-       Remember, \texttt{Snakemake} will concatenate multiline in- or output. Refer to  \altverb{02\_Snakefile} in your tutorial folder for the task setting.
+       Remember, \Snakemake{} will concatenate multiline in- or output. Refer to  \altverb{02_Snakefile} in your tutorial folder for the task setting.
     \end{hint}
 \end{frame}
 
@@ -339,7 +334,7 @@ rule bwa_map:
         " {output}"
     \end{lstlisting}
     Since the rule has multiple input files, \Snakemake{} will concatenate them, separated by a whitespace. In other words, \Snakemake{} will replace \altverb{\{input\}} with \altverb{data/genome.fa data/samples/A.fastq} before executing the command.\newline
-    A working example can be found in \altverb{02_Snakefile}.
+    A working example can be found in \altverb{02_Snakefile} in the solution folder.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -347,8 +342,8 @@ rule bwa_map:
   \frametitle{\HandsOn{Further Workflow Decoration}}
   (Usually), experiments consists of more than one input, e.\,g. several replicas might be present.\newline
   \begin{task}{Introducing the \altverb{sample} Wildcard}
-    \texttt{Snakemake} allows generalizing rules by using named wildcards, too. Simply replace the \altverb{A} in the second input file and in the output file with the wildcard \altverb{\{sample\}}.\newline
-    You may refer to the \pathtoclozure{03\_Snakefile} template.
+    \Snakemake{} allows generalizing rules by using named wildcards, too. Simply replace the \altverb{A} in the second input file and in the output file with the wildcard \altverb{\{sample\}}.\newline
+    You may refer to the \altverb{03_Snakefile} template in your tutorial folder.
   \end{task}
 \end{frame}
 
@@ -368,28 +363,6 @@ rule bwa_map:
         "bwa mem {input} | samtools view -Sb - > {output}"
   \end{lstlisting}
   When \Snakemake{} determines that this rule can be applied to generate a target file by replacing the wildcard \altverb{\{sample\}} in the output file with an appropriate value, it will propagate that value to all occurrences of \altverb{\{sample\}} in the input files and thereby determine the necessary input for the resulting job. 
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{\HandsOn{Mini-Task: add the \texttt{sample} Wildcard}}
-  \vspace{-0.5em}
-  \begin{task}
-  	Simply refer to your current \texttt{Snakefile} or to the cloze text in \pathtoclozure{03\_Snakefile}. Replace the \altverb{A} in the second input file and in the output file with the wildcard \newline "\altverb{\{sample\}}".
-  	Then run:
-    \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake -np mapped_reads/B.bam
-    \end{lstlisting}
-    \texttt{Snakemake} will determine that the rule \altverb{bwa_map} can be applied to generate the target file by replacing the wildcard \altverb{\{sample\}} with the value \altverb{B}.
-    \vspace{-0.5em}
-    \begin{hint}
-      If your workflow does not work, find the solution in\newline\pathtosolutions{\\03\_Snakefile}.
-    \end{hint}
-  \end{task}
-  \begin{docs}{Background}
-  When \texttt{Snakemake} determines that this rule can be applied to generate a target file by replacing the wildcard \altverb{\{sample\}} in the output file with an appropriate value, it will propagate that value to all occurrences of \altverb{\{sample\}} in the input files and thereby determine the necessary input for the resulting job.\newline
-      \pathtosolutions{03\_Snakefile}
-  \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -437,7 +410,7 @@ rule samtools_sort:
         "-O bam {input} > {output}"
   \end{lstlisting}
   \begin{task}
-  	Please refer to your template \newline \pathtoclozure{04\_Snakefile} and fill in \altverb{input} and \altverb{output}.
+  	Please refer to your template \newline \altverb{04_Snakefile} in the tutorial folder and fill in \altverb{input} and \altverb{output}.
   \end{task}
 \end{frame}
 
@@ -454,7 +427,7 @@ rule samtools_sort:
         "samtools sort -T sorted_reads/{wildcards.sample} "
         "-O bam {input} > {output}"
   \end{lstlisting}
-  You will find this solution in \pathtosolutions{\\04\_Snakefile}
+  You will find this solution in \pathtosolutions{04_Snakefile}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -542,17 +515,17 @@ SAMPLES = ["A", "B"]
   Now, we can add the following rule to our \altverb{Snakefile}:
   \begin{lstlisting}[language=Python,style=Python,basicstyle=\footnotesize]
 rule bcftools_call:
-    input:
-        fa="data/genome.fa",
-        bam=@expand("sorted_reads/{sample}.bam", sample=SAMPLES),@
-        bai=@expand("sorted_reads/{sample}.bam.bai", sample=SAMPLES)@
-    output:
-        "calls/all.vcf"
-    shell:
-        "bcftools mpileup -f {input.fa} {input.bam} | "
-        "bcftools call -mv - > {output}"
+  input:
+    fa="data/genome.fa",
+    bam=@expand("sorted_reads/{sample}.bam", sample=SAMPLES),@
+    ai=@expand("sorted_reads/{sample}.bam.bai", sample=SAMPLES)@
+  output:
+    "calls/all.vcf"
+  shell:
+    "bcftools mpileup -f {input.fa} {input.bam} | "
+     "bcftools call -mv - > {output}"
   \end{lstlisting}
-  We will meet this rule in \pathtoclozure{05\_Snakefile} -- in the next exercise.
+  We will meet this rule in \altverb{05_Snakefile} of our tutorial folder -- in the next exercise.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -563,12 +536,12 @@ rule bcftools_call:
 	\frametitle{Introducing: Target Rules}
 	\begin{question}[Why Target Rules?]
 	  So far, we always executed the workflow by specifying a target file at the command line. How cumbersome!\newline
-	  I would be better to make \texttt{Snakemake} figure out, which jobs to run. Right?
+	  I would be better to make \Snakemake{} figure out, which jobs to run. Right?
 	\end{question}
     \pause
 	\begin{docs}
-		We remember: \texttt{Snakemake} will automatically determine for a given rule, which expected outcomes are missing and execute all necessary rules, accordingly.\newline\pause
-		The ``trick'' is that a workflow can have a ``target'' rule, which specifies the \emph{final} output(s) of a workflow. Any invokation of \texttt{Snakemake} will then execute \emph{all} rules of a workflow.
+		We remember: \Snakemake{} will automatically determine for a given rule, which expected outcomes are missing and execute all necessary rules, accordingly.\newline\pause
+		The ``trick'' is that a workflow can have a ``target'' rule, which specifies the \emph{final} output(s) of a workflow. Any invocation of Snakemake will then execute \emph{all} rules of a workflow.
 	\end{docs}
 \end{frame}
 
@@ -576,7 +549,7 @@ rule bcftools_call:
 \begin{frame}[fragile]
 	\frametitle{\HandsOn{Target Rule Practice}}
 	\begin{docs}
-		If no target is given at the command line, \texttt{Snakemake} will define the first rule of the \texttt{Snakefile} as the target.
+		If no target is given at the command line, \Snakemake{} will define the first rule of the \altverb{Snakefile} as the target.
 	\end{docs}
 	Conventionally, this rule is named \altverb{all}. This means that we add a rule at the top of our workflow:\newline
 	\begin{onlyenv}<1| handout:0>
@@ -590,7 +563,7 @@ rule all:
 	\end{onlyenv}
 	\begin{onlyenv}<2| handout:1>
 	   \begin{task}
-	   	  Take the template \pathtoclozure{05\_Snakefile} and fill in the target in the \altverb{all} rule. Try to run the workflow!
+	   	  Take the template \altverb{05_Snakefile} and fill in the target in the \altverb{all} rule. Try to run the workflow!
 	   \end{task}
 	\end{onlyenv}
 \end{frame}
@@ -602,11 +575,11 @@ rule all:
 	\begin{lstlisting}[language=Python,style=Python]
 rule all:
     input: 
-	    "calls/all.vcf"
+        "calls/all.vcf"
 	\end{lstlisting}
     \pause
     \begin{hint}
        Essentially, you can add all output files you want to keep (e.\,g. plots, final results) to \altverb{all}.
     \end{hint}
-    The solution can be found at \pathtosolutions{\\05\_Snakefile}
+    The solution can be found at \pathtosolutions{05_Snakefile}
 \end{frame}

@@ -36,7 +36,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \frametitle{Why Python in a \altverb{Snakefile}?}
+  \frametitle{Why Python in a Snakefile?}
   Sometimes we do \emph{not} want to run $3^{\mathsf{rd}}$ party code, but run the occasional script for data manipulation   or plotting or \ldots 
   \pause
   \begin{docs}
@@ -49,7 +49,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Using functions in \altverb{Snakefile}s}
+  \frametitle{Using functions in Snakefiles}
   We already met the \altverb{expand()}-function. Let's revisit it in detail!
   \begin{task}
   	Start Python and follow along!
@@ -83,7 +83,7 @@ glob_wildcards('data/samples/{replicas}.fastq').replicas
   \pause
   Wow! So, easy!
   \begin{question}
-  	What happend? What happens if you leave \altverb{.replicas} away?
+  	What happened? What happens if you leave \altverb{.replicas} away?
   \end{question}
 \end{frame}
 
@@ -210,7 +210,7 @@ $ snakemake --debug
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{We want to plot our Results!}
-  We now add the following rule to your \altverb{Snakefile} we could plot our variant statistics (see \pathtoclozure{06\_Sankefile}):
+  We now add the following rule to your \altverb{Snakefile} we could plot our variant statistics (see \altverb{06_Snakefile} in our tutorial folder):
   \begin{lstlisting}[language=Python,style=Python]
 rule plot_quals:
     input:
@@ -331,6 +331,7 @@ quals = [record.qual for record
 plt.hist(quals)
 plt.savefig(snakemake.output[0])
    \end{lstlisting}
+  To be saved as \altverb{scripts/plot-quals.py}.
   \end{onlyenv}
 \end{frame}
 

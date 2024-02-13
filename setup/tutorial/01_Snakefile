@@ -1,3 +1,9 @@
+# This is our first "rule" - it
+# serves as a template to proceed.
+#
+# All other templates are in the same
+# tutorial folder.
+
 rule bwa_map:
     input:
         "data/genome.fa",

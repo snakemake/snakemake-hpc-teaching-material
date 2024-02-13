@@ -32,7 +32,7 @@
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Getting Your Course Material I}}
   We shall copy a few install scripts (which also will download some sample data).\newline
-  Please copy the directory \configparam{pathtosetup}.\newline
+  Please copy the directory "\texttt{\configparam{pathtosetup}}".\newline
   \begin{hint}
   	Remember, to copy an entire directory, you can use:
   	\begin{lstlisting}[language=Bash, style=Shell]
@@ -58,9 +58,11 @@ $ cp -r <path> ~/.
 			 \dirtree{%
                  .1 {.}.
                  .2 {condarc}.
-                 .2 {get\_data.sh}.
+                 .2 {get\_tutorial.sh}.
+                 .2 {install\_micromamba.sh}.
                  .2 {tutorial}.
-                 .3 {template\_files}.
+                 .3 {01\_Snakefile}.
+                 .3 {02\_Snakefile}.
                  .3 {\ldots}.
 			}}
       \end{minipage}
@@ -71,9 +73,9 @@ $ cp -r <path> ~/.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Obtaining Your Tutorial Sample Data}}
-  Please run the \altverb{get_data.sh} script you just copied:
+  Please run the \altverb{get_tutorial.sh} script you just copied:
   \begin{lstlisting}[language=Bash, style=Shell,basicstyle=\footnotesize]
-$ bash get_data.sh
+$ bash get_tutorial.sh
   \end{lstlisting}
   \begin{task}
   	This script will download and unpack the sample data for this course. Please take a look in this script to understand it. Where are your sample data after running this script?

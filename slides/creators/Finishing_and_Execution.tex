@@ -22,49 +22,9 @@
    \end{question}
    \begin{docs}[Objectives]
    	  \begin{enumerate}
-                      \item Extending the target idea.
                       \item Running simple workflows.
       \end{enumerate}
     \end{docs}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Adding a Target Rule}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-  \frametitle{Why Target Rules}
-  So far, we always executed the workflow by specifying a target file at the command line. How cumbersome!\newline
-  \begin{docs}
-  	We remember: \Snakemake{} will automatically determine for a given rule, which expected outcomes are missing and execute all necessary rules, accordingly.\newline\pause
-        The ``trick'' is that a workflow can have a ``target'' rule, which specifies the \emph{final} output(s) of a workflow. Any invokation of \Snakemake{} will then execute \emph{all} rules of a workflow.
-   \end{docs}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{Best Practice}
-  \begin{docs}
-  	If no target is given at the command line, \Snakemake{} will define the first rule of the \altverb{Snakefile} as the target.
-  \end{docs}
-  Conventially, this rule is named \altverb{all}. This means that we add a rule at the top of our workflow:\newline
-  \begin{onlyenv}<1| handout:0>
-   \begin{question}
-   	  Which is our target file?
-   \end{question}
-   \begin{lstlisting}[language=Python,style=Python]
- rule all:
-    input: 
-   \end{lstlisting}
-  \end{onlyenv}
-  \begin{onlyenv}<2| handout:1>
-   Our target rule is:
-   \begin{lstlisting}[language=Python,style=Python]
- rule all:
-    input: 
-        "plots/quals.svg"
-   \end{lstlisting}
-  \end{onlyenv}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -73,7 +33,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Our ``final'' Workflow}
-  \footnotesize{Refer to \pathtosolutions{\\06\_Snakefile} as the workflow solution, so far.}
+  \footnotesize{Refer to \pathtosolutions{06_Snakefile} as the workflow solution, so far.}
   \vspace{-1em}
   \begin{columns}
     \begin{column}{0.5\textwidth}
@@ -152,10 +112,10 @@ $ snakemake --debug
   \pause
   Some targets are already present, we want the entire workflow again:
   \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake -j4 --forcerun
+$ snakemake -c4 --forcerun
   \end{lstlisting}
   \begin{question}
-  	What do you observe? Why \altverb{-j4}?
+  	What do you observe? Why \altverb{-c4}?
   \end{question}
 \end{frame}
 

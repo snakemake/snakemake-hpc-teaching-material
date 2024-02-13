@@ -1,0 +1,199 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Software Provisioning with Snakemake}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Outline}
+	\begin{columns}[t]
+		\begin{column}{.5\textwidth}
+            \tableofcontents[sections={1-7},currentsection]
+		\end{column}
+		\begin{column}{.5\textwidth}
+            \tableofcontents[sections={8-15},currentsection]
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{What is this about?}
+	\begin{question}[Questions]
+		\begin{itemize}
+			\item Conda, Container, Environment Modules?! What is the Fuzz?
+		\end{itemize}
+	\end{question}
+	\begin{docs}[Objectives]
+		\begin{enumerate}
+			\item Learn about the possible provisioning methods of \Snakemake.
+			\item Learning to distinguish these methods.
+		\end{enumerate}
+	\end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Your Options}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Snakemake's Software Provisioning - Overview}
+  \Snakemake{} basically offers 3 software deployment methods:
+  \begin{itemize}[<+->]
+    \item Container
+    \item Environment Modules
+    \item Conda (and its derivatives)
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{AppTainer}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Using Containers}
+  Within a rule we can use the \altverb{container} directive to select a container image
+  \begin{lstlisting}[language=Python,style=Python]
+rule NAME:
+  input: "table.txt"
+  output: "plots/myplot.pdf"
+  @container:@
+    @"docker://joseespinosa/docker-r-ggplot2"@
+  script:
+    "scripts/plot-stuff.R"
+  \end{lstlisting}
+  \begin{docs}{Allowed Container Flavours}
+  	Allowed image urls need to be supported by AppTainer (e.\,g., \altverb{shub://} and \altverb{docker://}). \altverb{docker://} is preferred.
+  \end{docs}	
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Using Containers II}
+  When executing \Snakemake{} with
+  \begin{lstlisting}[language=Bash, style=Shell]
+snakemake --software-deployment-method apptainer
+# or the shorthand version
+snakemake --sdm apptainer
+  \end{lstlisting}
+   it will execute the job within a container that is spawned from the given image.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\Interlude{Containerizing your Workflow}}
+  A \Snakemake{} workflow with conda environments for each rule can automatically generate a container image specification (as a Dockerfile) that contains all required environments:
+  \begin{lstlisting}[language=Bash, style=Shell]
+snakemake --containerize > Dockerfile
+  \end{lstlisting}
+  \begin{question}{Which is the Purpose?}
+  	\begin{itemize}
+  	  \item archive a container for publication.
+  	  \item deploy and ship a container to a $3^{\mathsf{rd}}$ party
+  	\end{itemize}
+  \end{question}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Conda}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Integrated Package Management}
+  \begin{columns}
+  	\begin{column}{0.5\textwidth}
+  	  In rules we can use the \altverb{conda} directive to specify our environment.
+  	  \begin{lstlisting}[language=Python,style=Python,basicstyle=\footnotesize]
+rule NAME:
+  input:
+  	"table.txt"
+  output:
+  	"plots/myplot.pdf"
+  @conda:@
+  	"envs/ggplot.yaml"
+  script:
+  	"scripts/plot-stuff.R"
+  	  \end{lstlisting}
+  	\end{column}
+    \begin{column}{0.5\textwidth}
+       with the following \lhref{}{environment definition}:
+       \begin{lstlisting}[style=Plain]
+channels:
+- r
+dependencies:
+- r=3.3.1
+- r-ggplot2=2.1.0
+      \end{lstlisting}   
+    \end{column}
+  \end{columns}	
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Important Conda Flags}
+  To use Conda add
+  \begin{lstlisting}[language=Bash, style=Shell]
+--software-deployment-method conda 
+# or short
+--sdm conda
+  \end{lstlisting}
+  \pause
+  It is possible to use different Conda frontends:
+  \begin{lstlisting}[language=Bash, style=Shell]
+--conda-frontend mamba # or micromamba
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Environment Modules}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Using Environment Modules}
+  You can mix Conda and Environment Modules:
+  \begin{lstlisting}[language=Python,style=Python]
+rule bwa:
+  input:
+    "genome.fa"
+    "reads.fq"
+  output:
+    "mapped.bam"
+  conda:
+    "envs/bwa.yaml"
+  @envmodules:@
+    "bio/bwa/0.7.9",
+    "bio/samtools/1.9"
+  shell:
+    "bwa mem {input} | samtools view -Sbh - > {output}"
+  \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Using Environment Modules II}
+  When \Snakemake{} is executed with 
+  \begin{lstlisting}[language=Bash, style=Shell]
+snakemake --use-envmodules
+  \end{lstlisting}
+  it will load the defined modules in the given order, instead of using the also defined conda environment.
+  \pause
+  \begin{hint}
+  	It is recommended to specify Conda environments alongside - only then containerizing a workflow works!
+  \end{hint}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Summing Up}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Software Provisioning Summary}
+  You can
+  \begin{itemize}
+  	\item manually install environment (done in this course)
+  	\item use \Snakemake's features for conda, env. modules, containers
+  \end{itemize}
+   See 
+   \begin{lstlisting}[language=Bash, style=Shell]
+snakemake --help
+   \end{lstlisting}
+   for an overview or \lhref{https://snakemake.readthedocs.io/en/stable/snakefiles/deployment.html}{the official documentation}.
+\end{frame} 
