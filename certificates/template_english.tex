@@ -1,0 +1,84 @@
+\documentclass[a4paper,10pt]{article}
+%\documentclass[a4paper,10pt]{scrartcl}
+\usepackage[ngerman]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{multicol}
+\usepackage[letterpaper, margin=1.5cm]{geometry}
+
+
+\usepackage{graphicx}
+\renewcommand\familydefault{\sfdefault}
+\begin{document}
+\pagestyle{empty}
+\begin{multicols}{2}
+ \begin{minipage}{\textwidth}
+  \includegraphics[width=4cm]{../images/logos/alliance_logo.png}
+ \end{minipage}
+
+ \columnbreak
+\end{multicols}
+
+
+\begin{center}
+ \vfill
+ \huge{\bf Certificate of Attendance}
+ \vfill
+ \Large{<<member.name>> <<member.surname>>}
+ \vfill
+ did take part at 
+ \vfill
+ \emph{Introduction to Programming HPC compliant Workflows with Snakemake}
+ \vfill
+ on <<course.date>>.
+ \vfill
+\end{center}
+
+The course took about two days (app. 12 hours) and covered:
+\begin{itemize}
+  \item Relevance of Data Analysis Graphs (Directed Acyclic Graphs, DAGs)
+  \item Programming simple Workflows with the Snakemake Workflow Manager
+  \item Parameterization of such Workflows for the SLURM batch system
+  \item Configuration to avoid I/O contention (e.g. Random Access Patterns)
+  \item Troubleshooting and Debugging
+  \item Snakemake Wrappers
+\end{itemize}
+
+\vfill
+<<course.place>>, <<course.sign_date>>
+
+\begin{multicols}{3}
+ \begin{minipage}[b][4cm][b]{0.4\textwidth}
+   
+     % here could be code to place the signature of a PI
+  
+ \end{minipage}%
+ \columnbreak
+ \begin{minipage}[b][4cm][b]{0.2\textwidth}
+ \includegraphics[width=\textwidth]{../images/logos/seal.jpg}
+ \end{minipage}%
+ \columnbreak
+ \begin{flushright}
+ \raggedleft
+ \begin{minipage}[b][4cm][b]{0.4\textwidth}
+     Instructor - <<instructor.name>>\newline
+     \footnotesize{<<instructor.role>>}\newline
+  \phantom{H}
+  <% if instructor.organization %>
+     <<instructor.organization|default("~", true)>> \newline
+  <% endif %>
+  <% if instructor.organization %>
+    <<instructor.organization2|default("~", true)>> \newline
+  <% endif %>
+  <% if instructor.organization %>
+     <<instructor.address|default("~", true)>>\newline
+  <% endif %>
+  <% if instructor.organization %>
+     <<instructor.city|default("~", true)>>\newline
+  <% endif %>
+ \end{minipage}
+ \end{flushright}
+
+\end{multicols}
+
+\end{document}
