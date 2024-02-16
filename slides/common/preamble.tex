@@ -68,9 +68,14 @@
   \begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
 \usepackage{subfig}
 \usepackage{tikz}
-\usetikzlibrary{arrows,shapes,backgrounds,positioning,shadows,decorations,trees,decorations.pathreplacing}
+\usetikzlibrary{arrows,shapes,backgrounds,positioning,shadows,decorations,trees,decorations.pathreplacing, graphs}
+\usepackage{tkz-graph}
+
 %\usepackage{tikzpeople}
 \usepackage{smartdiagram}
+\usesmartdiagramlibrary{additions}
+
+\usepackage{adjustbox} % to adjust tikzpictures within slides
 
 
 \addtobeamertemplate{footline}{}{%

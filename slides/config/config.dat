@@ -16,6 +16,8 @@ editorfile = "common/editor_gedit_mainz.tex"
 % settings on every cluster.
 hello_world_script = common/Hello_World_HPC_MogonII.tex
 %
+% editor file as present on your cluster
+editorfile = "common/editor_gedit_mainz.tex"
 % date of presentation
 %
 %date = "\today"
