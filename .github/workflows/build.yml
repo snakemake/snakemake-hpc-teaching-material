@@ -9,9 +9,9 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v3
-        with:
-          packages: texlive-full texlive-latex-base
       - name: Compile Users Slide Set
+        with:
+          packages: python3-yaml texlive-full texlive-latex-base
         run: |
           ./render --master-tex Snakemake_HPC_Users.tex --configfile config/config_for_github.yaml ; 
       - name: Compile Creators Slide Set
