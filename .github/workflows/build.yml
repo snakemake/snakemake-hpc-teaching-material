@@ -15,8 +15,8 @@ jobs:
           packages: python3-yaml
       - name: Compile LaTeX sources
         run: |
-          apt-get install python3-yaml
-          ./render --master-tex Snakemake_HPC_Users.tex --configfile config/config_for_github.yaml
+          sudo apt-get -y install python3-yaml; 
+          ./render --master-tex Snakemake_HPC_Users.tex --configfile config/config_for_github.yaml ; 
           ./render --master-tex Snakemake_HPC_Creators.tex --configfile config/config_for_github.yaml
       - name: Upload .pdf File
         uses: actions/upload-artifact@v3 
