@@ -11,6 +11,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          packages: python3-yaml
       - name: Compile LaTeX sources
         run: |
           ./render --master-tex Snakemake_HPC_Users.tex --configfile config/config_for_github.yaml
