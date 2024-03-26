@@ -10,7 +10,76 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v4
       - name: Install Dependencies
-        run: sudo apt-get install -y python3-yaml texlive-full texlive-latex-base
+        run: sudo apt-get install -y python3-yaml \
+        fonts-texgyre \
+        fonts-texgyre-math \
+        gedit-plugin-synctex \
+        gedit-plugin-text-size \
+        gettext \
+        gettext-base \
+        html2text \
+        ktexteditor-data \
+        ktexteditor-katepart
+        latexmk
+        libclutter-imcontext-0.1-0:amd64
+        libclutter-imcontext-0.1-bin
+        libdjvulibre-text
+        libexttextcat-2.0-0:amd64
+        libexttextcat-data
+        libjs-requirejs-text
+        libjs-text-encoding
+        libkf5texteditor-bin
+        libkf5texteditor5:amd64
+        libkf5textwidgets-data
+        libkf5textwidgets5:amd64
+        liblocale-gettext-perl
+        libnumbertext-1.0-0:amd64
+        libnumbertext-data
+        libptexenc1:amd64
+        libqt5texttospeech5:amd64
+        libsynctex2:amd64
+        libtexlua53-5:amd64
+        libtexluajit2:amd64
+        libtext-charwidth-perl:amd64
+        libtext-glob-perl
+        libtext-iconv-perl:amd64
+        libtext-levenshteinxs-perl
+        libtext-markdown-discount-perl
+        libtext-unidecode-perl
+        libtext-wrapi18n-perl
+        libtext-xslate-perl:amd64
+        node-text-table
+        preview-latex-style
+        python3-html2text
+        python3-texttable
+        tex-common
+        tex-gyre
+        texinfo
+        texlive
+        texlive-base
+        texlive-bibtex-extra
+        texlive-binaries
+        texlive-extra-utils
+        texlive-font-utils
+        texlive-fonts-extra
+        texlive-fonts-extra-links
+        texlive-fonts-recommended
+        texlive-lang-german
+        texlive-lang-greek
+        texlive-latex-base
+        texlive-latex-extra
+        texlive-latex-recommended
+        texlive-luatex
+        texlive-music
+        texlive-pictures
+        texlive-plain-generic
+        texlive-pstricks
+        texlive-science
+        texstudio
+        texstudio-doc
+        texstudio-l10n
+        untex
+        
       - name: LaTeX compile  
         run: |
           ./render --master-tex Snakemake_HPC_Users.tex --configfile config/config_for_github.yaml ; 
