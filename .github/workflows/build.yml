@@ -10,36 +10,36 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v4
       - name: Install Dependencies
-        run: sudo apt-get install -y python3-yaml \
-             fonts-texgyre \
-             fonts-texgyre-math \
-             gettext \
-             gettext-base \
-             html2text \
-             latexmk \
-             python3-html2text \
-             python3-texttable \
-             tex-common \
-             tex-gyre \
-             texinfo \
-             texlive \
-             texlive-base \
-             texlive-bibtex-extra \
-             texlive-binaries \
-             texlive-extra-utils \
-             texlive-font-utils \
-             texlive-fonts-extra \
-             texlive-fonts-extra-links \
-             texlive-fonts-recommended \
-             texlive-lang-german \
-             texlive-latex-base \
-             texlive-latex-extra \
-             texlive-latex-recommended \
-             texlive-luatex \
-             texlive-pictures \
-             texlive-plain-generic \
-             texlive-pstricks \
-             texlive-science \
+        run: sudo apt-get install -y python3-yaml 
+             fonts-texgyre 
+             fonts-texgyre-math 
+             gettext 
+             gettext-base 
+             html2text 
+             latexmk 
+             python3-html2text 
+             python3-texttable 
+             tex-common 
+             tex-gyre 
+             texinfo 
+             texlive 
+             texlive-base 
+             texlive-bibtex-extra 
+             texlive-binaries 
+             texlive-extra-utils 
+             texlive-font-utils 
+             texlive-fonts-extra 
+             texlive-fonts-extra-links 
+             texlive-fonts-recommended 
+             texlive-lang-german 
+             texlive-latex-base 
+             texlive-latex-extra 
+             texlive-latex-recommended 
+             texlive-luatex 
+             texlive-pictures 
+             texlive-plain-generic 
+             texlive-pstricks 
+             texlive-science 
         
       - name: LaTeX compile  
         run: |
