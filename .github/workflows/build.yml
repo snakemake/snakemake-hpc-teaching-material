@@ -11,29 +11,15 @@ jobs:
         uses: actions/checkout@v4
       - name: Install Dependencies
         run: sudo apt-get install -y python3-yaml 
-             fonts-texgyre
-             latexmk 
-             tex-common 
-             tex-gyre 
-             texinfo 
              texlive 
-             texlive-base 
-             texlive-bibtex-extra 
-             texlive-binaries 
-             texlive-extra-utils 
-             texlive-font-utils 
              texlive-fonts-extra 
-             texlive-fonts-extra-links 
-             texlive-fonts-recommended 
-             texlive-lang-german 
-             texlive-latex-base 
              texlive-latex-extra 
-             texlive-latex-recommended 
              texlive-luatex 
              texlive-pictures 
              texlive-plain-generic 
              texlive-pstricks 
              texlive-science 
+             latexmk
         
       - name: LaTeX compile  
         run: |
