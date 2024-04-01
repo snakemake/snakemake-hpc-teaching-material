@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 
 import argparse
-from tempfile import TemporaryDirectory
+import math
 import logging
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
+import sys
+from tempfile import TemporaryDirectory
 import yaml
 
 # non standard libraries
@@ -21,9 +24,69 @@ options = {
     "comment_end_string": "=}",
 }
 
+section_re = re.compile("\\\section\{")
+infile_re = re.compile(r"(\\input)|(\\include)")
+extract_re = re.compile(r"(?<=\{).+?(?=\})")
+
 PATH = os.path.split(os.path.realpath(__file__))[0]
 
 jinja_env = Environment(loader=FileSystemLoader(PATH), **options)
+
+
+def screen_master(masterdoc, tempdir):
+    prefix = os.path.join(tempdir, "slides")
+    fnames = list()
+    with open(os.path.join(prefix, masterdoc)) as infile:
+        for line in infile:
+            if infile_re.match(line):
+                fnames.extend(extract_re.findall(line))
+    return fnames
+
+
+def count_matching_lines(fp):
+    count = 0
+    for line in fp:
+        if section_re.match(line):
+            count += 1
+    return count
+
+
+def count_sections(file_list, tempdir):
+    """
+    counting '\section(*)' lines by calling
+    `count_matching_lines` - the function will
+    operate in the temporary directory, to ensure
+    sections introduced after parsing the configuration
+    are counted.
+
+    input:
+        - `file_list` - the list of files need to typeset
+          the master TeX document
+        - `tempdir` - the temporary directory
+    ouput:
+        - the total number of sections.
+    """
+    prefix = os.path.join(tempdir, "slides")
+
+    count = 0
+    for fname in file_list:
+        to_count = os.path.join(prefix, fname) + ".tex"
+        try:
+            with open(to_count) as fp:
+                count += count_matching_lines(fp)
+        except:
+            print(f"Error treating: '{fname}'")
+    return count
+
+
+def define_boundaries(section_count):
+    fhe = math.floor(section_count / 2)
+    return {
+        "lower": 1,
+        "upper": section_count,
+        "first_half_end": fhe,
+        "second_half_start": fhe + 1,
+    }
 
 
 def render_tex(env, template):
@@ -93,5 +156,11 @@ if __name__ == "__main__":
                 logger.info(f"Attempt to render {fname}")
                 tex = render_tex(data, os.path.join(root, fname))
                 to_file(tex, fname, tempdir, root)
+        # we might need to adapt the chapter settings.
+        file_list = screen_master(args.master_tex, tempdir)
+        count     = count_sections(file_list, tempdir)
+        logger.info('Found %d sections.' % count)
+        boundaries = define_boundaries(count)
+        
         # now the typesetting needs to be triggered
         run_pdflatex(fname=args.master_tex, path=os.path.join(tempdir, "slides"))
