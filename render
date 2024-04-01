@@ -136,25 +136,35 @@ def find_and_replace_sections(boundaries, fname):
         return
 
     # get the matching 'currentsection' lines
-    first_done, second_done = False, False
+    first_done, second_done, minitocline = False, False, False
     for lcount, line in enumerate(lines):
         if not first_done:
-            if 'currentsection' in line:
+            if 'currentsection' in line and not 'hideothersubsections' in line:
                 first_done = lcount
                 break
-    for lcount, line in enumerate(lines[first_done + 1:]):
-        if not second_done:
-            if 'currentsection' in line:
-                second_done = lcount + first_done + 1
+            if 'hideothersubsections' in line:
+                minitocline = lcount
                 break
+    if not minitocline: # we need to count the line for the 2nd toc column
+        for lcount, line in enumerate(lines[first_done + 1:]):
+            if not second_done:
+                if 'currentsection' in line:
+                    second_done = lcount + first_done + 1
+                    break
 
     if not (first_done and second_done):
         logger.debug("no outline found for %s -> skipping" % fname)
         return 
 
     # adapt the two lines with our new boundaries:
-    lines[first_done] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (boundaries['lower'], boundaries['first_half_end'])
-    lines[second_done] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (boundaries['second_half_start'], boundaries['upper'])
+    if first_done and second_done:
+        lines[first_done] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (boundaries['lower'], boundaries['first_half_end'])
+        lines[second_done] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (boundaries['second_half_start'], boundaries['upper'])
+    elif minidocline:
+        lines[minitocline] = "            \\tableofcontents[currentsection, sections={4-7}, hideothersubsections]"
+    else:
+        logger.error(f"TOC expectations for '{fname}' not met")
+
     
     with open(fname, 'w') as outfile:
         for line in lines:
