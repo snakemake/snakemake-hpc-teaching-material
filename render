@@ -75,7 +75,7 @@ def count_sections(file_list, tempdir):
             with open(to_count) as fp:
                 count += count_matching_lines(fp)
         except:
-            print(f"Error treating: '{fname}'")
+            print(f"Error treating counting sections in: '{fname}'")
     return count
 
 
@@ -126,6 +126,41 @@ def parse_config(fname):
     return data
 
 
+def find_and_replace_sections(boundaries, fname):
+    # tex files aren't big, read all content in memory
+    try:
+        with open(fname) as infile:
+            lines = infile.readlines()
+    except:
+        print(f"Error reading: '{fname}'")
+        return
+
+    # get the matching 'currentsection' lines
+    first_done, second_done = False, False
+    for lcount, line in enumerate(lines):
+        if not first_done:
+            if 'currentsection' in line:
+                first_done = lcount
+                break
+    for lcount, line in enumerate(lines[first_done + 1:]):
+        if not second_done:
+            if 'currentsection' in line:
+                second_done = lcount + first_done + 1
+                break
+
+    if not (first_done and second_done):
+        logger.debug("no outline found for %s -> skipping" % fname)
+        return 
+
+    # adapt the two lines with our new boundaries:
+    lines[first_done] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (boundaries['lower'], boundaries['first_half_end'])
+    lines[second_done] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (boundaries['second_half_start'], boundaries['upper'])
+    
+    with open(fname, 'w') as outfile:
+        for line in lines:
+            outfile.write(line)
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -161,6 +196,13 @@ if __name__ == "__main__":
         count     = count_sections(file_list, tempdir)
         logger.info('Found %d sections.' % count)
         boundaries = define_boundaries(count)
+
+        # adapting chapter section display in toc slides
+        for fname in file_list:
+            to_adapt = os.path.join(tempdir, "slides", fname) + ".tex"
+            find_and_replace_sections(boundaries, to_adapt)
         
         # now the typesetting needs to be triggered
+        run_pdflatex(fname=args.master_tex, path=os.path.join(tempdir, "slides"))
+        #re-run might be required
         run_pdflatex(fname=args.master_tex, path=os.path.join(tempdir, "slides"))
