@@ -126,7 +126,7 @@ def parse_config(fname):
     return data
 
 
-def find_and_replace_sections(boundaries, fname):
+def find_and_replace_sections(boundaries, section_estimate, fname):
     # tex files aren't big, read all content in memory
     try:
         with open(fname) as infile:
@@ -139,34 +139,52 @@ def find_and_replace_sections(boundaries, fname):
     first_done, second_done, minitocline = False, False, False
     for lcount, line in enumerate(lines):
         if not first_done:
-            if 'currentsection' in line and not 'hideothersubsections' in line:
+            if "currentsection" in line and not "hideothersubsections" in line:
                 first_done = lcount
                 break
-            if 'hideothersubsections' in line:
+            if "hideothersubsections" in line:
                 minitocline = lcount
                 break
-    if not minitocline: # we need to count the line for the 2nd toc column
-        for lcount, line in enumerate(lines[first_done + 1:]):
+    if not minitocline:  # we need to count the line for the 2nd toc column
+        for lcount, line in enumerate(lines[first_done + 1 :]):
             if not second_done:
-                if 'currentsection' in line:
+                if "currentsection" in line:
                     second_done = lcount + first_done + 1
                     break
 
     if not (first_done and second_done):
         logger.debug("no outline found for %s -> skipping" % fname)
-        return 
+        return
 
     # adapt the two lines with our new boundaries:
     if first_done and second_done:
-        lines[first_done] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (boundaries['lower'], boundaries['first_half_end'])
-        lines[second_done] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (boundaries['second_half_start'], boundaries['upper'])
+        lines[
+            first_done
+        ] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (
+            boundaries["lower"],
+            boundaries["first_half_end"],
+        )
+        lines[
+            second_done
+        ] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (
+            boundaries["second_half_start"],
+            boundaries["upper"],
+        )
     elif minidocline:
-        lines[minitocline] = "            \\tableofcontents[currentsection, sections={4-7}, hideothersubsections]"
+        lower = max((section_estimate - 2), 1)  # lower boundary not lower than 1
+        upper = min(
+            (section_estimate + 3), boundaries["upper"]
+        )  # upper boundary not higher then upper boundary ;-)
+        sections = f"{lower}-{upper}"
+        lines[minitocline] = (
+            "            \\tableofcontents[currentsection, sections={"
+            + sections
+            + "}, hideothersubsections]"
+        )
     else:
         logger.error(f"TOC expectations for '{fname}' not met")
 
-    
-    with open(fname, 'w') as outfile:
+    with open(fname, "w") as outfile:
         for line in lines:
             outfile.write(line)
 
@@ -203,16 +221,19 @@ if __name__ == "__main__":
                 to_file(tex, fname, tempdir, root)
         # we might need to adapt the chapter settings.
         file_list = screen_master(args.master_tex, tempdir)
-        count     = count_sections(file_list, tempdir)
-        logger.info('Found %d sections.' % count)
+        count = count_sections(file_list, tempdir)
+        logger.info("Found %d sections." % count)
         boundaries = define_boundaries(count)
 
         # adapting chapter section display in toc slides
-        for fname in file_list:
+        # NOTE: section estimate is the assumption, that we have
+        # one section per file. This assumption will NOT always hold
+        # but is good enough for our purpose of setting boundaries in minitocs.
+        for section_estimate, fname in enumerate(file_list):
             to_adapt = os.path.join(tempdir, "slides", fname) + ".tex"
-            find_and_replace_sections(boundaries, to_adapt)
-        
+            find_and_replace_sections(boundaries, section_estimate, to_adapt)
+
         # now the typesetting needs to be triggered
         run_pdflatex(fname=args.master_tex, path=os.path.join(tempdir, "slides"))
-        #re-run might be required
+        # re-run might be required
         run_pdflatex(fname=args.master_tex, path=os.path.join(tempdir, "slides"))
