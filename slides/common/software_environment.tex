@@ -122,17 +122,18 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}
   \frametitle{Conda vs. Module Files}
-  \begin{columns}
+  \begin{columns}[t]
     \begin{column}{0.5\textwidth}
-      Background Module Files
+      Background - \textbf{Module Files}
       \begin{itemize}
-       \item module files provide an environment per software
-       \item the software usually is compiled on the machine (optimized)
+       \item module files provide environment variables per software
+       \item usually software is compiled on the machine (optimized)
+       \item software might be optimized for a network (MPI)
        \item due to differences in cluster naming schemes and setups portability cannot be granted
       \end{itemize}
     \end{column}
     \begin{column}{0.5\textwidth}
-      Background Conda
+      Background - \textbf{Conda}
       \begin{itemize}
        \item Conda is a machine independent package management systems
        \item packaged software is provided pre-compiled (NOT optimized)
@@ -143,8 +144,27 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=.7\paperheight]{environment/flavours.png}\hfil}\vfil}
+	}
+	\frame{
+		\frametitle{Flavours}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			Conda Implementations:
+			\begin{itemize}
+				\item Conda - Python
+				\item Mamba - drop-in replacement for "Conda", C\texttt{++}, parallel solver, fast
+				\item \textmu-Mamba - static version of Mamba, little overhead, no "base" environment, slightly different commands
+			\end{itemize}
+		\end{mdframed}
+	}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Installing Conda}
+  \frametitle{Installing Mamba}
   You \emph{could} run
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\small,breaklines=true ]
 $ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -313,6 +333,17 @@ minimap                     0.2_r124      h5bf99c6_4  bioconda
   	For now we will not use \Snakemake{} to install our software. This topic will be covered later.
   \end{hint}
 \end{frame}
+
+%snakemake                 8.10.4               hdfd78af_0    bioconda
+%snakemake-executor-plugin-slurm 0.4.2              pyhdfd78af_0    bioconda
+%snakemake-executor-plugin-slurm-jobstep 0.1.11             pyhdfd78af_0    bioconda
+%snakemake-interface-common 1.17.1             pyhdfd78af_0    bioconda
+%snakemake-interface-executor-plugins 9.1.0              pyhdfd78af_0    bioconda
+%snakemake-interface-report-plugins 1.0.0              pyhdfd78af_0    bioconda
+%snakemake-interface-storage-plugins 3.1.1              pyhdfd78af_0    bioconda
+%snakemake-minimal         8.10.4             pyhdfd78af_0    bioconda
+%snakemake-storage-plugin-fs 0.1.5                    pypi_0    pypi
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
