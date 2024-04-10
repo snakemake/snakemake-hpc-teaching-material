@@ -1,5 +1,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{About Snakemake}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=\paperheight]{logos/Wild_Python.jpg}\hfil}\vfil}
+	}
+	\frame{
+		\frametitle{Snakemake}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+	}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -76,8 +89,10 @@ Cluster: & \includegraphics[width=0.15\textwidth]{misc/data_center.png}  	&  \in
      		\Snakemake offers
      		\begin{itemize}[<+->]
      		  \item to carry out Nextflow wrappers
-     		  \item to react on your input $\Rightarrow$  more samples, more jobs
+     		  \item to react on your input \newline $\Rightarrow$  more samples, more jobs
      		  \item to be a remedy to I/O contention
+     		  \item to be ready for real time \newline computation with cluster support
+     		  \item to support you from your input \newline to publication
      		  \item \ldots
      		\end{itemize}
      	}
