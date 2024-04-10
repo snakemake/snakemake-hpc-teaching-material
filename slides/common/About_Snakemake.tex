@@ -19,7 +19,6 @@
 	\end{docs}
 \end{frame}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Background}
 
@@ -62,5 +61,27 @@ Cluster: & \includegraphics[width=0.15\textwidth]{misc/data_center.png}  	&  \in
 	$\Rightarrow$ programs launched \newline with high parallelism, \newline high concurreny
 	\end{minipage}\\
   \end{tabular}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+   \frametitle{Benefit of Cluster Usage}
+   \begin{columns}
+   	 \begin{column}{0.6\textwidth}
+   	 	\centering
+   	 	\includegraphics[width=0.8\textwidth]{workflows/molecular_screening_dag.jpeg}
+   	 \end{column}
+     \begin{column}{0.6\textwidth}
+     	{\footnotesize
+     		\Snakemake offers
+     		\begin{itemize}[<+->]
+     		  \item to carry out Nextflow wrappers
+     		  \item to react on your input $\Rightarrow$  more samples, more jobs
+     		  \item to be a remedy to I/O contention
+     		  \item \ldots
+     		\end{itemize}
+     	}
+     \end{column}
+   \end{columns}
 \end{frame}
 	
