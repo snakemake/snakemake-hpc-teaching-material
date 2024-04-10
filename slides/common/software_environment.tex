@@ -291,7 +291,7 @@ $ conda_initialize # if you have this function
   \frametitle{Searching Software with Conda v. Mamba}
   First you might want to look for software. This is done with
   \begin{lstlisting}[language=Bash, style=Shell]
-$ micromamba search <softwarename>
+$ mamba search <softwarename>
   \end{lstlisting}
   \pause
   \begin{task}
@@ -327,69 +327,107 @@ minimap                     0.2_r124      h5bf99c6_4  bioconda
   \end{hint}
 \end{frame}
 
-%snakemake                 8.10.4               hdfd78af_0    bioconda
-%snakemake-executor-plugin-slurm 0.4.2              pyhdfd78af_0    bioconda
-%snakemake-executor-plugin-slurm-jobstep 0.1.11             pyhdfd78af_0    bioconda
-%snakemake-interface-common 1.17.1             pyhdfd78af_0    bioconda
-%snakemake-interface-executor-plugins 9.1.0              pyhdfd78af_0    bioconda
-%snakemake-interface-report-plugins 1.0.0              pyhdfd78af_0    bioconda
-%snakemake-interface-storage-plugins 3.1.1              pyhdfd78af_0    bioconda
-%snakemake-minimal         8.10.4             pyhdfd78af_0    bioconda
-%snakemake-storage-plugin-fs 0.1.5                    pypi_0    pypi
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Conda / Mamba Environments}
-  With Conda/Mamba, we can activate and deactivate environments, which bundle our software. E.\,g. a software stack per workflow to ensure reproducible runs.
-    \pause
-  To generate a new we can run
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ micromamba create @-n@ <environment_name>
-  \end{lstlisting}
-  This will create a new environment with a given name in your home directory. Alternatively, i.\,e. when dealing with file number quotas, you can point the environment to a different filesystem, e.\,g.:
-  \begin{lstlisting}[language=Bash, style=Shell] 
-$ micromamba create \
->  @-p@ /path/to/project/fs/<environment_name>
-   \end{lstlisting}
+	\frametitle{A first Environment for \Snakemake!}
+	\begin{task}
+		Type along!
+	\end{task}
+    \begin{onlyenv}<1|handout:0>
+      We can create a new environment:
+      \begin{lstlisting}[language=Bash, style=Shell]
+$ mamba @create@ ...
+      \end{lstlisting}
+      using the \altverb{create} keyword.
+    \end{onlyenv}
+    \begin{onlyenv}<2|handout:0>
+    	We can create a new environment:
+    	\begin{lstlisting}[language=Bash, style=Shell]
+$ mamba create \
+> ...
+    	\end{lstlisting}
+    	you may write everything in \emph{one} line. The \altverb{\\} breaks a line and \altverb{>} continues it - it is only to fit everything on a slide.
+    \end{onlyenv}
+    \begin{onlyenv}<3|handout:0>
+    	We can create a new environment:
+    	\begin{lstlisting}[language=Bash, style=Shell]
+$ mamba create \
+> ...
+    	\end{lstlisting}
+    	you may write everything in \emph{one} line. The \altverb{\\} breaks a line and \altverb{>} continues it - it is only to fit everything on a slide.
+    \end{onlyenv}
+    \begin{onlyenv}<4|handout:0>
+    	We can create a new environment:
+    	\begin{lstlisting}[language=Bash, style=Shell]
+$ mamba create \
+> @-c@ conda-forge @-c@ bioconda ...
+    	\end{lstlisting}
+    	\altverb{-c} selects a "channel".
+    \end{onlyenv}
+    \begin{onlyenv}<5|handout:0>
+    	We can create a new environment:
+    	\begin{lstlisting}[language=Bash, style=Shell]
+$ mamba create \
+> -c conda-forge -c bioconda \
+> @-n@ snakemake ...
+    	\end{lstlisting}
+    	\altverb{-n} denotes the name of the environment.
+    \end{onlyenv}
+    \begin{onlyenv}<6|handout:0>
+    	We can create a new environment:
+    	\begin{lstlisting}[language=Bash, style=Shell]
+$ mamba create \
+> -c conda-forge -c bioconda \
+> -n snakemake
+> snakemake snakemake-executor-plugin-slurm \
+> snakemake-storage-plugin-fs
+    	\end{lstlisting}
+    	and finally the software list to be installed.
+    \end{onlyenv}
+    \vfill
+    \begin{docs}[What is an \emph{Environment}?]
+    	With Conda/Mamba, we can activate and deactivate "environments". These bundle our software. I.\,e. a software stack per workflow to ensure reproducible runs with specific software versions.
+    \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{\HandsOn{Creating your own Environment}}
-  Now, create your first environment. We will
-  \begin{itemize}
-  	\item work in the \altverb{snakemake_tutorial} directory with
-  	\item a \textit{named} environment
-  	\item use the downloaded \altverb{environment.yaml} file to define the software stack
-  	\item pre-compile all Python files with the \altverb{--pyc} flag
-  \end{itemize}
-  \begin{lstlisting}[language=Bash, style=Shell,breaklines=true]
-$ micromamba create --pyc -f environment.yaml -n snakemake-tutorial
-  \end{lstlisting}	
+	\frametitle{\HandsOn{Listing Environments}}
+	Over time you will have several environments. (So far, there is one + \altverb{base}) To list them all, simply run:
+	\begin{lstlisting}[language=Bash, style=Shell]
+$ mamba env list
+	\end{lstlisting}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Listing Environments}
-   Over time you will have several environments. (So far, there is one.) To list them all, simply run:
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ micromamba env list
-  \end{lstlisting}
-\end{frame} 
+	\frametitle{\HandsOn{Activating Environments}}
+	It is time to activate our fresh environment:
+	\begin{lstlisting}[language=Bash, style=Shell]
+$ mamba activate snakemake
+	\end{lstlisting}
+    Your prompt should now feature the name of the environment: \altverb{snakemake}.
+\end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Creating, Activating, Deactivating Environments}
-  We can create, activate and deactivate environments with
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ micromamba create [other args] -n <environment name>
-$ micromamba activate <environment name>
-$ micromamba deactivate
-  \end{lstlisting}
-   \begin{task}
-   	  Activate the environment you just created!
-   \end{task}
+    \frametitle{\HandsOn{Checking on Installed Software}}
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ (snakemake) mamba list
+    \end{lstlisting}
+     And you should see
+     \begin{lstlisting}[style=Plain]
+snakemake
+snakemake-executor-plugin-slurm
+snakemake-executor-plugin-slurm-jobstep
+snakemake-interface-common
+snakemake-interface-executor-plugins
+snakemake-interface-report-plugins
+snakemake-interface-storage-plugins
+snakemake-minimal
+snakemake-storage-plugin-fs
+     \end{lstlisting}
+     \ldots along with version infos, channel source and hashsums of all the dependencies.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
