@@ -352,19 +352,11 @@ $ mamba create \
     	We can create a new environment:
     	\begin{lstlisting}[language=Bash, style=Shell]
 $ mamba create \
-> ...
-    	\end{lstlisting}
-    	you may write everything in \emph{one} line. The \altverb{\\} breaks a line and \altverb{>} continues it - it is only to fit everything on a slide.
-    \end{onlyenv}
-    \begin{onlyenv}<4|handout:0>
-    	We can create a new environment:
-    	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba create \
 > @-c@ conda-forge @-c@ bioconda ...
     	\end{lstlisting}
     	\altverb{-c} selects a "channel".
     \end{onlyenv}
-    \begin{onlyenv}<5|handout:0>
+    \begin{onlyenv}<4|handout:0>
     	We can create a new environment:
     	\begin{lstlisting}[language=Bash, style=Shell]
 $ mamba create \
@@ -373,7 +365,7 @@ $ mamba create \
     	\end{lstlisting}
     	\altverb{-n} denotes the name of the environment.
     \end{onlyenv}
-    \begin{onlyenv}<6|handout:0>
+    \begin{onlyenv}<5|handout:0>
     	We can create a new environment:
     	\begin{lstlisting}[language=Bash, style=Shell]
 $ mamba create \
@@ -393,7 +385,7 @@ $ mamba create \
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
 	\frametitle{\HandsOn{Listing Environments}}
-	Over time you will have several environments. (So far, there is one + \altverb{base}) To list them all, simply run:
+	Over time you will have several environments. (So far, there is one plus the \altverb{base} env.) To list them all, simply run:
 	\begin{lstlisting}[language=Bash, style=Shell]
 $ mamba env list
 	\end{lstlisting}
