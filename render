@@ -111,7 +111,7 @@ def get_pdf_name(filename):
 def run_pdflatex(fname="out.tex", path="."):
     outdir = os.path.realpath(os.path.join(os.getcwd(), "slides"))
 
-    subprocess.call(["pdflatex", fname], cwd=path)
+    subprocess.call(["pdflatex", "-synctex=1", "-interaction=nonstopmode", fname], cwd=path)
     pdfname = get_pdf_name(fname)
     shutil.copy(os.path.join(path, pdfname), os.path.join(outdir, pdfname))
 
