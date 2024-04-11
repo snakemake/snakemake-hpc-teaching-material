@@ -4,7 +4,7 @@ instructor:
   affiliation2: "NHR SüdWest" # may be empty
 
 course:
-  date: "datestring" # maybe: "\today"
+  date: "18. April 2024" # maybe: "\today"
   # Editors recommendations are a matter of taste and technological
   # setups (e.g. on-demand setups). Hence, specify an editor-slide,
   #  here:
