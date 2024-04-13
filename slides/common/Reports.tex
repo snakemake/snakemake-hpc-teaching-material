@@ -19,78 +19,15 @@
   \frametitle{What is this about?}
    \begin{question}[Questions]
    	 \begin{itemize}
-        \item Is there a way to get benchmarking information?
         \item When I want to write a publication, which software(s) version(s) have I been using?
+        \item Where are my figures???
      \end{itemize}
    \end{question}
    \begin{docs}[Objectives]
    	  \begin{enumerate}
-         \item Learn the implications and limitations of benchmarks.
          \item Learning how to generate and interpret reports with \Snakemake{}.
       \end{enumerate}
   \end{docs}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Benchmarking}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-  \frametitle{What is ``Benchmarking'' in Computer Science?}
-  \lhref{https://en.wikipedia.org/wiki/Benchmarking}{Benchmarking} may mean a number of things:
-  \begin{itemize}[<+->]
-   \item assessing software quality
-   \item assessing software completeness (all the features we want?)
-   \item assessing software usability
-   \item \ldots
-  \end{itemize}
-  \pause
-  \begin{docs}
-  	What is most commonly meant: Getting performance and scalability markers.
-  \end{docs}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{Generating Benchmarks}
-  Similar to crating a logfile, we are provided with a \altverb{benchmark}-directive, which can point to a benchmarking file:
-  \begin{lstlisting}[language=Python,style=Python]
-rule bwa_map:
-    ...
-    log:
-        "logs/bwa_mem/{sample}.log"
-    benchmark:
-        "benchmarks/{sample}.bwa.benchmark.txt"
-    ...
-  \end{lstlisting} 
-  \begin{docs}
-  	\Snakemake{} will measure the wall clock time and memory usage (in MiB) and store it in the file in tab-delimited format.
-  \end{docs}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{Repeating Benchmarks}
-  \vfill
-  \begin{exampleblock}{Repeated benchmarks}
-   It is possible to repeat a benchmark multiple times in order to get a sense for the variability of the measurements. This can be done by annotating the benchmark file, e.\,g., with \altverb{repeat("benchmarks/\{sample\}.bwa.benchmark.txt", 3)}. \Snakemake{} can be told to run the job three times. The repeated measurements occur as subsequent lines in the tab-delimited benchmark file.
-  \end{exampleblock}
-  \vfill
-\end{frame} 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-  \frametitle{``Proper'' Benchmarking}
-  A good estimate of a software's scalability takes into account:
-  \begin{itemize}[<+->]
-   \item running with different degrees of parallelization, e.\,g. 1-n threads
-   \item not using toy inputs, but real data, possibly different real data
-   \item avoiding I/O issues (common with alignment programs)
-  \end{itemize}
-  \pause
-  \begin{warning}
-  	We conclude: \Snakemake's benchmarking capabilities are limited, but a reasonable way to get basic benchmarks.
-  \end{warning}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
