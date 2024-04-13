@@ -87,7 +87,29 @@
   \end{enumerate}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Deployment II - Creating an Environment Fork}
+	Instead of creating environment from scratch we can clone one:
+	\begin{lstlisting}[language=Bash, style=Shell]
+$ mamba create -n <name of new env> --clone snakemake
+    \end{lstlisting}
+    This should clone the \altverb{snakemake} environment with all necessary tools!
+    \pause
+    \begin{task}
+    	Pick one workflow from the catalogue, create a new environment with a corresponding name, e.\,g. \altverb{rna-seq-star}. Activate it. Then, install \altverb{snakedeploy}.
+    \end{task}
+    \pause
+\end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Deployment III - Let's do it!}
+	Follow step 2 of a selected workflow usage instructions:
+	\begin{center}
+	    \includegraphics[width=0.6\textwidth]{Snakemake/deploy_workflow}
+    \end{center}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
