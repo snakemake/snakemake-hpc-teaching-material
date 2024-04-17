@@ -17,7 +17,7 @@ course:
   # these are the path names to contain sample data
   # see the README for explanations.
   pathtosetup: "/projects/p_nhr_snakemake"  
-  pathtosolutions: "/projects/p_nhr_snakemake/solutions"
+  pathtosolutions: "solutions"
   # This is the selected slide to explain the 'Hello World' script
   # to introduce SLURM. It requires different account and partition
   # settings on every cluster.
