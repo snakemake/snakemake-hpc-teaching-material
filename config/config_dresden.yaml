@@ -9,7 +9,7 @@ course:
   # Editors recommendations are a matter of taste and technological
   # setups (e.g. on-demand setups). Hence, specify an editor-slide,
   #  here:
-  editorfile: "common/editor_gedit_barnard.tex"
+  editorfile: "common/editor_gedit_barnard"
   # The next line indicates the slides explaining
   # a condarc file on a cluster, copy and adjust
   # for your cluster.
