@@ -416,8 +416,8 @@ $ snakemake --executor slurm
   Without specifying our SLURM-account and a (default) partition, submitting batch jobs will fail. \Snakemake{} allows to define so-called default resources (using \altverb{--default-resources}). With them our minimal command line becomes:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --executor slurm \
-> --default-resources slurm_account=m2_jgu-ngstraining \
->                     slurm_partition=smp
+> --default-resources slurm_account=<++cluster.account++> \
+>                     slurm_partition=<++cluster.partition++>
   \end{lstlisting}
   \begin{hint}
   	Please notice the missing quotation marks! All arguments belong to one parameter.
@@ -440,8 +440,8 @@ $ snakemake --executor slurm \
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --executor slurm \
 > --default-resources \ 
->   slurm_account=m2_jgu-ngstraining \
->   slurm_partition=smp
+>   slurm_account=<++cluster.account++> \
+>   slurm_partition=<++cluster.partition++>
 > -j unlimited
   \end{lstlisting}
   together. (in a sec.)
@@ -469,8 +469,8 @@ $ snakemake --executor slurm \
   Our workflow is {\tiny tiny}. It does not merit cluster execution. Yet, for the purpose of this course, please run (with \altverb{-F} to \emph{enforce} execution):
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --executor slurm \
-> --default-resources slurm_account=m2_jgu-ngstraining \
->                     slurm_partition=smp \
+> --default-resources slurm_account=<++cluster.account++> \
+>                     slurm_partition=<++cluster.partition++> \
 > -j unlimited @-F@
   \end{lstlisting}
   \begin{question}
@@ -522,8 +522,8 @@ set-resources:
 $ # first copy the template profile:
 $ cp -r ../profile .
 $ snakemake --executor slurm \
-> --default-resources slurm_account=m2_jgu-ngstraining \
->                     slurm_partition=smp \
+> --default-resources slurm_account=<++cluster.account++> \
+>                     slurm_partition=<++cluster.partition++> \
 > -j unlimited @--workflow-profile ./profile/ -F@
   \end{lstlisting}
   \begin{question}

@@ -155,71 +155,47 @@
 \begin{frame}[fragile]
   \frametitle{Your Profile}
     \begin{onlyenv}<1| handout:0>
-      Our first line forces the use of the \lhref{https://yte-template-engine.github.io/}{\bf{Y}AML \bf{T}emplate \bf{E}ngine} to parse the following lines accordingly.
+      Your first line forces the executor to be set to \slurm - persistently.
       \begin{lstlisting}[language=Bash, style=Shell]
-__use_yte__: true  	 
-      \end{lstlisting}
-    \end{onlyenv}
-    \begin{onlyenv}<2| handout:0>
-      Now, our default executor is SLURM.
-      \begin{lstlisting}[language=Bash, style=Shell]
-__use_yte__: true
 executor: slurm
      \end{lstlisting}
      No more, \altverb{snakemake --executor slurm ...}!
    \end{onlyenv}
-   \begin{onlyenv}<3| handout:0>
-   	 The next line tells Snakemake to wait for a minute, if output files are not present. This is more than enough time, even for NFS-Filesystems. 
+   \begin{onlyenv}<2| handout:0>
+   	 The next line tells \Snakemake to wait for 5 seconds, if output files are not present (because we are working with parallel file systems). 
    	 \begin{lstlisting}[language=Bash, style=Shell]
-__use_yte__: true
 executor: slurm
-latency-wait: 60
+latency-wait: 5
    	 \end{lstlisting}
     \end{onlyenv}
-    \begin{onlyenv}<4| handout:0>
-      The entire rest, will tell the storage plugin (\altverb{snakemake-storage-plugin-fs}) to stage in to the node-local storage on Mogon, for \emph{every} job and to copy back your results. When dealing with I/O intensive jobs, this can boost your performance tremendously. 
+    \begin{onlyenv}<3| handout:0>
+      The entire rest, will tell the storage plugin (\altverb{snakemake-storage-plugin-fs}) to stage in to the node-local storage on your cluster, for \emph{every} job and to copy back your results. When dealing with I/O intensive jobs, this can boost your performance tremendously. 
       \begin{lstlisting}[language=Bash, style=Shell]
-__use_yte__: true
 executor: slurm
-latency-wait: 60
+latency-wait: 5
 default-storage-provider: fs
 shared-fs-usage:
   - persistence
   - sources
   - source-cache
-local-storage-prefix: /localscratch/$SLURM_JOB_ID
+remote-job-local-storage-prefix: |
+    <++cluster.remotejoblocalstorageprefix++>
+local-storage-prefix: <++cluster.localstorageprefix++>
     \end{lstlisting}
    \end{onlyenv}
-  \begin{onlyenv}<5| handout:0>
-  	%TODO remove this part, once the snakemake release is ready
-  	\begin{warning}
-  	  Currently, we are working on way to annotate susceptible I/O pattern, the highlighted parts are not yet functional.
-  	\end{warning}
-  	%You may copy this setup from \texttt{<<course.pathtosetup>>/config.yaml} to the \altverb{\~/.config/snakemake}-folder - unless your local admins provide a cluster-wide configuration.
-  	\begin{lstlisting}[language=Bash, style=Shell]
-__use_yte__: true
-executor: slurm
-@latency-wait: 60@
-@default-storage-provider: fs@
-@shared-fs-usage:@
-@  - persistence@
-@  - sources@
-@  - source-cache@
-@local-storage-prefix: /localscratch/$SLURM_JOB_ID@
-  	 \end{lstlisting}
-  \end{onlyenv}
-   \begin{onlyenv}<6| handout:1>
+   \begin{onlyenv}<4| handout:1>
    	The complete configuration out to be in \altverb{\~/.config/snakemake/config.yaml}
    	\begin{lstlisting}[language=Bash, style=Shell]
-__use_yte__: true
 executor: slurm
-latency-wait: 60
+latency-wait: 5
 default-storage-provider: fs
 shared-fs-usage:
-- persistence
-- sources
-- source-cache
-local-storage-prefix: /localscratch/$SLURM_JOB_ID
+  - persistence
+  - sources
+  - source-cache
+remote-job-local-storage-prefix: |
+     <++cluster.remotejoblocalstorageprefix++>
+local-storage-prefix: <++cluster.localstorageprefix++>
     \end{lstlisting}
   \end{onlyenv}
 \end{frame}

@@ -21,6 +21,10 @@ course:
   # to introduce SLURM. It requires different account and partition
   # settings on every cluster.
   hello_world_script: "common/Hello_World_HPC_MogonII.tex"
+cluster:
   # the cluster account and default partition
-  cluster_account: "m2_jgu-ngstraining"
-  cluster_partition: "smp"
+  account: "m2_jgu-ngstraining"
+  partition: "smp"
+  # the local and remote storage prefixes on this cluster
+  remote-job-local-storage-prefix: "/localscratch/$SLURM_JOB_ID"
+  local-storage-prefix: "/dev/shm/$USER/snakemake"
