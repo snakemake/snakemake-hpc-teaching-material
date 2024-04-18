@@ -23,6 +23,8 @@ course:
   # settings on every cluster.
   hello_world_script: "common/Hello_World_HPC_Barnard.tex"
 cluster:
+  name: "Barnard"
+  distro: "RedHat"
   # the cluster account and default partition
   account: "m2_jgu-ngstraining"
   partition: "smp"
