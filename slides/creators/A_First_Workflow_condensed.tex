@@ -401,13 +401,13 @@ $ snakemake -np mapped_reads/{A,B}.bam
   For later steps, we need the read alignments in the BAM files to be sorted. This can be achieved with the \lhref{https://www.htslib.org/}{\texttt{samtools}} \altverb{sort} command. We add the following rule beneath the \altverb{bwa_map} rule:
   \begin{lstlisting}[language=Python,style=Python]
 rule samtools_sort:
-    input:
-        ...
-    output:
-        ...
-    shell:
-        "samtools sort -T sorted_reads/{wildcards.sample} "
-        "-O bam {input} > {output}"
+   input:
+       ...
+   output:
+       ...
+   shell:
+       "samtools sort -T sorted_reads/{wildcards.sample}"
+       " -O bam {input} > {output}"
   \end{lstlisting}
   \begin{task}
   	Please refer to your template \newline \altverb{04_Snakefile} in the tutorial folder and fill in \altverb{input} and \altverb{output}.
