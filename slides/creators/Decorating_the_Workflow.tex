@@ -306,7 +306,7 @@ rule bwa_map:
     # we combine stdout & stdout
     shell:
         "(bwa mem -R '{params.rg}' {input} "
-        "| samtools view -Sb - > {output}) 6> {log}"
+        "| samtools view -Sb - > {output}) &> {log}"
    \end{lstlisting}
    \begin{docs}[Background]
      \altverb{&} bundles the \altverb{stderr} and \altverb{stdout} stream and \altverb{>} redirects both to the log file. 
