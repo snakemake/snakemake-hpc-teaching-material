@@ -29,5 +29,5 @@ cluster:
   account: "m2_jgu-ngstraining"
   partition: "smp"
   # the local and remote storage prefixes on this cluster
-  remotejoblocalstorageprefix: "/localscratch/$SLURM_JOB_ID"
+  remotejoblocalstorageprefix: "/dev/shm/$USER/snakemake"
   localstorageprefix: "/dev/shm/$USER/snakemake"
