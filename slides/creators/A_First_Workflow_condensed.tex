@@ -388,11 +388,24 @@ $ snakemake -np mapped_reads/{A,B}.bam
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{One Caveat!}
 	\begin{alertblock}{Multiple Wildcards}
 		You can have multiple wildcards in your file paths, however, to avoid conflicts with other jobs of the same rule, \emph{all output files} of a rule \emph{have to contain exactly the same wildcards}.
 	\end{alertblock}
+    \pause
+    \begin{lstlisting}[language=Python,style=Python]
+rule <name>:
+   input:
+     "dir/{sample}_{w2}.txt"
+   output:
+     "out/{sample}_{w2}.out"
+   shell:
+     "cmd -i {wildcards.sample}_{wildcards.w2}.txt ..."
+    \end{lstlisting}
+    \begin{docs}
+    	In an \altverb{action} we need to resolve the namespace with \altverb{wildcards}.
+    \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
