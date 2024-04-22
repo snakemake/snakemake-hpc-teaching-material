@@ -336,6 +336,26 @@ plt.savefig(snakemake.output[0])
   \end{onlyenv}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{One more thing \ldots}}
+  \begin{question}[Which is the new final target?]
+  	You remember, that we placed the result of our analysis as the final target?\newline
+  	Now, we have one more final target? Which is its name?
+  \end{question}
+  \begin{task}
+  	Place the new target in the \altverb{all} rule. 
+  \end{task}
+  \pause
+  Solution:
+  \begin{lstlisting}[language=Python,style=Python]
+rule all:
+    input:
+        "calls/all.vcf", # note the comma!
+        @"plots/quals.svg"@
+  \end{lstlisting}
+\end{frame}
+
 
 
 
