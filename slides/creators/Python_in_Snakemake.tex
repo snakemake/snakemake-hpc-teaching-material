@@ -357,6 +357,113 @@ rule all:
 \end{frame}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Running the final Workflow}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Our ``final'' Workflow}
+	\footnotesize{Refer to \altverb{<++course.pathtosolutions++>/06_Snakefile} as the workflow solution, so far.}
+	\vspace{-1em}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\begin{lstlisting}[language=Python,style=Python,basicstyle=\tiny]
+				SAMPLES = ["A", "B"]
+				
+				rule all:
+				input:
+				"plots/quals.svg",
+				"calls/all.vcf"
+				
+				rule bwa_map:
+				input:
+				"data/genome.fa",
+				"data/samples/{sample}.fastq"
+				output:
+				"mapped_reads/{sample}.bam"
+				shell:
+				"bwa mem {input} | samtools view -Sb"
+				" - > {output}"
+				
+				rule samtools_sort:
+				input:
+				"mapped_reads/{sample}.bam"
+				output:
+				"sorted_reads/{sample}.bam"
+				shell:
+				"samtools sort"
+				" -T sorted_reads/{wildcards.sample}"
+				" -O bam {input} > {output}"
+			\end{lstlisting}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{lstlisting}[language=Python,style=Python,basicstyle=\tiny]
+				rule samtools_index:
+				input:
+				"sorted_reads/{sample}.bam"
+				output:
+				"sorted_reads/{sample}.bam.bai"
+				shell:
+				"samtools index {input}"
+				
+				rule bcftools_call:
+				input:
+				fa="data/genome.fa",
+				bam=expand("sorted_reads/{sample}.bam",
+				sample=SAMPLES),
+				bai=expand("sorted_reads/{sample}.bam.bai",
+				sample=SAMPLES)
+				output:
+				"calls/all.vcf"
+				shell:
+				"bcftools mpileup -f {input.fa}"
+				" {input.bam} | "
+				"bcftools call -mv - > {output}"
+				
+				rule plot_quals:
+				input:
+				"calls/all.vcf"
+				output:
+				"plots/quals.svg"
+				script:
+				"scripts/plot-quals.py"
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Executing this Workflow}}
+	Does our Workflow contain errors? We run a debug trial:
+	\begin{lstlisting}[language=Bash, style=Shell]
+		$ snakemake --debug
+	\end{lstlisting}
+	\pause
+	Some targets are already present, we want the entire workflow again:
+	\begin{lstlisting}[language=Bash, style=Shell]
+		$ snakemake -c4 --forcerun
+	\end{lstlisting}
+	\begin{question}
+		What do you observe? Why \altverb{-c4}?
+	\end{question}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Visualising the Output}}
+	On <++cluster.name++> the Linux distro is <++cluster.distro++>, which provides the \altverb{display}-program to display simple images. We shall invoke:
+	\begin{lstlisting}[language=Bash, style=Shell]
+		$ display plots/quals.svg
+	\end{lstlisting}
+	The figure has no axis-labels.
+	\begin{question}
+		What does the figure display?
+	\end{question}
+\end{frame}
+
+
+
 
 
 
