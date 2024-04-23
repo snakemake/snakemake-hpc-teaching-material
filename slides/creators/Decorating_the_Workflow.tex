@@ -72,43 +72,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Configuration File}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{The \Snakemake{} \texttt{resources} Section}
-  \Snakemake{} rules provide an additional \altverb{resources} section:
-  \begin{lstlisting}[language=Python,style=Python]
-rule <name>:
-   ...
-   resources:
-      partition='parallel',
-      mem_mb=1800,
-      cpus_per_task=4
-  \end{lstlisting}
-  \begin{hint}
-  	Note the \textbf{,}!
-  \end{hint}
-  \pause
-  \begin{docs}
-  	You \emph{may} define \emph{any} resource keyword within any rule.
-  \end{docs}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-  \frametitle{The \Snakemake{} \texttt{resources} Section - its Downside}
-  \begin{block}{Every Resource Spec needs a Change per Rule???}
-   You might have noticed, this specification per rule is most untidy. \Snakemake's design principle is: ship workflows which run \emph{everywhere} \& \emph{every time}.
-   \newline \pause
-   Relax: Every bit we can specify:
-   \begin{itemize}
-    \item in a \altverb{Snakefile},
-    \item on the command line,
-    \item and re-usable in configuration files!
-   \end{itemize}
-
-  \end{block}
-
-\end{frame} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -533,6 +496,43 @@ $ snakemake --executor slurm \
   	What do you observe? Which rule still provokes a warning?
   \end{question}
 \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{The \Snakemake{} \texttt{resources} Section}
+	\Snakemake{} rules provide an additional \altverb{resources} section:
+	\begin{lstlisting}[language=Python,style=Python]
+		rule <name>:
+		...
+		resources:
+		partition='parallel',
+		mem_mb=1800,
+		cpus_per_task=4
+	\end{lstlisting}
+	\begin{hint}
+		Note the \textbf{,}!
+	\end{hint}
+	\pause
+	\begin{docs}
+		You \emph{may} define \emph{any} resource keyword within any rule.
+	\end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{The \Snakemake{} \texttt{resources} Section - its Downside}
+	\begin{block}{Every Resource Spec needs a Change per Rule???}
+		You might have noticed, this specification per rule is most untidy. \Snakemake's design principle is: ship workflows which run \emph{everywhere} \& \emph{every time}.
+		\newline \pause
+		Relax: Every bit we can specify:
+		\begin{itemize}
+			\item in a \altverb{Snakefile},
+			\item on the command line,
+			\item and re-usable in configuration files!
+		\end{itemize}
+	\end{block}
+\end{frame} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
