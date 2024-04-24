@@ -344,7 +344,7 @@ plt.savefig(snakemake.output[0])
   	Now, we have one more final target? Which is its name?
   \end{question}
   \begin{task}
-  	Place the new target in the \altverb{all} rule, use \altverb{tutorial/06_Snakefile} as the template. Run the workflow! If anything is broken, use the \altverb{--debug} flag to debug.
+  	Place the new target in the \altverb{all} rule, use \altverb{tutorial/06_Snakefile} as the template. 
   \end{task}
   \pause
   Solution:
@@ -359,6 +359,36 @@ rule all:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Running the final Workflow}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Executing this Workflow}}
+	Does our Workflow contain errors? We run a debug trial:
+	\begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --debug
+	\end{lstlisting}
+	\pause
+	Some targets are already present, we want the entire workflow again:
+	\begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake -c4 --forcerun
+	\end{lstlisting}
+	\begin{question}
+		What do you observe? Why \altverb{-c4}?
+	\end{question}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Visualising the Output}}
+	On <++cluster.name++> the Linux distro is <++cluster.distro++>, which provides the \altverb{display}-program to display simple images. We shall invoke:
+	\begin{lstlisting}[language=Bash, style=Shell]
+$ display plots/quals.svg
+	\end{lstlisting}
+	The figure has no axis-labels.
+	\begin{question}
+		What does the figure display?
+	\end{question}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
@@ -432,35 +462,6 @@ rule plot_quals:
 	\end{columns}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-	\frametitle{\HandsOn{Executing this Workflow}}
-	Does our Workflow contain errors? We run a debug trial:
-	\begin{lstlisting}[language=Bash, style=Shell]
-		$ snakemake --debug
-	\end{lstlisting}
-	\pause
-	Some targets are already present, we want the entire workflow again:
-	\begin{lstlisting}[language=Bash, style=Shell]
-		$ snakemake -c4 --forcerun
-	\end{lstlisting}
-	\begin{question}
-		What do you observe? Why \altverb{-c4}?
-	\end{question}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-	\frametitle{\HandsOn{Visualising the Output}}
-	On <++cluster.name++> the Linux distro is <++cluster.distro++>, which provides the \altverb{display}-program to display simple images. We shall invoke:
-	\begin{lstlisting}[language=Bash, style=Shell]
-		$ display plots/quals.svg
-	\end{lstlisting}
-	The figure has no axis-labels.
-	\begin{question}
-		What does the figure display?
-	\end{question}
-\end{frame}
 
 
 
