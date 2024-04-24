@@ -372,6 +372,19 @@ $ du -sh *reads
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{The \altverb{protected()} Function}
+  As a complement to the \altverb{temp()}-function \Snakemake offers the \altverb{protected()}-function. Files labeled "protected" are protected against accidental deletion and overwriting, e.\,g.:
+  \begin{lstlisting}[language=Python,style=Python]
+rule plot_quals:
+  ...
+  output: 
+      protected("plots/quals.svg")
+  ...
+  \end{lstlisting}	
+\end{frame} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Command Line}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
