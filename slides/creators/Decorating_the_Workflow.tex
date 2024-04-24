@@ -414,8 +414,9 @@ $ snakemake --executor slurm
   Without specifying our SLURM-account and a (default) partition, submitting batch jobs will fail. \Snakemake{} allows to define so-called default resources (using \altverb{--default-resources}). With them our minimal command line becomes:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --executor slurm \
-> --default-resources slurm_account=<++cluster.account++> \
->                     slurm_partition=<++cluster.partition++>
+> --default-resources slurm_partition=<++cluster.partition++>
+<+++ if cluster.account is defined +++> \
+>                     slurm_account=<++cluster.account++><+++ endif +++>                      
   \end{lstlisting}
   \begin{hint}
   	Please notice the missing quotation marks! All arguments belong to one parameter.

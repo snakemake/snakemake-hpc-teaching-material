@@ -26,8 +26,8 @@ cluster:
   name: "Barnard"
   distro: "RedHat"
   # the cluster account and default partition
-  account: "m2_jgu-ngstraining"
-  partition: "smp"
+  #account: "m2_jgu-ngstraining"
+  partition: "barnard"
   # the local and remote storage prefixes on this cluster
   remotejoblocalstorageprefix: "/dev/shm/$USER/snakemake"
   localstorageprefix: "/dev/shm/$USER/snakemake"
