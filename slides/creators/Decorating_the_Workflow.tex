@@ -195,6 +195,9 @@ rule bwa_map:
 $ snakemake -n --forcerun bcftools_call
   	 \end{lstlisting}
   \end{task}
+  \begin{docs}
+  	Input functions may be \altverb{lambda} functions (oneliners), too. The idea is that complex data mangling can be our-sourced to functions.
+  \end{docs}
 \end{frame}
 
 
@@ -202,12 +205,15 @@ $ snakemake -n --forcerun bcftools_call
 \begin{frame}[fragile]
 	\frametitle{\HandsOn{Adding a new Sample}}
 	\begin{task}
-		Refer to your tutorial file \altverb{08_Snakefile} as the current workflow example and copy the configuration from the solutions folder: \altverb{cp -r <path to solutions>/config .}.\newline
+		Refer to your tutorial file \altverb{08_Snakefile} as the current workflow example and copy the configuration your tutorial folder: \altverb{cp -r <path to tutorial>/config .}.\newline
 		In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add that sample to the config file and see how \Snakemake{} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
 		\begin{lstlisting}[language=Bash, style=Shell]
-			$ snakemake -j 4
+$ snakemake -j 4 --configfile config/config.yaml
 		\end{lstlisting}
 	\end{task}
+    \begin{question}
+    	The config file is defined in the \altverb{Snakefile} and in the configuration file. Which is better? Do you (strictly speaking) need the \altverb{--configfile} flag?
+    \end{question}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
