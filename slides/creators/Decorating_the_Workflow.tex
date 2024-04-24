@@ -438,10 +438,8 @@ $ snakemake --executor slurm \
   \Snakemake{} offers a semaphore to throttle resource usage, called \altverb{--jobs/-j}. We can now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --executor slurm \
-> --default-resources \ 
->   slurm_account=<++cluster.account++> \
->   slurm_partition=<++cluster.partition++>
-> -j unlimited
+> --default-resources slurm_partition=<++cluster.partition++> \ 
+<+++ if cluster.account is defined +++>>   slurm_account=<++cluster.account++> \<+++ endif +++>> -j unlimited
   \end{lstlisting}
   together. (in a sec.)
 \end{frame}
@@ -468,9 +466,9 @@ $ snakemake --executor slurm \
   Our workflow is {\tiny tiny}. It does not merit cluster execution. Yet, for the purpose of this course, please run (with \altverb{-F} to \emph{enforce} execution):
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --executor slurm \
-> --default-resources slurm_account=<++cluster.account++> \
->                     slurm_partition=<++cluster.partition++> \
-> -j unlimited @-F@
+> --default-resources slurm_partition=<++cluster.partition++> \
+<+++ if cluster.account is defined +++> \
+>                     slurm_account=<++cluster.account++><+++ endif +++>> -j unlimited @-F@
   \end{lstlisting}
   \begin{question}
   	Observations?
@@ -521,9 +519,9 @@ set-resources:
 $ # first copy the template profile:
 $ cp -r ../profile .
 $ snakemake --executor slurm \
-> --default-resources slurm_account=<++cluster.account++> \
->                     slurm_partition=<++cluster.partition++> \
-> -j unlimited @--workflow-profile ./profile/ -F@
+> --default-resources slurm_partition=<++cluster.partition++> \
+<+++ if cluster.account is defined +++> \
+>                     slurm_account=<++cluster.account++><+++ endif +++>> -j unlimited @--workflow-profile ./profile/ -F@
   \end{lstlisting}
   \begin{question}
   	What do you observe? Which rule still provokes a warning?
@@ -536,9 +534,9 @@ $ snakemake --executor slurm \
 	\frametitle{The \Snakemake{} \texttt{resources} Section}
 	\Snakemake{} rules provide an additional \altverb{resources} section:
 	\begin{lstlisting}[language=Python,style=Python]
-		rule <name>:
-		...
-		resources:
+rule <name>:
+	...
+	resources:
 		partition='parallel',
 		mem_mb=1800,
 		cpus_per_task=4
