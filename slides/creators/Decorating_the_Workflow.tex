@@ -517,7 +517,7 @@ set-resources:
   Please execute the workflow again, now with 
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ # first copy the template profile:
-$ cp -r ../profile .
+$ cp -r ../tutorial/profile .
 $ snakemake --executor slurm \
 > --default-resources slurm_partition=<++cluster.partition++> \
 <+++ if cluster.account is defined +++> \
