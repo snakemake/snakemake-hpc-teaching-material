@@ -17,11 +17,9 @@ rule bwa_map:
         temp("mapped_reads/{sample}.bam")
     params:
         rg=config["bwa_map"]["rg"]
-    log: "logs/bwa_mem/{sample}.log"
-    threads: 8
     shell:
-        "(bwa mem -R '{params.rg}' -t {threads} {input} | "
-        "samtools view -Sb - > {output}) 2> {log}"
+        "bwa mem -R '{params.rg}' {input} | "
+        "samtools view -Sb - > {output}"
 
 
 rule samtools_sort:
