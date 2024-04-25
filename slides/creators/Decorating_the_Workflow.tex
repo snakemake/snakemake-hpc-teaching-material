@@ -385,6 +385,28 @@ rule plot_quals:
 \end{frame} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Portable Workflow Configuration without Paths?}
+  \begin{columns}
+  	\begin{column}{0.5\textwidth}
+  	  \includegraphics[width=0.9\textwidth]{filesystem/overview.png}
+  	\end{column}
+    \begin{column}{0.5\textwidth}
+    	\begin{question}
+    		How can we have a configuration file without file system specifics, run our workflow from \altverb{HOME} and still provide or use a workflow, when our data resides \textbf{elsewhere}?
+    	\end{question}
+    \end{column}
+  \end{columns}
+  \pause
+  \Snakemake provides the \altverb{--directory} flag for exactly this purpose. You may run
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ pwd # somewhere /home/.../workflow
+$ snakemake --directory /lustre/project/... # example path
+  \end{lstlisting}
+  \Snakemake will now create and search for all directories relative to \altverb{directory}.
+\end{frame} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Command Line}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
