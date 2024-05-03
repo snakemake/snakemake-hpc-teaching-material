@@ -1,18 +1,21 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Decorating Workflows - Parameterization}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=\paperheight]{logos/decoration.png}\hfil}\vfil}
+%https://www.flaticon.com/free-icon/decoration_2788716
+%<a href="https://www.flaticon.com/free-icons/decoration" title="decoration icons">Decoration icons created by Freepik - Flaticon</a>
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-    \frametitle{Outline}
-    \begin{columns}[t]
-        \begin{column}{.5\textwidth}
-            \tableofcontents[sections={1-7},currentsection]
-        \end{column}
-        \begin{column}{.5\textwidth}
-            \tableofcontents[sections={8-15},currentsection]
-        \end{column}
-    \end{columns}
-\end{frame}
+	}
+	\frame{
+		\frametitle{Further Parameterization of Workflows}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+	}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -69,43 +72,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Configuration File}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{The \Snakemake{} \texttt{resources} Section}
-  \Snakemake{} rules provide an additional \altverb{resource} section:
-  \begin{lstlisting}[language=Python,style=Python]
-rule <name>:
-   ...
-   resources:
-      partition='parallel',
-      mem_mb=1800,
-      cpus_per_task=4
-  \end{lstlisting}
-  \begin{hint}
-  	Note the \textbf{,}!
-  \end{hint}
-  \pause
-  \begin{docs}
-  	You \emph{may} define \emph{any} resource keyword within any rule.
-  \end{docs}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-  \frametitle{The \Snakemake{} \texttt{resources} Section - its Downside}
-  \begin{block}{Every Resource Spec needs a Change per Rule???}
-   You might have noticed, this specification per rule is most untidy. \Snakemake's design principle is: ship workflows which run \emph{everywhere} \& \emph{every time}.
-   \newline \pause
-   Relax: Every bit we can specify:
-   \begin{itemize}
-    \item in a \altverb{Snakefile},
-    \item on the command line,
-    \item and re-usable in configuration files!
-   \end{itemize}
-
-  \end{block}
-
-\end{frame} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -221,14 +187,33 @@ rule bwa_map:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{\HandsOn{Adding a new Sample}}
+  \frametitle{\HandsOn{Using the Input Function}}
   \begin{task}
   	 Refer to your tutorial file \altverb{07_Snakefile} as the current workflow example containing the mentioned input function.\newline
-  	 In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add that sample to the config file and see how \Snakemake{} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
+  	 Try the dry-run.
   	 \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake -n --forcerun bcftools_call
   	 \end{lstlisting}
   \end{task}
+  \begin{docs}
+  	Input functions may be \altverb{lambda} functions (oneliners), too. The idea is that complex data mangling can be our-sourced to functions.
+  \end{docs}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Adding a new Sample}}
+	\begin{task}
+		Refer to your tutorial file \altverb{08_Snakefile} as the current workflow example and copy the configuration your tutorial folder: \altverb{cp -r <path to tutorial>/config .}.\newline
+		In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add that sample to the config file and see how \Snakemake{} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
+		\begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake -j 4 --configfile config/config.yaml
+		\end{lstlisting}
+	\end{task}
+    \begin{question}
+    	The config file is defined in the \altverb{Snakefile} and in the configuration file. Which is better? Do you (strictly speaking) need the \altverb{--configfile} flag?
+    \end{question}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -269,7 +254,7 @@ rule bwa_map:
   params:
      @rg=config['bwa_map']['rg']@
   \end{lstlisting}
-  You have a configurable workflow!
+  You have a configurable workflow! (This is implemented in \altverb{09_Snakefile} in your tutorial and solution folder.)
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -303,7 +288,7 @@ rule bwa_map:
     # we combine stdout & stdout
     shell:
         "(bwa mem -R '{params.rg}' {input} "
-        "| samtools view -Sb - > {output}) 6> {log}"
+        "| samtools view -Sb - > {output}) &> {log}"
    \end{lstlisting}
    \begin{docs}[Background]
      \altverb{&} bundles the \altverb{stderr} and \altverb{stdout} stream and \altverb{>} redirects both to the log file. 
@@ -322,19 +307,19 @@ rule <name>:
   	\end{lstlisting}
     Implement the log directive for all rules you consider worth being logged. What do you observe?
     \newline
-    You can take the \altverb{08_Snakemake} sample file to proceed.
+    You can take the \altverb{09_Snakefile} sample file to proceed. A working solution is \altverb{10_Snakefile} in your solutions folder.
   \end{task}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{Logging - III}
   \begin{question}[Questions]
   	 What did you observe? Why is there a distinction per sample?
   \end{question}
   \pause
   \begin{docs}
-  	This rule's output will not clutter the terminal any more. All necessary information is in a log \emph{per} sample: If one attempt to map goes wrong, the specific error can be found in the sample log.
+  	The \altverb{bwa_map} (and bcftools) output will not clutter the terminal any more. All necessary information is in a log \emph{per} sample: If one attempt to map goes wrong, the specific error can be found in the sample log.
   \end{docs}
 \end{frame}
 
@@ -387,6 +372,41 @@ $ du -sh *reads
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{The \altverb{protected()} Function}
+  As a complement to the \altverb{temp()}-function \Snakemake offers the \altverb{protected()}-function. Files labeled "protected" are protected against accidental deletion and overwriting, e.\,g.:
+  \begin{lstlisting}[language=Python,style=Python]
+rule plot_quals:
+  ...
+  output: 
+      protected("plots/quals.svg")
+  ...
+  \end{lstlisting}	
+\end{frame} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Portable Workflow Configuration without Paths?}
+  \begin{columns}
+  	\begin{column}{0.5\textwidth}
+  	  \includegraphics[width=0.9\textwidth]{filesystem/overview.png}
+  	\end{column}
+    \begin{column}{0.5\textwidth}
+    	\begin{question}
+    		How can we have a configuration file without file system specifics, run our workflow from \altverb{HOME} and still provide or use a workflow, when our data resides \textbf{elsewhere}?
+    	\end{question}
+    \end{column}
+  \end{columns}
+  \pause
+  \Snakemake provides the \altverb{--directory} flag for exactly this purpose. You may run
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ pwd # somewhere /home/.../workflow
+$ snakemake --directory /lustre/project/... # example path
+  \end{lstlisting}
+  \Snakemake will now create and search for all directories relative to \altverb{directory}.
+\end{frame} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The Command Line}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -416,8 +436,9 @@ $ snakemake --executor slurm
   Without specifying our SLURM-account and a (default) partition, submitting batch jobs will fail. \Snakemake{} allows to define so-called default resources (using \altverb{--default-resources}). With them our minimal command line becomes:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --executor slurm \
-> --default-resources slurm_account=m2_jgu-ngstraining \
->                     slurm_partition=smp
+> --default-resources slurm_partition=<++cluster.partition++>
+<+++ if cluster.account is defined +++> \
+>                     slurm_account=<++cluster.account++><+++ endif +++>                      
   \end{lstlisting}
   \begin{hint}
   	Please notice the missing quotation marks! All arguments belong to one parameter.
@@ -439,10 +460,8 @@ $ snakemake --executor slurm \
   \Snakemake{} offers a semaphore to throttle resource usage, called \altverb{--jobs/-j}. We can now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --executor slurm \
-> --default-resources \ 
->   slurm_account=m2_jgu-ngstraining \
->   slurm_partition=smp
-> -j unlimited
+> --default-resources slurm_partition=<++cluster.partition++> \ 
+<+++ if cluster.account is defined +++>>   slurm_account=<++cluster.account++> \<+++ endif +++>> -j unlimited
   \end{lstlisting}
   together. (in a sec.)
 \end{frame}
@@ -469,9 +488,9 @@ $ snakemake --executor slurm \
   Our workflow is {\tiny tiny}. It does not merit cluster execution. Yet, for the purpose of this course, please run (with \altverb{-F} to \emph{enforce} execution):
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --executor slurm \
-> --default-resources slurm_account=m2_jgu-ngstraining \
->                     slurm_partition=smp \
-> -j unlimited @-F@
+> --default-resources slurm_partition=<++cluster.partition++> \
+<+++ if cluster.account is defined +++> \
+>                     slurm_account=<++cluster.account++><+++ endif +++>> -j unlimited @-F@
   \end{lstlisting}
   \begin{question}
   	Observations?
@@ -481,17 +500,54 @@ $ snakemake --executor slurm \
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{The Downside of working with Defaults}
-  Ok, this should(!) be running, yet you saw the warnings. 
+  Ok, this should(!) be running, yet you saw warnings. 
   \begin{question}
   	Why will a ``real'' workflow fail with all these default settings?
   \end{question}
   \pause
   \begin{itemize}
-   \item ``real data'' tend to be differ - insufficient memory
+   \item ``real data'' tend to be different - insufficient memory
    \item ``real runs'' tend to take longer - insufficient wall time
    \item ``real runs'' tend to run into I/O issues - insufficient workflows
   \end{itemize}
 \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{The \Snakemake{} \texttt{resources} Section}
+	\Snakemake{} rules provide an additional \altverb{resources} section:
+	\begin{lstlisting}[language=Python,style=Python]
+rule <name>:
+	...
+	resources:
+		partition='parallel',
+		mem_mb=1800,
+		cpus_per_task=4
+	\end{lstlisting}
+	\begin{hint}
+		Note the \textbf{,}!
+	\end{hint}
+	\pause
+	\begin{docs}
+		You \emph{may} define \emph{any} resource keyword within any rule.
+	\end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{The \Snakemake{} \texttt{resources} Section - its Downside}
+	\begin{block}{Every Resource Spec needs a Change per Rule???}
+		You might have noticed, this specification per rule is most untidy. \Snakemake's design principle is: ship workflows which run \emph{everywhere} \& \emph{every time}.
+		\newline \pause
+		Relax: Every bit we can specify:
+		\begin{itemize}
+			\item in a \altverb{Snakefile},
+			\item on the command line,
+			\item and re-usable in configuration files!
+		\end{itemize}
+	\end{block}
+\end{frame} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
@@ -520,11 +576,11 @@ set-resources:
   Please execute the workflow again, now with 
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ # first copy the template profile:
-$ cp -r ../profile .
+$ cp -r ../tutorial/profile .
 $ snakemake --executor slurm \
-> --default-resources slurm_account=m2_jgu-ngstraining \
->                     slurm_partition=smp \
-> -j unlimited @--workflow-profile ./profile/ -F@
+> --default-resources slurm_partition=<++cluster.partition++> \
+<+++ if cluster.account is defined +++> \
+>                     slurm_account=<++cluster.account++><+++ endif +++>> -j unlimited @--workflow-profile ./profile/ -F@
   \end{lstlisting}
   \begin{question}
   	What do you observe? Which rule still provokes a warning?

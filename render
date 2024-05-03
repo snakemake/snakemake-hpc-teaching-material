@@ -6,6 +6,7 @@ import logging
 import os
 from pathlib import Path
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -97,7 +98,6 @@ def render_tex(env, template):
 
 
 def to_file(tex, fname, tempdir, path=""):
-    os.listdir(tempdir)
     with open(os.path.join(tempdir, path, fname), "w") as f:
         f.write(tex)
 
@@ -108,12 +108,18 @@ def get_pdf_name(filename):
     return new_filename
 
 
-def run_pdflatex(fname="out.tex", path="."):
+def run_pdflatex(fname="out.tex", path=".", handout=False):
     outdir = os.path.realpath(os.path.join(os.getcwd(), "slides"))
-
-    subprocess.call(["pdflatex", "-synctex=1", "-interaction=nonstopmode", fname], cwd=path)
+    cmd = "pdflatex -synctex=1 -interaction=nonstopmode"
+    if handout:
+        cmd += r' "\def\ishandout{1} \input{' + fname + r'}"'
+    else:
+        cmd += f" {fname}"
+    cmd = shlex.split(cmd)    
+    retcode = subprocess.call(cmd, cwd=path)
     pdfname = get_pdf_name(fname)
     shutil.copy(os.path.join(path, pdfname), os.path.join(outdir, pdfname))
+    return retcode
 
 
 def parse_config(fname):
@@ -166,7 +172,7 @@ def find_and_replace_sections(boundaries, section_estimate, fname):
             "            \\tableofcontents[currentsection, sections={"
             + sections
             + "}, hideothersubsections]"
-            )
+        )
     # adapt the two lines with our new boundaries:
     elif first_done and second_done:
         lines[
@@ -200,7 +206,17 @@ if __name__ == "__main__":
         default="config/config.yaml",
         help="indicate the configuration YAML file - default: 'config/config.yaml'",
     )
+    parser.add_argument(
+        "--handout", default=False, action=argparse.BooleanOptionalAction
+        )
+    parser.add_argument(
+        "-n", "--no-rerun", default=False, action=argparse.BooleanOptionalAction
+    )
     args = parser.parse_args()
+
+    # the master tex needs to be without the 'slides' path, because
+    # on the tempfs, the relative path work without
+    args.master_tex = os.path.basename(args.master_tex)
 
     logger = logging.getLogger(__name__)
 
@@ -232,8 +248,10 @@ if __name__ == "__main__":
         for section_estimate, fname in enumerate(file_list):
             to_adapt = os.path.join(tempdir, "slides", fname) + ".tex"
             find_and_replace_sections(boundaries, section_estimate, to_adapt)
-
         # now the typesetting needs to be triggered
-        run_pdflatex(fname=args.master_tex, path=os.path.join(tempdir, "slides"))
+        run_pdflatex(fname=args.master_tex, path=os.path.join(tempdir, "slides"), handout=args.handout)
         # re-run might be required
+        if args.no_rerun:
+            print("no rerun as requested")
+            sys.exit()
         run_pdflatex(fname=args.master_tex, path=os.path.join(tempdir, "slides"))

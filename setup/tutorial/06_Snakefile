@@ -1,6 +1,16 @@
 # our samples are pre-configured
 SAMPLES = ["A", "B"]
 
+# Task: Which is our second target file?
+#       Add it to the input of the 'all' rule.
+#       Attention: What do you need to do, to
+#       keep the syntax right?
+#
+#       Subsequently run the workflow - if
+#       there is an error (e.g. a typo from 
+#       copying the slides), run Snakemake
+#       with the '--debug' flag.
+
 rule all:
     input:
         "calls/all.vcf"

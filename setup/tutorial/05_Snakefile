@@ -1,9 +1,11 @@
 # our samples are pre-configured
 SAMPLES = ["A", "B"]
 
-#TASK: figure out, which your target is
-#      This is the final target of our work-
-#      flow, so far.
+#TASK: Figure out, which your final target is.
+#      This is the final target of our workflow, so far.
+#
+#      Then place this as the input in the 'all' rule.
+#
 #      Then, test the workflow:
 #      $ snakemake --cores=1 --snakefile 05_Snakefile
 rule all:

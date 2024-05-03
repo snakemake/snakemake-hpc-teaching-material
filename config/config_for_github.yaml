@@ -23,4 +23,12 @@ course:
   # to introduce SLURM. It requires different account and partition
   # settings on every cluster.
   hello_world_script: "common/Hello_World_HPC_MogonII.tex"
-  #
+cluster:
+  name: "foo"
+  distro: "CentOS"
+  # the cluster account and default partition
+  #account: "some account" - may be outcommented, if a default exists
+  partition: "partition"
+  # the local and remote storage prefixes on this cluster
+  remotejoblocalstorageprefix: "/dev/shm/$USER/snakemake"
+  localstorageprefix: "/dev/shm/$USER/snakemake"

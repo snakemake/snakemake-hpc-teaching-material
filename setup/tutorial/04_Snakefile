@@ -3,14 +3,13 @@
 rule bwa_map:
     input:
         "data/genome.fa",
-        "data/samples/A.fastq"
+        "data/samples/{sample}.fastq"
     output:
-        "mapped_reads/A.bam"
+        "mapped_reads/{sample}.bam"
     shell:
-        "bwa mem data/genome.fa"
-        " data/samples/A.fastq"
+        "bwa mem {input}"
         " | samtools view -Sb - >"
-        " mapped_reads/A.bam"
+        " {output}"
 
 # Task: Complement the following rule
 #
@@ -18,6 +17,13 @@ rule bwa_map:
 #  - be sure to use the {sample} wildcard, too
 #  - its output should go into a
 #    'sorted_reads' directory.
+#
+# Note: Do you see 'wildcards.sample' in the shell-directive?
+#
+# We need this, because wildcards by name are available in the 'in-'
+# and 'output' directives. Effectively, wildcards are regular expressions
+# in the form '.+' and stored internally as named lists.
+#
 rule samtools_sort:
     input:
         ...
