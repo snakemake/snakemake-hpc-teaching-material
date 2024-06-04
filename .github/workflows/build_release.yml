@@ -11,8 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set up Git repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - name: Install Dependencies
         run: sudo apt-get install -y python3-yaml
              texlive
