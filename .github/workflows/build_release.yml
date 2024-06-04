@@ -1,5 +1,5 @@
 ---
-name: Build LaTex sources.
+name: Build PDFs and bundle sources.
 
 on:
   push:
@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: Release Artifacts
     runs-on: ubuntu-latest
 
     steps:
@@ -39,9 +40,7 @@ jobs:
           #name: Slides
           #path: |
           #  slides/*.pdf
-  release:
-    steps:
-      - name: release
+      - name: Create a release and upload
         needs: build
         runs-on: ubuntu-latest
       - name: Create release
