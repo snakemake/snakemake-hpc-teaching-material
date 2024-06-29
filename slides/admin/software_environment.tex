@@ -29,6 +29,29 @@
     \end{docs}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Snakemake's Software Provisioning - Overview}
+	\Snakemake{} basically offers 3 software deployment methods:
+	\begin{itemize}[<+->]
+		\item Container
+		\item Environment Modules
+		\item Conda (and its derivatives)
+	\end{itemize}
+    \pause
+    While Conda is the preferred and \emph{portable} way with Snakemake, other software methods can be selected with
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --sdm=[conda,envmodules,apptainer]
+    \end{lstlisting}
+    \verb+--sdm+.is short for \verb+--software-deployment-method+.
+    \pause
+    \begin{hint}
+    	Using environment modules or container based deployment \emph{is possible}, but tedious is used for more than a \emph{few} $3^{\mathsf{rd}}$ party softwares.
+    \end{hint}
+\end{frame}
+
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Installing Mamba}
