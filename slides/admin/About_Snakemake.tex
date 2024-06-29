@@ -122,7 +122,7 @@ $ snakemake [<arguments>]
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}<handout:0>
+\begin{frame}[fragile]
   \frametitle{"Spawn Jobs on a Cluster?!" - What does it mean?}
   \begin{hint}
   	Here, we explain to users the difference between PC and Servers and HPC Systems. You will get the Admin background, only.
@@ -132,7 +132,7 @@ $ snakemake [<arguments>]
   	\item \Snakemake is triggered on a login-node, only.
   	\item It will submit jobs \ldots
   	\item \ldots and keeps running (without CPU load!) to monitor the job execution.
-  	\item depending on the workflow, it will download or plot with minor CPU load on the login node. (Hard to notice with a simple \verb*|top| command.)
+  	\item depending on the workflow, it will download or plot with minor CPU load on the login node. (Hard to notice with a simple \verb+top+ command.)
   \end{itemize}
 \end{frame}
 
