@@ -31,6 +31,8 @@ course:
   # a condarc file on a cluster, copy and adjust
   # for your cluster.
   condarcfile: "common/condarc_mogon.tex"
+  # the same for admins:
+  condarc_admins_file: "admins/condarc_mogon.tex"
   # We provide a common software stack to avoid long
   # installation sessions.
   softwarepath: "/lustre/project/m2\_jgu-ngstraining/software"
