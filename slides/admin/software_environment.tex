@@ -112,7 +112,7 @@ fi
   \frametitle{Why this function in somebodies \texttt{.bashrc}?}
   \begin{docs}
   	\begin{itemize}[<+->]
-  		\item \emph{every} time a user logs in, code in the \texttt{.bashrc} will be executed. Depending a conda setup, this can be incredibly slow.
+  		\item \emph{every} time a user logs in, code in the \texttt{.bashrc} will be executed. Depending a conda setup, FS issues, etc. this can be \emph{slow}.
   		\item automatic inclusion of Conda/Mamba might cause interference with modules
   		\item Now, users can run \verb+conda_initialize+ in their login shell, jobs scripts, etc. upon demand and deactivate if needed.
   	\end{itemize}
@@ -120,7 +120,7 @@ fi
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\input{<++course.condarcfile++>}
+\input{<++course.condarc_admins_file++>}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
