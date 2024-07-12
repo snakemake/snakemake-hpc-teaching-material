@@ -123,162 +123,24 @@ fi
 \input{<++course.condarc_admins_file++>}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-  \frametitle{Searching Software with Conda v. Mamba}
-  First you might want to look for software. This is done with
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ mamba search <softwarename>
-  \end{lstlisting}
-  \pause
-  \begin{task}
-  	Try this with a software which comes to mind.
-  \end{task}
-  \pause
-  This will list packages with channel and version information, e.\,g.
-  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
-$ mamba search minimap
-<snip>
-Loading channels: done
-# Name                       Version           Build  Channel             
-minimap                     0.2_r124               0  bioconda            
-minimap                     0.2_r124      h5bf99c6_4  bioconda
-....
-  \end{lstlisting}
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}
-  \frametitle{Installing Software \emph{with} Conda \& Mamba - Using Environments}
-  \begin{hint}It is a good habit to have
-        \begin{itemize}
-          \item \emph{one} environment per workflow
-          \item the environment named as the workflow
-          \item this way, we have a bundle of tools, activate the environment for it
-          \item \Snakemake{} workflows will install the tools you need for a particular workflow - only \emph{if} these tools are still missing
-         \end{itemize}
-  \end{hint}
-  \begin{hint}[Note]
-  	For now we will not use \Snakemake{} to install our software. This topic will be covered later.
-  \end{hint}
+  \frametitle{What we teach \ldots}
+  \begin{columns}
+  	\begin{column}{0.5\textwidth}
+  		\begin{itemize}[<+->]
+  			\item first we show them how to install software into en environment
+  			\item later one environment per worfklow
+  			\item then how to delegate the deployment to \Snakemake -- and live with a very basic environment
+  		\end{itemize}
+  	\end{column}
+  	\begin{column}{0.5\textwidth}
+  		\pause
+  		\begin{hint}{MPI, Performance and the Rest}
+  			%TODO wait for pixi
+  			Currently, the basic deployment method is Conda. Working with Modules, e.\,g. for MPI-Software, or containers is \emph{an exception}.\newline
+  			The community is working hard to mitigate performance issues.
+  		\end{hint}
+  	\end{column}
+  \end{columns}
 \end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-	\frametitle{A first Environment for \Snakemake!}
-	\begin{task}
-		Type along!
-	\end{task}
-    \begin{onlyenv}<1|handout:0>
-      We can create a new environment:
-      \begin{lstlisting}[language=Bash, style=Shell]
-$ mamba @create@ ...
-      \end{lstlisting}
-      using the \altverb{create} keyword.
-    \end{onlyenv}
-    \begin{onlyenv}<2|handout:0>
-    	We can create a new environment:
-    	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba create \
-> ...
-    	\end{lstlisting}
-    	you may write everything in \emph{one} line. The \altverb{\\} breaks a line and \altverb{>} continues it - it is only to fit everything on a slide.
-    \end{onlyenv}
-    \begin{onlyenv}<3|handout:0>
-    	We can create a new environment:
-    	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba create \
-> @-c@ conda-forge @-c@ bioconda ...
-    	\end{lstlisting}
-    	\altverb{-c} selects a "channel".
-    \end{onlyenv}
-    \begin{onlyenv}<4|handout:0>
-    	We can create a new environment:
-    	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba create \
-> -c conda-forge -c bioconda \
-> @-n@ snakemake ...
-    	\end{lstlisting}
-    	\altverb{-n} denotes the name of the environment.
-    \end{onlyenv}
-    \begin{onlyenv}<5|handout:0>
-    	We can create a new environment:
-    	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba create \
-> -c conda-forge -c bioconda \
-> -n snakemake \
-> snakemake snakemake-executor-plugin-slurm \
-> snakemake-storage-plugin-fs
-    	\end{lstlisting}
-    	and finally the software list to be installed.
-    \end{onlyenv}
-    \vfill
-    \begin{docs}[What is an \emph{Environment}?]
-    	With Conda/Mamba, we can activate and deactivate "environments". These bundle our software. I.\,e. a software stack per workflow to ensure reproducible runs with specific software versions.
-    \end{docs}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-	\frametitle{\HandsOn{Listing Environments}}
-	Over time you will have several environments. (So far, there is one plus the \altverb{base} env.) To list them all, simply run:
-	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba env list
-	\end{lstlisting}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-	\frametitle{\HandsOn{Activating Environments}}
-	It is time to activate our fresh environment:
-	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba activate snakemake
-	\end{lstlisting}
-    Your prompt should now feature the name of the environment: \altverb{snakemake}.
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-    \frametitle{\HandsOn{Checking on Installed Software}}
-    \begin{lstlisting}[language=Bash, style=Shell]
-$ (snakemake) mamba list
-    \end{lstlisting}
-     And you should see
-     \begin{lstlisting}[style=Plain]
-snakemake
-snakemake-executor-plugin-slurm
-snakemake-executor-plugin-slurm-jobstep
-snakemake-interface-common
-snakemake-interface-executor-plugins
-snakemake-interface-report-plugins
-snakemake-interface-storage-plugins
-snakemake-minimal
-snakemake-storage-plugin-fs
-     \end{lstlisting}
-     \ldots along with version infos, channel source and hashsums of all the dependencies.
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-   \frametitle{\Interlude{Managing your Prompt}}
-   \begin{question}
-   	Did you notice the last line in your \texttt{.condarc} file? What does it do?
-   \end{question} 
-   Remember:
-     \begin{lstlisting}[language=Bash, style=Shell]
-$ cat .condarc
-....
-env_prompt: '($(basename {default_env})) '
-   \end{lstlisting}
-   \pause
-   It causes an unnamed environment prompt to shrink, e.\,g.:
-   \begin{lstlisting}[language=Bash, style=Plain]
-(my_env) user@host:directory $
-# instead of
-(/some/long/path/my_env) user@host:directory $
-   \end{lstlisting}
-   if you ever need to set up your environment with a path (\altverb{-p}) instead of a name, e.\,g. on systems with a file quota.
-\end{frame}
-
-
 
