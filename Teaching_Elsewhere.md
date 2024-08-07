@@ -29,3 +29,5 @@ This questionaire helps asking the right questions:
 - Misc
     - Do colleagues on site want to be trained as trainers?
 
+Note: References (e.g. URLs to internal documentation) are welcome. 
+
