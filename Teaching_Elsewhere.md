@@ -15,7 +15,7 @@ This questionaire helps asking the right questions:
     - Is 2FA enforced? Is so: How?
       If no 2FA: Any other security measures to consider?
     - ssh-keys - are they to be prepared?
-    - Does the site require course accounts?
+    - Does the site require and/or provide course accounts?
     - Is it possible to do paired programming?
 
 - Cluster Specialties
