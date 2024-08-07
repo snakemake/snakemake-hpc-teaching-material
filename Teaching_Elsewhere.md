@@ -23,7 +23,8 @@ This questionaire helps asking the right questions:
     - Which editors or IDS are provided?
     - Will the course require and / or get a SLURM reservation?
     - How long will the course run (number of days)? (our minimum is 2 days for the creator part and 1/2 day for the user part)
-    - 
+    - Does the cluster provide a scratch file system on compute nodes? If yes: what is the path?
+    - Will the admins provide a reservation? A "magnetic" reservation for course accounts is preferred, as then no need to adapt the course material is required.
 
 - Misc
     - Do colleagues on site want to be trained as trainers?
