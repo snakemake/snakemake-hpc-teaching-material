@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.1.0...v1.1.1) (2024-08-23)
+
+
+### Bug Fixes
+
+* added Martin's name - was missing ([#74](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/74)) ([6d5d3e1](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/6d5d3e1e4930a60e890ea3f454fb8431223b8f56))
+
 ## [1.0.1](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.0.0...v1.0.1) (2024-05-15)
 
 
