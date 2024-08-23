@@ -25,7 +25,8 @@ jobs:
              texlive-science 
              latexmk
              ghostscript
-        
+             poppler-utils
+
       - name: LaTeX compile  
         run: |
           ./render --master-tex Snakemake_HPC_Users.tex --configfile config/config_for_github.yaml ; 
