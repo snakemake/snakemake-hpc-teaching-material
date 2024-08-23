@@ -1,0 +1,126 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Global Settings for Workflow Parametrization}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{Outline}
+    \begin{columns}[t]
+        \begin{column}{.5\textwidth}
+            \tableofcontents[sections={1-7},currentsection]
+        \end{column}
+        \begin{column}{.5\textwidth}
+            \tableofcontents[sections={8-15},currentsection]
+        \end{column}
+    \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{What is this about?}
+  \begin{question}[Questions]
+   	\begin{itemize}
+      \item Avoiding I/O contention! How?
+      \item Accounting for FS Latency! How?
+    \end{itemize}
+  \end{question}
+   \begin{docs}[Objectives]
+   	 \begin{enumerate} 
+        \item Learn how to tune \Snakemake{} to mitigate I/O contention.
+        \item Learn how to configure \Snakemake{} to allow for file system latency.
+    \end{enumerate}
+  \end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{\Interlude{Random Access and File System Latency}}
+	\begin{hint}
+		Here, we explain to users what random access patterns are and how they arise.\newline
+		We tell -- roughly -- the story of file system latencies, their causes and characteristics of different file systems and speeds.\newline
+		\pause
+		We do not feel it's appropriate to lecture you. Instead, we show how easy \Snakemake will offer a solution to I/O contention.
+	\end{hint}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Global Workflow Configuration}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\Snakemake{} Profiles}
+  \begin{hint}
+  	Profiles can shorten command lines and can be an easy remedy for I/O issues!
+  \end{hint}
+  \pause
+  Two kinds of profiles are supported:
+  \begin{itemize}[<+->]
+  	\item A global profile that is defined in a system-wide or user-specific configuration directory (on Linux, this will be \altverb{\~/.config/snakemake} or \altverb{/etc/xdg/snakemake}, you can find the answer for your system via \altverb{snakemake --help}).
+  	\item A workflow specific profile that is defined via a flag (\altverb{--workflow-profile}) or searched in a default location (profile/default) in the working directory or next to the \altverb{Snakefile}.
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\Snakemake{} Profile - the File}
+    \begin{onlyenv}<1| handout:0>
+      Our first line defines the so-called executor to be set for SLURM:
+      \begin{lstlisting}[language=Bash, style=Shell]
+executor: slurm
+     \end{lstlisting}
+     No more, \altverb{snakemake --executor slurm ...}!
+   \end{onlyenv}
+   \begin{onlyenv}<2| handout:0>
+   	 The next line tells Snakemake to wait for a few seconds, if output files are not present. This is more than enough time, even for NFS-Filesystems (usually). 
+   	 \begin{lstlisting}[language=Bash, style=Shell]
+executor: slurm
+latency-wait: 5
+   	 \end{lstlisting}
+    \end{onlyenv}
+    \begin{onlyenv}<3| handout:0>
+      The entire rest, will tell the storage plugin (\altverb{snakemake-storage-plugin-fs}) to stage in to the node-local storage on Mogon, for \emph{every} job and to copy back your results. When dealing with I/O intensive jobs, this can boost your performance tremendously. 
+      \begin{lstlisting}[language=Bash, style=Shell]
+executor: slurm
+latency-wait: 5
+default-storage-provider: fs
+shared-fs-usage:
+  - persistence
+  - sources
+  - source-cache
+remote-job-local-storage-prefix: /localscratch/$SLURM_JOB_ID
+local-storage-prefix: /dev/shm/$USER
+    \end{lstlisting}
+   \end{onlyenv}
+  \begin{onlyenv}<4| handout:0>
+  	%TODO remove this part, once the snakemake release is ready
+  	\begin{warning}
+  	  Currently, we are working on way to annotate susceptible I/O pattern, the highlighted parts are not yet functional.
+  	\end{warning}
+  	%You may copy this setup from \texttt{<++course.pathtosetup++>/config.yaml} to the \altverb{\~/.config/snakemake}-folder - unless your local admins provide a cluster-wide configuration.
+  	\begin{lstlisting}[language=Bash, style=Shell]
+executor: slurm
+@latency-wait: 5@
+@default-storage-provider: fs@
+@shared-fs-usage:@
+@  - persistence@
+@  - sources@
+@  - source-cache@
+remote-job-local-storage-prefix: /localscratch/$SLURM_JOB_ID 
+local-storage-prefix: /dev/shm/$USER 
+     \end{lstlisting}
+  \end{onlyenv}
+   \begin{onlyenv}<5| handout:1>
+   	The complete configuration out to be in \altverb{\~/.config/snakemake/config.yaml} per user or globally on your cluster at \altverb{/etc/xdg/snakemake}.
+   	\begin{lstlisting}[language=Bash, style=Shell]
+executor: slurm
+latency-wait: 5
+default-storage-provider: fs
+shared-fs-usage:
+- persistence
+- sources
+- source-cache
+remote-job-local-storage-prefix: /localscratch/$SLURM_JOB_ID
+local-storage-prefix: /dev/shm/$USER
+    \end{lstlisting}
+  \end{onlyenv}
+\end{frame}
+
