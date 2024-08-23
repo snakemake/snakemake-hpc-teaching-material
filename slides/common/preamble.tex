@@ -37,8 +37,8 @@
 \definecolor{UrlColor}{rgb}{0,0.08,0.45}
 \definecolor{links}{rgb}{0,0,0}
 
-\usetheme{CambridgeUS} % Pittsburgh, CambridgeUS
-\usecolortheme{beaver} %wolverine | crane | beaver | seahorse
+\usetheme{<++layout.theme++>} % Pittsburgh, CambridgeUS
+\usecolortheme{<++layout.colortheme++>} %wolverine | crane | beaver | seahorse
 \useinnertheme{rounded} 
 \useoutertheme{default}
 \usefonttheme{default}
@@ -51,17 +51,16 @@
 % side margins
 \setbeamersize{text margin left=0.5cm, text margin right=0.5cm}
 
-\setbeamercolor{structure}{fg=UniRot}% to modify  immediately all palettes
-\setbeamercolor{title}{fg=UniRot}
-\setbeamercolor{title in head/foot}{fg=UniRot}
+\setbeamercolor{structure}{<++layout.beamercolor_structure++>}% to modify  immediately all palettes
+\setbeamercolor{title}{<++layout.beamercolor_title++>}
+\setbeamercolor{title in head/foot}{<++layout.beamercolor_title_head++>}
 
-\setbeamercolor{block title}{bg=UniRot!20,fg=darkred}
-\setbeamercolor{block body}{fg=black, bg=plightgrey2}
+\setbeamercolor{block title}{<++layout.beamercolor_block_title++>}
+\setbeamercolor{block body}{<++layout.beamercolor_block_body++>}
 
 % \setbeamercolor{block title}{fg=white,bg=orange}
-\setbeamercolor{block title alerted}{fg=white,bg=UniRot}
-\setbeamercolor{block title example}{fg=white,bg=PineGreen!80}
-
+\setbeamercolor{block title alerted}{<++layout.beamercolor_block_title++>}
+\setbeamercolor{block title example}{<++layout.beamercolor_block_title++>}
 
 % enables two line cols in tabular envs
 \newcommand{\specialcell}[2][c]{%
@@ -362,11 +361,6 @@ showstringspaces=false}
 % Meta-Info 
 %--------------------%
 
-
-
-\title[Introduction to Workflow Programming]{An Introduction to HPC-conformant Scientific Workflows with \Snakemake} 
-%TODO: What should the subtitle be like? Should there be an Edition? How to keep track?
-\subtitle{Workflow Course - Edition 3} 
 
 \author[Snakemake Teaching Alliance]{The "Snakemake Teaching Alliance"}
 \date{<++course.date++>}

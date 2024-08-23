@@ -1,18 +1,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Snakefiles as Python-Code}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-    \frametitle{Outline}
-    \begin{columns}[t]
-        \begin{column}{.5\textwidth}
-            \tableofcontents[sections={1-7},currentsection]
-        \end{column}
-        \begin{column}{.5\textwidth}
-            \tableofcontents[sections={8-15},currentsection]
-        \end{column}
-    \end{columns}
-\end{frame}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=\paperheight]{logos/Text-x-python.svg.png}\hfil}\vfil}
+		% source: https://en.m.wikipedia.org/wiki/File:Text-x-python.svg
+	}
+	\frame{
+		\frametitle{Python Code in your Snakefile}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+	}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -20,7 +21,7 @@
    \begin{question}[Questions]
    	 \begin{itemize}
         \item How can I automatically manage dependencies and outputs?
-        \item How can I use Python code to add features to my pipeline?
+        \item How can I use Python code to add features to my workflow?
      \end{itemize}
    \end{question}
    \begin{docs}[Objectives]
@@ -223,7 +224,7 @@ rule plot_quals:
   It uses the \altverb{script} directive and expects a directory \altverb{scripts} relative to our \altverb{Snakefile}.
   \pause
   \begin{task}
-  	Create the missing directory.
+  	Create the missing directory "\altverb{scripts}".
   \end{task}
 \end{frame}
 
@@ -334,6 +335,134 @@ plt.savefig(snakemake.output[0])
   To be saved as \altverb{scripts/plot-quals.py}.
   \end{onlyenv}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{One more thing \ldots}}
+  \begin{question}[Which is the new final target?]
+  	You remember, that we placed the result of our analysis as the final target?\newline
+  	Now, we have one more final target? Which is its name?
+  \end{question}
+  \begin{task}
+  	Place the new target in the \altverb{all} rule, use \altverb{tutorial/06_Snakefile} as the template. 
+  \end{task}
+  \pause
+  Solution:
+  \begin{lstlisting}[language=Python,style=Python]
+rule all:
+    input:
+        "calls/all.vcf", # note the comma!
+        @"plots/quals.svg"@
+  \end{lstlisting}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Running the final Workflow}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Executing this Workflow}}
+	Does our Workflow contain errors? We run a debug trial:
+	\begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --debug
+	\end{lstlisting}
+	\pause
+	Some targets are already present, we want the entire workflow again:
+	\begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake -c4 --forcerun
+	\end{lstlisting}
+	\begin{question}
+		What do you observe? Why \altverb{-c4}?
+	\end{question}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Visualising the Output}}
+	On <++cluster.name++> the Linux distro is <++cluster.distro++>, which provides the \altverb{display}-program to display simple images. We shall invoke:
+	\begin{lstlisting}[language=Bash, style=Shell]
+$ display plots/quals.svg
+	\end{lstlisting}
+	The figure has no axis-labels.
+	\begin{question}
+		What does the figure display?
+	\end{question}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Our ``final'' Workflow}
+	\footnotesize{Refer to \altverb{<++course.pathtosolutions++>/06_Snakefile} as the workflow solution, so far.}
+	\vspace{-1em}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\begin{lstlisting}[language=Python,style=Python,basicstyle=\tiny]
+SAMPLES = ["A", "B"]
+				
+rule all:
+	input:
+		"plots/quals.svg",
+		"calls/all.vcf"
+				
+rule bwa_map:
+	input:
+		"data/genome.fa",
+		"data/samples/{sample}.fastq"
+	output:
+		"mapped_reads/{sample}.bam"
+	shell:
+		"bwa mem {input} | samtools view -Sb"
+		" - > {output}"
+				
+rule samtools_sort:
+	input:
+	    "mapped_reads/{sample}.bam"
+	output:
+		"sorted_reads/{sample}.bam"
+	shell:
+		"samtools sort"
+		" -T sorted_reads/{wildcards.sample}"
+		" -O bam {input} > {output}"
+			\end{lstlisting}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{lstlisting}[language=Python,style=Python,basicstyle=\tiny]
+rule samtools_index:
+	input:
+		"sorted_reads/{sample}.bam"
+	output:
+		"sorted_reads/{sample}.bam.bai"
+	shell:
+		"samtools index {input}"
+				
+rule bcftools_call:
+	input:
+		fa="data/genome.fa",
+		bam=expand("sorted_reads/{sample}.bam",
+		           sample=SAMPLES),
+		bai=expand("sorted_reads/{sample}.bam.bai",
+		          sample=SAMPLES)
+	output:
+		"calls/all.vcf"
+	shell:
+		"bcftools mpileup -f {input.fa}"
+		" {input.bam} | "
+		"bcftools call -mv - > {output}"
+				
+rule plot_quals:
+	input:
+		"calls/all.vcf"
+	output:
+		"plots/quals.svg"
+	script:
+		"scripts/plot-quals.py"
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+
 
 
 

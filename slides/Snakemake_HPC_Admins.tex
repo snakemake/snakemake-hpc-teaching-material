@@ -1,0 +1,69 @@
+%-------------------------------------------------------%
+%       Snakemake-Intro for HPC Users                   %
+%-------------------------------------------------------%
+
+
+% this code will compile the document as handout with
+% $ pdflatex -synctex=1 -interaction=nonstopmode "\def\ishandout{1} \input{Snakemake_HPC_Users.tex}"
+\ifdefined\ishandout
+\PassOptionsToClass{handout}{beamer}
+\fi
+
+\documentclass[english,xcolor=pdftex,dvipsnames]{beamer} 
+
+% to typeset only a few slide sets, set them here during development
+%\includeonly{Why_Workflows}
+
+\input{common/preamble}
+
+\title[<++course.shorttitle++>]{<+++ if course.title is defined +++><++course.tittle++><+++else+++>Importance of \Snakemake Workflows for Admins<+++endif+++>} 
+
+\subtitle{<+++ if course.subtitle is defined +++><++course.subtitle++><+++else+++>Providing DataAnalytics Service<+++endif+++> - <++course.edition++>} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% attempts a better type setting for hboxes (might result in less overful warnings)
+\sloppy
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[plain] % plain erzeugt Titelseite ohne Kopf- und Fußzeile
+  \titlepage
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{admin/Why_Workflows}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{admin/About_Snakemake}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{admin/software_environment}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{admin/Workflow_Parameterization_for_HPC}
+      
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\include{admin/Data_Management}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \include{common/Contributing} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}<handout:0> 
+	\frametitle{The End}
+	\begin{center}
+		\begin{figure}
+			\centering
+			
+			\includegraphics[width=0.7\textwidth]{logos/the_end.jpg}
+		\end{figure}
+		Thank you for your attention!
+	\end{center}
+\end{frame}
+
+\end{document}
+

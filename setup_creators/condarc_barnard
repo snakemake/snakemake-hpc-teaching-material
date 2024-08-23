@@ -1,0 +1,9 @@
+create_default_packages:
+  - setuptools
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+ssl_verify: false
+auto_update_conda: false
+always_yes: true # avoid confirmation(s)

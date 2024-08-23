@@ -1,7 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
   \frametitle{Reducing Search Overhead - the \texttt{.condarc}-File}
-  On many HPC clusters the number of Conda channels (the repositories) is reduced by the whitelisting. Nevertheless, it helps to reduce the search time with a resource file, including  a number of definitions, \emph{before} starting:
+  On many HPC clusters the number of Conda channels (the repositories) is reduced by the whitelisting. Regardless of your cluster settings, it helps to reduce the search time with a resource file, including  a number of definitions, \emph{before} starting:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
 $ cat .condarc
 create_default_packages:

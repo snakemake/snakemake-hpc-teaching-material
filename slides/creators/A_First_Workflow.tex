@@ -1,18 +1,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{A first Workflow}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-    \frametitle{Outline}
-    \begin{columns}[t]
-        \begin{column}{.5\textwidth}
-            \tableofcontents[sections={1-7},currentsection]
-        \end{column}
-        \begin{column}{.5\textwidth}
-            \tableofcontents[sections={8-15},currentsection]
-        \end{column}
-    \end{columns}
-\end{frame}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=\paperheight]{logos/Railway_construction,_19th_century.jpg}\hfil}\vfil}
+	}
+	\frame{
+		\frametitle{Finally: Work!}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+	}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -53,7 +53,7 @@ $ snakemake <other arguments> \
 	\frametitle{Specifiying Snakefiles (Details)}
 	% impossible to use \Snakemake command in environment header
 	\begin{docs}[Snakemake's default \altverb{Snakefile}]
-		The workflow definition in form of a snakefile. Usually, you should not need to specify this. By default, \Snakemake{} will search for "\altverb{Snakefile}", "\altverb{snakefile}","\altverb{workflow/Snakefile}", \\"\altverb{workflow/snakefile}" beneath the current working directory, in this order.\newline
+		The workflow definition in form of a file. Usually, there is not need to specify this. By default, \Snakemake{} will search for "\altverb{Snakefile}", "\altverb{snakefile}","\altverb{workflow/Snakefile}", \\"\altverb{workflow/snakefile}" beneath the current working directory, in this order.\newline
 		When using a different layout, you can use
 		\begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake <other arguments> \
@@ -230,7 +230,7 @@ $ snakemake --cores=1 mapped_reads/A.bam
   You should see the expected output (\altverb[Bash]{ls}) and lines which reads:
   \begin{lstlisting}[style=Plain, basicstyle=\footnotesize]
 1 of 1 steps (100%) done
-Complete log: .snakemake/log/2022-09-17T145657.968906.snakemake.log
+Complete log: .snakemake/log/<date>T<timestring>.snakemake.log
   \end{lstlisting}
 \end{frame}
 
@@ -254,7 +254,7 @@ Nothing to be done (all requested files are present and up to date).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{When do Rules get executed? - The Solution}
-  When it is asked to build a target, \Snakemake{} checks the “last modification time” of both the \emph{target} and its \emph{dependencies}.
+  When asked to build a target, \Snakemake{} checks the “last modification time” of both the \emph{target} and its \emph{dependencies}.
   If either
   \begin{itemize}
    \item any dependency has been updated
@@ -388,11 +388,24 @@ $ snakemake -np mapped_reads/{A,B}.bam
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
+\begin{frame}[fragile]
 	\frametitle{One Caveat!}
 	\begin{alertblock}{Multiple Wildcards}
 		You can have multiple wildcards in your file paths, however, to avoid conflicts with other jobs of the same rule, \emph{all output files} of a rule \emph{have to contain exactly the same wildcards}.
 	\end{alertblock}
+    \pause
+    \begin{lstlisting}[language=Python,style=Python]
+rule <name>:
+   input:
+     "dir/{sample}_{w2}.txt"
+   output:
+     "out/{sample}_{w2}.out"
+   shell:
+     "cmd -i {wildcards.sample}_{wildcards.w2}.txt ..."
+    \end{lstlisting}
+    \begin{docs}
+    	In an \altverb{action} we need to resolve the namespace with \altverb{wildcards}.
+    \end{docs}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -401,13 +414,13 @@ $ snakemake -np mapped_reads/{A,B}.bam
   For later steps, we need the read alignments in the BAM files to be sorted. This can be achieved with the \lhref{https://www.htslib.org/}{\texttt{samtools}} \altverb{sort} command. We add the following rule beneath the \altverb{bwa_map} rule:
   \begin{lstlisting}[language=Python,style=Python]
 rule samtools_sort:
-    input:
-        ...
-    output:
-        ...
-    shell:
-        "samtools sort -T sorted_reads/{wildcards.sample} "
-        "-O bam {input} > {output}"
+   input:
+       ...
+   output:
+       ...
+   shell:
+       "samtools sort -T sorted_reads/{wildcards.sample}"
+       " -O bam {input} > {output}"
   \end{lstlisting}
   \begin{task}
   	Please refer to your template \newline \altverb{04_Snakefile} in the tutorial folder and fill in \altverb{input} and \altverb{output}.
@@ -427,7 +440,7 @@ rule samtools_sort:
         "samtools sort -T sorted_reads/{wildcards.sample} "
         "-O bam {input} > {output}"
   \end{lstlisting}
-  You will find this solution in \pathtosolutions{04_Snakefile}
+  You will find this solution in \altverb{<++course.pathtosolutions++>/04_Snakefile}.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -470,7 +483,7 @@ rule samtools_index:
         "samtools index {input}"
   \end{lstlisting}
   \begin{hint}[Note]
-  	You will find this code in the next cloze text. It is not worth proceeding without the next step.
+  	You will find this code in the next cloze text. It is not worth editing without the next step, yet.
   \end{hint}
 \end{frame}
 
@@ -523,7 +536,7 @@ rule bcftools_call:
     "calls/all.vcf"
   shell:
     "bcftools mpileup -f {input.fa} {input.bam} | "
-     "bcftools call -mv - > {output}"
+    "bcftools call -mv - > {output}"
   \end{lstlisting}
   We will meet this rule in \altverb{05_Snakefile} of our tutorial folder -- in the next exercise.
 \end{frame}
@@ -536,7 +549,7 @@ rule bcftools_call:
 	\frametitle{Introducing: Target Rules}
 	\begin{question}[Why Target Rules?]
 	  So far, we always executed the workflow by specifying a target file at the command line. How cumbersome!\newline
-	  I would be better to make \Snakemake{} figure out, which jobs to run. Right?
+	  It would be better to let \Snakemake{} figure out, which jobs to run. Right?
 	\end{question}
     \pause
 	\begin{docs}
@@ -581,5 +594,5 @@ rule all:
     \begin{hint}
        Essentially, you can add all output files you want to keep (e.\,g. plots, final results) to \altverb{all}.
     \end{hint}
-    The solution can be found at \pathtosolutions{05_Snakefile}
+    The solution can be found at \altverb{<++course.pathtosolutions++>/05_Snakefile}.
 \end{frame}

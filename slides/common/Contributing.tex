@@ -1,18 +1,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Contributing}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-	\frametitle{Outline}
-	\begin{columns}[t]
-		\begin{column}{.5\textwidth}
-			\tableofcontents[sections={1-9},currentsection]
-		\end{column}
-		\begin{column}{.5\textwidth}
-			\tableofcontents[sections={10-18},currentsection]
-		\end{column}
-	\end{columns}
-\end{frame}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=0.7\paperheight]{logos/reproducibility.jpg}\hfil}\vfil}
+		% https://the-turing-way.netlify.app/_images/reproducibility.jpg
+		
+	}
+	\frame{
+		\frametitle{How to contribute back}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+	}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -234,3 +236,9 @@
   \end{question}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Reporting Glitches in THESE Slides}
+	After each course you will receive all slides and scripts. You will have noticed: This is complex material! Of course, there will be errors. We appreciate, if you report your finding on our \lhref{https://github.com/snakemake/snakemake-hpc-teaching-material/}{project web site}.\newline
+	Any other feedback, i.\,e. ideas, suggestions etc. is welcomed! 
+\end{frame}	
