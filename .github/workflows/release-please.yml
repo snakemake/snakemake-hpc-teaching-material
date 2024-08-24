@@ -44,9 +44,12 @@ jobs:
           release-type: simple
           package-name: "snakemake-hpc-teaching-material"
       - name: Upload Release Artifacts
+        uses: actions/upload-release-asset@v1        
         if: ${{ steps.release.outputs.release_created }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}   
         run: |
             gh realease upload ${{ steps.release.outputs.tag_name }}
             slides/Snakemake_HPC_Users.pdf
