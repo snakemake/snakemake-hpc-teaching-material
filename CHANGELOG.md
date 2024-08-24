@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.1](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.2.0...v1.2.1) (2024-08-24)
+
+
+### Bug Fixes
+
+* attempt to upload artifacts ([#130](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/130)) ([e75b76a](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/e75b76ab1093542825db70fe902cd449105f6702))
+* upload artifact ([#131](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/131)) ([1326360](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/1326360d77b327617a4f2592452b53043f3a3f2d))
+
 ## [1.2.0](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.1.1...v1.2.0) (2024-08-23)
 
 
