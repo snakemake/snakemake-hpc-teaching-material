@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.2.0](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.1.1...v1.2.0) (2024-08-23)
+
+
+### Features
+
+* [#82](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/82) update certificat generator ([#83](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/83)) ([fddea0a](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/fddea0a716a7fe7ed4450e8fc1bfe926a253a68e))
+* admin slideset ([#124](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/124)) ([0b2d74f](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/0b2d74fb9fa3bd3fd91dedb4f71c357e1370265e))
+* new slide set covering issue [#47](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/47) ([#88](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/88)) ([ddab9c7](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/ddab9c766cffb5952516b4ee8c2266bcd2c4e5c1))
+
+
+### Bug Fixes
+
+* [#80](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/80) update teaching elsewhere ([#127](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/127)) ([4399be8](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/4399be831482066268b8df59ce0aa289c8ee6554))
+
 ## [1.1.1](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.1.0...v1.1.1) (2024-08-23)
 
 
