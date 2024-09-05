@@ -13,7 +13,7 @@ This questionaire helps asking the right questions:
 - What does the course room look like?
   - How many seats and PC-screens are available?
   - Is there a "Presenter PC"?
-  - Could you please confirm if it is possible to plug in a laptop? (HDMI and/or VGA?)
+  - Is it possible to plug in a laptop? (HDMI and/or VGA?)
   - Please describe the "projector situation" (1 or more, need to have a key?).
   - Does the lecturer need an adaptor for the projector?
   - Which is the OS for participant PCs? 
