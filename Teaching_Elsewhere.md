@@ -10,13 +10,17 @@ This questionaire helps asking the right questions:
   - Who is the contact for organizing this course? 
   - If this is a topical course (e.g. for Bioinformaticicians, Physicist, etc.): Does the organization employ a support scientist for the intended topic? If so, which are the contact details?
 
-- How does the course room look like?
+- What does the course room look like?
   - How many seats and PC-screens are available?
   - Is there a "Presenter PC"?
   - Could you please confirm if it is possible to plug in a laptop? (HDMI and/or VGA?)
   - Please describe the "projector situation" (1 or more, need to have a key?).
   - Which kind the "projector situation" (1 or more?, need to have a key)?
   - Does the lecturer need an adaptor for the projector?
+  - Which is the OS for participant PCs? 
+  - Is paired programming possible during the course considering the classroom's seating?
+
+- Login and Security:
   - Which is the recommended software to log in? (putty, mobaxterm, powershell or plain ssh via Linux - or a terminal on demand)
   - Is 2FA enforced? If so: How?
     If there is no 2FA: Any other security measures to consider?
@@ -28,7 +32,6 @@ This questionaire helps asking the right questions:
     - Will there be information about it? 
     - Will there be wifi? 
     -  Will there be power outlets?
-  - Is paired programming possible during the course considering the classroom's seating?
 
 - Cluster Specialties
   - May the course use a shared file space for the setup to be copied to? E.g. a workspace? Which are the quota limitations?
