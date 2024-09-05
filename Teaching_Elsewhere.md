@@ -15,7 +15,6 @@ This questionaire helps asking the right questions:
   - Is there a "Presenter PC"?
   - Could you please confirm if it is possible to plug in a laptop? (HDMI and/or VGA?)
   - Please describe the "projector situation" (1 or more, need to have a key?).
-  - Which kind the "projector situation" (1 or more?, need to have a key)?
   - Does the lecturer need an adaptor for the projector?
   - Which is the OS for participant PCs? 
   - Is paired programming possible during the course considering the classroom's seating?
