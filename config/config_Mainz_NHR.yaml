@@ -20,7 +20,7 @@ layout:
   beamercolor_block_title_example: "fg=white,bg=PineGreen!80"
 
 course:
-  date: "datestring" # maybe: "\today"
+  date: "23.-27. September 2024" # maybe: "\today"
   #title: "" # specifiy your title here, else a default is used. 
   #subtitle: "" # specifiy your subtitle here, else a default is used. 
   # Editors recommendations are a matter of taste and technological
