@@ -30,7 +30,7 @@ Please note:
 
 * This handout does not display material to be used as a reference.
 * In particular, the recepient has been informed that people new
-  to Snakemake and HPC should partake this course themselves as (some) 
+  to Snakemake and HPC should follow this course themselves as (some) 
   material can and will be outdated, eventually.
 * This is a handout release: Slides are merged and some (graphical) 
   content has been dropped.
@@ -38,4 +38,4 @@ Please note:
   notice applies.
 
 
-Please direct suggestion for improvements to https://github.com/cmeesters/snakemake-hpc-teaching-material/issues .
+Please direct suggestion for improvements to https://github.com/snakemake/snakemake-hpc-teaching-material/issues .
