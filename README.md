@@ -44,7 +44,7 @@ Three master slide sets are offered:
 - `slides/Snakemake_HPC_Creators.tex` - which contains a slide set tailored for creators of new workflows.
 - `slides/Snakemake_HPC_Admins.tex'' - which contains some slides tailored to administrators to tell them some bits about Snakemake and global configurations.
 
-A lecturer may choose to render a handout version of a slide set with the `--handout` flag. Handouts do not contain some images or slide overlays and are a little bit smaller then full course slide sets.
+A lecturer may choose to render a handout version of a slide set with the `--handout` flag. Handouts do not contain some images or slide overlays and are a little bit smaller than full course slide sets.
 
 ### Customizing Slides
 
