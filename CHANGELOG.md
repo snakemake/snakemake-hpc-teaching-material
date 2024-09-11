@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.3](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.2.2...v1.2.3) (2024-09-11)
+
+
+### Bug Fixes
+
+* attempt to shift upload to build ([#140](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/140)) ([a9a3c2a](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/a9a3c2aad7e0203ea121003ae3306d9f5ffd7480))
+
 ## [1.2.2](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.2.1...v1.2.2) (2024-09-10)
 
 
