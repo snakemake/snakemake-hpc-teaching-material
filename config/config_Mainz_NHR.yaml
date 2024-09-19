@@ -43,7 +43,7 @@ course:
   # This is the selected slide to explain the 'Hello World' script
   # to introduce SLURM. It requires different account and partition
   # settings on every cluster.
-  hello_world_script: "common/Hello_World_HPC_MogonII.tex"
+  hello_world_script: "common/Hello_World_HPC_Mogon_NHR.tex"
 cluster:
   # the cluster account and default partition
   account: "nhr-workflow"

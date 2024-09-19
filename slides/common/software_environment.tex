@@ -159,6 +159,7 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
 				\item Miniconda - Conda with little less overhead
 				\item Mamba - drop-in replacement for "Conda", C\texttt{++}, parallel solver, fast
 				\item \textmu-Mamba - static version of Mamba, little overhead, no "base" environment, slightly different commands
+				\item pixi - different to Conda - not yet supported by \Snakemake.
 			\end{itemize}
 		\end{mdframed}
 	}
@@ -171,7 +172,7 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
 $ wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
 $ bash Miniforge3-Linux-x86_64.sh
   \end{lstlisting}
-  to retrieve Mamba.\newline\pause
+  to retrieve Mamba, now.\newline\pause
   \begin{hint}
   	We will work through the installation process \emph{together} on the slides to come.
   \end{hint}
@@ -328,6 +329,15 @@ minimap                     0.2_r124      h5bf99c6_4  bioconda
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}<handout:0>
+	\frametitle{Why we do not create a full Environment $\ldots$}
+	$\ldots$ during the course.
+	\begin{docs}[Background]
+		If we begin to download and install together during a course (with potentially 20 or more participants) all our software, the installation process will take too long. Particularly during installation of R and Python packages 100.000 and more files would be created. 
+	\end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
 	\frametitle{A first Environment for \Snakemake!}
 	\begin{task}
@@ -352,33 +362,48 @@ $ mamba create \
     	We can create a new environment:
     	\begin{lstlisting}[language=Bash, style=Shell]
 $ mamba create \
-> @-c@ conda-forge @-c@ bioconda ...
-    	\end{lstlisting}
-    	\altverb{-c} selects a "channel".
-    \end{onlyenv}
-    \begin{onlyenv}<4|handout:0>
-    	We can create a new environment:
-    	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba create \
-> -c conda-forge -c bioconda \
-> @-n@ snakemake ...
+> @-n@ snakemake_base ...
     	\end{lstlisting}
     	\altverb{-n} denotes the name of the environment.
+    \end{onlyenv}
+    \begin{onlyenv}<4|handout:0>
+    	We can create a new environment - by cloning an existing one:
+    	\begin{lstlisting}[language=Bash, style=Shell]
+$ mamba create \
+> -n snakemake_base \
+> @--clone@ ...
+    	\end{lstlisting}
+    	\altverb{--clone} takes a environment name or path.
     \end{onlyenv}
     \begin{onlyenv}<5|handout:0>
     	We can create a new environment:
     	\begin{lstlisting}[language=Bash, style=Shell]
 $ mamba create \
 > -c conda-forge -c bioconda \
-> -n snakemake \
-> snakemake snakemake-executor-plugin-slurm \
-> snakemake-storage-plugin-fs
+> --clone @<++course.softwarepath++>@
     	\end{lstlisting}
-    	and finally the software list to be installed.
+    	.
     \end{onlyenv}
     \vfill
     \begin{docs}[What is an \emph{Environment}?]
     	With Conda/Mamba, we can activate and deactivate "environments". These bundle our software. I.\,e. a software stack per workflow to ensure reproducible runs with specific software versions.
+    \end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+	\frametitle{Creating an Environment from Scratch}
+	You can create the same environment using this command:
+	\begin{lstlisting}[language=Bash, style=Shell]
+$ mamba create \
+> -c conda-forge -c bioconda \
+> -n snakemake \
+> snakemake snakemake-executor-plugin-slurm \
+> snakemake-storage-plugin-fs
+	\end{lstlisting}
+    \pause
+    \begin{docs}[Note:]
+    	Installing a Conda package which has dependencies,\newline e.\,g. \verb+snakemake snakemake-executor-plugin-slurm+\linebreak which needs \Snakemake{}, will install all dependencies in the same environment.
     \end{docs}
 \end{frame}
 
@@ -405,7 +430,7 @@ $ mamba activate snakemake
 \begin{frame}[fragile]
     \frametitle{\HandsOn{Checking on Installed Software}}
     \begin{lstlisting}[language=Bash, style=Shell]
-$ (snakemake) mamba list
+$ (snakemake) mamba list | grep snakemake
     \end{lstlisting}
      And you should see
      \begin{lstlisting}[style=Plain]
