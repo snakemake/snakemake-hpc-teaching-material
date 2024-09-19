@@ -12,6 +12,7 @@ import subprocess
 import sys
 from tempfile import TemporaryDirectory
 import yaml
+import zipfile
 
 # non standard libraries
 from jinja2 import Environment, FileSystemLoader
@@ -33,6 +34,7 @@ PATH = os.path.split(os.path.realpath(__file__))[0]
 
 jinja_env = Environment(loader=FileSystemLoader(PATH), **options)
 
+
 def edition_from_tag():
     """
     sets the edition from the latests tag
@@ -40,6 +42,7 @@ def edition_from_tag():
     """
     cmd = "git tag -l | tail -1"
     return subprocess.getoutput(cmd)
+
 
 def screen_master(masterdoc, tempdir):
     prefix = os.path.join(tempdir, "slides")
@@ -122,7 +125,7 @@ def run_pdflatex(fname="out.tex", path=".", handout=False):
         cmd += r' "\def\ishandout{1} \input{' + fname + r'}"'
     else:
         cmd += f" {fname}"
-    cmd = shlex.split(cmd)    
+    cmd = shlex.split(cmd)
     retcode = subprocess.call(cmd, cwd=path)
     pdfname = get_pdf_name(fname)
     shutil.copy(os.path.join(path, pdfname), os.path.join(outdir, pdfname))
@@ -182,17 +185,19 @@ def find_and_replace_sections(boundaries, section_estimate, fname):
         )
     # adapt the two lines with our new boundaries:
     elif first_done and second_done:
-        lines[
-            first_done
-        ] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (
-            boundaries["lower"],
-            boundaries["first_half_end"],
+        lines[first_done] = (
+            "            \\tableofcontents[sections={%d-%d},currentsection]\n"
+            % (
+                boundaries["lower"],
+                boundaries["first_half_end"],
+            )
         )
-        lines[
-            second_done
-        ] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (
-            boundaries["second_half_start"],
-            boundaries["upper"],
+        lines[second_done] = (
+            "            \\tableofcontents[sections={%d-%d},currentsection]\n"
+            % (
+                boundaries["second_half_start"],
+                boundaries["upper"],
+            )
         )
     else:
         logger.error(f"TOC expectations for '{fname}' not met")
@@ -215,11 +220,21 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--handout", default=False, action=argparse.BooleanOptionalAction
-        )
+    )
     parser.add_argument(
         "-n", "--no-rerun", default=False, action=argparse.BooleanOptionalAction
     )
+    parser.add_argument(
+        "--sample-directory",
+        help="needed with `--handout` - should indicate directory with script file (cloze and solution)",
+    )
     args = parser.parse_args()
+
+    if args.handout and not args.sample_directory:
+        print(
+            "ERROR: must indicate --sample-directory when writing handouts",
+            file=sys.stderr,
+        )
 
     # the master tex needs to be without the 'slides' path, because
     # on the tempfs, the relative path work without
@@ -260,9 +275,41 @@ if __name__ == "__main__":
             to_adapt = os.path.join(tempdir, "slides", fname) + ".tex"
             find_and_replace_sections(boundaries, section_estimate, to_adapt)
         # now the typesetting needs to be triggered
-        run_pdflatex(fname=args.master_tex, path=os.path.join(tempdir, "slides"), handout=args.handout)
+        run_pdflatex(
+            fname=args.master_tex,
+            path=os.path.join(tempdir, "slides"),
+            handout=args.handout,
+        )
         # re-run might be required
         if args.no_rerun:
             print("no rerun as requested")
             sys.exit()
         run_pdflatex(fname=args.master_tex, path=os.path.join(tempdir, "slides"))
+
+        # only to produce handouts (together with script bundles)
+        if args.handout:
+            handout_version = (
+                os.path.join("slides", os.path.splitext(args.master_tex)[0]) + ".pdf"
+            )
+
+            final_place = os.path.basename(handout_version)
+
+            file_list = [
+                (handout_version, final_place),
+                ("handout/README.txt", "README.txt"),
+            ]
+            opj = os.path.join
+
+            for root, dirs, files in os.walk(args.sample_directory):
+                for fname in files:
+                    # restrict to sample files, no helper files
+                    if "copy" in fname or "README" in fname:
+                        continue
+                    file_list.append(
+                        (opj(root, fname), opj(*root.split("/")[1:], fname))
+                    )
+            buildzipfname = "snakemake_intro_%s.zip" % edition_from_tag()
+            z = zipfile.ZipFile(buildzipfname, "w", compression=zipfile.ZIP_DEFLATED)
+            for item in file_list:
+                z.write(item[0], item[1])
+            z.close()

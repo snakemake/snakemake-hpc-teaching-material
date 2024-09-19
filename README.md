@@ -38,10 +38,13 @@ In order to typeset the slides you want, you can simply run
 $ ./render --master-tex <tex master document> -c <configfile>
 ```
 
-Two master slide sets are offered:
+Three master slide sets are offered:
 
 - `slides/Snakemake_HPC_Users.tex` - which contains a slide set tailored for users of ready-to use and non-curated workflows, their HPC parameterization and execution
 - `slides/Snakemake_HPC_Creators.tex` - which contains a slide set tailored for creators of new workflows.
+- `slides/Snakemake_HPC_Admins.tex'' - which contains some slides tailored to administrators to tell them some bits about Snakemake and global configurations.
+
+A lecturer may choose to render a handout version of a slide set with the `--handout` flag. Handouts do not contain some images or slide overlays and are a little bit smaller than full course slide sets.
 
 ### Customizing Slides
 
