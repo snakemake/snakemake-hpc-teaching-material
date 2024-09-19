@@ -1,0 +1,91 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Using Code-Studio on \texttt{Mogon-NHR}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Outline}
+	\begin{columns}[t]
+		\begin{column}{.5\textwidth}
+			\tableofcontents[sections={1-9},currentsection]
+		\end{column}
+		\begin{column}{.5\textwidth}
+			\tableofcontents[sections={10-18},currentsection]
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{What is this about?}
+	\begin{question}[Questions]\begin{itemize}
+			\item What is an Editor?
+			\item How do I select one?
+			\item How do I use it?
+		\end{itemize}
+	\end{question}
+	\begin{docs}[Objectives]
+		\begin{enumerate}
+			\item Explain, why you need an editor?
+			\item What is an IDE, what an editor?
+			\item Starting and using \texttt{gedit} as a beginner level editor.
+		\end{enumerate}
+	\end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Editor vs. IDEs (Integrated Development Environments)}
+  \footnotesize
+  \begin{columns}[t]
+  	\begin{column}{.5\textwidth}
+  	  {\normalsize\textbf Editors:}
+  	  \begin{figure}[t]
+  		 \includegraphics[height=3cm]{editors_and_IDEs/gedit.png}
+  		 \caption*{\texttt{gedit} editor as started on Mogon.}
+  	  \end{figure}
+      \vfill
+  	  \begin{itemize}
+  	  	\item show syntax highlighting
+  	  	\item can edit and save text files
+  	  \end{itemize}  
+  	\end{column}
+  	\begin{column}{.5\textwidth}
+  	  {\normalsize\textbf IDEs:}
+  	  \begin{figure}[t]
+  	  	\includegraphics[width=\textwidth]{editors_and_IDEs/MOD_VSC.png}
+  		\caption*{\texttt{VSC} as started via MogonOnDemand.}
+  	  \end{figure}
+      \vfill
+      \begin{itemize}
+         \item everything an editor can do
+         \item handle projects
+         \item SCM support
+         \item encapsulates environments
+         \item \ldots
+      \end{itemize}  
+  	\end{column}
+  \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Which Editor or IDE should I be using?}
+  \begin{hint}
+     You may use any \emph{any} editor of your liking. These slides introduce an OnDemand code server as a common denominator.
+  \end{hint}
+  
+  \begin{itemize}[<+->]
+  	\item Navigate to \url{https://mod.hpc.uni-mainz.de} in your browser.
+  	\item Select the CodeServer
+  	\item From the drop down menu select your account \verb-<<++cluster.account++>-.
+  	\item Reserve the job to run for 8 hours.
+  	\item Number of Tasks needs to be 1.
+  	\item CPUs per Tasks needs to be 1.
+  	\item Memory should be 2 GB.
+  \end{itemize}
+  \pause
+  \begin{hint}
+  	After a while you read a button "Connect to VS Code". Follow the instruction on-screen.
+  \end{hint}
+\end{frame} 
+
