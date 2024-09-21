@@ -1,18 +1,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Why Workflows}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-    \frametitle{Outline}
-    \begin{columns}[t]
-        \begin{column}{.5\textwidth}
-            \tableofcontents[sections={1-7},currentsection]
-        \end{column}
-        \begin{column}{.5\textwidth}
-            \tableofcontents[sections={8-15},currentsection]
-        \end{column}
-    \end{columns}
-\end{frame}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=.7\paperheight]{humor/DALLE_LEGO-scientist-thinking}\hfil}\vfil}
+	}
+	\frame{
+		\frametitle{Why use Workflow Managers?}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+	    \vspace{12mm}\hfill{\tiny \lhref{https://zenodo.org/records/11147887}{from Ewa Bres \& Christian Bittner}}
+	}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
