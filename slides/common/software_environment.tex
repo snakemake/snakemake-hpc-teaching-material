@@ -340,9 +340,9 @@ minimap                     0.2_r124      h5bf99c6_4  bioconda
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
 	\frametitle{A first Environment for \Snakemake!}
-	\begin{task}
-		Type along!
-	\end{task}
+	\begin{warning}
+		Do \emph{NOT} type along! The creation of environments is important knowledge, but takes too long in a course.
+	\end{warning}
     \begin{onlyenv}<1|handout:0>
       We can create a new environment:
       \begin{lstlisting}[language=Bash, style=Shell]
@@ -392,19 +392,12 @@ $ mamba create \
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-	\frametitle{Creating an Environment from Scratch}
-	You can create the same environment using this command:
+	\frametitle{\HandsOn{Activating Environments}}
+	It is time to activate a shared environment:
 	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba create \
-> -c conda-forge -c bioconda \
-> -n snakemake \
-> snakemake snakemake-executor-plugin-slurm \
-> snakemake-storage-plugin-fs
+		$ mamba activate <<++course.softwarepath++>>
 	\end{lstlisting}
-    \pause
-    \begin{docs}[Note:]
-    	Installing a Conda package which has dependencies,\newline e.\,g. \verb+snakemake snakemake-executor-plugin-slurm+\linebreak which needs \Snakemake{}, will install all dependencies in the same environment.
-    \end{docs}
+	Your prompt should now feature the name of the environment: \altverb{snakemake}.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
@@ -416,21 +409,11 @@ $ mamba env list
 	\end{lstlisting}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-	\frametitle{\HandsOn{Activating Environments}}
-	It is time to activate our fresh environment:
-	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba activate snakemake
-	\end{lstlisting}
-    Your prompt should now feature the name of the environment: \altverb{snakemake}.
-\end{frame}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
     \frametitle{\HandsOn{Checking on Installed Software}}
     \begin{lstlisting}[language=Bash, style=Shell]
-$ (snakemake) mamba list | grep snakemake
+$ (software_stack) mamba list | grep snakemake
     \end{lstlisting}
      And you should see
      \begin{lstlisting}[style=Plain]

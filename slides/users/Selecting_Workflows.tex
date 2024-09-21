@@ -90,25 +90,72 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
 	\frametitle{Deployment II - Creating an Environment Fork}
-	Instead of creating environment from scratch we can clone one:
+	Usually, we can create an environment like:
 	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba create -n <name of new env> --clone snakemake
+$ mamba create -c conda-forge -c bioconda -n snakemake snakemake \
+> snakemake-executor-plugin-slurm snakemake-storage-plugin-fs
     \end{lstlisting}
-    This should clone the \altverb{snakemake} environment with all necessary tools!
-    \pause
-    \begin{task}
-    	Pick one workflow from the catalogue, create a new environment with a corresponding name, e.\,g. \altverb{rna-seq-star}. Activate it. Then, run \altverb{mamba install snakedeploy}.
-    \end{task}    
+    This should install a \Snakemake{} environment with all necessary tools!
+       
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Deployment III - Let's do it!}
+	\frametitle{Deployment III - First Step!}
 	Follow step 2 of a selected workflow usage instructions:
-	\begin{center}
-	    \includegraphics[width=0.6\textwidth]{Snakemake/deploy_workflow}
-    \end{center}
+	\begin{columns}
+		\begin{column}{0.4\textwidth}
+			\centering
+			\includegraphics[width=0.95\textwidth]{Snakemake/deploy_workflow}
+		\end{column}
+	    \begin{column}{0.6\textwidth}
+	    	A usual command is:
+	    	\begin{lstlisting}[language=Bash, style=Shell]
+$ snakedeploy deploy-workflow \
+> <URL>
+	    	\end{lstlisting}
+    	    This will create the directories \altverb{workflow} and \altverb{config} in your current directory.
+    	    \begin{hint}
+    	    	Alternatively, you may navigate to the repository of your desired workflow and download the entire workflow.
+    	    \end{hint}
+	    \end{column}
+	\end{columns}
 \end{frame}
+
+<+++ if course.pathtosetup is defined +++>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\framtitle{Copy a Workflow}
+	In our case, we shall copy a workflow and will not use \altverb{snakedeploy}.
+	\begin{task}
+		Please copy the workflow from\newline \altverb{<++course.pathtosetup++>} into your \altverb{HOME}.
+	\end{task}
+    \begin{hint}
+    	Remember:
+    	\begin{itemize}
+    		\item change into your \altverb{HOME} with \altverb{cd -}
+    		\item copy directories recursively with \altverb{cp -r <source> <destination>}
+    	\end{itemize}
+    \end{hint}
+\end{frame}
+<+++ else +++>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Deployment IV - Let's do it!}
+	\begin{task}
+		We shall now deploy our sample workflow:
+		\begin{itemize}
+			\item Please create a directory \altverb{mkdir -p ~/example_workflow}
+			\item Change to this directory.
+			\item Deploy our sample workflow with
+			\begin{lstlisting}[language=Bash, style=Shell]
+$ snakedeploy deploy-workflow \
+> <++course.deploy_url++>
+			\end{lstlisting}
+		\end{itemize}
+	\end{task}
+\end{frame}	
+<+++ endif +++>
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
@@ -116,7 +163,7 @@ $ mamba create -n <name of new env> --clone snakemake
   Most likely a specific workflow never has been testing on \emph{your} computer before. It is almost ensured it will run on arbitrary servers, but clusters are a different story. \newline
   So
   \begin{itemize}[<+->]
-   \item try to parameterize your workflow as learned
+   \item try to parameterize your workflow as we will learn
    \item if it gives issues and you know how to correct it, ``fork'' the worklow and create a pull request
    \item if you cannot fix it, create a bug report
   \end{itemize}
@@ -137,4 +184,22 @@ $ mamba create -n <name of new env> --clone snakemake
   \end{warning}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{\HandsOn{Configuring the Workflow}}
+  It is now time to configure and parameterize the workflow.
+  \pause
+  \begin{hint}
+  	As the configuration is workflow dependent you need to follow instructions, now.
+  \end{hint}
+  \pause
+  Eventually start the workflow using:
+  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --executor slurm \
+> -j unlimited \
+> --configfile <path to file> \
+> --workflow-profile <path to directory> \
+> --directory <path to your course output>
+  \end{lstlisting}
+\end{frame}
 
