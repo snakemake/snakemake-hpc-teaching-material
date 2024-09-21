@@ -33,6 +33,15 @@ course:
   # a condarc file on a cluster, copy and adjust
   # for your cluster.
   condarcfile: "common/condarc_mogon.tex"
+  # the same for admins:
+  condarc_admins_file: "admin/condarc_mogon.tex"
+  # the following path will indicate a sample workflow for the user part
+  # if it is defined, the slide set will instruct participants to copy
+  # it and adapt its configuration and profile.
+  pathtoworkflow: "/lustre/project/nhr-workflow/workflow"
+  # Alternatively a URL may be indicated. In this case the participants
+  # are instructed to deploy the workflow using snakedeploy.
+  #deploy_url: ""
   # these are the path names to contain sample data
   # see the README for explanations.
   pathtosetup: "/lustre/project/m2\_jgu-ngstraining/workflows"
