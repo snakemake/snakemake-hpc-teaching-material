@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.3.0](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.2.3...v1.3.0) (2024-09-21)
+
+
+### Features
+
+* central software path ([#138](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/138)) ([e8adf3c](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/e8adf3c061dc999504b5e56bef1e8b5f0fc911ee))
+* deploy ([#144](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/144)) ([c86a364](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/c86a3646b25db7b4d7da5498a42315e354ea2457))
+* mogon ondemand ([#142](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/142)) ([0ded6dd](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/0ded6dd8f33b00f02482d9c152a1191d7745e476))
+
 ## [1.2.3](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.2.2...v1.2.3) (2024-09-11)
 
 
