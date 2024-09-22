@@ -51,11 +51,12 @@ course:
   # to introduce SLURM. It requires different account and partition
   # settings on every cluster.
   hello_world_script: "common/Hello_World_HPC_Mogon_NHR.tex"
+
 cluster:
   # the cluster name
   name: "Mogon-NHR"
   # the cluster distro
-  dist:ro: "Alma-Linux"
+  distro: "Alma-Linux"
   # the cluster account and default partition
   account: "nhr-workflow"
   partition: "smallcpu"

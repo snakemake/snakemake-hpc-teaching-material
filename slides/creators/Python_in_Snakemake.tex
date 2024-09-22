@@ -363,15 +363,20 @@ rule all:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
 	\frametitle{\HandsOn{Executing this Workflow}}
-	Does our Workflow contain errors? We run a debug trial:
-	\begin{lstlisting}[language=Bash, style=Shell]
+	\begin{task}
+		Does our Workflow contain errors? We run a debug trial:
+		\begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake --debug
-	\end{lstlisting}
+		\end{lstlisting}
+	\end{task}
 	\pause
 	Some targets are already present, we want the entire workflow again:
 	\begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake -c4 --forcerun
+$ # or short with
+$ snakemake -c4 -F
 	\end{lstlisting}
+     
 	\begin{question}
 		What do you observe? Why \altverb{-c4}?
 	\end{question}
@@ -380,9 +385,9 @@ $ snakemake -c4 --forcerun
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
 	\frametitle{\HandsOn{Visualising the Output}}
-	On <++cluster.name++> the Linux distro is <++cluster.distro++>, which provides the \altverb{display}-program to display simple images. We shall invoke:
+	On <++cluster.name++> the Linux distro is "<++cluster.distro++>", which \newline provides the \altverb{<++cluster.display_program++>}-program to display simple images. We shall invoke:
 	\begin{lstlisting}[language=Bash, style=Shell]
-$ display plots/quals.svg
+$ <++cluster.display_program++> plots/quals.svg
 	\end{lstlisting}
 	The figure has no axis-labels.
 	\begin{question}
