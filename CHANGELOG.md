@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.3.1](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.3.0...v1.3.1) (2024-09-24)
+
+
+### Bug Fixes
+
+* re-shuffled slide deck to better introduce the coding scenario and data retrival ([#146](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/146)) ([e8a4af8](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/e8a4af8b138b992a105cfdac5022f3cf29583ed8))
+* various little details ([#148](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/148)) ([058e251](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/058e2518205ab435c1c898e223427c4d1f7a33cd))
+
 ## [1.3.0](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.2.3...v1.3.0) (2024-09-21)
 
 
