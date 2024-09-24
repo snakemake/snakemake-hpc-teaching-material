@@ -40,7 +40,11 @@ jobs:
         with:
           name: Slides
           path: |
-            slides/*.pdf
+            slides/Snakemake_HPC_Creators.pdf;
+            slides/Snakemake_HPC_Users.pdf;
+            slides/Snakemake_HPC_User_Creator_Combi.pdf;
+            slides/Snakemake_HPC_Admins.pdf;
+
 
       
   release-please:

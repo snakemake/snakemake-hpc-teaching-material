@@ -1,18 +1,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Using Code-Studio on \texttt{Mogon-NHR}}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-	\frametitle{Outline}
-	\begin{columns}[t]
-		\begin{column}{.5\textwidth}
-			\tableofcontents[sections={1-9},currentsection]
-		\end{column}
-		\begin{column}{.5\textwidth}
-			\tableofcontents[sections={10-18},currentsection]
-		\end{column}
-	\end{columns}
-\end{frame}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=\paperheight]{humor/DALLE_LEGO-scientist-coding.jpg}\hfil}\vfil}
+		% source: https://en.m.wikipedia.org/wiki/File:Text-x-python.svg
+	}
+	\frame{
+		\frametitle{Using Code-Studio}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+	}
+    \vspace{12mm}\hfill{\tiny \lhref{https://zenodo.org/records/11147887}{from Ewa Bres \& Christian Bittner}}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -77,7 +79,7 @@
   \begin{itemize}[<+->]
   	\item Navigate to \url{https://mod.hpc.uni-mainz.de} in your browser.
   	\item Select the CodeServer
-  	\item From the drop down menu select your account \verb-<<++cluster.account++>-.
+  	\item From the drop down menu select your account "\verb,<++cluster.account++>,".
   	\item Reserve the job to run for 8 hours.
   	\item Number of Tasks needs to be 1.
   	\item CPUs per Tasks needs to be 1.
