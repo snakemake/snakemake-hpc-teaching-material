@@ -35,16 +35,6 @@ jobs:
           ./render --master-tex Snakemake_HPC_Admins.tex \
           --configfile config/config_for_github.yaml;
           zip slides slides/*pdf 
-      - name: Upload Release Asset
-        id: upload-release-asset 
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./slides.zip
-          asset_name: slides.zip
-          asset_content_type: slide/zip          
           #      - name: Upload Release Artifacts
           #if: ${{ steps.release.outputs.release_created }}        
           #uses: actions/upload-artifact@v4
@@ -65,3 +55,13 @@ jobs:
         with:
           release-type: simple
           package-name: "snakemake-hpc-teaching-material"
+      - uses: actions/upload-release-asset@v1
+        id: upload-release-asset 
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release-please.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./slides.zip
+          asset_name: slides.zip
+          asset_content_type: slide/zip          
+          #      - name: Upload Release Artifacts
