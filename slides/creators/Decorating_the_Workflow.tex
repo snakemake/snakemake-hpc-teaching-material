@@ -150,9 +150,9 @@ rule bcftools_call:
     input:
         fa="data/genome.fa",
         bam=expand("sorted_reads/{sample}.bam",
-                    sample=SAMPLES),
+                    sample=samples),
         bai=expand("sorted_reads/{sample}.bam.bai",
-                   sample=SAMPLES)
+                   sample=samples)
   \end{lstlisting}
   \bcquestion Which are the benefits?
 \end{frame}
