@@ -150,9 +150,9 @@ rule bcftools_call:
     input:
         fa="data/genome.fa",
         bam=expand("sorted_reads/{sample}.bam",
-                    sample=SAMPLES),
+                    sample=samples),
         bai=expand("sorted_reads/{sample}.bam.bai",
-                   sample=SAMPLES)
+                   sample=samples)
   \end{lstlisting}
   \bcquestion Which are the benefits?
 \end{frame}
@@ -436,12 +436,11 @@ $ snakemake --executor slurm
   Without specifying our SLURM-account and a (default) partition, submitting batch jobs will fail. \Snakemake{} allows to define so-called default resources (using \altverb{--default-resources}). With them our minimal command line becomes:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --executor slurm \
-> --default-resources slurm_partition=<++cluster.partition++>
-<+++ if cluster.account is defined +++> \
+> --default-resources slurm_partition=<++cluster.partition++><+++ if cluster.account is defined +++> \
 >                     slurm_account=<++cluster.account++><+++ endif +++>                      
   \end{lstlisting}
   \begin{hint}
-  	Please notice the missing quotation marks! All arguments belong to one parameter.
+  	Please notice the missing quotation marks! All arguments belong to one parameter -- they can be written in one line.
   \end{hint}
   \begin{docs}
   	We choose \altverb{slurm_...}-prefixes to distinguish from other non-SLURM accounts and similar stuff.
@@ -457,11 +456,11 @@ $ snakemake --executor slurm \
    \item may hold jobs pending until resources are available!
   \end{itemize}
   \pause
-  \Snakemake{} offers a semaphore to throttle resource usage, called \altverb{--jobs/-j}. We can now write \altverb{-j unlimited} in place for \altverb{--cores 1}. Let us try
+  \Snakemake{} offers a semaphore to throttle resource usage, called \altverb{--jobs/-j}. We can now write \altverb{-j unlimited}. Let us try
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --executor slurm \
 > --default-resources slurm_partition=<++cluster.partition++> \ 
-<+++ if cluster.account is defined +++>>   slurm_account=<++cluster.account++> \<+++ endif +++>> -j unlimited
+<+++ if cluster.account is defined +++>>   slurm_account=<++cluster.account++><+++ endif +++> -j unlimited
   \end{lstlisting}
   together. (in a sec.)
 \end{frame}
@@ -489,8 +488,7 @@ $ snakemake --executor slurm \
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --executor slurm \
 > --default-resources slurm_partition=<++cluster.partition++> \
-<+++ if cluster.account is defined +++> \
->                     slurm_account=<++cluster.account++><+++ endif +++>> -j unlimited @-F@
+> <+++ if cluster.account is defined +++>      slurm_account=<++cluster.account++><+++ endif +++>> -j unlimited @-F@
   \end{lstlisting}
   \begin{question}
   	Observations?
@@ -576,11 +574,11 @@ set-resources:
   Please execute the workflow again, now with 
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ # first copy the template profile:
-$ cp -r ../tutorial/profile .
+$ cp -r ../tasks/tutorial/profile .
 $ snakemake --executor slurm \
 > --default-resources slurm_partition=<++cluster.partition++> \
-<+++ if cluster.account is defined +++> \
->                     slurm_account=<++cluster.account++><+++ endif +++>> -j unlimited @--workflow-profile ./profile/ -F@
+> <+++ if cluster.account is defined +++>      slurm_account=<++cluster.account++><+++ endif +++>> -j unlimited
+> @--workflow-profile ./profile/ -F@
   \end{lstlisting}
   \begin{question}
   	What do you observe? Which rule still provokes a warning?
