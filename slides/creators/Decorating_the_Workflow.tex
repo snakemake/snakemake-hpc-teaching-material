@@ -577,7 +577,7 @@ $ # first copy the template profile:
 $ cp -r ../tasks/tutorial/profile .
 $ snakemake --executor slurm \
 > --default-resources slurm_partition=<++cluster.partition++> \
-> <+++ if cluster.account is defined +++>      slurm_account=<++cluster.account++><+++ endif +++>> -j unlimited
+> -j unlimited \
 > @--workflow-profile ./profile/ -F@
   \end{lstlisting}
   \begin{question}
