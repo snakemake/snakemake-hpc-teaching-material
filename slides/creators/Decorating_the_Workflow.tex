@@ -575,8 +575,8 @@ set-resources:
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ # first copy the template profile:
 $ cp -r ../tasks/tutorial/profile .
+$ # now, the defaults are satisfied
 $ snakemake --executor slurm \
-> --default-resources slurm_partition=<++cluster.partition++> \
 > -j unlimited \
 > @--workflow-profile ./profile/ -F@
   \end{lstlisting}
