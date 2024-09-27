@@ -189,14 +189,15 @@ rule bwa_map:
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Using the Input Function}}
   \begin{task}
-  	 Refer to your tutorial file \altverb{07_Snakefile} as the current workflow example containing the mentioned input function.\newline
+  	 Refer to your tutorial file \altverb{07_Snakefile} as the current workflow example containing the mentioned reference to the config file.\newline
   	 Try the dry-run.
   	 \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake -n --forcerun bcftools_call
+$ cp -r <++course.tutorialpath++>/config @.@
+$ snakemake -n -F bcftools_call
   	 \end{lstlisting}
   \end{task}
   \begin{docs}
-  	Input functions may be \altverb{lambda} functions (oneliners), too. The idea is that complex data mangling can be our-sourced to functions.
+  	For Python-Enthusiasts: Input functions may be \altverb{lambda} functions (oneliners), too. The idea is that complex data mangling can be our-sourced to functions.
   \end{docs}
 \end{frame}
 
