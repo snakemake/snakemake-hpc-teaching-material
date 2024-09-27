@@ -94,7 +94,7 @@ def define_boundaries(section_count):
     fhe = math.floor(section_count / 2)
     return {
         "lower": 1,
-        "upper": section_count,
+        "upper": section_count + 1, # as the count starts from 0
         "first_half_end": fhe,
         "second_half_start": fhe + 1,
     }
