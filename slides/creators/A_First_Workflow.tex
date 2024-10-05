@@ -11,6 +11,7 @@
 			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
 			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
 		\end{mdframed}
+	    \vspace{12mm}\hfill{\tiny Navvies at work - source: unknown}
 	}
 }
 
@@ -18,34 +19,175 @@
 \begin{frame}
   \frametitle{What is this about?}
    \begin{question}[Questions]
-   	 How do I write a simple workflow?
+   	  \begin{itemize}
+   	  	\item I have this quirky program - how can \Snakemake help?
+   	  	\item Do I need to learn shell magic? Will I be able to move my workflow along?
+   	  	\item Finally: How do I write a simple workflow?
+   	  \end{itemize}
    \end{question}
    \begin{docs}[Objectives]
    	 \begin{enumerate}
-                      \item Understand the components of a Snakefile: rules, inputs, outputs, and actions.
-                      \item Write a simple Snakefile.
-                      \item Run Snakemake from the shell.
-                      \item Learning what a "target" stands for and to use it.
+   	 	 \item One level up: getting away from the command line.
+         \item Understand the components of a Snakefile: rules, inputs, outputs, and actions.
+         \item Write a simple Snakefile.
+         \item Run \Snakemake from the shell.
+         \item Learning what a "target" stands for and to use it.
      \end{enumerate}
    \end{docs}
 \end{frame}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Manual Labour}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Your Tutorial Folder}
+	Let us have a look on our data, first - run \altverb{tree} on your tutorial folder:
+	\begin{lstlisting}[language=Bash, style=Shell]
+$ cd # to ensure we are in HOME
+$ tree @snakemake-tutorial@
+    \end{lstlisting}
+    You should see:
+    \begin{columns}
+    	\begin{column}{0.5\textwidth}
+    		
+    		\begin{minipage}[t]{0.5\textwidth}
+    			\setstretch{0.1}
+    			{\tiny \DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{.6pt}
+    				\dirtree{%
+    					.1 {\textit{snakemake-tutorial}}.
+    					.2 {data}.
+    					.3 {genome.fa}.
+    					.3 {genome.fa.amb}.
+    					.3 {\ldots}.
+    					.3 {samples}.
+    					.4 {A.fastq}.
+    					.4 {B.fastq}.
+    					.4 {C.fastq}.
+    					.2 {environment.yaml}.
+    			}}
+    		\end{minipage}
+    	\end{column}
+    	\begin{column}{0.5\textwidth}
+    		\pause
+    		\begin{task}[Our next Mini-Tasks]
+    			We are now going to mimic part of our workflow on the Shell, so that you get a feeling for in- and output and the quirks of the commands.
+    		\end{task}
+    	\end{column}
+    \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Mapping Sequencing Data}
+  \begin{task}[Task 1: Map the Data]
+  	First we want to know \emph{where} our reads are to be found in a genome - we are going to use the (rather old) program \altverb{bwa}.\newline
+  	\emph{Usually} we would separate indexing and mapping, for our toy data, we do this on the fly with:
+  \end{task}
+  \pause
+  	\begin{lstlisting}[language=Bash, style=Shell]
+$ bwa mem data/genome.fa data/samples/A.fastq
+    \end{lstlisting}
+    It requires to place the reference before the sample.
+    \begin{question}
+    	What do you observe?
+    \end{question}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{
+	\usebackgroundtemplate{\includegraphics[height=\paperheight]{misc/pipe.png}}
+	\begin{frame}[fragile]{\Interlude{Pipes}}
+		\begin{question}
+			Many (older) programs do not allow to save in a file - how can we redirect content written onto the terminal?\newline
+			And how can we convert it into another format? 
+		\end{question}
+	    \begin{onlyenv}<2->
+		  Meet the UNIX pipe. 
+	    \end{onlyenv}
+        \begin{onlyenv}<3>
+        	Consider
+		  \begin{lstlisting}[language=Bash, style=Shell]
+$ ls -1 data # will print the directory 
+             # content line for line
+		  \end{lstlisting}
+	    \end{onlyenv}
+        \begin{onlyenv}<4>
+        	Consider
+        	\begin{lstlisting}[language=Bash, style=Shell]
+$ ls -1 data @|@ # the pipe allows to
+               # "pipe" into another
+               # command.
+        	\end{lstlisting}
+        \end{onlyenv}
+        \begin{onlyenv}<5>
+        	Consider
+        	\begin{lstlisting}[language=Bash, style=Shell]
+$ ls -1 data @|@ tail -1
+               # into a new command!
+        	\end{lstlisting}
+        \end{onlyenv}
+        \begin{onlyenv}<6>
+        	Consider
+        	\begin{lstlisting}[language=Bash, style=Shell]
+$ ls -1 data @|@ tail -1 @>@ directory.txt
+               # and re-direct into a file
+        	\end{lstlisting}
+        \end{onlyenv}
+        \begin{onlyenv}<7>
+    	Consider
+    	\begin{lstlisting}[language=Bash, style=Shell]
+$ ls -1 data @|@ tail -1 @>@ directory.txt
+$ # visualize with
+$ cat directory.txt
+$ # finally remove with
+$ rm directory.txt # not worth keeping ;-)
+    	\end{lstlisting}
+    \end{onlyenv}      
+        \vfill
+	\end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Mapping Sequencing Data - II}
+	\begin{task}[Task 1: Mapping the Data \& Saving the Result]
+		Now, our data are written to the terminal. (And the indexing is done on the fly.).\newline
+		And we need a \texttt{sam}-file - to work with.
+	\end{task}
+	\pause
+	
+	For this we use \altverb{samtools} and "pipe" the data into it:
+	\begin{lstlisting}[language=Bash, style=Shell]
+$ bwa mem data/genome.fa data/samples/A.fastq @|@ \
+> samtools view -S @-@ > A.sam
+	\end{lstlisting}
+	\begin{docs}
+	   We use \altverb{\\} and \altverb{>} to wrap the line on the slide - you may omit this and write everything one line.\newline
+	   The \altverb{-} will abort the command line.
+	\end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Proceeding with Snakemake -- Background}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Before we begin \ldots}
-  \begin{exampleblock}{Working with closure Files}
-    To ease the excercises and save typing time, all exercises are supplied as cloze texts.\linebreak
-    \Snakemake{} relies on a file called \altverb{Snakefile} to be present. You can either rename your cloze texts like
-    \begin{lstlisting}[language=Bash, style=Shell]
+	\frametitle{Before we begin \ldots}
+	\begin{exampleblock}{Working with closure Files}
+		To ease the exercises and save typing time, all code is supplied as cloze texts.\linebreak
+		\Snakemake{} relies on a file called \altverb{Snakefile} to be present. You can either rename your cloze texts like
+		\begin{lstlisting}[language=Bash, style=Shell]
 $ cp <number>_Snakefile Snakefile
-    \end{lstlisting}
-    or specify the workflow file on the command line with an additional flag:
-    \begin{lstlisting}[language=Bash, style=Shell]
+		\end{lstlisting}
+		or specify the workflow file on the command line with an additional flag:
+		\begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake <other arguments> \
 > --snakefile <number>_Snakefile
-    \end{lstlisting}
-    Also note: \altverb{\\} may denote a linebreak in \texttt{Bash} and \altverb{>} its continuation. Omit these and you have a one-liner. It merely serves to fit text on screen, here.
-  \end{exampleblock}
+		\end{lstlisting}
+		Also note: \altverb{\\} may denote a linebreak in \texttt{Bash} and \altverb{>} its continuation. Omit these and you have a one-liner. It merely serves to fit text on screen, here.
+	\end{exampleblock}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -58,12 +200,12 @@ $ snakemake <other arguments> \
 		\begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake <other arguments> \
 > --snakefile <path to snakefile>
-	    \end{lstlisting}
+		\end{lstlisting}
 	\end{docs}
-    \pause
-    \begin{hint}
-      On clusters we recommend working from \altverb{HOME} and configuring workflows such that they point to data on project file systems. How and the reasons why will be covered.
-    \end{hint}
+	\pause
+	\begin{hint}
+		On clusters we recommend working from \altverb{HOME} and configuring workflows such that they point to data on project file systems. How and the reasons why will be covered.
+	\end{hint}
 \end{frame}
 
 
