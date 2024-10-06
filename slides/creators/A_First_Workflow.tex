@@ -154,7 +154,6 @@ $ rm directory.txt # not worth keeping ;-)
 	\frametitle{Mapping Sequencing Data - II}
 	\begin{task}[Task 1: Mapping the Data \& Saving the Result]
 		Now, our data are written to the terminal. (And the indexing is done on the fly.).\newline
-		The \altverb{-} tells \texttt{samtools} to read input from \texttt{stdin}..
 	\end{task}
 	\pause
 	
@@ -165,7 +164,7 @@ $ bwa mem data/genome.fa data/samples/A.fastq @|@ \
 	\end{lstlisting}
 	\begin{docs}
 	   We use \altverb{\\} and \altverb{>} to wrap the line on the slide - you may omit this and write everything one line.\newline
-	   The \altverb{-} will abort the command line.
+		The \altverb{-} tells \texttt{samtools} to read input from \texttt{stdin}.
 	\end{docs}
 \end{frame}
 
