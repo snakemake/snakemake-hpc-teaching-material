@@ -329,7 +329,7 @@ rule bwa_map:
         " | samtools view -Sb - >"
         " mapped_reads/A.bam"
     \end{lstlisting}
-    You will find working content in the file \altverb{01_mapping} in your tutorial folder, too.
+    You will find working content in the file \altverb{01_Snakefile_mapping} in your tutorial folder, too.
   \end{onlyenv}
 \end{frame}
 
@@ -455,7 +455,7 @@ rule foo:
 	   Your task is simple to introduce the \altverb{\{input\}} and \altverb{\{output\}}  wildcards in our current \altverb{bwa_map} rule. Replace the input and output within the \altverb{shell} directive using these wildcards.
 	\end{task}
     \begin{hint}
-       Remember, \Snakemake{} will concatenate multiline in- or output. Refer to  \altverb{02_Snakefile} in your tutorial folder for the task setting.
+       Remember, \Snakemake{} will concatenate multiline in- or output. Refer to  \altverb{02_Snakefile_inout} in your tutorial folder for the task setting.
     \end{hint}
 \end{frame}
 
@@ -476,16 +476,16 @@ rule bwa_map:
         " {output}"
     \end{lstlisting}
     Since the rule has multiple input files, \Snakemake{} will concatenate them, separated by a whitespace. In other words, \Snakemake{} will replace \altverb{\{input\}} with \altverb{data/genome.fa data/samples/A.fastq} before executing the command.\newline
-    A working example can be found in \altverb{02_Snakefile} in the solution folder.
+    A working example can be found in \altverb{02_Snakefile_inout} in the solution folder.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Further Workflow Decoration}}
-  (Usually), experiments consists of more than one input, e.\,g. several replicas might be present.\newline
+  (Usually), experiments consists of more than one input, i.\,e. several replicas might be present.\newline
   \begin{task}{Introducing the \altverb{sample} Wildcard}
     \Snakemake{} allows generalizing rules by using named wildcards, too. Simply replace the \altverb{A} in the second input file and in the output file with the wildcard \altverb{\{sample\}}.\newline
-    You may refer to the \altverb{03_Snakefile} template in your tutorial folder.
+    You may refer to the \altverb{03_Snakefile_wildcard} template in your tutorial folder.
   \end{task}
 \end{frame}
 
