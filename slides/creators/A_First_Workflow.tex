@@ -72,7 +72,7 @@ $ tree @snakemake-tutorial@
     	\begin{column}{0.5\textwidth}
     		\pause
     		\begin{task}[Our next Mini-Tasks]
-    			We are now going to mimic part of our workflow on the Shell, so that you get a feeling for in- and output and the quirks of the commands.
+    			We are now going to mimic part of our workflow on the Shell, so that you get a feeling for input and output and the quirks of the commands.
     		\end{task}
     	\end{column}
     \end{columns}
@@ -433,7 +433,7 @@ rule bwa_map:
 \begin{frame}[fragile]
 	\frametitle{\HandsOn{Introducing Wildcards}}
 	\altverb{\{input\}} and \altverb{\{output\}} are so-called "wildcards": We can use them 
-	to reference our in- and output in the \altverb{shell} directive, e.\,g.:
+	to reference our input and output in the \altverb{shell} directive, e.\,g.:
 	\begin{lstlisting}[language=Python,style=Python]
 rule foo:
    input: replicate_1.txt,
@@ -455,14 +455,14 @@ rule foo:
 	   Your task is simple to introduce the \altverb{\{input\}} and \altverb{\{output\}}  wildcards in our current \altverb{bwa_map} rule. Replace the input and output within the \altverb{shell} directive using these wildcards.
 	\end{task}
     \begin{hint}
-       Remember, \Snakemake{} will concatenate multiline in- or output. Refer to  \altverb{02_Snakefile_inout} in your tutorial folder for the task setting.
+       Remember, \Snakemake{} will concatenate multiline input or output. Refer to  \altverb{02_Snakefile_inout} in your tutorial folder for the task setting.
     \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Introducing Wildcards - The "Solution"}
-  Now, \altverb{\{input\}} and \altverb{\{output\}} reference the in- and output:
+  Now, \altverb{\{input\}} and \altverb{\{output\}} reference the input and output:
   \begin{lstlisting}[language=Python,style=Python]
 rule bwa_map:
     input:
