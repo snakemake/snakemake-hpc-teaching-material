@@ -16,3 +16,4 @@ dependencies:
     #  a lower python version than snakemake, install pysam
     #  using pip
   - pygments
+  - bcftools
