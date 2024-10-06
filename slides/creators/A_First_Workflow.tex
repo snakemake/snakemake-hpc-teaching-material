@@ -595,7 +595,7 @@ rule samtools_sort:
   \end{docs}
   You noticed \altverb{-T sorted_reads/\{wildcards.sample\}}? 
   \pause
-  For sorting, \texttt{samtools} requires a prefix specified with the flag \altverb{-T}. Here, we need the value of the wildcard \altverb{sample}. \Snakemake{} allows to access wildcards in the shell command via the wildcards object that has an attribute with the value for each wildcard.
+  For sorting, \texttt{samtools} requires a prefix specified with the flag \altverb{-T}. Here, we need the value of the wildcard \altverb{sample}. \Snakemake{} allows to access wildcards in the shell command via the \altverb{\{wildcards\}} object that has an attribute with the value for each wildcard.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
