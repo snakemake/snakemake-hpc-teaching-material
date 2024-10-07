@@ -14,7 +14,6 @@ SAMPLES = ["A", "B"]
 rule all:
     input:
         "calls/all.vcf",
-        "positions.png"
 
 rule bwa_map:
     output:
@@ -50,7 +49,7 @@ rule plot_positions:
     input:
        rules.bcftools_call.output
     output:
-       "positions.png"
+       "calls/positions.png"
     run:
        import matplotlib
        matplotlib.use("Agg") # to suppress interactive plotting

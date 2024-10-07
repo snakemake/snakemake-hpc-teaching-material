@@ -1,16 +1,10 @@
 # our samples are pre-configured
 SAMPLES = ["A", "B"]
 
-#TASK: Figure out, which your final target is.
-#      This is the final target of our workflow, so far.
-#
-#      Then place this as the input in the 'all' rule.
-#
-#      Then, test the workflow:
-#      $ snakemake --cores=1 --snakefile 05_Snakefile
 rule all:
     input:
-        "positions.png"
+        "calls/all.vcf",
+        "calls/positions.png"
 
 rule bwa_map:
     input:
@@ -56,7 +50,7 @@ rule plot_positions:
     input:
        rules.bcftools_call.output
     output:
-       "positions.png"
+       "calls/positions.png"
     run:
        import matplotlib
        matplotlib.use("Agg") # to suppress interactive plotting
