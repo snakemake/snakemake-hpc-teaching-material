@@ -117,7 +117,7 @@ glob_wildcards('data/samples/{replicas}.fastq').replicas
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{\Interlude{Meeting the \texttt{run} Action}}
+  \frametitle{Meet the \texttt{run} Action}
   \vspace{-0.5em}
   It is possible to run Python snippets in \Snakemake{}. For this, we have to replace the \altverb{shell:} action by a \altverb{run:} action:\vspace{-0.5em}
   \begin{task}
@@ -130,12 +130,31 @@ rule plot_positions:
     run:
         import matplotlib
         ...
-  \end{lstlisting}\vspace{-0.5em}
+  \end{lstlisting}
+  \vspace{-0.5em}
   \pause\footnotesize
   \begin{hint}[The idea:]
      This allows for Python snippets in rules without saving Python files, e.\,g. for short data mangling or plotting.\newline
      \textbf{Note:} Indentation is part of the Python syntax. It must be preserved from the \altverb{Snakefile}.
   \end{hint}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Refactoring and Debugging}}
+	Please copy the \altverb{06_Snakefile_run} template from your tutorial folder as \altverb{Snakefile}:
+	\begin{lstlisting}[language=Bash, style=Shell]
+cp <++course.tutorial_path++>/06_Snakefile_run Snakefile
+    \end{lstlisting}
+    \pause
+    \begin{task}
+    	This Snakefile will run. Except for a little error. And the file is a bit mixed up.
+    	\begin{enumerate}
+    		\item find the error and correct it.
+    		\item restore the file to an order you find acceptable.
+    		\item think about it: \emph{Why} do you prefer \emph{your} ordering?
+    	\end{enumerate}
+    \end{task}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
