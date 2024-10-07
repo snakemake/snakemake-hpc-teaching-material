@@ -58,9 +58,11 @@ rule plot_positions:
        import numpy as np
        from pysam import VariantFile
        import seaborn as sns
-       #TODO: this parameter needs to be configurable
-       #      see one of the next exercises
-       window_size = #500
+       #TODO: This parameter needs to be configurable
+       #      See one of the next exercises.
+       #      For the time being set it to a value in
+       #      the hundreds.
+       window_size = ...
 
        pos = [record.pos for record in VariantFile(input[0])]
        # setup windows 
