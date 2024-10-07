@@ -1,27 +1,23 @@
 # our samples are pre-configured
 SAMPLES = ["A", "B"]
 
-#TASK: This is an almost workfing Snakefile!
-#      But it is scrambled. Bring it
-#      into order and argue for each
-#      component, _why_ it should be
-#      placed where you think it is
-#      to be placed.
-#      Next, run Snakemake with the
-#      '--debug' flag to find out,
-#      where the error is.
-
+#TASK: Figure out, which your final target is.
+#      This is the final target of our workflow, so far.
+#
+#      Then place this as the input in the 'all' rule.
+#
+#      Then, test the workflow:
+#      $ snakemake --cores=1 --snakefile 05_Snakefile
 rule all:
     input:
-        "calls/all.vcf",
         "positions.png"
 
 rule bwa_map:
-    output:
-        "mapped_reads/{sample}.bam"
     input:
         "data/genome.fa",
         "data/samples/{sample}.fastq"
+    output:
+        "mapped_reads/{sample}.bam"
     shell:
         "bwa mem {input} | samtools view -Sb - > {output}"
 
@@ -34,6 +30,16 @@ rule samtools_sort:
     shell:
         "samtools sort -T sorted_reads/{wildcards.sample} "
         "-O bam {input} > {output}"
+
+
+rule samtools_index:
+    input:
+        "sorted_reads/{sample}.bam"
+    output:
+        "sorted_reads/{sample}.bam.bai"
+    shell:
+        "samtools index {input}"
+
 
 rule bcftools_call:
     input:
@@ -60,7 +66,7 @@ rule plot_positions:
        import seaborn as sns
        #TODO: this parameter needs to be configurable
        #      see one of the next exercises
-       window_size = #500
+       window_size = 500
 
        pos = [record.pos for record in VariantFile(input[0])]
        # setup windows 
@@ -80,12 +86,4 @@ rule plot_positions:
        ax.set_xlabel('Chromosome position (bp)')
        ax.set_ylabel('Variant density (bp$^{-1}$)')
        plt.savefig(output[0])
-       
-rule samtools_index:
-    input:
-        "sorted_reads/{sample}.bam"
-    output:
-        "sorted_reads/{sample}.bam.bai"
-    shell:
-        "samtools index {input}"
 
