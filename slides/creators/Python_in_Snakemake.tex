@@ -429,7 +429,6 @@ $ snakemake --debug
 	\end{exampleblock}
 \end{frame}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Running the final Workflow}
 
@@ -466,6 +465,39 @@ $ <++cluster.display_program++> calls/quals.svg
 	\begin{question}
 		What does the figure display?
 	\end{question}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Moving \altverb{run} to \altverb{script}}}
+	\begin{question}
+		Take a look at the \altverb{plot_positions} rule, once more: Is it a good idea to have this much code inlined in a Snakefile? When is it a good idea?
+	\end{question}
+	\pause
+	\begin{docs}
+		Only place a few lines in a \altverb{run} directive, i.\,e. to copy files or to trigger a download from within Python.
+	\end{docs}
+	\pause
+	\begin{task}
+		Copy the content of \altverb{plot_positions} into a script file. Save it as a Python script (suffix: \altverb{.py}) in the \altverb{scripts} folder. How to you need to change the \altverb{run} directive.\newline
+		\textbf{Attention:} Start the script with 0 indentation. Preserve the relative indentation within the script.\newline
+		\textbf{Remember:} Within a script \altverb{input} and \altverb{output} are accessible in the \altverb{snakemake} object, compare to the \altverb{plot-quals.py} script.
+	\end{task}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Solution}
+	\begin{lstlisting}[language=Python,style=Python]
+		rule plot_quals:
+		input:
+		"calls/all.vcf"
+		output:
+		"call/positions.png"
+		@script:@
+		"scripts/plot-positions.py"
+	\end{lstlisting}
+	Compare to the solution script in your solutions folder: <++course.pathtosolution++> and the Snakefile \altverb{08_Snakefile_script2}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
