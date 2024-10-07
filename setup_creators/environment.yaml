@@ -8,7 +8,7 @@ dependencies:
   - jinja2
   - matplotlib
   - graphviz
-  - bcftools =1.19
+  - bcftools >=1.19
   - samtools =1.19.2
   - bwa =0.7.17
   - pip:
