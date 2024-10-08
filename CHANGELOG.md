@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.3.2](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.3.1...v1.3.2) (2024-09-26)
+
+
+### Bug Fixes
+
+* overhaul ([#155](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/155)) ([aa6722b](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/aa6722b52857207c435497c8a294bdc27ed7324f))
+* removed superflous conditional ([#154](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/154)) ([c0cbae9](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/c0cbae961a51102da87405a1f987517c1ea6add0))
+* various2 ([#150](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/150)) ([fc01975](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/fc01975c9b9e748bbcf6dd04a05df320c7cd6a8d))
+* yet another attempt to upload artifacts ([#151](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/151)) ([d8871f1](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/d8871f150a8ed5168fdff3be4e4894b7440100d0))
+* yet another attempt to upload artifacts ([#153](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/153)) ([0ac283c](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/0ac283c0b7ab59ca45f5481c5aee6bac642380d5))
+
 ## [1.3.1](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.3.0...v1.3.1) (2024-09-24)
 
 
