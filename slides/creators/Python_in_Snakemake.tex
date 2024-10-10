@@ -300,10 +300,10 @@ rule plot_quals:
 	Solution:
 	\begin{lstlisting}[language=Python,style=Python]
 rule all:
-	input:
-		"calls/all.vcf", # note the comma!
-		"calls/positions.png",
-		@"calls/quals.svg"@
+    input:
+        "calls/all.vcf", # note the comma!
+        "calls/positions.png",
+        @"calls/quals.svg"@
 	\end{lstlisting}
 \end{frame}
 
