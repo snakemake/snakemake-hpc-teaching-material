@@ -300,10 +300,10 @@ rule plot_quals:
 	Solution:
 	\begin{lstlisting}[language=Python,style=Python]
 rule all:
-	input:
-		"calls/all.vcf", # note the comma!
-		"calls/positions.png",
-		@"calls/quals.svg"@
+    input:
+        "calls/all.vcf", # note the comma!
+        "calls/positions.png",
+        @"calls/quals.svg"@
 	\end{lstlisting}
 \end{frame}
 
@@ -409,7 +409,7 @@ quals = [record.qual for record
 plt.hist(quals)
 plt.savefig(snakemake.output[0])
    \end{lstlisting}
-  To be saved as \altverb{scripts/plot-quals.py}.
+  To be copied from \altverb{<++course.pathtosolutions++>/07_Snakefile_script} to \altverb{scripts/plot-quals.py} - .
   \end{onlyenv}
 \end{frame}
 
