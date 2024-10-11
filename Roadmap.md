@@ -7,4 +7,6 @@
 - [ ] more Parson problem task settings
 - [ ] remote files - no date set
 - [ ] MPI-examples with task - Dec24
+- [ ] publishing workflows - no date set
 
+Note: we also have issue which in parts reflect a "wish-list" and todo items.
