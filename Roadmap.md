@@ -9,4 +9,4 @@
 - [ ] MPI-examples with task - Dec24
 - [ ] publishing workflows - no date set
 
-Note: we also have issue which in parts reflect a "wish-list" and todo items.
+Note: We also have issues that reflect additional "wish-list" items and to-do tasks for the project.
