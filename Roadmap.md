@@ -8,5 +8,9 @@
 - [ ] remote files - no date set
 - [ ] MPI-examples with task - Dec24
 - [ ] publishing workflows - no date set
+- [ ] introducing scatter-gather rules - Jan/Feb 2025
+- [ ] introducing SLURM/LSF-job arrays - no date set (feature not present in plugins, yet)
+- [ ] introducing pool-Jobs - no date set (feature not present in plugins, yet)
+- [ ] demonstration of stage-in procedure - no date set (patch pending)
 
 Note: We also have issues that reflect additional "wish-list" items and to-do tasks for the project.
