@@ -58,13 +58,9 @@ In essence, every detail is configurable. Developers can be approached to add ne
 
 ## Progress
 
-Currently, the LaTeX code contains TODO and FIXME items. They should all be removed and become githug issues. In order to list TODO items, run the `todo` script, e.g.
+If you want to take part, contact us. We have an internal roadmap and meet on a regular basis (online).
 
-```bash
-$ todo slides/
-``` 
-
-Otherwise, create issue reports. 
+To get an idea of our roadmap, [take a look at it](https://github.com/cmeesters/snakemake-hpc-teaching-material/Roadmap.md).
 
 ## LaTeX specialities
 
