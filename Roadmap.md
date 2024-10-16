@@ -8,5 +8,8 @@
 - [ ] remote files - no date set
 - [ ] MPI-examples with task - Dec24
 - [ ] publishing workflows - no date set
+- [ ] SLURM-array jobs - when feature is implemented upstream
+- [ ] SLURM pool jobs - when feature is implemented upstream
+- [ ] LSF support - March 2025, after Snakemake Hackathon
 
 Note: we also have issue which in parts reflect a "wish-list" and todo items.
