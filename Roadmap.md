@@ -8,8 +8,10 @@
 - [ ] remote files - no date set
 - [ ] MPI-examples with task - Dec24
 - [ ] publishing workflows - no date set
-- [ ] SLURM-array jobs - when feature is implemented upstream
-- [ ] SLURM pool jobs - when feature is implemented upstream
 - [ ] LSF support - March 2025, after Snakemake Hackathon
+- [ ] introducing scatter-gather rules - Jan/Feb 2025
+- [ ] introducing SLURM/LSF-job arrays - no date set (feature not present in plugins, yet)
+- [ ] introducing pool-Jobs - no date set (feature not present in plugins, yet)
+- [ ] demonstration of stage-in procedure - no date set (patch pending)
 
-Note: we also have issue which in parts reflect a "wish-list" and todo items.
+Note: We also have issues that reflect additional "wish-list" items and to-do tasks for the project.
