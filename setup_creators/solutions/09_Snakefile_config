@@ -1,10 +1,10 @@
-# our samples are pre-configured
 configfile: "config/config.yaml"
 
 rule all:
     input:
-        "plots/quals.svg",
-        "calls/all.vcf"
+        "calls/all.vcf",
+        "calls/positions.png",
+        "calls/quals.svg"
 
 rule bwa_map:
     input:
@@ -46,12 +46,19 @@ rule bcftools_call:
         "bcftools mpileup -f {input.fa} {input.bam} | "
         "bcftools call -mv - > {output}"
 
+rule plot_positions:
+    input:
+       rules.bcftools_call.output
+    output:
+       "calls/positions.png"
+    script:
+       "scripts/plot-positions.py"
+       
 rule plot_quals:
     input:
-       "calls/all.vcf"
+        "calls/all.vcf"
     output:
-       "plots/quals.svg"
+        "calls/quals.svg"
     script:
-       "scripts/plot-quals.py"
-
+        "scripts/plot-quals.py"
 
