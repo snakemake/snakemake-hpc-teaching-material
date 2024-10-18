@@ -301,7 +301,7 @@ rule bwa_map:
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
+\begin{frame}
   \frametitle{Logging}
   \begin{hint}
   	When executing a large workflow, it is usually desirable to store the logging output of each job into a separate file, instead of just printing all logging output to the terminal—when multiple jobs are run in parallel, this would result in chaotic output. - We already observed this!
@@ -316,10 +316,35 @@ rule bwa_map:
   \end{docs}
 \end{frame}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Logging - II}
-  \Snakemake{} offers a \altverb{log}-directive for this purpose.  
+	\frametitle{Logging - I}
+	\Snakemake{} offers a \altverb{log}-directive for this purpose. Ordinarily it works like this:
+	\begin{lstlisting}[language=Python,style=Python]
+rule somename:
+    input:
+        ...
+    output:
+        ...
+    log: "logs/<somename>/{sample}.log"
+    shell:
+        "cmd &> {log}"
+	\end{lstlisting}
+	\begin{docs}\footnotesize
+		\begin{itemize}[<+->]
+			\item \altverb{&} bundles the \altverb{stderr} and \altverb{stdout} stream and \altverb{>} redirects both to the log file.
+			\item The convention is: We use a directory \altverb{logs} for our logfiles.
+			\item And a subdirectory with the rule name to differentiate between logs.
+		\end{itemize} 
+	\end{docs}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Logging - III}
+  Rules with a pipe are "special":  
   \begin{lstlisting}[language=Python,style=Python]
 rule bwa_map:
     input:
@@ -334,24 +359,40 @@ rule bwa_map:
         "| samtools view -Sb - > {output}) &> {log}"
    \end{lstlisting}
    \begin{docs}[Background]
-     \altverb{&} bundles the \altverb{stderr} and \altverb{stdout} stream and \altverb{>} redirects both to the log file. 
+     Here, we need to put the piped command into \altverb{()} to gather the grouped ouput. 
    \end{docs}
 \end{frame}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Logging in Practice}}
-  \begin{task}
-  	 Remember, the general to implement a logging directive syntax is:
-  	 \begin{lstlisting}[language=Python,style=Python]
-rule <name>:
+  \begin{columns}
+  	\begin{column}{0.5\textwidth}
+  		\begin{task}
+  			Implement the log directive for all rules you consider worth being logged. Test and run. What do you observe?
+  		\end{task}
+  	    \bcinfo Hints:
+  	    \begin{itemize}
+  	    	\item take \altverb{11_Snakefile_rule_params} from your tutorial folder as a template.
+  	    \end{itemize}
+  	\end{column}
+    \begin{column}{0.5\textwidth}
+        \begin{itemize}
+        	\item the general syntax is
+        	      	\begin{lstlisting}[language=Python,style=Python]
+rule somename:
     ...
-    log: "path/to/logs/{wildcard.log}
-  	\end{lstlisting}
-    Implement the log directive for all rules you consider worth being logged. What do you observe?
-    \newline
-    You can take the \altverb{09_Snakefile} sample file to proceed. A working solution is \altverb{10_Snakefile} in your solutions folder.
-  \end{task}
+    log: "logs/<somename>/{sample}.log"
+    shell:
+        "cmd &> {log}"
+        	       \end{lstlisting}
+            \item when dealing with piped commands enclose in \altverb{(...)}  before redirecting into the logfile.
+            \item \bcattention Ignore the plotting rules (with the \altverb{scripts} directive)!
+        \end{itemize}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -361,8 +402,11 @@ rule <name>:
   	 What did you observe? Why is there a distinction per sample?
   \end{question}
   \pause
-  \begin{docs}
-  	The \altverb{bwa_map} (and bcftools) output will not clutter the terminal any more. All necessary information is in a log \emph{per} sample: If one attempt to map goes wrong, the specific error can be found in the sample log.
+  \begin{docs}[Answers]
+  	\begin{itemize}[<+->]
+  		\item The \altverb{bwa_map} (and bcftools) output will not clutter the terminal any more. 
+  		\item All necessary information is in a log \emph{per} sample: If one attempt to map goes wrong, the specific error can be found in the sample log.
+  	\end{itemize}
   \end{docs}
 \end{frame}
 
