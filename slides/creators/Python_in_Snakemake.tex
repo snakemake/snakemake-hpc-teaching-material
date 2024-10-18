@@ -26,8 +26,9 @@
    \end{question}
    \begin{docs}[Objectives]
    	  \begin{enumerate}
-                      \item Use variables, functions, and imports in a Snakefile. 
-                      \item Learn to use the \texttt{run} action to execute Python code as an action.
+         \item Use variables, functions, and imports in a Snakefile. 
+         \item Learn to use the \altverb{run} action to execute Python code as an action and to \ldots
+         \item \ldots use the \altverb{script} directive to execute arbitrary scripts (not just Python) conveniently using \Snakemake.
        \end{enumerate}
    \end{docs}
 \end{frame}
@@ -51,7 +52,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Using functions in Snakefiles}
-  We already met the \altverb{expand()}-function. Let's revisit it in detail!
+  We already met the \altverb{expand()}-function. Before we use Python in a \altverb{Snakefile}, let us discover some of \Snakemake's API together!
   \begin{task}
   	Start Python and follow along!
   \end{task}
@@ -116,28 +117,85 @@ glob_wildcards('data/samples/{replicas}.fastq').replicas
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{\Interlude{Meeting the \texttt{run} Action}}
+  \frametitle{Meet the \texttt{run} Action}
   \vspace{-0.5em}
   It is possible to run Python snippets in \Snakemake{}. For this, we have to replace the \altverb{shell:} action by a \altverb{run:} action:\vspace{-0.5em}
   \begin{task}
-  	Imaging this code in a \altverb{Snakefile}:
+  	Imagine this code in our \altverb{Snakefile}:
   \end{task}\vspace{-0.5em}
   \begin{lstlisting}[language=Python,style=Python, basicstyle=\footnotesize]
-# at the top of the file
-import glob
-
-# add this wherever
-rule print_sample_names:
+# will plot the positions of our detected deviations
+# from the reference
+rule plot_positions:
     run:
-        print('These are all the samples names:')
-        for sample in glob.glob('data/samples/*.fastq'):
-            print(sample)
-
-  \end{lstlisting}\vspace{-0.5em}
+        import matplotlib
+        ...
+  \end{lstlisting}
+  \vspace{-0.5em}
   \pause\footnotesize
   \begin{hint}[The idea:]
-     This allows for Python snippets in rules without saving Python files, e.\,g. for short data mangling or plotting.
+     This allows for Python snippets in rules without saving Python files, e.\,g. for short data mangling or plotting.\newline
+     \textbf{Note:} Indentation is part of the Python syntax. It must be preserved from the \altverb{Snakefile}.
   \end{hint}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Refactoring and Debugging}}
+	Please copy the \altverb{06_Snakefile_run} template from your tutorial folder as \altverb{Snakefile}:
+	\begin{lstlisting}[language=Bash, style=Shell]
+cp <++course.tutorialpath++>/06_Snakefile_run Snakefile
+    \end{lstlisting}
+    \pause
+    \begin{task}
+    	This Snakefile will run. Except for a little error. And the file is a bit mixed up.
+    	\begin{enumerate}
+    		\item find the result of the \altverb{plot_positions} rule. Add it as a new target. Why?
+    		\item find the error and correct it.
+    		\item restore the file to an order you find acceptable.
+    		\item think about it: \emph{Why} do you prefer \emph{your} ordering?
+    		\item visualize the plot with \altverb{<++cluster.display_program++> calls/positions.png}
+    	\end{enumerate}
+    \end{task}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{The Solution}
+	\begin{enumerate}[<+->]
+		\item the new target is, of course:
+		\begin{lstlisting}[language=Python,style=Python]
+rule all:
+    input:
+        "calls/all.vcf", # <- mind the comma!
+        @"calls/positions.png"@
+	    \end{lstlisting}
+        \item You should have seen something like
+        \begin{lstlisting}[language=Python,style=Python, basicstyle=\footnotesize]
+RuleException:
+TypeError in file /home/cm/snakemake-tutorial/Snakefile, 
+          line 67
+unsupported operand type(s) for /: 'int' and 'ellipsis'
+        \end{lstlisting}
+        which brought you near
+        \begin{lstlisting}[language=Python,style=Python]
+    window_size = ...
+        \end{lstlisting}
+        which is, of course wrong. Any number > 100 will do.
+    \end{enumerate}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{The Solution - Continued}
+	\begin{enumerate}[<+->]
+		\setcounter{enumi}{2}
+		\item we find input and output for the \altverb{bwa_map} rule swapped. It is a convention to first define \altverb{input}, then \altverb{output}.
+		\item the rule \altverb{samtools_index} found its way to the bottom. Logically its output is needed by \altverb{bcftools_call}. While \Snakemake can deduce the correct order, its better to stick with the convention, because it is more readable.
+		\item finally, the plot looks like this for a \altverb{window_size} of 500:
+		\includegraphics[width=.8\textwidth]{results/positions.png}
+		
+	\end{enumerate}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -146,13 +204,17 @@ rule print_sample_names:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\Snakemake{} Specials for Python}
-  Remember this part:
+  Sometime we have to start programs like this in \Snakemake:
   \begin{lstlisting}[language=Python,style=Python]
 shell:  'some_command -i {input} -o {output}'
   \end{lstlisting}
   \begin{question}
-  	Isn't this rather tedious, considering that \Snakemake{} is written in Python? Could we forward rule specific information to our scripts?
+  	If this would be a Python script $\ldots$ Isn't this rather tedious, considering that \Snakemake{} is written in Python? Could we forward rule specific information to our scripts?
   \end{question}
+  \pause
+  \begin{docs}
+  	Remember: Not only are Snakefiles Python files, as our example with the \altverb{run} directive demonstrates: They inherit the same environment and namespace as our Snakefile. So, we must be able to use every information of the Snakefile within a script!
+  \end{docs}
 \end{frame}
 
 \begingroup
@@ -194,24 +256,25 @@ do_something(snakemake@input[[1]], snakemake@output[[1]])
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{\Interlude{Debugging external Scripts}}
-  \begin{exampleblock}{Debugging Python Scripts}
-  To debug Python scripts, you can invoke \Snakemake{} with
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake --debug
-  \end{lstlisting}
-  As always in Python, you may use \altverb{print()} and \altverb{logging()} functions which may write to a log file during the run to check whether the script behaves as expected.
-  \end{exampleblock}
-  \pause
-  \begin{exampleblock}{Debugging R Scripts}
-  To debug R scripts, you can save the workspace with \altverb{save.image()}, and invoke R after \Snakemake{} has terminated. 
-  \end{exampleblock}
+	\frametitle{\HandsOn{Write a Plotting Rule using the \texttt{script} Directive}}
+	If you do not have a working workflow, refer to the solution \altverb{<++course.pathtosolutions++>/06_Snakefile_run}.\newline
+	To prepare copy a plotting script into the \altverb{scripts} folder:
+	\begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
+cp <++course.pathtosolutions++>\
+/scripts/plot-quals.py scripts/.
+    \end{lstlisting}
+    Now, write a rule, which
+    \begin{enumerate}
+    	\item takes the vcf file as input
+    	\item a plot file as output (same directory as for the first plot)
+    	\item uses the \altverb{script}-directive and point to the script we just copied to our \altverb{scripts} directory.
+    \end{enumerate}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{We want to plot our Results!}
-  We now add the following rule to your \altverb{Snakefile} we could plot our variant statistics (see \altverb{06_Snakefile} in our tutorial folder):
+  \frametitle{Solution, plotting the Quality Scores}
+  You will find the solution at \altverb{<++course.pathtosolutions++>/07_Snakefile_script}, too.
   \begin{lstlisting}[language=Python,style=Python]
 rule plot_quals:
     input:
@@ -221,23 +284,37 @@ rule plot_quals:
     @script:@
         "scripts/plot-quals.py"
   \end{lstlisting}
-  It uses the \altverb{script} directive and expects a directory \altverb{scripts} relative to our \altverb{Snakefile}.
+  \begin{hint}
+  	You may choose any format offered by your matplotlib installation, it does not have to be \altverb{svg}.
+  \end{hint}
   \pause
-  \begin{task}
-  	Create the missing directory "\altverb{scripts}".
-  \end{task}
+  \begin{question}
+  	What is missing to start produce the desired plot?
+  \end{question}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Solution: One more Target}
+	
+	Solution:
+	\begin{lstlisting}[language=Python,style=Python]
+rule all:
+    input:
+        "calls/all.vcf", # note the comma!
+        "calls/positions.png",
+        @"calls/quals.svg"@
+	\end{lstlisting}
 \end{frame}
 
 \setcounter{preframe_handson}{\value{handson}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{\HandsOn{Adding the Plotting Script}}
+  \frametitle{Disecting the Plotting Script}
   \setcounter{handson}{\value{preframe_handson}}
-  \begin{task}
-  	Open an editor and follow along.
-  \end{task}
+
   \begin{onlyenv}<1| handout:0>
-   First, we start with importing a plotting library; save the script under \altverb{scripts/plot-quals.py}:
+   We start with importing a plotting library
    \begin{lstlisting}[language=Python,style=Python]
 @import matplotlib@
    \end{lstlisting}
@@ -332,30 +409,25 @@ quals = [record.qual for record
 plt.hist(quals)
 plt.savefig(snakemake.output[0])
    \end{lstlisting}
-  To be saved as \altverb{scripts/plot-quals.py}.
+  To be copied from \altverb{<++course.pathtosolutions++>/07_Snakefile_script} to \altverb{scripts/plot-quals.py} - if you have not done so, already.
   \end{onlyenv}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{\HandsOn{One more thing \ldots}}
-  \begin{question}[Which is the new final target?]
-  	You remember, that we placed the result of our analysis as the final target?\newline
-  	Now, we have one more final target? Which is its name?
-  \end{question}
-  \begin{task}
-  	Place the new target in the \altverb{all} rule, use \altverb{tutorial/06_Snakefile} as the template. 
-  \end{task}
-  \pause
-  Solution:
-  \begin{lstlisting}[language=Python,style=Python]
-rule all:
-    input:
-        "calls/all.vcf", # note the comma!
-        @"plots/quals.svg"@
-  \end{lstlisting}
+	\frametitle{\Interlude{Debugging external Scripts}}
+	\begin{exampleblock}{Debugging Python Scripts}
+		To debug Python scripts, you can invoke \Snakemake{} with
+		\begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --debug
+		\end{lstlisting}
+		As always in Python, you may use \altverb{print()} and \altverb{logging()} functions which may write to a log file during the run to check whether the script behaves as expected.
+	\end{exampleblock}
+	\pause
+	\begin{exampleblock}{Debugging R Scripts}
+		To debug R scripts, you can save the workspace with \altverb{save.image()}, and invoke R after \Snakemake{} has terminated. 
+	\end{exampleblock}
 \end{frame}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Running the final Workflow}
@@ -387,7 +459,7 @@ $ snakemake -c4 -F
 	\frametitle{\HandsOn{Visualising the Output}}
 	On <++cluster.name++> the Linux distro is "<++cluster.distro++>", which \newline provides the \altverb{<++cluster.display_program++>}-program to display simple images. We shall invoke:
 	\begin{lstlisting}[language=Bash, style=Shell]
-$ <++cluster.display_program++> plots/quals.svg
+$ <++cluster.display_program++> calls/quals.svg
 	\end{lstlisting}
 	The figure has no axis-labels.
 	\begin{question}
@@ -397,74 +469,42 @@ $ <++cluster.display_program++> plots/quals.svg
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-	\frametitle{Our ``final'' Workflow}
-	\footnotesize{Refer to \altverb{<++course.pathtosolutions++>/06_Snakefile} as the workflow solution, so far.}
-	\vspace{-1em}
-	\begin{columns}
-		\begin{column}{0.5\textwidth}
-			\begin{lstlisting}[language=Python,style=Python,basicstyle=\tiny]
-SAMPLES = ["A", "B"]
-				
-rule all:
-	input:
-		"plots/quals.svg",
-		"calls/all.vcf"
-				
-rule bwa_map:
-	input:
-		"data/genome.fa",
-		"data/samples/{sample}.fastq"
-	output:
-		"mapped_reads/{sample}.bam"
-	shell:
-		"bwa mem {input} | samtools view -Sb"
-		" - > {output}"
-				
-rule samtools_sort:
-	input:
-	    "mapped_reads/{sample}.bam"
-	output:
-		"sorted_reads/{sample}.bam"
-	shell:
-		"samtools sort"
-		" -T sorted_reads/{wildcards.sample}"
-		" -O bam {input} > {output}"
-			\end{lstlisting}
-		\end{column}
-		\begin{column}{0.5\textwidth}
-			\begin{lstlisting}[language=Python,style=Python,basicstyle=\tiny]
-rule samtools_index:
-	input:
-		"sorted_reads/{sample}.bam"
-	output:
-		"sorted_reads/{sample}.bam.bai"
-	shell:
-		"samtools index {input}"
-				
-rule bcftools_call:
-	input:
-		fa="data/genome.fa",
-		bam=expand("sorted_reads/{sample}.bam",
-		           sample=SAMPLES),
-		bai=expand("sorted_reads/{sample}.bam.bai",
-		          sample=SAMPLES)
-	output:
-		"calls/all.vcf"
-	shell:
-		"bcftools mpileup -f {input.fa}"
-		" {input.bam} | "
-		"bcftools call -mv - > {output}"
-				
+	\frametitle{\HandsOn{Moving \altverb{run} to \altverb{script}}}
+	\footnotesize
+	\begin{question}
+		Take a look at the \altverb{plot_positions} rule, once more: Is it a good idea to have this much code inlined in a Snakefile? When is it a good idea?
+	\end{question}
+	\pause
+	\begin{docs}
+		Only place a few lines in a \altverb{run} directive, i.\,e. to copy files or to trigger a download from within Python.
+	\end{docs}
+	\pause
+	\begin{task}
+		Copy the content of \altverb{plot_positions} into a script file. Save it as a Python script (suffix: \altverb{.py}) in the \altverb{scripts} folder. You need to change the \altverb{run} directive.\newline
+		\textbf{Attention:} Start the script with 0 indentation; preserve the relative indentation.\newline
+		\textbf{Remember:} Within a script \altverb{input} and \altverb{output} are accessible in the \altverb{snakemake} object, compare to the \altverb{plot-quals.py} script.
+	\end{task}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Solution}
+	\begin{lstlisting}[language=Python,style=Python]
 rule plot_quals:
-	input:
-		"calls/all.vcf"
-	output:
-		"plots/quals.svg"
-	script:
-		"scripts/plot-quals.py"
-			\end{lstlisting}
-		\end{column}
-	\end{columns}
+    input:
+        "calls/all.vcf"
+    output:
+        "call/positions.png"
+    @script:@
+        "scripts/plot-positions.py"
+	\end{lstlisting}
+	Compare to the solution script in your solutions folder: \altverb{<++course.pathtosolutions++>/08_Snakefile_script2}.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}<handout:0>
+	\frametitle{Our ``final'' Workflow}
+	Let us check our -- so far -- final workflow, together.
 \end{frame}
 
 
