@@ -18,7 +18,7 @@ rule bwa_map:
     params:
         rg=config["bwa_map"]["rg"]
     shell:
-        "bwa mem {input} | samtools view -Sb - > {output}"
+        "bwa mem -R '{params.rg}' {input} | samtools view -Sb - > {output}"
 
 
 rule samtools_sort:
