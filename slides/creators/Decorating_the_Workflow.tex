@@ -268,7 +268,7 @@ $ snakemake -j 4
 rule bwa_map:
     input:
         "data/genome.fa",
-        "data/samples/{sample}.fastq" get_bwa_map_input_fastqs
+        get_bwa_map_input_fastqs
     output:
         "mapped_reads/{sample}.bam"
     params:
@@ -281,7 +281,7 @@ rule bwa_map:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Rule Parameters}
+  \frametitle{Rule Parameters II}
   This is usually part of the configuration file(s), too.\newline
   If you put this in your config file (the \altverb{r} in \altverb{r"<something>"} stands for "raw strings"):
   \begin{lstlisting}[language=Python,style=Python]
@@ -294,7 +294,10 @@ rule bwa_map:
   params:
      @rg=config['bwa_map']['rg']@
   \end{lstlisting}
-  You have a configurable workflow! (This is implemented in \altverb{09_Snakefile} in your tutorial and solution folder.)
+  You have a configurable workflow! 
+  \begin{hint}
+  	This is implemented in \altverb{11_Snakefile_rule_params} in your tutorial and solution folder. This should convince you that a configurable workflow is beneficial - in fact \emph{any} software configuration can be stored in a config file.
+  \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
