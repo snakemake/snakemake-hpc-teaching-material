@@ -157,58 +157,67 @@ rule bcftools_call:
   \bcquestion Which are the benefits?
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{Input Functions}
-  Since we have stored the path to the FASTQ files in the config file, we can also generalize the rule \altverb{bwa_map} to use these paths. This case is different to the rule \altverb{bcftools_call} we modified above. To understand this, it is important to know that \Snakemake{} workflows are executed in three phases.
-  \begin{itemize}[<+->]
-   \item In the \emph{initialization phase}, the files defining the workflow are parsed and all rules are instantiated.
-   \item In the \emph{DAG phase}, the directed acyclic dependency graph of all jobs is built by filling wildcards and matching input files to output files.
-   \item In the \emph{scheduling phase}, the DAG of jobs is executed, with jobs started according to the available resources.
-  \end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{Input Functions - II}
-    \begin{alertblock}{Why we cannot do the same all over the Workflow}
-    We cannot determine the FASTQ paths for rule \altverb{bwa_map} from the config file in this phase, \emph{because we don’t even know which jobs will be generated from that rule}. Instead, we need to defer the determination of input files to the DAG phase. This can be achieved by specifying an input function instead of a string as inside of the input directive.
-  \end{alertblock}
-  \begin{lstlisting}[language=Python,style=Python]
-def get_bwa_map_input_fastqs(wildcards):
-    return config["samples"][wildcards.sample]
-
-rule bwa_map:
-    input:
-        "data/genome.fa",
-        get_bwa_map_input_fastqs
-  \end{lstlisting}
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Using the Input Function}}
   \begin{task}
-  	 Refer to your tutorial file \altverb{07_Snakefile} as the current workflow example containing the mentioned input function.\newline
+  	 Copy \altverb{<++course.pathtosolutions++>/09_Snakefile_config} as the current workflow, already featuring the \altverb{expand()} function - as the Snakefile.\newline
   	 Try the dry-run.
   	 \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake -n --forcerun bcftools_call
+$ snakemake -n -F
   	 \end{lstlisting}
   \end{task}
-  \begin{docs}
-  	Input functions may be \altverb{lambda} functions (oneliners), too. The idea is that complex data mangling can be our-sourced to functions.
-  \end{docs}
+  \begin{question}
+  	What do you observe? 
+  \end{question}
+  \pause
+  \begin{hint}
+  	The workflow is now able to take up the configuration - and will deduce all necesary input from the last rule requireing the \altverb{\{sample\}} wildcard.
+  \end{hint}
+%  \begin{docs}
+%  	  Input functions may be \altverb{lambda} functions (oneliners), too. The idea is that complex data mangling can be our-sourced to functions.
+%  \end{docs}
 \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
+	\frametitle{One more Thing: Input Functions}
+	Since we have stored the path to the FASTQ files in the config file, we can also generalize the rule \altverb{bwa_map} to use these paths. This case is different to the rule \altverb{bcftools_call} we modified above. To understand this, it is important to know that \Snakemake{} workflows are executed in three phases.
+	\begin{itemize}[<+->]
+		\item In the \emph{initialization phase}, the files defining the workflow are parsed and all rules are instantiated.
+		\item In the \emph{DAG phase}, the directed acyclic dependency graph of all jobs is built by filling wildcards and matching input files to output files.
+		\item In the \emph{scheduling phase}, the DAG of jobs is executed, with jobs started according to the available resources.
+	\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Input Functions - II}
+	\begin{alertblock}{Why we cannot do the same all over the Workflow}
+		We cannot determine the FASTQ paths for rule \altverb{bwa_map} from the config file in this phase, \emph{because we don’t even know which jobs will be generated from that rule}. Instead, we need to defer the determination of input files to the DAG phase. This can be achieved by specifying an input function instead of a string as inside of the input directive.
+	\end{alertblock}
+	\begin{lstlisting}[language=Python,style=Python]
+def get_bwa_map_input_fastqs(wildcards):
+    return config["samples"][wildcards.sample]
+		
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        get_bwa_map_input_fastqs # the 'wildcards' argument
+                                 # will always be set.
+	\end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
 	\frametitle{\HandsOn{Adding a new Sample}}
-	\begin{task}
-		Refer to your tutorial file \altverb{08_Snakefile} as the current workflow example and copy the configuration your tutorial folder: \altverb{cp -r <path to tutorial>/config .}.\newline
-		In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add that sample to the config file and see how \Snakemake{} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
+	\begin{task}\footnotesize
+		Copy \altverb{<++course.pathtosolutions++>/10_Snakefile_input_function} as your \altverb{Snakefile}. It contains the input function for the \altverb{bwa_map} rule.
+		In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add this sample to the config file and see how \Snakemake{} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
 		\begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake -j 4 --configfile config/config.yaml
+$ snakemake -j 4 
 		\end{lstlisting}
 	\end{task}
     \begin{question}
@@ -228,7 +237,7 @@ $ snakemake -j 4 --configfile config/config.yaml
 rule bwa_map:
     input:
         "data/genome.fa",
-        get_bwa_map_input_fastqs
+        "data/samples/{sample}.fastq" get_bwa_map_input_fastqs
     output:
         "mapped_reads/{sample}.bam"
     params:
