@@ -34,7 +34,7 @@ rule samtools_sort:
         "logs/samtools_sort/{sample}.log",
     shell:
         "samtools sort -T sorted_reads/{wildcards.sample} "
-        "-O bam {input} > {output} 2> {log}"
+        "-O bam -o {output} {input} 2> {log}"
 
 
 rule samtools_index:
