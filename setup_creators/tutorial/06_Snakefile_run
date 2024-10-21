@@ -1,7 +1,7 @@
 # our samples are pre-configured
 SAMPLES = ["A", "B"]
 
-#TASK: This is an almost workfing Snakefile!
+#TASK: This is an almost working Snakefile!
 #      But it is scrambled. Bring it
 #      into order and argue for each
 #      component, _why_ it should be
