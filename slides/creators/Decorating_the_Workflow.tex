@@ -466,7 +466,11 @@ $ snakemake -F # after adding temp()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{The \altverb{protected()} Function}
-  As a complement to the \altverb{temp()}-function \Snakemake offers the \altverb{protected()}-function. Files labeled "protected" are protected against accidental deletion and overwriting, e.\,g.:
+  \begin{hint}
+  	This is just to demonstrate the complement to \altverb{temp()}. Sometimes you might want to protect files from accidental deletion. This can be done with the \altverb{protected()} from \Snakemake.
+  \end{hint}
+  \pause
+  Files labeled "protected" are protected against accidental deletion and overwriting, by withdrawing the right to write. The implementation is as easy as:
   \begin{lstlisting}[language=Python,style=Python]
 rule plot_quals:
   ...
