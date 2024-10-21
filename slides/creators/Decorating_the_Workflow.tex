@@ -376,6 +376,7 @@ rule bwa_map:
   	    \bcinfo Hints:
   	    \begin{itemize}
   	    	\item take \altverb{11_Snakefile_rule_params} from your tutorial folder as a template.
+  	    	\item \bcattention Ignore the plotting rules (with the \altverb{scripts} directive)!
   	    \end{itemize}
   	\end{column}
     \begin{column}{0.5\textwidth}
@@ -389,7 +390,7 @@ rule somename:
         "cmd &> {log}"
         	       \end{lstlisting}
             \item when dealing with piped commands enclose in \altverb{(...)}  before redirecting into the logfile.
-            \item \bcattention Ignore the plotting rules (with the \altverb{scripts} directive)!
+            \item when \altverb{stdout} is already used (with \altverb{>}), gather only \altverb{stderr} with \altverb{2>}.
         \end{itemize}
     \end{column}
   \end{columns}
