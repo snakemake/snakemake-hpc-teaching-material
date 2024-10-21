@@ -409,6 +409,7 @@ rule somename:
   		\item All necessary information is in a log \emph{per} sample: If one attempt to map goes wrong, the specific error can be found in the sample log.
   	\end{itemize}
   \end{docs}
+  \only<1->{A working solution is in \altverb{12_Snakemake_logs} in your solutions folder.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -433,7 +434,7 @@ rule somename:
       \altverb{samtools_sort} & \pause{\color{PineGreen}\bf Yes} & Same reason as with \altverb{bwa_map}\\\hline
       \altverb{samtools_index} & \pause{\color{PineGreen}\bf Yes} & Same reason as with \altverb{bwa_map}\\\hline
       \altverb{bcftools_call} & \pause{\color{BrickRed}\bf No} & This is a result file!\\\hline
-      \altverb{plot_quals} & \pause{\color{BrickRed}\bf No} & This is a result file! See \altverb{all}.\\\hline 
+      plotting scripts & \pause{\color{BrickRed}\bf No} & These produce result files! See \altverb{all}.\\\hline 
     \end{tabular}
   \end{center}
 \end{frame} 
