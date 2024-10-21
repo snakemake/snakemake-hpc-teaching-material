@@ -17,12 +17,12 @@ rule bwa_map:
         get_bwa_map_input_fastqs,
     output:
         "mapped_reads/{sample}.bam",
-    log:
-        "logs/bwa_map/{sample}.log",
     params:
-        rg=config['bwa_map']['rg'],
+        rg=config["bwa_map"]["rg"],
+    log: "logs/bwa_map/{sample}.log",
     shell:
-        "(bwa mem -R '{params.rg}' {input} | samtools view -Sb - > {output}) 2> {log}"
+        "(bwa mem -R '{params.rg}' {input} | "
+        " samtools view -Sb - > {output}) 2> {log}"
 
 
 rule samtools_sort:
