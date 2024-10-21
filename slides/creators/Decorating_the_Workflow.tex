@@ -453,11 +453,14 @@ rule bwa_map:
     ...
   \end{lstlisting}
   \pause
-  Please run:
+  Implement the \altverb{temp()} function for \altverb{bwa_map}`s output and run the workflow. Please run:
   \begin{lstlisting}[language=Bash, style=Shell]
-$ du -sh *reads
+$ du -sh mapped_reads # measures the size of the folder
+$ rm -rf mapped_reads # deleting enforces run
+$ snakemake -F # after adding temp()
   \end{lstlisting}
-  Add the \altverb{temp()} function to \altverb{bwa_map}- and \altverb{samtools_sort}-rules, re-run the workflow and the \altverb{du}-command. What do you observer?
+  \pause
+  \bcquestion Do you see the benefit of temporary/intermediate files for your data management?
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
