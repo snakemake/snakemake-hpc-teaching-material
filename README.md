@@ -13,7 +13,7 @@ The Snakemake HPC Teaching Alliance is committed to advancing Open Science throu
 
 If you are a lecturer, you can use our material under the CC-BY-SA license. The material is quite complex, please contact us for an introduction into it.
 
-[Here are some questions to address when teaching elsewhere for the first time.](https://github.com/cmeesters/snakemake-hpc-teaching-material/Teaching_Elsewhere.md).
+[Here are some questions to address when teaching elsewhere for the first time](https://github.com/snakemake/snakemake-hpc-teaching-material/blob/main/Teaching_Elsewhere.md).
 
 ## Getting started / Onboarding
 
