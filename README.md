@@ -5,6 +5,20 @@
 
 # The Snakemake Teaching Alliance
 
+## Our Mission
+
+The Snakemake HPC Teaching Alliance is committed to advancing Open Science through inclusive, hands-on education in reproducible computing. By fostering accessible and collaborative learning environments, we aim to empower researchers across disciplines to build, share, and sustain reproducible workflows. Our teaching materials, openly available and community-driven, are designed to support diverse learners and promote best practices in high-performance computing (HPC).
+
+## Getting Started
+
+If you are a lecturer, you can use our material under the CC-BY-SA license. The material is quite complex, please contact us for an introduction into it.
+
+[Here are some questions to address when teaching elsewhere for the first time](https://github.com/snakemake/snakemake-hpc-teaching-material/blob/main/Teaching_Elsewhere.md).
+
+## Getting started / Onboarding
+
+If you want to participate in the development: Just notify us (issue) and we will add your github account. Alternatively, you may fork the repo and create PRs from there.
+
 ## Purpose
 
 This repository contains (better: will contain) teaching material to teach for
@@ -15,9 +29,7 @@ This repository contains (better: will contain) teaching material to teach for
 
 all tailored for HPC systems.
 
-## Getting started / Onboarding
-
-If you want to participate in the development: Just notify us (issue) and we will add your github account. Alternatively, you may fork the repo and create PRs from there.
+## Development Workflow
 
 Workflow for pull requests:
 
@@ -56,25 +68,9 @@ just because it is the first. Others will follow.The file `config/config_for_git
 
 In essence, every detail is configurable. Developers can be approached to add new details to be configurable. Any configuration file should be human readable and commented to make sense. 
 
-## Progress
-
-Currently, the LaTeX code contains TODO and FIXME items. They should all be removed and become githug issues. In order to list TODO items, run the `todo` script, e.g.
-
-```bash
-$ todo slides/
-``` 
-
-Otherwise, create issue reports. 
-
-## LaTeX specialities
+### LaTeX specialities
 
 This repo contains some unique commands:
 
 - `altverb` to include in-line listings code, e.g. `\altverb{filename}` or `\altverb{--flag}`. Use `\texttt{Name}` for project names, so: `\texttt{Snakemake}`, but `\altverb{snakemake --slurm}` to distinguish the project from the software.
 - to include parameters from the config file, use the `<++name++>}` expression, whre "name" can be a part of the config, e.g. `course.pathtosetup`.
-
-## For Teachers
-
-You can get in touch with us, if you want to host a course at your site. If possible, we are happy to teach a course at your site and teach you teaching (teach the teacher).
-
-Everyone who wants to teach the course will find more information [here](https://github.com/cmeesters/snakemake-hpc-teaching-material/Teaching_Elsewhere.md).
