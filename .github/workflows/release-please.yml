@@ -57,7 +57,8 @@ jobs:
         id: release
         with:
           release-type: simple
-          package-name: "snakemake-hpc-teaching-material"
+          # 'package-name' not allowed here.
+          #package-name: "snakemake-hpc-teaching-material"
       - uses: actions/upload-release-asset@v1
         id: upload-release-asset 
         env:
