@@ -164,14 +164,19 @@ rule bwa_map:
         settings from a Snakemake rule are also commonly used to set memory or parallelization parameters for each tool.
     \end{docs}
 \end{frame}
- 
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- \begin{frame}{Advantages of Wrappers}
-     Using wrappers has many great advantages compared to \altverb{run} or \altverb{shell}:
-     \begin{itemize}[<+->]
-         \item Code is reusable across workflows and can be shared with others
-         \item Complex invocations of tools do not clutter your \Snakemake{} workflow definitions
-         \item With versioned wrappers, you workflow is easily reproducible
-         \item Community wrappers often get you started quickly using a new tool correctly
-     \end{itemize}
- \end{frame}
+
+\begin{frmae]}{Group Jobs}
+    Group jobs are great for bundling invocations of related tools.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Advantages of Wrappers}
+    Using wrappers has many great advantages compared to \altverb{run} or \altverb{shell}:
+    \begin{itemize}[<+->]
+        \item Code is reusable across workflows and can be shared with others
+        \item Complex invocations of tools do not clutter your \Snakemake{} workflow definitions
+        \item With versioned wrappers, you workflow is easily reproducible
+        \item Community wrappers often get you started quickly using a new tool correctly
+    \end{itemize}
+\end{frame}
+
