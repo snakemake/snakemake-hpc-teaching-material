@@ -11,6 +11,7 @@
 			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
 			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
 		\end{mdframed}
+	    \vspace{12mm}\hfill{\tiny Navvies at work - source: unknown}
 	}
 }
 
@@ -18,34 +19,174 @@
 \begin{frame}
   \frametitle{What is this about?}
    \begin{question}[Questions]
-   	 How do I write a simple workflow?
+   	  \begin{itemize}
+   	  	\item I have this quirky program - how can \Snakemake help?
+   	  	\item Do I need to learn shell magic? Will I be able to move my workflow along?
+   	  	\item Finally: How do I write a simple workflow?
+   	  \end{itemize}
    \end{question}
    \begin{docs}[Objectives]
    	 \begin{enumerate}
-                      \item Understand the components of a Snakefile: rules, inputs, outputs, and actions.
-                      \item Write a simple Snakefile.
-                      \item Run Snakemake from the shell.
-                      \item Learning what a "target" stands for and to use it.
+   	 	 \item One level up: getting away from the command line.
+         \item Understand the components of a Snakefile: rules, inputs, outputs, and actions.
+         \item Write a simple Snakefile.
+         \item Run \Snakemake from the shell.
+         \item Learning what a "target" stands for and to use it.
      \end{enumerate}
    \end{docs}
 \end{frame}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Manual Labour}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Your Tutorial Folder}
+	Let us have a look on our data, first - run \altverb{tree} on your tutorial folder:
+	\begin{lstlisting}[language=Bash, style=Shell]
+$ cd # to ensure we are in HOME
+$ tree @snakemake-tutorial@
+    \end{lstlisting}
+    You should see:
+    \begin{columns}
+    	\begin{column}{0.5\textwidth}
+    		
+    		\begin{minipage}[t]{0.5\textwidth}
+    			\setstretch{0.1}
+    			{\tiny \DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{.6pt}
+    				\dirtree{%
+    					.1 {\textit{snakemake-tutorial}}.
+    					.2 {data}.
+    					.3 {genome.fa}.
+    					.3 {genome.fa.amb}.
+    					.3 {\ldots}.
+    					.3 {samples}.
+    					.4 {A.fastq}.
+    					.4 {B.fastq}.
+    					.4 {C.fastq}.
+    					.2 {environment.yaml}.
+    			}}
+    		\end{minipage}
+    	\end{column}
+    	\begin{column}{0.5\textwidth}
+    		\pause
+    		\begin{task}[Our next Mini-Tasks]
+    			We are now going to mimic part of our workflow on the Shell, so that you get a feeling for input and output and the quirks of the commands.
+    		\end{task}
+    	\end{column}
+    \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Mapping Sequencing Data}
+  \begin{task}[Task 1: Map the Data]
+  	First we want to know \emph{where} our reads are to be found in a genome - we are going to use the (rather old) program \altverb{bwa}.\newline
+  	\emph{Usually} we would separate indexing and mapping, for our toy data, we do this on the fly with:
+  \end{task}
+  \pause
+  	\begin{lstlisting}[language=Bash, style=Shell]
+$ bwa mem data/genome.fa data/samples/A.fastq
+    \end{lstlisting}
+    It requires to place the reference before the sample.
+    \begin{question}
+    	What do you observe?
+    \end{question}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{
+	\usebackgroundtemplate{\includegraphics[height=\paperheight]{misc/pipe.png}}
+	\begin{frame}[fragile]{\Interlude{Pipes}}
+		\begin{question}
+			Many (older) programs do not allow to save in a file - how can we redirect content written onto the terminal?\newline
+			And how can we convert it into another format? 
+		\end{question}
+	    \begin{onlyenv}<2->
+		  Meet the UNIX pipe. 
+	    \end{onlyenv}
+        \begin{onlyenv}<3>
+        	Consider
+		  \begin{lstlisting}[language=Bash, style=Shell]
+$ ls -1 data # will print the directory 
+             # content line for line
+		  \end{lstlisting}
+	    \end{onlyenv}
+        \begin{onlyenv}<4>
+        	Consider
+        	\begin{lstlisting}[language=Bash, style=Shell]
+$ ls -1 data @|@ # the pipe allows to
+               # "pipe" into another
+               # command.
+        	\end{lstlisting}
+        \end{onlyenv}
+        \begin{onlyenv}<5>
+        	Consider
+        	\begin{lstlisting}[language=Bash, style=Shell]
+$ ls -1 data @|@ tail -1
+               # into a new command!
+        	\end{lstlisting}
+        \end{onlyenv}
+        \begin{onlyenv}<6>
+        	Consider
+        	\begin{lstlisting}[language=Bash, style=Shell]
+$ ls -1 data @|@ tail -1 @>@ directory.txt
+               # and re-direct into a file
+        	\end{lstlisting}
+        \end{onlyenv}
+        \begin{onlyenv}<7>
+    	Consider
+    	\begin{lstlisting}[language=Bash, style=Shell]
+$ ls -1 data @|@ tail -1 @>@ directory.txt
+$ # visualize with
+$ cat directory.txt
+$ # finally remove with
+$ rm directory.txt # not worth keeping ;-)
+    	\end{lstlisting}
+    \end{onlyenv}      
+        \vfill
+	\end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Mapping Sequencing Data - II}
+	\begin{task}[Task 1: Mapping the Data \& Saving the Result]
+		Now, our data are written to the terminal. (And the indexing is done on the fly.).\newline
+	\end{task}
+	\pause
+	
+	For this we use \altverb{samtools} and "pipe" the data into it:
+	\begin{lstlisting}[language=Bash, style=Shell]
+$ bwa mem data/genome.fa data/samples/A.fastq @|@ \
+> samtools view -S @-@ > A.sam
+	\end{lstlisting}
+	\begin{docs}
+	   We use \altverb{\\} and \altverb{>} to wrap the line on the slide - you may omit this and write everything one line.\newline
+		The \altverb{-} tells \texttt{samtools} to read input from \texttt{stdin}.
+	\end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Proceeding with Snakemake -- Background}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Before we begin \ldots}
-  \begin{exampleblock}{Working with closure Files}
-    To ease the excercises and save typing time, all exercises are supplied as cloze texts.\linebreak
-    \Snakemake{} relies on a file called \altverb{Snakefile} to be present. You can either rename your cloze texts like
-    \begin{lstlisting}[language=Bash, style=Shell]
+	\frametitle{Before we begin \ldots}
+	\begin{exampleblock}{Working with Cloze Files}
+		To ease the exercises and save typing time, all code is supplied as cloze texts.\linebreak
+		\Snakemake{} relies on a file called \altverb{Snakefile} to be present. You can either rename your cloze texts like
+		\begin{lstlisting}[language=Bash, style=Shell]
 $ cp <number>_Snakefile Snakefile
-    \end{lstlisting}
-    or specify the workflow file on the command line with an additional flag:
-    \begin{lstlisting}[language=Bash, style=Shell]
+		\end{lstlisting}
+		or specify the workflow file on the command line with an additional flag:
+		\begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake <other arguments> \
 > --snakefile <number>_Snakefile
-    \end{lstlisting}
-    Also note: \altverb{\\} may denote a linebreak in \texttt{Bash} and \altverb{>} its continuation. Omit these and you have a one-liner. It merely serves to fit text on screen, here.
-  \end{exampleblock}
+		\end{lstlisting}
+		Note: In Bash, the backslash \altverb{\\} at the end of a line indicates that the command continues on the next line. The \altverb{>} you see is the shell's prompt for the continued line and should not be typed. You can omit the backslash and write the command on a single line if preferred. The line breaks here are for presentation purposes.
+	\end{exampleblock}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -58,12 +199,12 @@ $ snakemake <other arguments> \
 		\begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake <other arguments> \
 > --snakefile <path to snakefile>
-	    \end{lstlisting}
+		\end{lstlisting}
 	\end{docs}
-    \pause
-    \begin{hint}
-      On clusters we recommend working from \altverb{HOME} and configuring workflows such that they point to data on project file systems. How and the reasons why will be covered.
-    \end{hint}
+	\pause
+	\begin{hint}
+		On clusters we recommend working from \altverb{HOME} and configuring workflows such that they point to data on project file systems. How and the reasons why will be covered.
+	\end{hint}
 \end{frame}
 
 
@@ -103,7 +244,7 @@ $ snakemake <other arguments> \
 \begin{frame}[fragile]
   \frametitle{Our first Snakefile!}
   \begin{onlyenv}<1| handout:0>
-    Our first ``\altverb{rule}''; we want to map reads onto a reference genome. 
+    Our first ``\altverb{rule}''; we want to translate our mapping task to \Snakemake. 
     \begin{lstlisting}[language=Python,style=Python]
 rule bwa_map:
     input:
@@ -187,7 +328,7 @@ rule bwa_map:
         " | samtools view -Sb - >"
         " mapped_reads/A.bam"
     \end{lstlisting}
-    You will find working content in the file \altverb{01_Snakefile} in your tutorial folder, too.
+    You will find working content in the file \altverb{01_Snakefile_mapping} in your tutorial folder, too.
   \end{onlyenv}
 \end{frame}
 
@@ -291,7 +432,7 @@ rule bwa_map:
 \begin{frame}[fragile]
 	\frametitle{\HandsOn{Introducing Wildcards}}
 	\altverb{\{input\}} and \altverb{\{output\}} are so-called "wildcards": We can use them 
-	to reference our in- and output in the \altverb{shell} directive, e.\,g.:
+	to reference our input and output in the \altverb{shell} directive, e.\,g.:
 	\begin{lstlisting}[language=Python,style=Python]
 rule foo:
    input: replicate_1.txt,
@@ -313,14 +454,14 @@ rule foo:
 	   Your task is simple to introduce the \altverb{\{input\}} and \altverb{\{output\}}  wildcards in our current \altverb{bwa_map} rule. Replace the input and output within the \altverb{shell} directive using these wildcards.
 	\end{task}
     \begin{hint}
-       Remember, \Snakemake{} will concatenate multiline in- or output. Refer to  \altverb{02_Snakefile} in your tutorial folder for the task setting.
+       Remember, \Snakemake{} will concatenate multiline input or output. Refer to  \altverb{02_Snakefile_inout} in your tutorial folder for the task setting.
     \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{Introducing Wildcards - The "Solution"}
-  Now, \altverb{\{input\}} and \altverb{\{output\}} reference the in- and output:
+  Now, \altverb{\{input\}} and \altverb{\{output\}} reference the input and output:
   \begin{lstlisting}[language=Python,style=Python]
 rule bwa_map:
     input:
@@ -334,16 +475,16 @@ rule bwa_map:
         " {output}"
     \end{lstlisting}
     Since the rule has multiple input files, \Snakemake{} will concatenate them, separated by a whitespace. In other words, \Snakemake{} will replace \altverb{\{input\}} with \altverb{data/genome.fa data/samples/A.fastq} before executing the command.\newline
-    A working example can be found in \altverb{02_Snakefile} in the solution folder.
+    A working example can be found in \altverb{02_Snakefile_inout} in the solution folder.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Further Workflow Decoration}}
-  (Usually), experiments consists of more than one input, e.\,g. several replicas might be present.\newline
+  (Usually), experiments consists of more than one input, i.\,e. several replicas might be present.\newline
   \begin{task}{Introducing the \altverb{sample} Wildcard}
     \Snakemake{} allows generalizing rules by using named wildcards, too. Simply replace the \altverb{A} in the second input file and in the output file with the wildcard \altverb{\{sample\}}.\newline
-    You may refer to the \altverb{03_Snakefile} template in your tutorial folder.
+    You may refer to the \altverb{03_Snakefile_wildcard} template in your tutorial folder.
   \end{task}
 \end{frame}
 
@@ -423,7 +564,7 @@ rule samtools_sort:
        " -O bam {input} > {output}"
   \end{lstlisting}
   \begin{task}
-  	Please refer to your template \newline \altverb{04_Snakefile} in the tutorial folder and fill in \altverb{input} and \altverb{output}.
+  	Please refer to your template \newline \altverb{04_Snakefile_new_rule} in the tutorial folder and fill in \altverb{input} and \altverb{output}.
   \end{task}
 \end{frame}
 
@@ -453,7 +594,7 @@ rule samtools_sort:
   \end{docs}
   You noticed \altverb{-T sorted_reads/\{wildcards.sample\}}? 
   \pause
-  For sorting, \texttt{samtools} requires a prefix specified with the flag \altverb{-T}. Here, we need the value of the wildcard \altverb{sample}. \Snakemake{} allows to access wildcards in the shell command via the wildcards object that has an attribute with the value for each wildcard.
+  For sorting, \texttt{samtools} requires a prefix specified with the flag \altverb{-T}. Here, we need the value of the wildcard \altverb{sample}. \Snakemake{} allows to access wildcards in the shell command via the \altverb{\{wildcards\}} object that has an attribute with the value for each wildcard.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -483,7 +624,7 @@ rule samtools_index:
         "samtools index {input}"
   \end{lstlisting}
   \begin{hint}[Note]
-  	You will find this code in the next cloze text. It is not worth editing without the next step, yet.
+  	You will find this code in the next example. It is not worth editing without the next step, yet.
   \end{hint}
 \end{frame}
 
@@ -538,7 +679,7 @@ rule bcftools_call:
     "bcftools mpileup -f {input.fa} {input.bam} | "
     "bcftools call -mv - > {output}"
   \end{lstlisting}
-  We will meet this rule in \altverb{05_Snakefile} of our tutorial folder -- in the next exercise.
+  We will meet this rule in \altverb{05_Snakefile_target} of our tutorial folder -- in the next exercise.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -576,7 +717,7 @@ rule all:
 	\end{onlyenv}
 	\begin{onlyenv}<2| handout:1>
 	   \begin{task}
-	   	  Take the template \altverb{05_Snakefile} and fill in the target in the \altverb{all} rule. Try to run the workflow!
+	   	  Take the template \altverb{05_Snakefile_target} and fill in the target in the \altverb{all} rule. Try to run the workflow!
 	   \end{task}
 	\end{onlyenv}
 \end{frame}
@@ -594,5 +735,5 @@ rule all:
     \begin{hint}
        Essentially, you can add all output files you want to keep (e.\,g. plots, final results) to \altverb{all}.
     \end{hint}
-    The solution can be found at \altverb{<++course.pathtosolutions++>/05_Snakefile}.
+    The solution can be found at \altverb{<++course.pathtosolutions++>/05_Snakefile_target}.
 \end{frame}

@@ -1,6 +1,6 @@
 samples:
-  A: A.fastq
-  B: B.fastq
+  A: data/samples/A.fastq
+  B: data/samples/B.fastq
 
 bwa_map:
-  rg=r"@RG\tID:{sample}\tSM:{sample}"
+  rg: r"@RG\tID:{sample}\tSM:{sample}"

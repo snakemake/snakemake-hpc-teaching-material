@@ -29,7 +29,7 @@ rule samtools_sort:
         "sorted_reads/{sample}.bam"
     shell:
         "samtools sort -T sorted_reads/{wildcards.sample} "
-        "-O bam {input} > {output}"
+        "-O bam -o {output} {input}"
 
 
 rule samtools_index:

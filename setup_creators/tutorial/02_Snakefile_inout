@@ -1,6 +1,7 @@
-#TASK: Within the 'shell' directive change
-#      the inputs to the '{input}' wildcard
-#      and the output to the '{output}'
+#TASK: Within the 'shell' directive identify
+#      the inputs and replace all input files
+#      with the '{input}' wildcard
+#      and the output file to the '{output}'
 #      wildcard, respectively.
 
 rule bwa_map:

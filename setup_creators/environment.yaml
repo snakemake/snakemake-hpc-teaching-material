@@ -5,14 +5,19 @@ dependencies:
   - snakemake-minimal >=8.4.4
   - snakemake-executor-plugin-slurm  
   - snakemake-storage-plugin-fs
+  - black
+  - snakefmt
   - jinja2
   - matplotlib
   - graphviz
-  - bcftools =1.19
+  - bcftools >=1.19
   - samtools =1.19.2
   - bwa =0.7.17
-    #  - pysam =0.22
+  - pip:
+    - pysam
     #  at the time of writing - 7. Feb 24 - pysam will require
     #  a lower python version than snakemake, install pysam
     #  using pip
   - pygments
+  - seaborn
+  

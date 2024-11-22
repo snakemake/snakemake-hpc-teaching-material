@@ -1,0 +1,92 @@
+# our samples are pre-configured
+SAMPLES = ["A", "B"]
+
+#TASK: This is an almost working Snakefile!
+#      But it is scrambled. Bring it
+#      into order and argue for each
+#      component, _why_ it should be
+#      placed where you think it is
+#      to be placed.
+#      Next, run Snakemake with the
+#      '--debug' flag to find out,
+#      where the error is.
+
+rule all:
+    input:
+        "calls/all.vcf",
+
+rule bwa_map:
+    output:
+        "mapped_reads/{sample}.bam"
+    input:
+        "data/genome.fa",
+        "data/samples/{sample}.fastq"
+    shell:
+        "bwa mem {input} | samtools view -Sb - > {output}"
+
+
+rule samtools_sort:
+    input:
+        "mapped_reads/{sample}.bam"
+    output:
+        "sorted_reads/{sample}.bam"
+    shell:
+        "samtools sort -T sorted_reads/{wildcards.sample} "
+        "-O bam -o {output} {input}"
+
+rule bcftools_call:
+    input:
+        fa="data/genome.fa",
+        bam=expand("sorted_reads/{sample}.bam", sample=SAMPLES),
+        bai=expand("sorted_reads/{sample}.bam.bai", sample=SAMPLES)
+    output:
+        "calls/all.vcf"
+    shell:
+        "bcftools mpileup -f {input.fa} {input.bam} | "
+        "bcftools call -mv - > {output}"
+
+rule plot_positions:
+    input:
+       rules.bcftools_call.output
+    output:
+       "calls/positions.png"
+    run:
+       import matplotlib
+       matplotlib.use("Agg") # to suppress interactive plotting
+       import matplotlib.pyplot as plt
+       import numpy as np
+       from pysam import VariantFile
+       import seaborn as sns
+       #TODO: This parameter needs to be configurable
+       #      See one of the next exercises.
+       #      For the time being set it to a value in
+       #      the hundreds.
+       window_size = ...
+
+       pos = [record.pos for record in VariantFile(input[0])]
+       # setup windows 
+       bins = np.arange(0, max(pos), window_size)
+    
+       # use window midpoints as x coordinate
+       x = (bins[1:] + bins[:-1])/2
+    
+       # compute variant density in each window
+       h, _ = np.histogram(pos, bins=bins)
+       y = h / window_size
+    
+       # plot
+       fig, ax = plt.subplots(figsize=(12, 3))
+       sns.despine(ax=ax, offset=10)
+       ax.plot(x, y)
+       ax.set_xlabel('Chromosome position (bp)')
+       ax.set_ylabel('Variant density (bp$^{-1}$)')
+       plt.savefig(output[0])
+       
+rule samtools_index:
+    input:
+        "sorted_reads/{sample}.bam"
+    output:
+        "sorted_reads/{sample}.bam.bai"
+    shell:
+        "samtools index {input}"
+
