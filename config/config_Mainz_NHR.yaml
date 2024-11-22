@@ -23,6 +23,9 @@ course:
   date: "23.-27. September 2024" # maybe: "\today"
   #title: "" # specifiy your title here, else a default is used. 
   #subtitle: "" # specifiy your subtitle here, else a default is used. 
+  question: "yes" # if set (to any value) the question slide will be shown
+  #               # at chapters with content. If you do not want it, this
+  #               # should be outcommented.
   # Editors recommendations are a matter of taste and technological
   # setups (e.g. on-demand setups). Hence, specify an editor-slide,
   #  here:
