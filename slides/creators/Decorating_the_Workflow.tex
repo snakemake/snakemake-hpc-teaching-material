@@ -157,63 +157,103 @@ rule bcftools_call:
   \bcquestion Which are the benefits?
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{Input Functions}
-  Since we have stored the path to the FASTQ files in the config file, we can also generalize the rule \altverb{bwa_map} to use these paths. This case is different to the rule \altverb{bcftools_call} we modified above. To understand this, it is important to know that \Snakemake{} workflows are executed in three phases.
-  \begin{itemize}[<+->]
-   \item In the \emph{initialization phase}, the files defining the workflow are parsed and all rules are instantiated.
-   \item In the \emph{DAG phase}, the directed acyclic dependency graph of all jobs is built by filling wildcards and matching input files to output files.
-   \item In the \emph{scheduling phase}, the DAG of jobs is executed, with jobs started according to the available resources.
-  \end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-  \frametitle{Input Functions - II}
-    \begin{alertblock}{Why we cannot do the same all over the Workflow}
-    We cannot determine the FASTQ paths for rule \altverb{bwa_map} from the config file in this phase, \emph{because we don’t even know which jobs will be generated from that rule}. Instead, we need to defer the determination of input files to the DAG phase. This can be achieved by specifying an input function instead of a string as inside of the input directive.
-  \end{alertblock}
-  \begin{lstlisting}[language=Python,style=Python]
-def get_bwa_map_input_fastqs(wildcards):
-    return config["samples"][wildcards.sample]
-
-rule bwa_map:
-    input:
-        "data/genome.fa",
-        get_bwa_map_input_fastqs
-  \end{lstlisting}
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Using the Input Function}}
-  \begin{task}
-  	 Refer to your tutorial file \altverb{07_Snakefile} as the current workflow example containing the mentioned input function.\newline
+  \begin{task}\footnotesize
+  	 Copy \altverb{<++course.pathtosolutions++>/09_Snakefile_config} as the current workflow, already featuring the \altverb{expand()} function - as the Snakefile.\newline
   	 Try the dry-run.
   	 \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake -n --forcerun bcftools_call
+$ snakemake -n -F
   	 \end{lstlisting}
   \end{task}
-  \begin{docs}
-  	Input functions may be \altverb{lambda} functions (oneliners), too. The idea is that complex data mangling can be our-sourced to functions.
-  \end{docs}
+  \begin{question}
+  	What do you observe? 
+  \end{question}
+  \pause
+  \begin{hint}
+  	The workflow is now able to take up the configuration - and will deduce all necesary input from the last rule requireing the \altverb{\{sample\}} wildcard.
+  \end{hint}
+%  \begin{docs}
+%  	  Input functions may be \altverb{lambda} functions (oneliners), too. The idea is that complex data mangling can be our-sourced to functions.
+%  \end{docs}
 \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
+	\frametitle{One more Thing: Input Functions}
+	Since we have stored the path to the FASTQ files in the config file, we can also generalize the rule \altverb{bwa_map} to use these paths. This case is different to the rule \altverb{bcftools_call} we modified above. To understand this, it is important to know that \Snakemake{} workflows are executed in three phases.
+	\begin{itemize}[<+->]
+		\item In the \emph{initialization phase}, the files defining the workflow are parsed and all rules are instantiated.
+		\item In the \emph{DAG phase}, the directed acyclic dependency graph of all jobs is built by filling wildcards and matching input files to output files.
+		\item In the \emph{scheduling phase}, the DAG of jobs is executed, with jobs started according to the available resources.
+	\end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Input Functions - II}
+	\begin{alertblock}{Why we cannot do the same all over the Workflow}
+		We cannot determine the FASTQ paths for rule \altverb{bwa_map} from the config file in this phase, \emph{because we don’t even know which jobs will be generated from that rule}. Instead, we need to defer the determination of input files to the DAG phase. This can be achieved by specifying an input function instead of a string as inside of the input directive.
+	\end{alertblock}
+	\begin{lstlisting}[language=Python,style=Python]
+def get_bwa_map_input_fastqs(wildcards):
+    return config["samples"][wildcards.sample]
+		
+rule bwa_map:
+    input:
+        "data/genome.fa",
+        get_bwa_map_input_fastqs # the 'wildcards' argument
+                                 # will always be set.
+	\end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
 	\frametitle{\HandsOn{Adding a new Sample}}
-	\begin{task}
-		Refer to your tutorial file \altverb{08_Snakefile} as the current workflow example and copy the configuration your tutorial folder: \altverb{cp -r <path to tutorial>/config .}.\newline
-		In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add that sample to the config file and see how \Snakemake{} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
+	\begin{task}\footnotesize
+		Copy \altverb{<++course.pathtosolutions++>/10_Snakefile_input_function} as your \altverb{Snakefile}. It contains the input function for the \altverb{bwa_map} rule.
+		In the \altverb{data/samples} folder, there is an additional sample \altverb{C.fastq}. Add this sample to the config file and see how \Snakemake{} wants to recompute the part of the workflow belonging to the new sample, when invoking with 
 		\begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake -j 4 --configfile config/config.yaml
+$ snakemake -j 4 
 		\end{lstlisting}
 	\end{task}
-    \begin{question}
-    	The config file is defined in the \altverb{Snakefile} and in the configuration file. Which is better? Do you (strictly speaking) need the \altverb{--configfile} flag?
+    \begin{question}[Questions]
+    	\footnotesize
+    	\begin{itemize}
+    		\item The config file is defined in the \altverb{Snakefile} and in the configuration file. Which is better? Do you (strictly speaking) need the \altverb{--configfile} flag?
+    		\item Our workflow run without the input function. When could an input function really be useful?
+    	\end{itemize}
     \end{question}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{"Answers" I}
+	\begin{question}[We asked \ldots]
+		The config file is defined in the \altverb{Snakefile} and in the configuration file. Which is better? Do you (strictly speaking) need the \altverb{--configfile} flag?
+	\end{question}
+    \pause
+    \begin{itemize}[<+->]
+    	\item defining the configuration path \emph{within} a \altverb{Snakefile} provides a \emph{default}
+    	\item when executing the workflow with different inputs (e.\,g, for different projects) using \altverb{--configfile} lets you select a specific configuration without changing the code!
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{"Answers" II}
+	\begin{question}[We asked \ldots]
+    		Our workflow run without the input function. When could an input function really be useful?
+	\end{question}
+	\pause
+	\begin{itemize}[<+->]
+		\item good "real world" workflows will allow to use different suffixes \ldots
+		\item validate configuration input and \ldots
+		\item allow to separate workflow code and data.
+	\end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -241,7 +281,7 @@ rule bwa_map:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Rule Parameters}
+  \frametitle{Rule Parameters II}
   This is usually part of the configuration file(s), too.\newline
   If you put this in your config file (the \altverb{r} in \altverb{r"<something>"} stands for "raw strings"):
   \begin{lstlisting}[language=Python,style=Python]
@@ -254,11 +294,14 @@ rule bwa_map:
   params:
      @rg=config['bwa_map']['rg']@
   \end{lstlisting}
-  You have a configurable workflow! (This is implemented in \altverb{09_Snakefile} in your tutorial and solution folder.)
+  You have a configurable workflow! 
+  \begin{hint}
+  	This is implemented in \altverb{11_Snakefile_rule_params} in your tutorial and solution folder. This should convince you that a configurable workflow is beneficial - in fact \emph{any} software configuration can be stored in a config file.
+  \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
+\begin{frame}
   \frametitle{Logging}
   \begin{hint}
   	When executing a large workflow, it is usually desirable to store the logging output of each job into a separate file, instead of just printing all logging output to the terminal—when multiple jobs are run in parallel, this would result in chaotic output. - We already observed this!
@@ -273,10 +316,35 @@ rule bwa_map:
   \end{docs}
 \end{frame}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
-  \frametitle{Logging - II}
-  \Snakemake{} offers a \altverb{log}-directive for this purpose.  
+	\frametitle{Logging - I}
+	\Snakemake{} offers a \altverb{log}-directive for this purpose. Ordinarily it works like this:
+	\begin{lstlisting}[language=Python,style=Python]
+rule somename:
+    input:
+        ...
+    output:
+        ...
+    log: "logs/<somename>/{sample}.log"
+    shell:
+        "cmd &> {log}"
+	\end{lstlisting}
+	\begin{docs}\footnotesize
+		\begin{itemize}[<+->]
+			\item \altverb{&} bundles the \altverb{stderr} and \altverb{stdout} stream and \altverb{>} redirects both to the log file.
+			\item The convention is: We use a directory \altverb{logs} for our logfiles.
+			\item And a subdirectory with the rule name to differentiate between logs.
+		\end{itemize} 
+	\end{docs}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Logging - III}
+  Rules with a pipe are "special":  
   \begin{lstlisting}[language=Python,style=Python]
 rule bwa_map:
     input:
@@ -291,24 +359,41 @@ rule bwa_map:
         "| samtools view -Sb - > {output}) &> {log}"
    \end{lstlisting}
    \begin{docs}[Background]
-     \altverb{&} bundles the \altverb{stderr} and \altverb{stdout} stream and \altverb{>} redirects both to the log file. 
+     Here, we need to put the piped command into \altverb{()} to gather the grouped ouput. 
    \end{docs}
 \end{frame}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{\HandsOn{Logging in Practice}}
-  \begin{task}
-  	 Remember, the general to implement a logging directive syntax is:
-  	 \begin{lstlisting}[language=Python,style=Python]
-rule <name>:
+  \begin{columns}
+  	\begin{column}{0.5\textwidth}
+  		\begin{task}
+  			Implement the log directive for all rules you consider worth being logged. Test and run. What do you observe?
+  		\end{task}
+  	    \bcinfo Hints:
+  	    \begin{itemize}
+  	    	\item take \altverb{11_Snakefile_rule_params} from your tutorial folder as a template.
+  	    	\item \bcattention Ignore the plotting rules (with the \altverb{scripts} directive)!
+  	    \end{itemize}
+  	\end{column}
+    \begin{column}{0.5\textwidth}
+        \begin{itemize}
+        	\item the general syntax is
+        	      	\begin{lstlisting}[language=Python,style=Python]
+rule somename:
     ...
-    log: "path/to/logs/{wildcard.log}
-  	\end{lstlisting}
-    Implement the log directive for all rules you consider worth being logged. What do you observe?
-    \newline
-    You can take the \altverb{09_Snakefile} sample file to proceed. A working solution is \altverb{10_Snakefile} in your solutions folder.
-  \end{task}
+    log: "logs/<somename>/{sample}.log"
+    shell:
+        "cmd &> {log}"
+        	       \end{lstlisting}
+            \item when dealing with piped commands enclose in \altverb{(...)}  before redirecting into the logfile.
+            \item when \altverb{stdout} is already used (with \altverb{>}), gather only \altverb{stderr} with \altverb{2>}.
+        \end{itemize}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -318,9 +403,13 @@ rule <name>:
   	 What did you observe? Why is there a distinction per sample?
   \end{question}
   \pause
-  \begin{docs}
-  	The \altverb{bwa_map} (and bcftools) output will not clutter the terminal any more. All necessary information is in a log \emph{per} sample: If one attempt to map goes wrong, the specific error can be found in the sample log.
+  \begin{docs}[Answers]
+  	\begin{itemize}[<+->]
+  		\item The \altverb{bwa_map} (and bcftools) output will not clutter the terminal any more. 
+  		\item All necessary information is in a log \emph{per} sample: If one attempt to map goes wrong, the specific error can be found in the sample log.
+  	\end{itemize}
   \end{docs}
+  \only<1->{A working solution is in \altverb{12_Snakemake_logs} in your solutions folder.}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -345,7 +434,7 @@ rule <name>:
       \altverb{samtools_sort} & \pause{\color{PineGreen}\bf Yes} & Same reason as with \altverb{bwa_map}\\\hline
       \altverb{samtools_index} & \pause{\color{PineGreen}\bf Yes} & Same reason as with \altverb{bwa_map}\\\hline
       \altverb{bcftools_call} & \pause{\color{BrickRed}\bf No} & This is a result file!\\\hline
-      \altverb{plot_quals} & \pause{\color{BrickRed}\bf No} & This is a result file! See \altverb{all}.\\\hline 
+      plotting scripts & \pause{\color{BrickRed}\bf No} & These produce result files! See \altverb{all}.\\\hline 
     \end{tabular}
   \end{center}
 \end{frame} 
@@ -364,17 +453,24 @@ rule bwa_map:
     ...
   \end{lstlisting}
   \pause
-  Please run:
+  Implement the \altverb{temp()} function for \altverb{bwa_map}`s output and run the workflow. Please run:
   \begin{lstlisting}[language=Bash, style=Shell]
-$ du -sh *reads
+$ du -sh mapped_reads # measures the size of the folder
+$ rm -rf mapped_reads # deleting enforces run
+$ snakemake -F # after adding temp()
   \end{lstlisting}
-  Add the \altverb{temp()} function to \altverb{bwa_map}- and \altverb{samtools_sort}-rules, re-run the workflow and the \altverb{du}-command. What do you observer?
+  \pause
+  \bcquestion Do you see the benefit of temporary/intermediate files for your data management?
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
   \frametitle{The \altverb{protected()} Function}
-  As a complement to the \altverb{temp()}-function \Snakemake offers the \altverb{protected()}-function. Files labeled "protected" are protected against accidental deletion and overwriting, e.\,g.:
+  \begin{hint}
+  	This is just to demonstrate the complement to \altverb{temp()}. Sometimes you might want to protect files from accidental deletion. This can be done with the \altverb{protected()} from \Snakemake.
+  \end{hint}
+  \pause
+  Files labeled "protected" are protected against accidental deletion and overwriting, by withdrawing the right to write. The implementation is as easy as:
   \begin{lstlisting}[language=Python,style=Python]
 rule plot_quals:
   ...

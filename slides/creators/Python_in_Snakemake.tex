@@ -267,7 +267,7 @@ cp <++course.pathtosolutions++>\
     \begin{enumerate}
     	\item takes the vcf file as input
     	\item a plot file as output (same directory as for the first plot)
-    	\item use the \altverb{script}-directive and point to the script we just copied to our \altverb{scripts} directory.
+    	\item uses the \altverb{script}-directive and point to the script we just copied to our \altverb{scripts} directory.
     \end{enumerate}
 \end{frame}
 
@@ -409,7 +409,7 @@ quals = [record.qual for record
 plt.hist(quals)
 plt.savefig(snakemake.output[0])
    \end{lstlisting}
-  To be copied from \altverb{<++course.pathtosolutions++>/07_Snakefile_script} to \altverb{scripts/plot-quals.py} - .
+  To be copied from \altverb{<++course.pathtosolutions++>/07_Snakefile_script} to \altverb{scripts/plot-quals.py} - if you have not done so, already.
   \end{onlyenv}
 \end{frame}
 
@@ -498,7 +498,7 @@ rule plot_quals:
     @script:@
         "scripts/plot-positions.py"
 	\end{lstlisting}
-	Compare to the solution script in your solutions folder: <++course.pathtosolution++> and the Snakefile \altverb{08_Snakefile_script2}
+	Compare to the solution script in your solutions folder: \altverb{<++course.pathtosolutions++>/08_Snakefile_script2}.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
