@@ -1,18 +1,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Snakemake Wrappers}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-    \frametitle{Outline}
-    \begin{columns}[t]
-        \begin{column}{.5\textwidth}
-            \tableofcontents[sections={1-7},currentsection]
-        \end{column}
-        \begin{column}{.5\textwidth}
-            \tableofcontents[sections={8-15},currentsection]
-        \end{column}
-    \end{columns}
-\end{frame}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=.7\paperheight]{humor/DALLE_19th_century_people_eating_wrapper.jpg}\hfil}\vfil}
+	}
+	\frame{
+		\frametitle{Wrappers vs. Group Jobs}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+	    
+		\vspace{7.5em}\hfill{\tiny own creation using DALL-E}
+	}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Using Wrappers}
@@ -22,15 +24,16 @@
     \frametitle{What is this about?}
     \begin{question}[Questions]
         \begin{itemize}
-            \item What is a \Snakemake{} Wrapper?
-            \item How can \Snakemake{} wrappers be used to write reproducible workflows?
+            \item How can we deal with quirky software?
+            \item Is there a better way to deal with mini jobs than to write individual rules?
         \end{itemize}
     \end{question}
     \begin{docs}[Objectives]
         \begin{enumerate}
-            \item Introduce the concept of \Snakemake{} wrappers
+            \item Introduce the concept of \Snakemake{} wrappers to improve reproducible workflows when dealing with \%\$\"!-software?
+            \item Learn about "Group Jobs" to group jobs.
             \item Include \Snakemake{} wrappers in your workflows
-            \item Reproducibility of \Snakemake{} wrappers
+            \item Realize the difference between using a wrapper or a group job
         \end{enumerate}
     \end{docs}
 \end{frame}
@@ -164,14 +167,19 @@ rule bwa_map:
         settings from a Snakemake rule are also commonly used to set memory or parallelization parameters for each tool.
     \end{docs}
 \end{frame}
- 
- %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
- \begin{frame}{Advantages of Wrappers}
-     Using wrappers has many great advantages compared to \altverb{run} or \altverb{shell}:
-     \begin{itemize}[<+->]
-         \item Code is reusable across workflows and can be shared with others
-         \item Complex invocations of tools do not clutter your \Snakemake{} workflow definitions
-         \item With versioned wrappers, you workflow is easily reproducible
-         \item Community wrappers often get you started quickly using a new tool correctly
-     \end{itemize}
- \end{frame}
+
+\begin{frmae]}{Group Jobs}
+    Group jobs are great for bundling invocations of related tools.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Advantages of Wrappers}
+    Using wrappers has many great advantages compared to \altverb{run} or \altverb{shell}:
+    \begin{itemize}[<+->]
+        \item Code is reusable across workflows and can be shared with others
+        \item Complex invocations of tools do not clutter your \Snakemake{} workflow definitions
+        \item With versioned wrappers, you workflow is easily reproducible
+        \item Community wrappers often get you started quickly using a new tool correctly
+    \end{itemize}
+\end{frame}
+
