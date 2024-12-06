@@ -1,6 +1,7 @@
 # our samples are pre-configured
 SAMPLES = ["A", "B"]
 
+configfile: "config/config.yaml"
 
 rule all:
     input:

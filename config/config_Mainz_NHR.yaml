@@ -29,7 +29,7 @@ course:
   # Editors recommendations are a matter of taste and technological
   # setups (e.g. on-demand setups). Hence, specify an editor-slide,
   #  here:
-  editorfile: "common/mod_cs_mainz.tex"
+  editorfile: "common/mod_cs_mainz"
   # The next line indicates the slides explaining
   # a condarc file on a cluster, copy and adjust
   # for your cluster.
