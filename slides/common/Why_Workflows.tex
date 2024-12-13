@@ -35,10 +35,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Data Analysis}
+  \centering
   \begin{onlyenv}<1| handout:0>
     \begin{tikzpicture}
       \path[use as bounding box] (0.7,0) rectangle (12,8);
-      \node[inner sep=0pt] (analysis_1) at (5,6)
+      \node[inner sep=0pt] (analysis_1) at (5,5.5)
          {\includegraphics[width=0.7\textwidth]{Snakemake/analysis_1.png}};   
       \node at (7, 3.5) %[below=-0.4cm of analysis_1, xshift=2.7cm] at (current page.center)
          {\includegraphics[width=0.45\textwidth]{Snakemake/phd_left.png}};
@@ -52,7 +53,7 @@
   \begin{onlyenv}<2| handout:1>
     \begin{tikzpicture}
       \path[use as bounding box] (0.7,0) rectangle (12,8);
-      \node[inner sep=0pt] (analysis_full) at (5,6)
+      \node[inner sep=0pt] (analysis_full) at (5,5.5)
          {\includegraphics[width=0.7\textwidth]{Snakemake/analysis_full.png}};   
       \node at (7,3.5) % [below=-0.4cm of analysis_full, xshift=2.7cm]
          {\includegraphics[width=0.45\textwidth]{Snakemake/phd_full.png}};
@@ -79,11 +80,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
   \frametitle{Reproducible Data Analysis}
+  \centering
   \begin{onlyenv}<1| handout:0>
     \begin{tikzpicture}
       \path[use as bounding box] (0.7,0) rectangle (12,8);
-      \node at (5.5, 5.5) {\includegraphics[width=0.7\textwidth]{Snakemake/automation.png}};
-      \node at (8, 2.5) {\begin{minipage}{0.65\textwidth}
+      \node at (5.5, 5) {\includegraphics[width=0.7\textwidth]{Snakemake/automation.png}};
+      \node at (8.5, 2) {\begin{minipage}{0.65\textwidth}
                              \textbf{From raw data to final figures:}
                              \begin{itemize}
                                 \item \textbf{document} parameters, tools, versions
@@ -96,8 +98,8 @@
   \begin{onlyenv}<2| handout:0>
     \begin{tikzpicture}
       \path[use as bounding box] (0.7,0) rectangle (12,8);
-      \node at (5.5, 5.5) {\includegraphics[width=0.7\textwidth]{Snakemake/scalability.png}};
-      \node at (8, 2.5) {\begin{minipage}{0.65\textwidth}
+      \node at (5.5, 5) {\includegraphics[width=0.7\textwidth]{Snakemake/scalability.png}};
+      \node at (8.5, 2) {\begin{minipage}{0.65\textwidth}
                              \textbf{Handle parallelization:}
                              \begin{itemize}
                                 \item execute for tens of thousands of datasets
@@ -110,8 +112,8 @@
   \begin{onlyenv}<3| handout:1>
     \begin{tikzpicture}
       \path[use as bounding box] (0.7,0) rectangle (12,8);
-      \node at (5.5, 5.5) {\includegraphics[width=0.7\textwidth]{Snakemake/portability.png}};
-      \node at (8, 2.5) {\begin{minipage}{0.65\textwidth}
+      \node at (5.5, 5) {\includegraphics[width=0.7\textwidth]{Snakemake/portability.png}};
+      \node at (8.5, 2) {\begin{minipage}{0.65\textwidth}
                              \textbf{Handle deployment:}\newline
                              be able to easily execute analyses on a different system/platform/infrastructure
                            \end{minipage}
