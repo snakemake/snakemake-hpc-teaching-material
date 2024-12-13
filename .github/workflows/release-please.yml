@@ -13,7 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Dependencies
-        run: sudo apt-get install -y python3-yaml
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends
+             python3-yaml
              texlive
              texlive-fonts-extra
              texlive-latex-extra
@@ -23,6 +24,8 @@ jobs:
              texlive-pstricks
              texlive-science
              latexmk
+             ghostscript
+             poppler-utils
 
       - name: LaTeX compile
         run: |
@@ -54,14 +57,15 @@ jobs:
         id: release
         with:
           release-type: simple
-          package-name: "snakemake-hpc-teaching-material"
+          # 'package-name' not allowed here.
+          #package-name: "snakemake-hpc-teaching-material"
       - uses: actions/upload-release-asset@v1
         id: upload-release-asset 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ github.event.release.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          upload_url: ${{ steps.release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./slides.zip
           asset_name: slides.zip
-          asset_content_type: slide/zip          
+          asset_content_type: slide/zip 
           #      - name: Upload Release Artifacts
