@@ -53,12 +53,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - uses: googleapis/release-please-action@v4
+      - uses: GoogleCloudPlatform/release-please-action@v4
         id: release
         with:
           release-type: simple
-          # 'package-name' not allowed here.
-          #package-name: "snakemake-hpc-teaching-material"
+          package-name: "snakemake-hpc-teaching-material"
       - uses: actions/upload-release-asset@v1
         id: upload-release-asset 
         env:
