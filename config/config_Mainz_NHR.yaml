@@ -28,6 +28,11 @@ course:
   question: "yes" # if set (to any value) the question slide will be shown
   #               # at chapters with content. If you do not want it, this
   #               # should be outcommented.
+  # If the course requires user login to be set up, this slide set should
+  # introduce the procedure. If not defined (outcommented) it will be skipped.
+  # It is placed before introducing Snakemake, because the procedure might require
+  # synchronization time.
+  login_slides: "common/login_mogon"
   # Editors recommendations are a matter of taste and technological
   # setups (e.g. on-demand setups). Hence, specify an editor-slide,
   #  here:
