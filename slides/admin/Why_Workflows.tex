@@ -1,5 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Why Workflows}
+\section{Why Workflow Managers?}
 {   
 	\usebackgroundtemplate{
 		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=.7\paperheight]{humor/DALLE_LEGO-scientist-thinking}\hfil}\vfil}
@@ -90,11 +90,65 @@
     \end{hint}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[t]
+ \frametitle{Meet: The DAG!}
+ \begin{docs}
+ 	\emph{Every} data analysis workflow can be expressed as a \bf{D}irected \bf{A}cyclic \bf{G}raph - a DAG.
+ \end{docs}
+ \vspace{4em}
+ \pause
+ \begin{columns}
+ 	\begin{column}{0.4\textwidth}
+ 		\begin{minipage}[t]{\textwidth}
+ 			\centering
+ 			The rulegraph:\newline
+ 			\includegraphics[width=0.4\textwidth]{workflows/complete_workflow.png}
+ 		\end{minipage}
+ 		
+ 	\end{column}
+    \begin{column}{0.6\textwidth}
+    	\pause
+    	\begin{minipage}[t]{\textwidth}
+    	   \centering
+    	   The full DAG - for every sample:\newline
+    	   \includegraphics[width=0.9\textwidth]{workflows/book.png}
+        \end{minipage}
+    	
+    	
+    \end{column}
+ \end{columns}
+ \vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[t]
+	\frametitle{Interlude: An Example}
+	\vspace{-3em}
+	\begin{columns}[t]
+		\begin{column}{0.6\textwidth}
+			\begin{hint}[Background]
+				This example is one coded in Bash with SLURM dependencies \emph{and} \Snakemake. This is its DAG:
+				\includegraphics[width=0.25\textwidth]{workflows/proteo_transcriptomics.jpeg} 
+			\end{hint}
+		\end{column}
+	    \begin{column}{0.4\textwidth}
+	    	\begin{question}
+	    		What does it take to code this using Bash and SLURM commands, only?
+	    	\end{question}
+    	    \pause
+    	    \begin{warning}
+    	    	Fasten your seat-belts!
+    	    \end{warning}
+	    \end{column}
+	\end{columns}
+    \vfill
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-	\frametitle{Asynchrone Ausführung mit dem Batch System}
-	\begin{onlyenv}<1>{Als Beispiel die Implementierung eines Proteomics-Workflows (20 Bash Files mit 363-Zeilen Code + wild geclontes Zeug aus dem Internet):
+	\frametitle{Asynchronous Execution using the Batch System}
+	\begin{onlyenv}<1>{An Proteomics-Workflows will serve as an example (Bash Files + wildly cloned internet stuff):
 			
 			\begin{lstlisting}[language=Bash, style=Shell, basicstyle=\TINY]  
 #!/bin/bash
@@ -1029,7 +1083,7 @@ TransDecoder.Predict -t ${TRANSCRIPTOME_FILE} --output_dir ${RESULTS_FOLDER}
 		\end{column}
 	    \begin{column}{0.5\textwidth}
 	    	\vspace{1em}
-	    A workflow with 1 shepherd (master), 11 jobs scripts (for multiple, concurrent execution, incl. dependency handling) was coded by one student:
+	    This workflow with 1 shepherd (master), 11 jobs scripts (for multiple, concurrent execution, incl. dependency handling) was coded by one student:
 	    \includegraphics[width=\textwidth]{workflows/SLURM_workflow_solution.png}
 	    \end{column}	
 	\end{columns}
@@ -1038,7 +1092,7 @@ TransDecoder.Predict -t ${TRANSCRIPTOME_FILE} --output_dir ${RESULTS_FOLDER}
 		\begin{column}{0.5\textwidth}
 			  \pause
 			\begin{question}
-				How portable is this? How maintainable? How many people are able to accomplish this?\\\pause\hline\vspace{0.5em}
+				How portable is this? How maintainable? How many HPC users are able to accomplish this?\\\pause\hline\vspace{0.5em}
 				
 				Which conclusions will your users in need of complex analysis steps draw?
 			\end{question}	
@@ -1099,45 +1153,75 @@ TransDecoder.Predict -t ${TRANSCRIPTOME_FILE} --output_dir ${RESULTS_FOLDER}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \frametitle{Reproducible Data Analysis in an OpenScience World}
-  \begin{onlyenv}<1| handout:0>
-    \begin{tikzpicture}
-      \path[use as bounding box] (0.7,0) rectangle (12,8);
-      \node at (5.5, 5.5) {\includegraphics[width=0.7\textwidth]{Snakemake/automation.png}};
-      \node at (8, 2.5) {\begin{minipage}{0.65\textwidth}
-                             \textbf{From raw data to final figures:}
-                             \begin{itemize}
-                                \item \textbf{document} parameters, tools, versions
-                                \item \textbf{execute} without manual intervention
-                              \end{itemize}
-                           \end{minipage}
-                           };
-    \end{tikzpicture}
-  \end{onlyenv}
-  \begin{onlyenv}<2| handout:0>
-    \begin{tikzpicture}
-      \path[use as bounding box] (0.7,0) rectangle (12,8);
-      \node at (5.5, 5.5) {\includegraphics[width=0.7\textwidth]{Snakemake/scalability.png}};
-      \node at (8, 2.5) {\begin{minipage}{0.65\textwidth}
-                             \textbf{Handle parallelization:}
-                             \begin{itemize}
-                                \item execute for tens of thousands of datasets
-                                \item efficiently use any computing platform
-                              \end{itemize}
-                           \end{minipage}
-                           };
-    \end{tikzpicture}
-  \end{onlyenv}
-  \begin{onlyenv}<3| handout:1>
-    \begin{tikzpicture}
-      \path[use as bounding box] (0.7,0) rectangle (12,8);
-      \node at (5.5, 5.5) {\includegraphics[width=0.7\textwidth]{Snakemake/portability.png}};
-      \node at (8, 2.5) {\begin{minipage}{0.65\textwidth}
-                             \textbf{Handle deployment:}\newline
-                             be able to easily execute analyses on a different system/platform/infrastructure
-                           \end{minipage}
-                           };
-    \end{tikzpicture}
-  \end{onlyenv}
+	\frametitle{Reproducible Data Analysis}
+	\centering
+	\begin{onlyenv}<1| handout:0>
+		\begin{tikzpicture}
+			\path[use as bounding box] (0.7,0) rectangle (12,8);
+			\node at (5.5, 5) {\includegraphics[width=0.7\textwidth]{Snakemake/automation.png}};
+			\node at (8.5, 2) {\begin{minipage}{0.65\textwidth}
+					\textbf{From raw data to final figures:}
+					\begin{itemize}
+						\item \textbf{document} parameters, tools, versions
+						\item \textbf{execute} without manual intervention
+					\end{itemize}
+				\end{minipage}
+			};
+		\end{tikzpicture}
+	\end{onlyenv}
+	\begin{onlyenv}<2| handout:0>
+		\begin{tikzpicture}
+			\path[use as bounding box] (0.7,0) rectangle (12,8);
+			\node at (5.5, 5) {\includegraphics[width=0.7\textwidth]{Snakemake/scalability.png}};
+			\node at (8.5, 2) {\begin{minipage}{0.65\textwidth}
+					\textbf{Handle parallelization:}
+					\begin{itemize}
+						\item execute for tens of thousands of datasets
+						\item efficiently use any computing platform
+					\end{itemize}
+				\end{minipage}
+			};
+		\end{tikzpicture}
+	\end{onlyenv}
+	\begin{onlyenv}<3| handout:1>
+		\begin{tikzpicture}
+			\path[use as bounding box] (0.7,0) rectangle (12,8);
+			\node at (5.5, 5) {\includegraphics[width=0.7\textwidth]{Snakemake/portability.png}};
+			\node at (8.5, 2) {\begin{minipage}{0.65\textwidth}
+					\textbf{Handle deployment:}\newline
+					be able to easily execute analyses on a different system/platform/infrastructure
+				\end{minipage}
+			};
+		\end{tikzpicture}
+	\end{onlyenv}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Beyond Reproducibility}
+	\begin{onlyenv}<1| handout:0>
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.85\textwidth]{Snakemake/reproducibility_only.png}
+		\end{figure}
+	\end{onlyenv}
+	\begin{onlyenv}<2| handout:0>
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.85\textwidth]{Snakemake/reproducibility_empty.png}
+		\end{figure}
+	\end{onlyenv}
+	\begin{onlyenv}<3| handout:0>
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.85\textwidth]{Snakemake/reproducibility_left.png}
+		\end{figure}
+	\end{onlyenv}
+	\begin{onlyenv}<4| handout:1>
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.85\textwidth]{Snakemake/reproducibility_full.png}
+		\end{figure}
+	\end{onlyenv}
+	\footnotesize{\lhref{https://doi.org/10.12688/f1000research.29032.2}{From the official \Snakemake-paper.}}
+\end{frame}
