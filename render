@@ -174,7 +174,7 @@ def find_and_replace_sections(boundaries, section_estimate, fname):
     # first render minitoc
     if minitocline:
         lower = max((section_estimate - 2), 1)  # lower boundary not lower than 1
-        upper = max(
+        upper = min(
             (section_estimate + 3), boundaries["upper"]
         )  # upper boundary not higher then upper boundary ;-)
         sections = f"{lower}-{upper}"
