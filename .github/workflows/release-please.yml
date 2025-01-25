@@ -54,7 +54,12 @@ jobs:
           --configfile config/config_for_github.yaml
           ./render --master-tex Snakemake_HPC_Admins.tex \
           --configfile config/config_for_github.yaml;
-          zip slides.zip slides/*pdf 
+          if ls slides/*.pdf 1> /dev/null 2>&1; then
+            zip slides.zip slides/*pdf || exit 1
+          else
+            echo "Error: No PDF files found in slides directory" >&2
+            exit 1
+          fi
 
       - name: Upload Release Artifacts
         uses: actions/upload-artifact@v4
