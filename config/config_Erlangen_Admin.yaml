@@ -1,0 +1,74 @@
+instructor:
+  name: "Dr. Christian Meesters"
+  affiliation: "Johannes Gutenberg Universität Mainz"
+  affiliation2: "NHR SüdWest" # may be empty
+  
+layout:
+  beamertheme: "CambridgeUS" # you can choose any, the slides are tested
+                             # with 'CambridgeUS'
+  colortheme: "beaver"       # you can choose any, the slides are tested with
+                             # 'beaver'
+  # choose any preconfigured color or those from the preamble
+  beamercolor_structure:  "fg=UniRot" 
+  beamercolor_title:      "fg=UniRot"
+  beamercolor_title_head: "fg=UniRot"
+
+  beamercolor_block_title: "bg=UniRot!20,fg=darkred"
+  beamercolor_block_body:  "fg=black, bg=plightgrey2"
+
+  beamercolor_block_title_alerted: "fg=white,bg=UniRot"
+  beamercolor_block_title_example: "fg=white,bg=PineGreen!80"
+
+course:
+  # sets the slides aspectratio (if outcommented, the default is 43=4:3)
+  aspectratio: 1609 # - 169 = 16:9 
+  date: "14. Januar 2025" # maybe: "\today"
+  #title: "" # specifiy your title here, else a default is used. 
+  #subtitle: "" # specifiy your subtitle here, else a default is used. 
+  question: "yes" # if set (to any value) the question slide will be shown
+  #               # at chapters with content. If you do not want it, this
+  #               # should be outcommented.
+  # Editors recommendations are a matter of taste and technological
+  # setups (e.g. on-demand setups). Hence, specify an editor-slide,
+  #  here:
+  editorfile: "common/mod_cs_mainz"
+  # The next line indicates the slides explaining
+  # a condarc file on a cluster, copy and adjust
+  # for your cluster.
+  condarcfile: "common/condarc_mogon.tex"
+  # the same for admins:
+  condarc_admins_file: "admin/condarc_mogon.tex"
+  # We provide a common software stack to avoid long
+  # installation sessions.
+  softwarepath: "/lustre/project/nhr-workflow/software_stack"
+  # The following path will indicate a sample workflow for the user part
+  # if it is defined, the slide set will instruct participants to copy
+  # it and adapt its configuration and profile.
+  pathtoworkflow: "/lustre/project/nhr-workflow/workflow"
+  # Alternatively a URL may be indicated. In this case the participants
+  # are instructed to deploy the workflow using snakedeploy.
+  #deploy_url: ""
+  # these are the path names to contain sample data
+  # see the README for explanations.
+  pathtosetup: "/lustre/project/nhr-workflow/tasks"
+  pathtosolutions: "/lustre/project/nhr-workflow/solutions"
+  # after copying the setup path is:
+  tutorialpath: "~/tasks/tutorial"
+  # This is the selected slide to explain the 'Hello World' script
+  # to introduce SLURM. It requires different account and partition
+  # settings on every cluster.
+  hello_world_script: "common/Hello_World_HPC_Mogon_NHR.tex"
+
+cluster:
+  # the cluster name
+  name: "Mogon-NHR"
+  # the cluster distro
+  distro: "Alma-Linux"
+  # the cluster account and default partition
+  account: "nhr-workflow"
+  partition: "smallcpu"
+  # the local and remote storage prefixes on this cluster
+  remote-job-local-storage-prefix: "/localscratch/$SLURM_JOB_ID"
+  local-storage-prefix: "/dev/shm/$USER/snakemake"
+  # display program for SVG files
+  display_program: "display"

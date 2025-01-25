@@ -1,18 +1,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Global Settings for Workflow Parametrization}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-    \frametitle{Outline}
-    \begin{columns}[t]
-        \begin{column}{.5\textwidth}
-            \tableofcontents[sections={1-7},currentsection]
-        \end{column}
-        \begin{column}{.5\textwidth}
-            \tableofcontents[sections={8-15},currentsection]
-        \end{column}
-    \end{columns}
-\end{frame}
+\section{Workflow Parameterization - for HPC users}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=\paperheight]{misc/bottleneck.png}\hfil}\vfil}
+	}
+	\frame{
+		\frametitle{Avoiding I/O Contention}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+			\tiny \lhref{https://www.flaticon.com/free-icon/bottleneck_10803803}{from Flaticon}
+		\end{mdframed}
+	}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -91,10 +92,7 @@ local-storage-prefix: /dev/shm/$USER
     \end{lstlisting}
    \end{onlyenv}
   \begin{onlyenv}<4| handout:0>
-  	%TODO remove this part, once the snakemake release is ready
-  	\begin{warning}
-  	  Currently, we are working on way to annotate susceptible I/O pattern, the highlighted parts are not yet functional.
-  	\end{warning}
+  	
   	%You may copy this setup from \texttt{<++course.pathtosetup++>/config.yaml} to the \altverb{\~/.config/snakemake}-folder - unless your local admins provide a cluster-wide configuration.
   	\begin{lstlisting}[language=Bash, style=Shell]
 executor: slurm
@@ -124,3 +122,30 @@ local-storage-prefix: /dev/shm/$USER
   \end{onlyenv}
 \end{frame}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{An example Call}
+    \begin{lstlisting}[language=Bash, style=Shell]
+snakemake -j unlimited --workflow-profile profile/<dir> --configfile <file> \
+> --directory not_HOME --sdm conda --conda-cleanup-pkgs \
+> --conda-prefix [<HOME or not HOME>]
+    \end{lstlisting}
+     \begin{itemize}[<+->]
+     	\item \altverb{-j} a semaphore
+     	\item \altverb{--directory}, deploy workflow (scripts) in \texttt{HOME}, work on parallel FS workdir
+     	\item \altverb{--conda-prefix}, if dealing with file quotas in \texttt{HOME}
+     \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{The \Snakemake{} Software Stack}
+	\begin{itemize}[<+->]
+		\item \altverb{snakemake} - with numerous dependencies, e.\,g. \altverb{GraphViz}
+		\item \altverb{snakemake-executor-plugin-slurm} - SLURM stuff (plus dependency)
+		\item \altverb{snakemake-interface-storage-plugins} - top interface module
+		\item \altverb{snakemake-interface-report-plugins} - for generating reports
+		\item \altverb{snakemake-storage-plugin-fs} - for stage-in/-out
+		\item \altverb{snakemake-wrapper-utils} - for wrapper support
+	\end{itemize}
+\end{frame}
