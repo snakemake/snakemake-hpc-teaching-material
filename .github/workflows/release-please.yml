@@ -43,15 +43,15 @@ jobs:
           --configfile config/config_for_github.yaml;
           zip slides slides/*pdf 
       - name: Upload Release Artifacts
-        if: ${{ steps.release.outputs.release_created }}        
+        if: ${{ needs.release-please.outputs.release_created }}
         uses: actions/upload-artifact@v4
         with:
-        name: Slides
-           path: |
-            slides/Snakemake_HPC_Creators.pdf;
-            slides/Snakemake_HPC_Users.pdf;
-            slides/Snakemake_HPC_User_Creator_Combi.pdf;
-            slides/Snakemake_HPC_Admins.pdf;
+          name: Slides
+          path: |
+            slides/Snakemake_HPC_Creators.pdf
+            slides/Snakemake_HPC_Users.pdf
+            slides/Snakemake_HPC_User_Creator_Combi.pdf
+            slides/Snakemake_HPC_Admins.pdf
       
   release-please:
     runs-on: ubuntu-latest
