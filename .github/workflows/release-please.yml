@@ -10,7 +10,20 @@ permissions:
   pull-requests: write
 
 jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      upload_url: ${{ steps.release.outputs.upload_url }}
+    steps:
+      - uses: GoogleCloudPlatform/release-please-action@v4
+        id: release
+        with:
+          release-type: simple
+
   build:
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
     name: Release Artifacts
     runs-on: ubuntu-latest
 
@@ -41,9 +54,14 @@ jobs:
           --configfile config/config_for_github.yaml
           ./render --master-tex Snakemake_HPC_Admins.tex \
           --configfile config/config_for_github.yaml;
-          zip slides slides/*pdf 
+          if ls slides/*.pdf 1> /dev/null 2>&1; then
+            zip slides.zip slides/*pdf || exit 1
+          else
+            echo "Error: No PDF files found in slides directory" >&2
+            exit 1
+          fi
+
       - name: Upload Release Artifacts
-        if: ${{ needs.release-please.outputs.release_created }}
         uses: actions/upload-artifact@v4
         with:
           name: Slides
@@ -52,23 +70,12 @@ jobs:
             slides/Snakemake_HPC_Users.pdf
             slides/Snakemake_HPC_User_Creator_Combi.pdf
             slides/Snakemake_HPC_Admins.pdf
-      
-  release-please:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: GoogleCloudPlatform/release-please-action@v4
-        id: release
-        with:
-          release-type: simple
-          package-name: "snakemake-hpc-teaching-material"
+
       - uses: actions/upload-release-asset@v1
-        id: upload-release-asset 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          upload_url: ${{ needs.release-please.outputs.upload_url }}
           asset_path: ./slides.zip
           asset_name: artifacts.zip
           asset_content_type: application/zip
-          #      - name: Upload Release Artifacts
