@@ -214,10 +214,60 @@ set-threads:
 	\end{lstlisting}
     
     For technical reasons (parsing order) we can put a similar config in our configuration file for threads, \emph{behind} other parameters.
-      
     
     \begin{warning}
     	This is just an example for our toy data! \altverb{bwa} is outdated and used to scale up to 64 on older hardware.
     \end{warning}
   \end{onlyenv}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Using Configuration to run parallel Programs}}
+	We will \emph{NOT} use this blindly to cope with our workflow. Instead we will use a so-called \textit{wrapper} to deal with the quirky \altverb{bwa} + \altverb{samtools} combination.\\
+	Be sure to have
+	\begin{lstlisting}[style=Plain]
+set-resources:
+    bwa_map:
+        runtime: 5
+        mem_mb_per_cpu: 1800
+...
+		
+set-threads:
+    bwa_map: 8
+	\end{lstlisting}
+    in your profile from now on.
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Running MPI Programs}}
+	Rare in Life Science, frequent in HPC $\ldots$\newline
+	Please find the MPI example in \altverb{<++course.pathtosolutions++>/mpi_example}. Basically
+	\begin{lstlisting}[language=Python,style=Python]
+rule my_simulation:
+    input: ...
+    output: ...
+    resources:
+        mpi: "srun"
+    shell: {resources.mpi} cmd ...
+    \end{lstlisting}
+    will do the job. But
+    \begin{warning}
+    	\begin{itemize}[<+->]
+    		\item MPI software requires the \altverb{shell} directive!
+    		\item some programs cannot work with \altverb{srun} and need a different MPI-starter!
+    		\item the resources \altverb{tasks} (for MPI-ranks) and \altverb{cpus_per_task} (in case of hybrid programs) allow for fine grained resource allocation.
+    	\end{itemize}
+    \end{warning}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Try, if you want to!}
+	If you like, copy the \altverb{mpi_example} directory from \altverb{<++course.pathtosolutions++>/mpi_example} and execute with:
+	\begin{lstlisting}[language=Bash, style=Shell	
+$ snakemake -j 1  --use-envmodules
+    \end{lstlisting}
+    \begin{hint}
+    	You noticed the \altverb{--use-envmodules}? This is an alternate way to ensure the environment modules defined in the Snakefile.
+    \end{hint}
 \end{frame}
