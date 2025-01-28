@@ -15,5 +15,3 @@ scp environment.yaml "${CLUSTER_ALIAS}:${BASEPATH}/environment.yaml"
 
 rsync -rtlv --chmod=D755 "tutorial" "${CLUSTER_ALIAS}:${BASEPATH}"
 rsync -rtlv --chmod=D755 "solutions" "${CLUSTER_ALIAS}:/lustre/project/nhr-worfklow"
-rsync -rtlv --chmod=D755 "mpi_example" "${CLUSTER_ALIAS}:/lustre/project/nhr-worfklow"
-
