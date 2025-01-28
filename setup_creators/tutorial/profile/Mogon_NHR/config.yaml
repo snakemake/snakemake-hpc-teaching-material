@@ -1,0 +1,29 @@
+# Resource configuration for bioinformatics workflow on Mogon NHR
+# 
+# This file defines resource allocations for various bioinformatics tools.
+# Adjust these settings based on your specific dataset characteristics:
+# - Input file sizes
+# - Genome complexity
+# - Coverage depth
+# 
+# Remember to monitor job performance and adjust resources as needed.
+
+default-resources:
+  slurm_partition=small_cpu
+
+set-resources:
+        bwa_map:
+           runtime: 5 # Adjust based on your dataset size. Typical range: 30-120 minutes
+           mem_mb_per_cpu: 1800 # Increase for larger datasets, e.g., 3600 for 30x coverage
+    
+    samtools_sort:
+        runtime: 5 # Adjust based on your dataset size. Typical range: 20-60 minutes
+        mem_mb_per_cpu: 3600 # Sorting requires more memory. Increase for larger datasets
+
+    samtools_index:
+        runtime: 2 # Indexing is usually quick. Adjust if needed for very large files
+        mem_mb_per_cpu: 1800 # Indexing typically requires less memory than sorting
+
+    bcftools_call:
+        runtime: 15 # Variant calling can be time-consuming. Adjust based on genome size and coverage
+        mem_mb_per_cpu: 2400 # Increase for larger genomes or higher coverage datasets

@@ -37,6 +37,7 @@
 		\item Container
 		\item Environment Modules
 		\item Conda (and its derivatives)
+		\item \emph{in development}: Conda Translation to EESSI
 	\end{itemize}
     \pause
     While Conda is the preferred and \emph{portable} way with Snakemake, other software methods can be selected with
@@ -49,78 +50,78 @@ $ snakemake --sdm=[conda,envmodules,apptainer]
     	Using environment modules or container based deployment \emph{is possible}, but tedious if used for more than a \emph{few} $3^{\mathsf{rd}}$ party programs.
     \end{hint}
 \end{frame}
-	
+%	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%\begin{frame}[fragile]
+%  \frametitle{Separating Mamba or Conda from Env Modules}
+%  \footnotesize
+%  \begin{columns}[t]
+%    \begin{column}{0.5\textwidth}
+%       Installing Mamba or Conda gives this section in a user's ``\texttt{\textasciitilde/.bashrc}'':
+%       \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny, breaklines=true]
+%# !! Contents within this block are managed by 'conda init' !!
+%__conda_setup="$('<prefix>/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+%if [ $? -eq 0 ]; then
+%    eval "$__conda_setup"
+%else
+%if [ -f "<prefix>/etc/profile.d/conda.sh" ]; then
+%    . "<prefix>/etc/profile.d/conda.sh"
+%else
+%    export PATH="<prefix>/bin:$PATH"
+%fi
+%fi
+%unset __conda_setup
+%
+%if [ -f "<prefix>/etc/profile.d/mamba.sh" ]; then
+%    . "<prefix>/etc/profile.d/mamba.sh"
+%fi
+%# <<< conda initialize <<<
+%      \end{lstlisting}
+%      \bcattention \emph{Every} time they log-in this will be executed and will potentially interfere with "ordinary" HPC works.
+%    \end{column}
+%    \begin{column}{0.5\textwidth}
+%       \pause
+%       {\footnotesize We recommend to edit the ``\texttt{\textasciitilde/.bashrc}'' file and put a part in a function, to re-gain manual control:}
+%       \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny, breaklines=true]
+%@function conda_initialize {@
+%# !! Contents within this block are managed by 'conda init' !!
+%    __conda_setup="$('<prefix>/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+%if [ $? -eq 0 ]; then
+%    eval "$__conda_setup"
+%else
+%if [ -f "<prefix>/etc/profile.d/conda.sh" ]; then
+%   . "<prefix>/etc/profile.d/conda.sh"
+%else
+%   export PATH="<prefix>/bin:$PATH"
+%fi
+%fi
+%unset __conda_setup
+%
+%if [ -f "<prefix>/etc/profile.d/mamba.sh" ]; then 
+%    . "<prefix>/etc/profile.d/mamba.sh"
+%fi
+%# <<< conda initialize <<<
+%@}@
+%      \end{lstlisting}
+%    \end{column}
+%  \end{columns}
+%\end{frame}
+%
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-  \frametitle{Separating Mamba or Conda from Env Modules}
-  \footnotesize
-  \begin{columns}[t]
-    \begin{column}{0.5\textwidth}
-       Installing Mamba or Conda gives this section in a user's ``\texttt{\textasciitilde/.bashrc}'':
-       \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny, breaklines=true]
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('<prefix>/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-if [ -f "<prefix>/etc/profile.d/conda.sh" ]; then
-    . "<prefix>/etc/profile.d/conda.sh"
-else
-    export PATH="<prefix>/bin:$PATH"
-fi
-fi
-unset __conda_setup
-
-if [ -f "<prefix>/etc/profile.d/mamba.sh" ]; then
-    . "<prefix>/etc/profile.d/mamba.sh"
-fi
-# <<< conda initialize <<<
-      \end{lstlisting}
-      \bcattention \emph{Every} time they log-in this will be executed and will potentially interfere with "ordinary" HPC works.
-    \end{column}
-    \begin{column}{0.5\textwidth}
-       \pause
-       {\footnotesize We recommend to edit the ``\texttt{\textasciitilde/.bashrc}'' file and put a part in a function, to re-gain manual control:}
-       \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny, breaklines=true]
-@function conda_initialize {@
-# !! Contents within this block are managed by 'conda init' !!
-    __conda_setup="$('<prefix>/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-if [ -f "<prefix>/etc/profile.d/conda.sh" ]; then
-   . "<prefix>/etc/profile.d/conda.sh"
-else
-   export PATH="<prefix>/bin:$PATH"
-fi
-fi
-unset __conda_setup
-
-if [ -f "<prefix>/etc/profile.d/mamba.sh" ]; then 
-    . "<prefix>/etc/profile.d/mamba.sh"
-fi
-# <<< conda initialize <<<
-@}@
-      \end{lstlisting}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-  \frametitle{Why this function in somebodies \texttt{.bashrc}?}
-  \begin{docs}
-  	\begin{itemize}[<+->]
-  		\item \emph{every} time a user logs in, code in the \texttt{.bashrc} will be executed. Depending a conda setup, FS issues, etc. this can be \emph{slow}.
-  		\item automatic inclusion of Conda/Mamba might cause interference with modules
-  		\item Now, users can run \verb+conda_initialize+ in their login shell, jobs scripts, etc. upon demand and deactivate if needed.
-  	\end{itemize}
-  \end{docs}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\input{<++course.condarc_admins_file++>}
+%\begin{frame}[fragile]
+%  \frametitle{Why this function in somebodies \texttt{.bashrc}?}
+%  \begin{docs}
+%  	\begin{itemize}[<+->]
+%  		\item \emph{every} time a user logs in, code in the \texttt{.bashrc} will be executed. Depending a conda setup, FS issues, etc. this can be \emph{slow}.
+%  		\item automatic inclusion of Conda/Mamba might cause interference with modules
+%  		\item Now, users can run \verb+conda_initialize+ in their login shell, jobs scripts, etc. upon demand and deactivate if needed.
+%  	\end{itemize}
+%  \end{docs}
+%\end{frame}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%\input{<++course.condarc_admins_file++>}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}

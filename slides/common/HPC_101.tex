@@ -1,18 +1,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{How does Clustercomputing work?}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=\paperheight]{misc/cluster_kit}\hfil}\vfil}
+		% source: https://en.m.wikipedia.org/wiki/File:Text-x-python.svg
+	}
+	\frame{
+		\frametitle{Using Code-Studio}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+	}
+}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-    \frametitle{Outline}
-    \begin{columns}[t]
-        \begin{column}{.5\textwidth}
-            \tableofcontents[sections={1-7},currentsection]
-        \end{column}
-        \begin{column}{.5\textwidth}
-            \tableofcontents[sections={8-15},currentsection]
-        \end{column}
-    \end{columns}
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -26,6 +28,7 @@
    \begin{docs}[Objectives]
    	 \begin{enumerate}
    	 	\item Get a feeling for the SLURM batch system.
+   	 	\item We want to give you an idea of building a workflow with \emph{pure} batch system commands, first.
      \end{enumerate}
    \end{docs}
 \end{frame}
@@ -105,6 +108,31 @@ $ gedit &
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \input{<++course.hello_world_script++>}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]%
+	\frametitle{Please Imaging \ldots}
+	Now, thing of your analysis workflow: QC, preprocessing, processing, analysis, post-processing and plotting and \ldots \newline
+	\pause
+	All this \emph{can} be achieved with SLURM, too all with bash:
+	\begin{lstlisting}[language=Bash, style=Shell]
+# First, do some pre-processing for the first job.
+...
+# Then, submit a job without dependencies.
+jid1=$(sbatch ... job1.sh)
+# NOTE: ALL 'job*sh' scripts are bash scripts,
+#       with more logic than the "hello world" script.		
+
+# Next, do some more logic as pre-processing for the 
+# follow-up jobs. ...
+# multiple jobs can depend on a single job
+jid2=$(sbatch --dependency=afterany:$jid1 ... job2.sh)
+jid3=$(sbatch --dependency=afterany:$jid1 ... job3.sh)
+	\end{lstlisting}
+    etc. can easily be a few thousand lines for \emph{every} workflow.
+	\vfill
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}
