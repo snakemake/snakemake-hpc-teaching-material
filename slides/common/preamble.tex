@@ -13,6 +13,8 @@
 \usepackage{color,colortbl}
 \usepackage{upquote}
 
+\usepackage{pifont}
+
 \definecolor{pblue}{RGB}{45,106,148}
 \definecolor{pdarkblue}{RGB}{35,71,100}
 \definecolor{plightblue}{RGB}{90,159,212}
@@ -153,7 +155,65 @@
 \usepackage{verbatim}
 \usepackage{listings}
 
-\newcommand{\altverb}[2][{}]{\colorbox{plightgrey}{\lstinline[language={#1}]{#2}}}
+\newcommand\YAMLcolonstyle{\color{red}\mdseries}
+\newcommand\YAMLkeystyle{\color{black}\bfseries}
+\newcommand\YAMLvaluestyle{\color{blue}\mdseries}
+
+\makeatletter
+
+% here is a macro expanding to the name of the language
+% (handy if you decide to change it further down the road)
+\newcommand\language@yaml{yaml}
+
+\expandafter\expandafter\expandafter\lstdefinelanguage
+\expandafter{\language@yaml}
+{
+	keywords={true,false,null,y,n},
+	keywordstyle=\color{darkgray}\bfseries,
+	basicstyle=\YAMLkeystyle,                                 % assuming a key comes first
+	sensitive=false,
+	comment=[l]{\#},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{purple}\ttfamily,
+	stringstyle=\YAMLvaluestyle\ttfamily,
+	moredelim=[l][\color{orange}]{\&},
+	moredelim=[l][\color{magenta}]{*},
+	moredelim=**[il][\YAMLcolonstyle{:}\YAMLvaluestyle]{:},   % switch to value style at :
+	morestring=[b]',
+	morestring=[b]",
+	literate =    {---}{{\ProcessThreeDashes}}3
+	{>}{{\textcolor{red}\textgreater}}1     
+	{|}{{\textcolor{red}\textbar}}1 
+	{\ -\ }{{\mdseries\ -\ }}3,
+}
+
+% switch to key style at EOL
+\lst@AddToHook{EveryLine}{\ifx\lst@language\language@yaml\YAMLkeystyle\fi}
+\makeatother
+
+\newcommand\ProcessThreeDashes{\llap{\color{cyan}\mdseries-{-}-}}
+
+
+\makeatletter
+\newcommand\applyCurrentFontsize
+{%
+	% we first save the current fontsize, baseline-skip,
+	% and listings' basicstyle
+	\let\f@sizeS@ved\f@size%
+	\let\f@baselineskipS@ved\f@baselineskip%
+	\let\basicstyleS@ved\lst@basicstyle%
+	% we now change the fontsize of listings' basicstyle
+	\renewcommand\lst@basicstyle%
+	{%
+		\basicstyleS@ved%
+		\fontsize{\f@sizeS@ved}{\f@baselineskipS@ved}%
+		\selectfont%
+	}%
+}
+\makeatother
+
+\newcommand{\altverb}[2][{}]{\colorbox{plightgrey}{\applyCurrentFontsize \lstinline[language={#1}]{#2}}}
+
 
 
 \lstloadlanguages{Python,bash,C++}
@@ -327,11 +387,11 @@ showstringspaces=false}
 \makeatother
 
 %%%% nicer typesetting the snakemake project
-\newcommand{\Snakemake}{
+\newcommand{\Snakemake}{\mbox{
 	\begingroup\normalfont
 	\includegraphics[height=\texorpdfstring{\fontcharht\font`\B}]{logos/Snakemake.png}
-	\endgroup
 	\textbf{Snakemake}
+    \endgroup}
 }
 
 

@@ -92,8 +92,9 @@
 	\frametitle{Deployment II - Creating an Environment Fork}
 	Usually, we can create an environment like:
 	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba create -c conda-forge -c bioconda -n snakemake snakemake \
-> snakemake-executor-plugin-slurm snakemake-storage-plugin-fs
+$ mamba create -c conda-forge -c bioconda -n snakemake \
+> snakemake snakemake-executor-plugin-slurm \
+> snakemake-storage-plugin-fs
     \end{lstlisting}
     This should install a \Snakemake{} environment with all necessary tools!
        

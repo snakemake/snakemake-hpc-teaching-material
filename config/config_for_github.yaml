@@ -25,10 +25,11 @@ course:
   date: "datestring" # maybe: "\today"
   #title: "" # specifiy your title here, else a default is used. 
   #subtitle: "" # specifiy your subtitle here, else a default is used. 
+  question: "yes"
   # Editors recommendations are a matter of taste and technological
   # setups (e.g. on-demand setups). Hence, specify an editor-slide,
   #  here:
-  editorfile: "common/editor_gedit_mainz.tex"
+  editorfile: "common/editor_gedit_mainz"
   # The next line indicates the slides explaining
   # a condarc file on a cluster, copy and adjust
   # for your cluster.

@@ -10,8 +10,6 @@ create_default_packages:
 channels:
   - conda-forge
   - bioconda
-  - defaults
-  - r
 proxy_servers: 
   http: http://webproxy.zdv.uni-mainz.de:8888
 ssl_verify: false
@@ -19,5 +17,5 @@ auto_update_conda: false
 always_yes: true # avoid confirmation(s)
 env_prompt: '($(basename {default_env})) '
   \end{lstlisting}
-  The last line ensures that storing an unnamed environment on Lustre, will not result in overly lenghty prompts.
+  The last line ensures that storing an unnamed environment in a project directory, will not result in overly lengthy prompts.
 \end{frame}

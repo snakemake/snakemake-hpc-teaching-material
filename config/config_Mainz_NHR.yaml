@@ -20,13 +20,23 @@ layout:
   beamercolor_block_title_example: "fg=white,bg=PineGreen!80"
 
 course:
+  # sets the slides aspectratio (if outcommented, the default is 43=4:3)
+  aspectratio: 1609 # - 169 = 16:9 
   date: "23.-27. September 2024" # maybe: "\today"
   #title: "" # specifiy your title here, else a default is used. 
   #subtitle: "" # specifiy your subtitle here, else a default is used. 
+  question: "yes" # if set (to any value) the question slide will be shown
+  #               # at chapters with content. If you do not want it, this
+  #               # should be outcommented.
+  # If the course requires user login to be set up, this slide set should
+  # introduce the procedure. If not defined (outcommented) it will be skipped.
+  # It is placed before introducing Snakemake, because the procedure might require
+  # synchronization time.
+  login_slides: "common/login_mogon"
   # Editors recommendations are a matter of taste and technological
   # setups (e.g. on-demand setups). Hence, specify an editor-slide,
   #  here:
-  editorfile: "common/mod_cs_mainz.tex"
+  editorfile: "common/mod_cs_mainz"
   # The next line indicates the slides explaining
   # a condarc file on a cluster, copy and adjust
   # for your cluster.
