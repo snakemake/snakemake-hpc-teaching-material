@@ -1,0 +1,24 @@
+localrules: all, clean
+
+rule all:
+     input: "pi.calc"
+
+rule clean:
+     shell: "rm -f pi.calc pi_MPI *log"
+
+rule compile:
+     input: "pi_MPI.c"
+     output: temp("pi_MPI")
+     log: "compile.log"
+     envmodules: "mpi/OpenMPI/4.1.5-GCC-12.3.0"     
+     shell: 
+         "mpicc -o {output} {input} 2> {log}"
+
+rule calc_pi:
+     input: "pi_MPI"
+     output: "pi.calc"
+     log: "calc_pi.log"
+     resources:
+        mpi: "srun"
+     envmodules: "mpi/OpenMPI/4.1.5-GCC-12.3.0"     
+     shell: "{resources.mpi} ./{input} >  {output} 2> {log}"

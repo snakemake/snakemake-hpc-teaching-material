@@ -16,7 +16,7 @@
 
 \input{common/preamble}
 
-\title[<++course.shorttitle++>]{<+++ if course.title is defined +++><++course.tittle++><+++else+++>Importance of \Snakemake Workflows for Admins<+++endif+++>} 
+\title[<++course.shorttitle++>]{<+++ if course.title is defined +++><++course.tittle++><+++else+++>Importance of \Snakemake Workflows for Admins and HPC-Users<+++endif+++>} 
 
 \subtitle{<+++ if course.subtitle is defined +++><++course.subtitle++><+++else+++>Providing DataAnalytics Service<+++endif+++> - <++course.edition++>} 
 
@@ -44,7 +44,36 @@
 \include{admin/software_environment}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{admin/actual_work}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{admin/Workflow_Parameterization_for_HPC}
+
+\begin{frame}
+	\frametitle{Upcoming Courses}
+	\begin{columns}[T]
+		\begin{column}{0.5\textwidth}
+			\centering
+			\includegraphics[width=0.7\textwidth]{humor/announcement.png}
+			\caption{Me, announcing courses}
+		\end{column}
+	
+	\begin{column}{0.5\textwidth}
+		Do you want to learn:
+		\begin{itemize}
+			\item How to create \& publish \Snakemake workflows suitable for HPC clusters?
+			\item Learn how to deploy and adapt $3^{\mathsf{rd}}$-party workflows?
+			\item and more \ldots
+		\end{itemize}
+	    Check out these courses in
+	    \begin{itemize}
+	    	\item \lhref{https://indico.zdv.uni-mainz.de/event/23/}{Mainz, 29. \& 30. Jan.}
+	    	\item \lhref{https://tu-dresden.de/zih/hochleistungsrechnen/nhr-training/bd-hpda/snakemake?set_language=en}{Dresden, 26. \& 27. Feb.}
+	    \end{itemize}
+	\end{column}
+	
+	\end{columns}
+\end{frame}
       
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\include{admin/Data_Management}
