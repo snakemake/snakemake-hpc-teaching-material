@@ -87,6 +87,7 @@ def count_sections(file_list, tempdir):
                 count += count_matching_lines(fp)
         except:
             print(f"Error treating counting sections in: '{fname}'")
+        # print(f"{count}, {fname}", file=sys.stderr)
     return count
 
 
@@ -174,7 +175,7 @@ def find_and_replace_sections(boundaries, section_estimate, fname):
     # first render minitoc
     if minitocline:
         lower = max((section_estimate - 2), 1)  # lower boundary not lower than 1
-        upper = max(
+        upper = min(
             (section_estimate + 3), boundaries["upper"]
         )  # upper boundary not higher then upper boundary ;-)
         sections = f"{lower}-{upper}"
@@ -183,6 +184,7 @@ def find_and_replace_sections(boundaries, section_estimate, fname):
             + sections
             + "}, hideothersubsections]"
         )
+        # check:
     # adapt the two lines with our new boundaries:
     elif first_done and second_done:
         lines[first_done] = (
@@ -271,9 +273,12 @@ if __name__ == "__main__":
         # NOTE: section estimate is the assumption, that we have
         # one section per file. This assumption will NOT always hold
         # but is good enough for our purpose of setting boundaries in minitocs.
-        for section_estimate, fname in enumerate(file_list):
+        current = 0
+        for fname in file_list:
             to_adapt = os.path.join(tempdir, "slides", fname) + ".tex"
-            find_and_replace_sections(boundaries, section_estimate, to_adapt)
+            with open(to_adapt) as fp:
+                current += count_matching_lines(fp)
+            find_and_replace_sections(boundaries, current, to_adapt)
         # now the typesetting needs to be triggered
         run_pdflatex(
             fname=args.master_tex,
