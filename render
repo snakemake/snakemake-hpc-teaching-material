@@ -11,6 +11,7 @@ import shutil
 import subprocess
 import sys
 from tempfile import TemporaryDirectory
+import time # for testing purposes
 import yaml
 import zipfile
 
@@ -86,8 +87,8 @@ def count_sections(file_list, tempdir):
             with open(to_count) as fp:
                 count += count_matching_lines(fp)
         except:
-            print(f"Error treating counting sections in: '{fname}'")
-        # print(f"{count}, {fname}", file=sys.stderr)
+            print(f"Error treating counting sections in: '{fname}'", file=sys.stderr)
+        logger.info(f"Counted {count} sections up {fname}")
     return count
 
 
@@ -127,7 +128,11 @@ def run_pdflatex(fname="out.tex", path=".", handout=False):
     else:
         cmd += f" {fname}"
     cmd = shlex.split(cmd)
-    retcode = subprocess.call(cmd, cwd=path)
+    logger.debug(f"Running: {cmd}")
+    logger.debug(f"Working directory: {path}")
+    # run pdflatex multiple times
+    for _ in range(3):
+        retcode = subprocess.call(cmd, cwd=os.path.join(tempdir, "slides"))
     pdfname = get_pdf_name(fname)
     shutil.copy(os.path.join(path, pdfname), os.path.join(outdir, pdfname))
     return retcode
@@ -149,7 +154,7 @@ def find_and_replace_sections(boundaries, section_estimate, fname):
         with open(fname) as infile:
             lines = infile.readlines()
     except:
-        print(f"Error reading: '{fname}'")
+        print(f"Error reading: '{fname}'", file=sys.stderr)
         return
 
     # get the matching 'currentsection' lines
@@ -187,19 +192,17 @@ def find_and_replace_sections(boundaries, section_estimate, fname):
         # check:
     # adapt the two lines with our new boundaries:
     elif first_done and second_done:
-        lines[first_done] = (
-            "            \\tableofcontents[sections={%d-%d},currentsection]\n"
-            % (
-                boundaries["lower"],
-                boundaries["first_half_end"],
-            )
+        lines[
+            first_done
+        ] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (
+            boundaries["lower"],
+            boundaries["first_half_end"],
         )
-        lines[second_done] = (
-            "            \\tableofcontents[sections={%d-%d},currentsection]\n"
-            % (
-                boundaries["second_half_start"],
-                boundaries["upper"],
-            )
+        lines[
+            second_done
+        ] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (
+            boundaries["second_half_start"],
+            boundaries["upper"],
         )
     else:
         logger.error(f"TOC expectations for '{fname}' not met")
@@ -242,7 +245,10 @@ if __name__ == "__main__":
     # on the tempfs, the relative path work without
     args.master_tex = os.path.basename(args.master_tex)
 
+    logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
+
     logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
 
     data = parse_config(args.configfile)
 
@@ -280,16 +286,27 @@ if __name__ == "__main__":
                 current += count_matching_lines(fp)
             find_and_replace_sections(boundaries, current, to_adapt)
         # now the typesetting needs to be triggered
+        logger.info(f"Typesetting the slides for Master: {args.master_tex}")
+        logger.info(f"Handout: {args.handout}")
+        logger.info(f"Rerun: {not args.no_rerun}")
+        logger.info(f"Sample directory: {args.sample_directory}")
+        logger.info(f"Configuration file: {args.configfile}")
+        logger.info(f"Temporary directory: {tempdir}")
+        #time.sleep(300)
         run_pdflatex(
             fname=args.master_tex,
-            path=os.path.join(tempdir, "slides"),
+            path=tempdir,
             handout=args.handout,
         )
         # re-run might be required
         if args.no_rerun:
             print("no rerun as requested")
             sys.exit()
-        run_pdflatex(fname=args.master_tex, path=os.path.join(tempdir, "slides"))
+        run_pdflatex(
+            fname=args.master_tex,
+            path=tempdir,
+            handout=args.handout,
+        )
 
         # only to produce handouts (together with script bundles)
         if args.handout:
