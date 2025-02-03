@@ -365,9 +365,9 @@ $ snakemake -np
   \begin{lstlisting}[language=Bash, style=Shell]
 $ snakemake
   \end{lstlisting}
-  \begin{hint}[Note:]
-  	The \altverb{--cores=1} is necessary, because we are executing ``locally'' and \Snakemake{} would like to know how much of the resources we may use (you can try without, though, to see what happens).
-  \end{hint}
+  \begin{documentation}[Note:]
+  	With \altverb{--cores=n}, when executing ``locally'', we can restrict \Snakemake{} to only use \altverb{n} cores or CPUs, respectively.
+  \end{documentation}
   You should see the expected output (\altverb[Bash]{ls}) and lines which reads:
   \begin{lstlisting}[style=Plain, basicstyle=\footnotesize]
 1 of 1 steps (100%) done
