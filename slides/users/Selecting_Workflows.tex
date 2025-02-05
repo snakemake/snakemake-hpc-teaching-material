@@ -26,8 +26,8 @@
    \end{question} 
    \begin{docs}[Objectives]
    	  \begin{enumerate}
-                      \item Introducing the workflow catalogue?
-                      \item Learning the difference between ``curation'' (what some people think) and ``curation'' (what really works)?
+                      \item Introducing the workflow catalogue!
+                      \item Learning the difference between ``curation'' (what some people think) and ``curation'' (what really works).
       \end{enumerate}
     \end{docs}
 \end{frame}  
@@ -40,9 +40,9 @@
  You can find the \Snakemake{} worfkflow catalogue, \lhref{https://snakemake.github.io/snakemake-workflow-catalog/?rules=true}{here}. It makes a difference between workflows which meet best-practice criteria - and those which do not.\newline
  \begin{columns}
    \begin{column}{0.5\textwidth}
-     You can download and run any workflow. \Snakemake's portability features ensure it will work everywhere.\pause
+     You can download and run any workflow. \Snakemake's portability features ensure it will work everywhere $\ldots$\pause
      \begin{warning}
-     	Except, you most likely cannot, because of a missing cluster configuration and some missing features.
+     	$\ldots$ except, you most likely cannot, because of a missing cluster configuration.
      \end{warning}
    \end{column}
    \begin{column}{0.5\textwidth}
@@ -61,7 +61,7 @@
   	\begin{column}{0.5\textwidth}
   		You can look for 
   		\begin{itemize}
-  		  \item topical keywords
+  		  \item topical keywords and
   		  \item software
   		\end{itemize}
   	\end{column}
@@ -97,7 +97,6 @@ $ mamba create -c conda-forge -c bioconda -n snakemake \
 > snakemake-storage-plugin-fs
     \end{lstlisting}
     This should install a \Snakemake{} environment with all necessary tools!
-       
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -202,5 +201,9 @@ $ snakemake --executor slurm \
 > --workflow-profile <path to directory> \
 > --directory <path to your course output>
   \end{lstlisting}
+  \pause
+  \begin{hint}
+  	We will learn a few tricks to shorten this line.
+  \end{hint}
 \end{frame}
 

@@ -152,6 +152,7 @@ cp <++course.tutorialpath++>/06_Snakefile_run Snakefile
     	This Snakefile will run. Except for a little error. And the file is a bit mixed up.
     	\begin{enumerate}
     		\item find the result of the \altverb{plot_positions} rule. Add it as a new target. Why?
+    		\item run with \altverb{--debug}.
     		\item find the error and correct it.
     		\item restore the file to an order you find acceptable.
     		\item think about it: \emph{Why} do you prefer \emph{your} ordering?
@@ -500,6 +501,25 @@ rule plot_quals:
         "scripts/plot-positions.py"
 	\end{lstlisting}
 	Compare to the solution script in your solutions folder: \altverb{<++course.pathtosolutions++>/08_Snakefile_script2}.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\Interlude{Does my Python Code adhere to the Standards?}}
+	Meet \altverb{black} -- the uncompromising Python code formatter.
+	\pause
+	\begin{task}
+		Please run \altverb{black} on your script codes. What do you observe?
+	\end{task}
+	
+	\begin{lstlisting}[language=Python,style=Python]
+$ black scripts/plot-quals.py
+$ black scripts/plot-positions.py
+    \end{lstlisting}	
+    \pause
+    \begin{hint}
+    	\altverb{black} can save you a tremendous amount of time. It is not just a beautifier. Readable code counts!
+    \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
