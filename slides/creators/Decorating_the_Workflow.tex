@@ -283,10 +283,10 @@ rule bwa_map:
 \begin{frame}[fragile]
   \frametitle{Rule Parameters II}
   This is usually part of the configuration file(s), too.\newline
-  If you put this in your config file (the \altverb{r} in \altverb{r"<something>"} stands for "raw strings"):
+  If you put this in your config file (the double \altverb{\\} "escape" to \altverb{\t}):
   \begin{lstlisting}[language=Python,style=Python]
 bwa_map:
-   rg=r"@RG\tID:{sample}\tSM:{sample}"
+   rg="@RG\\tID:{sample}\\tSM:{sample}"
   \end{lstlisting}
   and in your code:
   \begin{lstlisting}[language=Python,style=Python]
