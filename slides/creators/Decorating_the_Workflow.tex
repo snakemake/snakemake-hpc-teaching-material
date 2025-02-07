@@ -477,7 +477,11 @@ rule plot_quals:
   output: 
       protected("plots/quals.svg")
   ...
-  \end{lstlisting}	
+  \end{lstlisting}
+  \pause
+  \begin{hint}
+  	We will \emph{NOT} do this, as it will interfere with our repeated executions.
+  \end{hint}	
 \end{frame} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -584,7 +588,7 @@ $ snakemake --executor slurm \
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --executor slurm \
 > --default-resources slurm_partition=<++cluster.partition++> \
-> <+++ if cluster.account is defined +++>      slurm_account=<++cluster.account++><+++ endif +++>> -j unlimited @-F@
+> <+++ if cluster.account is defined +++>      slurm_account=<++cluster.account++><+++ endif +++> -j unlimited @-F@
   \end{lstlisting}
   \begin{question}
   	Observations?
