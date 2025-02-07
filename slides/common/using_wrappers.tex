@@ -62,7 +62,23 @@
     \end{docs}
 \end{frame}
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\Interlude{Dealing with multiple Extensions}}
+	\begin{warning}
+		So far, we were referring to \emph{one} file. But alignment software like \altverb{bwa} requires all those files with multiple extensions! {\bf This is not safe!}
+	\end{warning}
+    To require multiple extensions \Snakemake provides the \altverb{multiext()}-function:
+    \begin{lstlisting}[language=Python,style=Python]
+rule bwa_map:
+    input:
+      ...
+      idx=multiext("genome", ".amb", ".fa",
+                   ".ann", ".bwt", ".pac", ".sa")
+      ...
+    \end{lstlisting}
+	Now, \emph{all} listed extensions are required to be present for the file with the prefix \altverb{genome}!
+\end{frame}
 
 
 
