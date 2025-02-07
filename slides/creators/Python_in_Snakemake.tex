@@ -258,6 +258,23 @@ do_something(snakemake@input[[1]], snakemake@output[[1]])
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
+	\frametitle{\Interlude{Conventions}}
+	In the next task, you will implement a new rule.
+	\begin{question}
+		Why should you \emph{not} use names like \altverb{new_rule}?
+	\end{question}
+    \pause
+    \begin{docs}
+    	Always use names (for rules, variables, etc.) which make sense to \emph{you}. Rather \altverb{does_thing}, e.g. \altverb{plot_qualities}, than \altverb{new_rule}.
+    \end{docs}
+    \pause
+    \begin{hint}
+    	When proceeding, name your rules and outputs according to the canonical solution - or you will find it hard to build upon other solutions.
+    \end{hint}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
 	\frametitle{\HandsOn{Write a Plotting Rule using the \texttt{script} Directive}}
 	If you do not have a working workflow, refer to the solution \altverb{<++course.pathtosolutions++>/06_Snakefile_run}.\newline
 	To prepare copy a plotting script into the \altverb{scripts} folder:
@@ -446,9 +463,9 @@ $ snakemake --debug
 	\pause
 	Some targets are already present, we want the entire workflow again:
 	\begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake -c4 --forcerun
+$ snakemake --cores 4 --forcerun
 $ # or short with
-$ snakemake -c4 -F
+$ snakemake -c 4 -F
 	\end{lstlisting}
      
 	\begin{question}
