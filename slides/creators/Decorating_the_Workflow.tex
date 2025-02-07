@@ -456,8 +456,8 @@ rule bwa_map:
   Implement the \altverb{temp()} function for \altverb{bwa_map}`s output and run the workflow. Please run:
   \begin{lstlisting}[language=Bash, style=Shell]
 $ du -sh mapped_reads # measures the size of the folder
-$ rm -rf mapped_reads # deleting enforces run
 $ snakemake -F # after adding temp()
+$ du -sh mapped_reads # measures the size of the folder
   \end{lstlisting}
   \pause
   \bcquestion Do you see the benefit of temporary/intermediate files for your data management?
