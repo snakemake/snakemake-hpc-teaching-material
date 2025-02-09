@@ -348,7 +348,7 @@ rule bwa_map:
   \frametitle{Testing our Snakefile}
   When a workflow is executed, \Snakemake{} tries to generate given target files. Target files can be specified via the command line. By executing
   \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake -np mapped_reads/A.bam
+$ snakemake -np
   \end{lstlisting}
   in the working directory containing the \altverb{Snakefile}, we tell \\\Snakemake{} to generate the target file \altverb{mapped_reads/A.bam}.\newline
   We are using 
@@ -363,11 +363,11 @@ $ snakemake -np mapped_reads/A.bam
   \frametitle{Finally - Running \Snakemake{}!}
   Now, we can run \Snakemake{}:
   \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake --cores=1 mapped_reads/A.bam
+$ snakemake
   \end{lstlisting}
-  \begin{hint}[Note:]
-  	The \altverb{--cores=1} is necessary, because we are executing ``locally'' and \Snakemake{} would like to know how much of the resources we may use (you can try without, though, to see what happens).
-  \end{hint}
+  \begin{docs}[Note:]
+  	With \altverb{--cores=n}, when executing ``locally'', we can restrict \Snakemake{} to only use \altverb{n} cores or CPUs, respectively.
+  \end{docs}
   You should see the expected output (\altverb[Bash]{ls}) and lines which reads:
   \begin{lstlisting}[style=Plain, basicstyle=\footnotesize]
 1 of 1 steps (100%) done
@@ -380,7 +380,7 @@ Complete log: .snakemake/log/<date>T<timestring>.snakemake.log
   \frametitle{Re-Running Workflows}
   Try to run \Snakemake{} again:
   \begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake --cores=1 mapped_reads/A.bam
+$ snakemake
   \end{lstlisting}
   \pause
   Oops:

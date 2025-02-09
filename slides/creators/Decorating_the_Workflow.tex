@@ -173,7 +173,7 @@ $ snakemake -n -F
   \end{question}
   \pause
   \begin{hint}
-  	The workflow is now able to take up the configuration - and will deduce all necesary input from the last rule requireing the \altverb{\{sample\}} wildcard.
+  	The workflow is now able to take up the configuration - and will deduce all necessary input from the last rule requiring the \altverb{\{sample\}} wildcard.
   \end{hint}
 %  \begin{docs}
 %  	  Input functions may be \altverb{lambda} functions (oneliners), too. The idea is that complex data mangling can be our-sourced to functions.
@@ -283,10 +283,10 @@ rule bwa_map:
 \begin{frame}[fragile]
   \frametitle{Rule Parameters II}
   This is usually part of the configuration file(s), too.\newline
-  If you put this in your config file (the \altverb{r} in \altverb{r"<something>"} stands for "raw strings"):
+  If you put this in your config file (the double \altverb{\\} "escape" to \altverb{\t}):
   \begin{lstlisting}[language=Python,style=Python]
 bwa_map:
-   rg=r"@RG\tID:{sample}\tSM:{sample}"
+   rg="@RG\\tID:{sample}\\tSM:{sample}"
   \end{lstlisting}
   and in your code:
   \begin{lstlisting}[language=Python,style=Python]
@@ -456,8 +456,8 @@ rule bwa_map:
   Implement the \altverb{temp()} function for \altverb{bwa_map}`s output and run the workflow. Please run:
   \begin{lstlisting}[language=Bash, style=Shell]
 $ du -sh mapped_reads # measures the size of the folder
-$ rm -rf mapped_reads # deleting enforces run
 $ snakemake -F # after adding temp()
+$ du -sh mapped_reads # measures the size of the folder
   \end{lstlisting}
   \pause
   \bcquestion Do you see the benefit of temporary/intermediate files for your data management?
@@ -477,7 +477,11 @@ rule plot_quals:
   output: 
       protected("plots/quals.svg")
   ...
-  \end{lstlisting}	
+  \end{lstlisting}
+  \pause
+  \begin{hint}
+  	We will \emph{NOT} do this, as it will interfere with our repeated executions.
+  \end{hint}	
 \end{frame} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -584,7 +588,7 @@ $ snakemake --executor slurm \
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ snakemake --executor slurm \
 > --default-resources slurm_partition=<++cluster.partition++> \
-> <+++ if cluster.account is defined +++>      slurm_account=<++cluster.account++><+++ endif +++>> -j unlimited @-F@
+> <+++ if cluster.account is defined +++>      slurm_account=<++cluster.account++><+++ endif +++> -j unlimited @-F@
   \end{lstlisting}
   \begin{question}
   	Observations?
@@ -708,7 +712,7 @@ localrules: rule_a, rule_b, rule_c, ...
   \frametitle{\HandsOn{Implementing ``\texttt{localrules}''}}
   Please add
   \begin{lstlisting}[language=Python,style=Python]
-localrules: plot_quals
+localrules: plot_quals, plot_positions
   \end{lstlisting}
   at the top of your \Snakemake{} and rerun the workflow on this cluster.
   \pause

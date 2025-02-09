@@ -3,4 +3,4 @@ samples:
   B: data/samples/B.fastq
 
 bwa_map:
-  rg: r"@RG\tID:{sample}\tSM:{sample}"
+  rg: "@RG\\tID:{sample}\\tSM:{sample}"

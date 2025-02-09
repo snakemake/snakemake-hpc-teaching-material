@@ -3,6 +3,7 @@
 import argparse
 import math
 import logging
+import logging.handlers
 import os
 from pathlib import Path
 import re
@@ -11,6 +12,7 @@ import shutil
 import subprocess
 import sys
 from tempfile import TemporaryDirectory
+import time  # for testing purposes
 import yaml
 import zipfile
 
@@ -86,7 +88,8 @@ def count_sections(file_list, tempdir):
             with open(to_count) as fp:
                 count += count_matching_lines(fp)
         except:
-            print(f"Error treating counting sections in: '{fname}'")
+            print(f"Error treating counting sections in: '{fname}'", file=sys.stderr)
+        logger.info(f"Counted {count} sections up {fname}")
     return count
 
 
@@ -120,15 +123,20 @@ def get_pdf_name(filename):
 
 def run_pdflatex(fname="out.tex", path=".", handout=False):
     outdir = os.path.realpath(os.path.join(os.getcwd(), "slides"))
-    cmd = "pdflatex -synctex=1 -interaction=nonstopmode"
+    cmd = "pdflatex -synctex=1 -interaction=nonstopmode -file-line-error"
     if handout:
         cmd += r' "\def\ishandout{1} \input{' + fname + r'}"'
     else:
         cmd += f" {fname}"
     cmd = shlex.split(cmd)
-    retcode = subprocess.call(cmd, cwd=path)
+    logger.debug(f"Running: {cmd}")
+    logger.debug(f"Working directory: {path}")
+    retcode = subprocess.call(cmd, cwd=os.path.join(tempdir, "slides"))
     pdfname = get_pdf_name(fname)
-    shutil.copy(os.path.join(path, pdfname), os.path.join(outdir, pdfname))
+    shutil.copy(
+        os.path.join(os.path.join(tempdir, "slides"), pdfname),
+        os.path.join(outdir, pdfname),
+    )
     return retcode
 
 
@@ -148,7 +156,7 @@ def find_and_replace_sections(boundaries, section_estimate, fname):
         with open(fname) as infile:
             lines = infile.readlines()
     except:
-        print(f"Error reading: '{fname}'")
+        print(f"Error reading: '{fname}'", file=sys.stderr)
         return
 
     # get the matching 'currentsection' lines
@@ -174,30 +182,28 @@ def find_and_replace_sections(boundaries, section_estimate, fname):
     # first render minitoc
     if minitocline:
         lower = max((section_estimate - 2), 1)  # lower boundary not lower than 1
-        upper = max(
-            (section_estimate + 3), boundaries["upper"]
-        )  # upper boundary not higher then upper boundary ;-)
+        upper = section_estimate + 2
+        upper = upper if upper < boundaries["upper"] else boundaries["upper"] + 1  # upper boundary not higher then upper boundary ;-)
         sections = f"{lower}-{upper}"
         lines[minitocline] = (
             "            \\tableofcontents[currentsection, sections={"
             + sections
             + "}, hideothersubsections]"
         )
+        # check:
     # adapt the two lines with our new boundaries:
     elif first_done and second_done:
-        lines[first_done] = (
-            "            \\tableofcontents[sections={%d-%d},currentsection]\n"
-            % (
-                boundaries["lower"],
-                boundaries["first_half_end"],
-            )
+        lines[
+            first_done
+        ] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (
+            boundaries["lower"],
+            boundaries["first_half_end"],
         )
-        lines[second_done] = (
-            "            \\tableofcontents[sections={%d-%d},currentsection]\n"
-            % (
-                boundaries["second_half_start"],
-                boundaries["upper"],
-            )
+        lines[
+            second_done
+        ] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (
+            boundaries["second_half_start"],
+            boundaries["upper"],
         )
     else:
         logger.error(f"TOC expectations for '{fname}' not met")
@@ -240,7 +246,14 @@ if __name__ == "__main__":
     # on the tempfs, the relative path work without
     args.master_tex = os.path.basename(args.master_tex)
 
+    logfile_name = "render.log"
+
+    logging.basicConfig(
+        filename=logfile_name, encoding="utf-8", level=logging.DEBUG, filemode="w"
+    )
+
     logger = logging.getLogger(__name__)
+    logger.setLevel(logging.DEBUG)
 
     data = parse_config(args.configfile)
 
@@ -271,20 +284,40 @@ if __name__ == "__main__":
         # NOTE: section estimate is the assumption, that we have
         # one section per file. This assumption will NOT always hold
         # but is good enough for our purpose of setting boundaries in minitocs.
-        for section_estimate, fname in enumerate(file_list):
+        current = 0
+        for fname in file_list:
             to_adapt = os.path.join(tempdir, "slides", fname) + ".tex"
-            find_and_replace_sections(boundaries, section_estimate, to_adapt)
+            with open(to_adapt) as fp:
+                current += count_matching_lines(fp)
+            find_and_replace_sections(boundaries, current, to_adapt)
         # now the typesetting needs to be triggered
+        logger.info(f"Typesetting the slides for Master: {args.master_tex}")
+        logger.info(f"Handout: {args.handout}")
+        logger.info(f"Rerun: {not args.no_rerun}")
+        logger.info(f"Sample directory: {args.sample_directory}")
+        logger.info(f"Configuration file: {args.configfile}")
+        logger.info(f"Temporary directory: {tempdir}")
+        # copy back for debugging purposes
+        shutil.copytree(
+            os.path.join(tempdir, "slides"), "test_slides", dirs_exist_ok=True
+        )
+        # time.sleep(300)
         run_pdflatex(
             fname=args.master_tex,
-            path=os.path.join(tempdir, "slides"),
+            path=tempdir,
             handout=args.handout,
         )
+
         # re-run might be required
         if args.no_rerun:
-            print("no rerun as requested")
+            print("No re-run requested")
             sys.exit()
-        run_pdflatex(fname=args.master_tex, path=os.path.join(tempdir, "slides"))
+
+        run_pdflatex(
+            fname=args.master_tex,
+            path=tempdir,
+            handout=args.handout,
+        )
 
         # only to produce handouts (together with script bundles)
         if args.handout:
