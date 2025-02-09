@@ -17,6 +17,7 @@ jobs:
       release_created: ${{ steps.release.outputs.release_created }}
       upload_url: ${{ steps.release.outputs.upload_url }}
     steps:
+      - uses: actions/checkout@v4
       - uses: GoogleCloudPlatform/release-please-action@v4
         id: release
         with:
@@ -29,56 +30,29 @@ jobs:
     if: ${{ needs.release-please.outputs.release_created }}
     name: Release Artifacts
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
       - name: Install Dependencies
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends
-             python3-yaml
-             texlive
-             texlive-fonts-extra
-             texlive-latex-extra
-             texlive-luatex
-             texlive-pictures
-             texlive-plain-generic
-             texlive-pstricks
-             texlive-science
-             latexmk
-             ghostscript
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends \
+             python3-yaml \
+             texlive \
+             texlive-fonts-extra \
+             texlive-latex-extra \
+             texlive-luatex \
+             texlive-pictures \
+             texlive-plain-generic \
+             texlive-pstricks \
+             texlive-science \
+             latexmk \
+             ghostscript \
              poppler-utils
-
       - name: LaTeX compile
         run: |
-          ./render --master-tex Snakemake_HPC_Users.tex \
-           --configfile config/config_for_github.yaml ;
-          ./render --master-tex Snakemake_HPC_Creators.tex \
-          --configfile config/config_for_github.yaml;
-          ./render --master-tex Snakemake_HPC_User_Creator_Combi.tex \
-          --configfile config/config_for_github.yaml
-          ./render --master-tex Snakemake_HPC_Admins.tex \
-          --configfile config/config_for_github.yaml;
+          ./render --master-tex Snakemake_HPC_Users.tex --configfile config/config_for_github.yaml
+          ./render --master-tex Snakemake_HPC_Creators.tex --configfile config/config_for_github.yaml
+          ./render --master-tex Snakemake_HPC_User_Creator_Combi.tex --configfile config/config_for_github.yaml
+          ./render --master-tex Snakemake_HPC_Admins.tex --configfile config/config_for_github.yaml
           if ls slides/*.pdf 1> /dev/null 2>&1; then
             zip slides.zip slides/*pdf || exit 1
           else
             echo "Error: No PDF files found in slides directory" >&2
-            exit 1
-          fi
-
-      - name: Upload Release Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: Slides
-          path: |
-            slides/Snakemake_HPC_Creators.pdf
-            slides/Snakemake_HPC_Users.pdf
-            slides/Snakemake_HPC_User_Creator_Combi.pdf
-            slides/Snakemake_HPC_Admins.pdf
-
-      - uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ needs.release-please.outputs.upload_url }}
-          asset_path: ./slides.zip
-          asset_name: artifacts.zip
-          asset_content_type: application/zip
