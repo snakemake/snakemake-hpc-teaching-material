@@ -21,6 +21,8 @@ jobs:
         id: release
         with:
           release-type: simple
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build:
     needs: release-please
