@@ -1,0 +1,322 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Going Parallel}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=\paperheight]{humor/DALLE_runners.jpg}\hfil}\vfil}
+		% source: https://en.m.wikipedia.org/wiki/File:Text-x-python.svg
+	}
+	\frame{
+		\frametitle{Going Parallel}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+	    \vfill\hfil \hfill{\tiny \bf \color{white} image: own creation with DALL-E}
+	}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{What is this about?}
+	\begin{question}[Questions]
+		\begin{itemize}
+			\item How can I choose from different parallelization schemes?
+			\item How can I set the parallel setting of my %$3^{\mathsf{rd}$ party app?
+		\end{itemize}
+	\end{question}
+	\begin{docs}[Objectives]
+		\begin{enumerate}
+			\item Getting a first idea of different parallelization schemes. 
+			\item Learn how to address them by \Snakemake
+			\item Learn how to configure them and keep the workflow generic.
+		\end{enumerate}
+	\end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}
+	\frametitle{Parallel Computing 101}
+	\vspace{-1em}
+	\begin{itemize}
+		\item Basically any processor provides some parallelization
+		\item Today's computing power comes from parallelization and not (only) powerful hardware
+	\end{itemize}
+	\vspace{-1em}
+	\onslide<2->{
+		\begin{block}{Basic Principles}
+			\begin{itemize}[<+->]
+				\item Single Instruction, Single Data (SISD): Perform the same code sequentially on each part of your data \onslide<3->{{\color{red}Your sequential scripting code}}
+				\item Single Instruction, Multiple Data (SIMD): Perform the same code in parallel on different data \onslide<4->{{\color{red}Vectorization; OpenMP; "GPU" code}}
+				%\item Multiple Instruction, Single Data (MISD): Perform (different) code in parallel on the same data \onslide<5->{{\color{red}Basically not used}}
+				\item Multiple Instruction, Multiple Data (MIMD): Perform (different) code in parallel on different data \onslide<5->{{\color{red}MPI}}
+			\end{itemize}
+		\end{block}
+	}
+	\vfill
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}
+	\frametitle{Process vs. Thread}
+	\begin{minipage}{1.0\linewidth}
+		\begin{itemize}
+			\item Starting a program translates to starting a (new) process
+			\item The process itself may start several threads
+		\end{itemize}
+	\end{minipage}
+	\begin{minipage}{1.0\linewidth}
+		\begin{figure}
+			\centering
+			\begin{tikzpicture}
+				\draw[thick,black,-{latex}] (-0.5,0) -- (-0.5,-4)node[below]{Time};
+				
+				% Draw process 1
+				\draw[thick,black] (0,0) rectangle (2,-4);
+				\node at (1,0.3) {Process 1};
+				\draw[thick,black,snake=coil,segment aspect=0] (1,0) -- (1,-4);
+				
+				% Draw process 2
+				\draw[thick,black] (3,0) rectangle (5,-4);
+				\node at (4,0.3) {Process 2};
+				\draw[thick,black,snake=coil,segment aspect=0] (4,0) -- (4,-1);
+				\draw[thick,black] (3.5,-1) -- (4.5,-1);
+				\draw[thick,black,snake=coil,segment aspect=0] (3.5,-1) -- (3.5,-2.8);
+				\draw[thick,black,snake=coil,segment aspect=0] (4,-1) -- (4,-2.8);
+				\draw[thick,black,snake=coil,segment aspect=0] (4.5,-1) -- (4.5,-2.8);
+				\draw[thick,black] (3.5,-2.8) -- (4.5,-2.8);
+				\draw[thick,black,snake=coil,segment aspect=0] (4,-2.8) -- (4,-4);
+				
+				\node (creating) at (8,-1) {Create 2 other threads};
+				\draw[thick,blue,-{latex}] (creating.west) -- (5.1,-1);
+				
+				\node (destroying) at (8,-2.8) {Join/destroy 2 threads};
+				\draw[thick,blue,-{latex}] (destroying.west) -- (5.1,-2.8);
+			\end{tikzpicture}
+		\end{figure}
+	\end{minipage}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Parallel Computing -- Threads in Detail}
+	\begin{itemize}
+		\item Threaded applications use the fork-join model
+		\item Parallel execution of loops on the different local processors or cores (SIMD)
+		\item Limited to a single node (or rather ``cache coherent systems'')
+		% NOTE: relevant to programmers, not to users
+		%   \item Need to synchronize the threads with barriers\newline
+		%     $\Longrightarrow$ Barriers are costly with respect to compute time\newline
+		%     $\Longrightarrow$ Introduction of overhead
+		\item For \slurm we use \altverb{sbatch -c <number of threads>}
+	\end{itemize}
+	\vfill
+	\begin{center}
+		\begin{tikzpicture}
+			% Master
+			\draw[thick,blue,midway,snake=coil,segment aspect=0] (-2,0) --node[above]{\tiny Master Thread} (0,0);
+			
+			% Fork
+			\draw[thick,black] (0,-0.5) -- (0,0.5);
+			\node (fork) at (-1,-0.5) {\scriptsize Fork};
+			\draw[thick,black,-{latex}] (fork) -- (-0.1,-0.1);
+			
+			% Workers
+			\draw[thick,black,snake=coil,segment aspect=0] (0,0.5) -- (1.6,0.5);
+			\draw[thick,black,snake=coil,segment aspect=0] (0,0.25) -- (1.6,0.25);
+			\draw[thick,blue,snake=coil,segment aspect=0] (0,0) -- (1.6,0);
+			\draw[thick,black,snake=coil,segment aspect=0] (0,-0.25) -- (1.6,-0.25);
+			\draw[thick,black,snake=coil,segment aspect=0] (0,-0.5) --node[below]{\tiny Worker} (1.6,-0.5);
+			
+			% Join
+			\draw[thick,black] (1.6,0.5) -- (1.6,-0.5);
+			\node (join) at (2.5,-0.5) {\scriptsize Join};
+			\draw[thick,black,-{latex}] (join) -- (1.7,-0.1);
+			
+			% Master
+			\draw[thick,blue,midway,snake=coil,segment aspect=0] (1.6,0) -- (3.2,0);
+			
+			% Fork
+			\draw[thick,black] (3.2,-0.5) -- (3.2,0.5);
+			
+			% Workers
+			\draw[thick,black,snake=coil,segment aspect=0] (3.2,0.5) -- (4.8,0.5);
+			\draw[thick,black,snake=coil,segment aspect=0] (3.2,0.25) -- (4.8,0.25);
+			\draw[thick,blue,snake=coil,segment aspect=0] (3.2,0) -- (4.8,0);
+			\draw[thick,black,snake=coil,segment aspect=0] (3.2,-0.25) -- (4.8,-0.25);
+			\draw[thick,black,snake=coil,segment aspect=0] (3.2,-0.5) -- (4.8,-0.5);
+			
+			% Join
+			\draw[thick,black] (4.8,0.5) -- (4.8,-0.5);
+			
+			% Master
+			\draw[thick,blue,midway,snake=coil,segment aspect=0] (4.8,0) -- (6.4,0);
+			
+			% Draw process rectangle
+			\draw[thick,black] (-2,0.7) rectangle (6.4,-1);
+			\node[left] at (-2,0) {Process};
+		\end{tikzpicture}
+	\end{center}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Using SMP/threaded Programs in \Snakemake}
+	Snakemake provides the \altverb{threads} directive to be used inside a rule:
+	\begin{onlyenv}<1>
+	\begin{lstlisting}[language=Python,style=Python]
+rule foo:
+    input: ...
+    output: ...
+    threads: 8
+	\end{lstlisting}
+    \begin{question}
+    	Will this be sufficient to run your program with 8 threads? What do we need to do?
+    \end{question}
+    \end{onlyenv}
+    \begin{onlyenv}<2>
+    \begin{lstlisting}[language=Python,style=Python]
+rule foo:
+    input: ...
+    output: ...
+    threads: 8
+    shell: "cmd -t {threads} ...
+    \end{lstlisting}
+    ... assuming \altverb{-t} is the parameter for this program, of course.
+    \begin{hint}
+    	Remember: Everything we can write \emph{into} a rule, can be written in a configuration file, too.
+    \end{hint}
+    \end{onlyenv}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Configuring SMP/threaded Programs in \Snakemake}
+	Remember?
+	\begin{onlyenv}<1>
+	  \begin{lstlisting}[style=Plain]
+set-resources:
+    bwa_map:
+        runtime: 5
+        mem_mb_per_cpu: 1800
+	  \end{lstlisting}	
+	\end{onlyenv}
+    \begin{onlyenv}<2>
+	  \begin{lstlisting}[style=Plain]
+set-resources:
+	bwa_map:
+		runtime: 5
+		mem_mb_per_cpu: 1800
+		
+set-threads:
+    bwa_map: 8
+	\end{lstlisting}
+    
+    For technical reasons (parsing order) we can put a similar config in our configuration file for threads, \emph{behind} other parameters.
+    
+    \begin{warning}
+    	This is just an example for our toy data! \altverb{bwa} is outdated and used to scale up to 64 on older hardware.
+    \end{warning}
+  \end{onlyenv}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Using Configuration to run parallel Programs}}
+	We will \emph{NOT} use this blindly to cope with our workflow. Instead we will use a so-called \textit{wrapper} to deal with the quirky \altverb{bwa} + \altverb{samtools} combination.\\
+	Be sure to have
+	\begin{lstlisting}[style=Plain]
+set-resources:
+    bwa_map:
+        runtime: 5
+        mem_mb_per_cpu: 1800
+...
+		
+set-threads:
+    bwa_map: 8
+	\end{lstlisting}
+    in your profile from now on.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Introducing MPI - Computing Beyone a Single Node}
+	\vfill
+	\begin{itemize}
+		\item Solving compute intensive tasks $\Rightarrow$ program should run concurrently on many nodes $\curvearrowright$
+		often uses the ``\textbf{M}essage \textbf{P}assing \textbf{I}nterface''-library
+		\item Start the MPI-parallelized program several times\newline
+		For \slurm: \verb+#SBATCH -n <number of processes/ranks>+
+		\item The program decides what is done in which process
+		\item The processes run in parallel on different processors (on different nodes)
+		and communicate by sending messages handling distributed data (MIMD and SIMD)
+	\end{itemize}
+	\begin{figure}
+		\centering
+		\begin{tikzpicture}
+			
+			% Draw process 1
+			\draw[thick,black] (0,0) rectangle (1,-2);
+			\node at (0.5,0.3) {\tiny Process 1};
+			\draw[thick,black,snake=coil,segment aspect=0] (0.5,0) -- (0.5,-2);
+			
+			% Draw process 2
+			\draw[thick,black] (2,0) rectangle (3,-2);
+			\node at (2.5,0.3) {\tiny Process 2};
+			\draw[thick,black,snake=coil,segment aspect=0] (2.5,0) -- (2.5,-2);
+			
+			% Draw process 3
+			\draw[thick,black] (5,0) rectangle (6,-2);
+			\node at (5.5,0.3) {\tiny Process 3};
+			\draw[thick,black,snake=coil,segment aspect=0] (5.5,0) -- (5.5,-2);
+			
+			% Draw process 4
+			\draw[thick,black] (7,0) rectangle (8,-2);
+			\node at (7.5,0.3) {\tiny Process 4};
+			\draw[thick,black,snake=coil,segment aspect=0] (7.5,0) -- (7.5,-2);
+			
+			% Draw node 1
+			\draw[thick,black] (-0.5,0.6) rectangle (3.5,-2.2);
+			\node at (1.5,0.8) {\tiny Node 1};
+			
+			% Draw node 2
+			\draw[thick,black] (4.5,0.6) rectangle (8.5,-2.2);
+			\node at (6.5,0.8) {\tiny Node 2};
+		\end{tikzpicture}
+	\end{figure}
+	\vfill
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Running MPI Programs}}
+	Rare in Life Science, frequent in HPC $\ldots$\newline
+	Please find the MPI example in \altverb{<++course.pathtosolutions++>/mpi_example}. Basically
+	\begin{lstlisting}[language=Python,style=Python]
+rule my_simulation:
+    input: ...
+    output: ...
+    resources:
+        mpi: "srun"
+    shell: {resources.mpi} cmd ...
+    \end{lstlisting}
+    will do the job. But
+    \begin{warning}
+    	\begin{itemize}[<+->]
+    		\item MPI software requires the \altverb{shell} directive!
+    		\item some programs cannot work with \altverb{srun} and need a different MPI-starter!
+    		\item the resources \altverb{tasks} (for MPI-ranks) and \altverb{cpus_per_task} (in case of hybrid programs) allow for fine grained resource allocation.
+    	\end{itemize}
+    \end{warning}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Try, if you want to!}
+	If you like, copy the \altverb{mpi_example} directory from \altverb{<++course.pathtosolutions++>/mpi_example} and execute with:
+	\begin{lstlisting}[language=Bash, style=Shell]	
+$ snakemake -j 1  --use-envmodules
+    \end{lstlisting}
+    \begin{hint}
+    	You noticed the \altverb{--use-envmodules}? This is an alternate way to ensure the environment modules defined in the Snakefile.
+    \end{hint}
+\end{frame}

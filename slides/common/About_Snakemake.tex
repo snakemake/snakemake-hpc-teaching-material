@@ -48,6 +48,21 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
+	\frametitle{\Snakemake is a NumFocus-Partner}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\includegraphics[width=.95\textwidth]{logos/NumFocus_LRG_WHITE-BG.png}
+		\end{column}
+	    \begin{column}{0.5\textwidth}
+	    	\pause
+	    	Partnered and in parts funded along projects like:
+	    	\includegraphics[width=.95\textwidth]{logos/numfocus_projects.png}
+	    \end{column}
+	\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
 	\frametitle{The \Snakemake{} Catalogue}
 	\begin{columns}
 		\begin{column}{0.5\textwidth}
@@ -96,16 +111,16 @@ $ snakemake [<arguments>]
   \frametitle{"Spawn Jobs on a Cluster?!" - What does it mean?}
   \centering
   \begin{tabular}{m{0.1\textwidth} m{0.25\textwidth} m{0.2\textwidth} m{0.45\textwidth}}
-PC: & \includegraphics[width=0.1\textwidth]{misc/pc_color.png}  	    &  \includegraphics[width=0.2\textwidth]{misc/sequential_code.png} &  \begin{minipage}{0.45\textwidth}
+PC: & \includegraphics[width=0.1\textwidth]{misc/pc_color.png}  	    &  \includegraphics[width=0.15\textwidth]{misc/sequential_code.png} &  \begin{minipage}{0.45\textwidth}
 	$\Rightarrow$ sequential code \newline
 	(perhaps parallel)
 \end{minipage} \\ \pause
  	
-Server: & \includegraphics[width=0.15\textwidth]{misc/homeserver.png}  	&  \includegraphics[width=0.2\textwidth]{misc/concurrent.pdf} & \begin{minipage}{0.45\textwidth}
+Server: & \includegraphics[width=0.1\textwidth]{misc/homeserver.png}  	&  \includegraphics[width=0.15\textwidth]{misc/concurrent.pdf} & \begin{minipage}{0.45\textwidth}
 	$\Rightarrow$ sequential code \newline(perhaps parallel), \newline some concurrency
 	\end{minipage}\\ \pause
   	
-Cluster: & \includegraphics[width=0.15\textwidth]{misc/data_center.png}  	&  \includegraphics[width=0.2\textwidth]{misc/high_concurrent.pdf} & \begin{minipage}{0.45\textwidth}
+Cluster: & \includegraphics[width=0.1\textwidth]{misc/data_center.png}  	&  \includegraphics[width=0.15\textwidth]{misc/high_concurrent.pdf} & \begin{minipage}{0.45\textwidth}
 	$\Rightarrow$ programs launched \newline with high parallelism, \newline high concurreny
 	\end{minipage}\\
   \end{tabular}
