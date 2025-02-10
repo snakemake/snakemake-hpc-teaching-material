@@ -152,6 +152,7 @@ cp <++course.tutorialpath++>/06_Snakefile_run Snakefile
     	This Snakefile will run. Except for a little error. And the file is a bit mixed up.
     	\begin{enumerate}
     		\item find the result of the \altverb{plot_positions} rule. Add it as a new target. Why?
+    		\item run with \altverb{--debug}.
     		\item find the error and correct it.
     		\item restore the file to an order you find acceptable.
     		\item think about it: \emph{Why} do you prefer \emph{your} ordering?
@@ -253,6 +254,23 @@ do_something <- function(data_path, output_path) {
 
 do_something(snakemake@input[[1]], snakemake@output[[1]])
   \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\Interlude{Conventions}}
+	In the next task, you will implement a new rule.
+	\begin{question}
+		Why should you \emph{not} use names like \altverb{new_rule}?
+	\end{question}
+    \pause
+    \begin{docs}
+    	Always use names (for rules, variables, etc.) which make sense to \emph{you}. Rather \altverb{does_thing}, e.g. \altverb{plot_qualities}, than \altverb{new_rule}.
+    \end{docs}
+    \pause
+    \begin{hint}
+    	When proceeding, name your rules and outputs according to the canonical solution - or you will find it hard to build upon other solutions.
+    \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -445,9 +463,9 @@ $ snakemake --debug
 	\pause
 	Some targets are already present, we want the entire workflow again:
 	\begin{lstlisting}[language=Bash, style=Shell]
-$ snakemake -c4 --forcerun
+$ snakemake --cores 4 --forcerun
 $ # or short with
-$ snakemake -c4 -F
+$ snakemake -c 4 -F
 	\end{lstlisting}
      
 	\begin{question}
@@ -500,6 +518,25 @@ rule plot_quals:
         "scripts/plot-positions.py"
 	\end{lstlisting}
 	Compare to the solution script in your solutions folder: \altverb{<++course.pathtosolutions++>/08_Snakefile_script2}.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\Interlude{Does my Python Code adhere to the Standards?}}
+	Meet \altverb{black} -- the uncompromising Python code formatter.
+	\pause
+	\begin{task}
+		Please run \altverb{black} on your script codes. What do you observe?
+	\end{task}
+	
+	\begin{lstlisting}[language=Python,style=Python]
+$ black scripts/plot-quals.py
+$ black scripts/plot-positions.py
+    \end{lstlisting}	
+    \pause
+    \begin{hint}
+    	\altverb{black} can save you a tremendous amount of time. It is not just a beautifier. Readable code counts!
+    \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

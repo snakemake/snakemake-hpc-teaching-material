@@ -1,18 +1,18 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Snakemake Wrappers}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-    \frametitle{Outline}
-    \begin{columns}[t]
-        \begin{column}{.5\textwidth}
-            \tableofcontents[sections={1-7},currentsection]
-        \end{column}
-        \begin{column}{.5\textwidth}
-            \tableofcontents[sections={8-15},currentsection]
-        \end{column}
-    \end{columns}
-\end{frame}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=.7\paperheight]{misc/wrapper.jpg}\hfil}\vfil}
+	}
+	\frame{
+		\frametitle{Using \Snakemake-Wrappers}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+	}
+}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Using Wrappers}
@@ -55,8 +55,32 @@
         \item A python script that invokes the tool (\altverb{wrapper.py})
     \end{enumerate}
     Since they are reusable, there is a large repository online of tried and tested 
-    wrappers written by the community: \lhref{https://snakemake-wrappers.readthedocs.io}{snakemake-wrappers}.
+    wrappers written by the community:
+    \pause
+    \begin{docs}
+    	You can browse the \lhref{https://snakemake-wrappers.readthedocs.io}{snakemake-wrapper overview page} to select your desired wrapper. New Wrappers are added frequently.
+    \end{docs}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\Interlude{Dealing with multiple Extensions}}
+	\begin{warning}
+		So far, we were referring to \emph{one} file. But alignment software like \altverb{bwa} requires all those files with multiple extensions! {\bf This is not safe!}
+	\end{warning}
+    To require multiple extensions \Snakemake provides the \altverb{multiext()}-function:
+    \begin{lstlisting}[language=Python,style=Python]
+rule bwa_map:
+    input:
+      ...
+      idx=multiext("genome", ".amb", ".fa",
+                   ".ann", ".bwt", ".pac", ".sa")
+      ...
+    \end{lstlisting}
+	Now, \emph{all} listed extensions are required to be present for the file with the prefix \altverb{genome}!
+\end{frame}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]{Using Wrappers - The Example}
