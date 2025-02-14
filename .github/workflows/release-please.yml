@@ -20,7 +20,7 @@ jobs:
         id: release
         with:
           release-type: simple
-          package-name: snakemake-teaching-hpc-material
+          package-name: snakemake-hpc-teaching-material
 
 
 #  build:
