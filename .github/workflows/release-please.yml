@@ -6,6 +6,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  repository-projects: read
 
 name: release-please
 
@@ -19,7 +20,7 @@ jobs:
         id: release
         with:
           release-type: simple
-          package-name: snakemake-hpc-teaching-material
+          package-name: snakemake-teaching-hpc-material
 
 
 #  build:
