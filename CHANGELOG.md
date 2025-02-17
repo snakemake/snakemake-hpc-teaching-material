@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.1](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.1.0...v1.1.1) (2025-02-17)
+
+
+### Bug Fixes
+
+* added jinja2 ([a45aa13](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/a45aa13b70a2b24482a9cc82fc1bb6e4ed15355c))
+* now trying with gh ([5bbb9db](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/5bbb9db5ae32265d74b06ec8875d70fc701533a9))
+* refactored ([97cb664](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/97cb664823dff6b9e849c0d8a31653f3bae5608a))
+
 ## [1.1.0](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.0.0...v1.1.0) (2025-02-17)
 
 
