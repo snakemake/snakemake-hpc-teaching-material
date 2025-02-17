@@ -29,9 +29,11 @@ jobs:
     name: Release Artifacts
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Git repository
       - uses: actions/checkout@v4
       - name: Install Dependencies
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends \
+             gh \
              python3-yaml \
              texlive \
              texlive-fonts-extra \
@@ -44,6 +46,7 @@ jobs:
              latexmk \
              ghostscript \
              poppler-utils
+
       - name: LaTeX compile
         run: |
           ./render --master-tex Snakemake_HPC_Users.tex --configfile config/config_for_github.yaml
