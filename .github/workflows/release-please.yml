@@ -22,7 +22,6 @@ jobs:
           release-type: simple
           package-name: snakemake-hpc-teaching-material
 
-
   build:
     needs: release-please
     if: ${{ needs.release-please.outputs.release_created }}
@@ -30,23 +29,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Git repository
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
       - name: Install Dependencies
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends \
-             gh \
-             python3-yaml \
-             python3-jinja2 \
-             texlive \
-             texlive-fonts-extra \
-             texlive-latex-extra \
-             texlive-luatex \
-             texlive-pictures \
-             texlive-plain-generic \
-             texlive-pstricks \
-             texlive-science \
-             latexmk \
-             ghostscript \
-             poppler-utils
+          gh \
+          python3-yaml \
+          python3-jinja2 \
+          texlive \
+          texlive-fonts-extra \
+          texlive-latex-extra \
+          texlive-luatex \
+          texlive-pictures \
+          texlive-plain-generic \
+          texlive-pstricks \
+          texlive-science \
+          latexmk \
+          ghostscript \
+          poppler-utils
 
       - name: LaTeX compile
         run: |
@@ -58,3 +57,10 @@ jobs:
             zip slides.zip slides/*pdf || exit 1
           else
             echo "Error: No PDF files found in slides directory" >&2
+            
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: Slides
+          path: |
+            slides.zip
