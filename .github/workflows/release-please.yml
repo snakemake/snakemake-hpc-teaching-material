@@ -3,19 +3,22 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+  pull-requests: write
+  repository-projects: read
+
 name: release-please
 
 jobs:
   release-please:
     runs-on: ubuntu-latest
-    permissions: write-all
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
     steps:
       - uses: GoogleCloudPlatform/release-please-action@v4
         id: release
         with:
-          token: ${{ secrets.PAT }}
           release-type: simple
           package-name: snakemake-hpc-teaching-material
 
