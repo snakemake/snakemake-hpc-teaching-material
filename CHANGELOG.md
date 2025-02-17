@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.0.0...v1.1.0) (2025-02-17)
+
+
+### Features
+
+* finally trying slide releases ([940a224](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/940a224713bb5d4aa58cb6ac50769b9a6bd75185))
+
 ## 1.0.0 (2025-02-17)
 
 
