@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.2](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.1.1...v1.1.2) (2025-02-18)
+
+
+### Bug Fixes
+
+* accounting for several files ([039d978](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/039d9780080782c6bd03e9c384f377e606c63a4f))
+* release of slides ([6171920](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/61719204800b76f724c017460952c0956dd294cb))
+* syntax correction compare to PR [#7](https://github.com/snakemake/snakemake-hpc-teaching-material/issues/7) ([664929f](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/664929fbfaccba50a781f22a1cc5a3e086a40cde))
+
 ## [1.1.1](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.1.0...v1.1.1) (2025-02-17)
 
 
