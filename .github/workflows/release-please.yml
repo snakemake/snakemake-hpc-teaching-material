@@ -38,6 +38,6 @@ jobs:
           
       - name: Attach to Release
         run: |
-        for file in slides/*.pdf; do
-          gh release upload ${{ github.ref_name }} "$file"
-        done
+             for file in slides/*.pdf; do
+               gh release upload ${{ github.ref_name }} "$file"
+             done
