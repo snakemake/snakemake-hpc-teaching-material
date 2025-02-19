@@ -241,6 +241,7 @@ if __name__ == "__main__":
             "ERROR: must indicate --sample-directory when writing handouts",
             file=sys.stderr,
         )
+        sys.exit(1)
 
     # the master tex needs to be without the 'slides' path, because
     # on the tempfs, the relative path work without
