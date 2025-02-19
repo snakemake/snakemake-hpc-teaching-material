@@ -232,7 +232,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--sample-directory",
-        help="needed with `--handout` - should indicate directory with script file (cloze and solution)",
+        help="needed with `--handout` - should indicate directory with script files (cloze and solution)",
     )
     args = parser.parse_args()
 
