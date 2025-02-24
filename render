@@ -183,7 +183,9 @@ def find_and_replace_sections(boundaries, section_estimate, fname):
     if minitocline:
         lower = max((section_estimate - 2), 1)  # lower boundary not lower than 1
         upper = section_estimate + 2
-        upper = upper if upper < boundaries["upper"] else boundaries["upper"] + 1  # upper boundary not higher then upper boundary ;-)
+        upper = (
+            upper if upper < boundaries["upper"] else boundaries["upper"] + 1
+        )  # upper boundary not higher then upper boundary ;-)
         sections = f"{lower}-{upper}"
         lines[minitocline] = (
             "            \\tableofcontents[currentsection, sections={"
@@ -234,9 +236,15 @@ if __name__ == "__main__":
         "--sample-directory",
         help="needed with `--handout` - should indicate directory with script files (cloze and solution)",
     )
+    parser.add_argument(
+        "--no-packaging",
+        help="needed for the CI, which should not attempt to package slides",
+        default=False,
+        action=argparse.BooleanOptionalAction,
+    )
     args = parser.parse_args()
 
-    if args.handout and not args.sample_directory:
+    if args.handout and (not args.sample_directory or not args.no_packaging):
         print(
             "ERROR: must indicate --sample-directory when writing handouts",
             file=sys.stderr,
@@ -333,6 +341,9 @@ if __name__ == "__main__":
                 ("handout/README.txt", "README.txt"),
             ]
             opj = os.path.join
+
+            if args.no_packaging:
+                sys.exit(0)
 
             for root, dirs, files in os.walk(args.sample_directory):
                 for fname in files:
