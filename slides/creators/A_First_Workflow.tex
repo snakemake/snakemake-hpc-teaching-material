@@ -435,9 +435,9 @@ rule bwa_map:
 	to reference our input and output in the \altverb{shell} directive, e.\,g.:
 	\begin{lstlisting}[language=Python,style=Python]
 rule foo:
-   input: replicate_1.txt,
-          replicate_2.txt
-   output: result.txt
+   input: "replicate_1.txt",
+          "replicate_2.txt"
+   output: "result.txt"
    # The following command will concatenate
    # the input files.
    shell: "cat {input} > {output}"
