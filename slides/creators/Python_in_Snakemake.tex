@@ -299,7 +299,7 @@ rule plot_quals:
     input:
         "calls/all.vcf"
     output:
-        "plots/quals.svg"
+        "calls/quals.png"
     @script:@
         "scripts/plot-quals.py"
   \end{lstlisting}
@@ -322,7 +322,7 @@ rule all:
     input:
         "calls/all.vcf", # note the comma!
         "calls/positions.png",
-        @"calls/quals.svg"@
+        @"calls/quals.png"@
 	\end{lstlisting}
 \end{frame}
 
@@ -478,7 +478,7 @@ $ snakemake -c 4 -F
 	\frametitle{\HandsOn{Visualising the Output}}
 	On <++cluster.name++> the Linux distro is "<++cluster.distro++>", which \newline provides the \altverb{<++cluster.display_program++>}-program to display simple images. We shall invoke:
 	\begin{lstlisting}[language=Bash, style=Shell]
-$ <++cluster.display_program++> calls/quals.svg
+$ <++cluster.display_program++> calls/quals.png
 	\end{lstlisting}
 	The figure has no axis-labels.
 	\begin{question}
