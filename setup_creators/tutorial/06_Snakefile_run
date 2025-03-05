@@ -1,5 +1,5 @@
 # our samples are pre-configured
-SAMPLES = ["A", "B"]
+samples = ["A", "B"]
 
 #TASKS: This is an almost working Snakefile!
 #       But it is scrambled and contains a bug. 
@@ -36,8 +36,8 @@ rule samtools_sort:
 rule bcftools_call:
     input:
         fa="data/genome.fa",
-        bam=expand("sorted_reads/{sample}.bam", sample=SAMPLES),
-        bai=expand("sorted_reads/{sample}.bam.bai", sample=SAMPLES)
+        bam=expand("sorted_reads/{sample}.bam", sample=samples),
+        bai=expand("sorted_reads/{sample}.bam.bai", sample=samples)
     output:
         "calls/all.vcf"
     shell:
