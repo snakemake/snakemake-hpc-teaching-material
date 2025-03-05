@@ -74,15 +74,19 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
+\begin{frame}[fragile]
   \frametitle{The Configuration File}
-  If observed closely you have seen this file:\newline
+  Please copy a sample configuration:
+  \begin{lstlisting}[language=Bash, style=Shell]
+cp -r /projects/p_nhr_snakemake/solutions/config .
+  \end{lstlisting}
+  We now have:\newline
             {\tiny \DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{.6pt}
 \texttt{\$ tree}
 \dirtree{%
 .1 /.
 .2 config.
-.3 samples.yaml .
+.3 config.yaml .
 .2 {other stuff}.
 }}
  \pause
@@ -410,6 +414,22 @@ rule somename:
   	\end{itemize}
   \end{docs}
   \only<1->{A working solution is in \altverb{12_Snakemake_logs} in your solutions folder.}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Using Logging Functionality in Python Scripts}
+  We know how to use the \altverb{log} directive in a rule, yet our scripts?
+  \pause
+  \begin{lstlisting}[language=Python,style=Python]
+import sys
+
+#somewhere before the actual code starts
+sys.stderr = sys.stdout = open(snakemake.log[0], "wt")
+  \end{lstlisting}
+  \begin{hint}
+     Small scripts do not require \altverb{print()} or logging functionality. It would only clutter the terminal. Yet errors can be catched this way, even in job context.
+  \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
