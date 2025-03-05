@@ -634,12 +634,15 @@ rule samtools_index:
  The next step in our workflow will aggregate the mapped reads from all samples and jointly call genomic variants on them. We need two tools: \lhref{https://www.htslib.org/}{samtools} and \lhref{https://www.htslib.org/}{bcftools}. \newline \pause
  \Snakemake{} provides a helper function for collecting input files that helps us to describe the aggregation in this step. With
  \begin{lstlisting}[language=Python,style=Python]
-expand("sorted_reads/{sample}.bam", sample=SAMPLES)
+expand("sorted_reads/{sample}.bam", sample=samples)
  \end{lstlisting}
- we obtain a list where the given pattern \altverb{sorted_reads/\{sample\}.bam} was formatted with the values in a given list of samples \altverb{SAMPLES}, i.\,e.
+ we obtain a list where the given pattern \altverb{sorted_reads/\{sample\}.bam} was formatted with the values in a given list of samples \altverb{samples}, i.\,e.
  \begin{lstlisting}[language=Python,style=Python]
-SAMPLES = ["sorted_reads/A.bam", 
-           "sorted_reads/B.bam"]
+samples = ["A", "B"]
+sorted_reads = expand("sorted_reads/{sample}.bam", sample=samples)
+print(sorted_reads)
+# will print
+# ["sorted_reads/A.bam", "sorted_reads/B.bam"]
  \end{lstlisting}
 \end{frame}
 
@@ -649,9 +652,9 @@ SAMPLES = ["sorted_reads/A.bam",
  This is particularly useful when dealing with \emph{multiple} wildcards, e.\,g.:
  \begin{lstlisting}[language=Python,style=Python]
 expand("sorted_reads/{sample}.{replicate}.bam", 
-          sample=SAMPLES, replicate=[0, 1])
+          sample=samples, replicate=[0, 1])
  \end{lstlisting}
- With all elements of \altverb{SAMPLES} and the list \altverb{[0, 1]}, we get:
+ With all elements of \altverb{samples} and the list \altverb{[0, 1]}, we get:
  \begin{lstlisting}[language=Python,style=Python]
 ["sorted_reads/A.0.bam", "sorted_reads/A.1.bam", 
  "sorted_reads/B.0.bam", "sorted_reads/B.1.bam"]
@@ -664,15 +667,15 @@ expand("sorted_reads/{sample}.{replicate}.bam",
   Later, we will learn how to provide input more sophistically \ldots\newline
   For now, we will define a list on top of our \altverb{Snakefile}:
   \begin{lstlisting}[language=Python,style=Python]
-SAMPLES = ["A", "B"]
+samples = ["A", "B"]
   \end{lstlisting}
   Now, we can add the following rule to our \altverb{Snakefile}:
   \begin{lstlisting}[language=Python,style=Python,basicstyle=\footnotesize]
 rule bcftools_call:
   input:
     fa="data/genome.fa",
-    bam=@expand("sorted_reads/{sample}.bam", sample=SAMPLES),@
-    ai=@expand("sorted_reads/{sample}.bam.bai", sample=SAMPLES)@
+    bam=@expand("sorted_reads/{sample}.bam", sample=samples),@
+    ai=@expand("sorted_reads/{sample}.bam.bai", sample=samples)@
   output:
     "calls/all.vcf"
   shell:
