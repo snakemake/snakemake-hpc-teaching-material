@@ -1,0 +1,135 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Modularization}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=.7\paperheight]{misc/bricks.png}\hfil}\vfil}
+	}
+	\frame{
+		\frametitle{Modulerizing Snakefiles}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+	}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{What is this about?}
+	\begin{question}[Questions]
+		\begin{itemize}
+			\item Are monolithic Snakefiles feasible?
+			\item How can we put a Snakefile in pieces?
+		\end{itemize}
+	\end{question}
+	\begin{docs}[Objectives]
+		\begin{enumerate}
+			\item Introduce maintainability concepts
+			\item Introducing modularization strategies
+		\end{enumerate}
+	\end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Intro to Maintainability}
+	\begin{question}[Take a guess:]
+		\begin{itemize}
+			\item How big can a workflow be (lines of code)? \pause A few hundred to thousand lines.
+		    \item Does it then make sense to keep it all in one file? 
+		\end{itemize}
+	\end{question}
+    \pause
+    \begin{hint}
+    	The ideas behind code modularization are:\newline
+    	Increase readability, \pause enable parallel devolpment \pause ease testing and debugging.
+    \end{hint}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Dividing Snakefiles}
+	Our Snakefile hardly merits modularization, but we could move all mapping-realted stuff to an extra file, e.\,g.:
+	\begin{lstlisting}[language=Python,style=Python]
+include: "rules/mapping.smk" # will include this Snakefile
+	\end{lstlisting}
+    \pause
+    \begin{docs}
+    	\begin{itemize}[<+->]
+    		\item we  place our modules into \altverb{rules}
+    		\item the suffix \altverb{.smk} is convention, too.
+    	\end{itemize}
+    \end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{How a good Snakefile \emph{should} look like}
+	\begin{lstlisting}[language=Python,style=Python]
+from snakemake.utils import min_version
+
+# require a minimum version
+min_version("8.10.7")
+
+# may point to samples, contains sciency parts
+configfile: "config/config.yml"
+# entry point for the workflow documentation
+report: "report/workflow.rst"
+
+include: "rules/commons.smk"
+include: "rules/qc.smk"
+include: "rules/utils.smk"
+include: "rules/ref.smk"
+include: "rules/alignment.smk"
+include: "rules/diffexp.smk"
+
+inputdir = config["inputdir"]
+
+rule all:
+    input:
+        # generates targets
+        rule_all_input(),
+	\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{\HandsOn{Practical Modularization}}
+	Try creating this major Snakefile:
+	\begin{lstlisting}[language=Python,style=Python]
+from snakemake.utils import min_version
+
+# which is the current snakemake version?
+min_version(<the current snakemake version>)
+
+rule all:
+   input:
+       #our targets
+
+include: "rules/mapping.smk"
+include: "rules/index.smk"
+include: "rules/call.smk"
+include: "rules/plots.smk"
+	\end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Alien Modules}
+	\Snakemake allows to "borrow" from CWL or Nextflow, too:
+	\begin{lstlisting}[language=Python,style=Python]
+rule samtools_sort:
+    input:
+        input="mapped/{sample}.bam"
+    output:
+        output_name="mapped/{sample}.sorted.bam"
+    params:
+        threads=lambda wildcards, threads: threads,
+        memory="4G"
+    threads: 8
+    cwl:
+        "https://github.com/common-workflow-language/workflows/blob/"
+         "fb406c95/tools/samtools-sort.cwl"
+	\end{lstlisting}	
+\end{frame}
