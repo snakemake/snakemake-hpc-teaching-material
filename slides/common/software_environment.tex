@@ -166,7 +166,7 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Installing Mamba}
+  \frametitle{Installing Conda}
   You \emph{could} run
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny,breaklines=true ]
 $ wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
@@ -178,16 +178,16 @@ $ bash Miniforge3-Linux-x86_64.sh
   \end{hint}
   Instead, please execute the installer script
   \begin{lstlisting}[language=Bash, style=Shell]
-$ bash install_mamba.sh
+$ bash install_conda.sh
   \end{lstlisting}
 \end{frame} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Mamba - Installation - Part I}
+  \frametitle{Conda - Installation - Part I}
   Start the installation script - if not done:
   \begin{lstlisting}[language=Bash, style=Shell]
-$ bash install_mamba.sh
+$ bash install_conda.sh
   \end{lstlisting}
   You need to confirm (with ``Enter'')
   \begin{itemize}[<+->]
@@ -200,7 +200,7 @@ $ bash install_mamba.sh
 	
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Installing Mamba - Part II}
+  \frametitle{Installing Conda - Part II}
   \footnotesize
   \begin{columns}[t]
     \begin{column}{0.5\textwidth}
@@ -290,7 +290,7 @@ $ conda_initialize # if you have this function
   \frametitle{Searching Software with Conda v. Mamba}
   First you might want to look for software. This is done with
   \begin{lstlisting}[language=Bash, style=Shell]
-$ mamba search <softwarename>
+$ conda search <softwarename>
   \end{lstlisting}
   \pause
   \begin{task}
@@ -299,7 +299,7 @@ $ mamba search <softwarename>
   \pause
   This will list packages with channel and version information, e.\,g.
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny]
-$ mamba search minimap
+$ conda search minimap
 <snip>
 Loading channels: done
 # Name                       Version           Build  Channel             
@@ -344,14 +344,14 @@ minimap                     0.2_r124      h5bf99c6_4  bioconda
     \begin{onlyenv}<1|handout:0>
       We can create a new environment:
       \begin{lstlisting}[language=Bash, style=Shell]
-$ mamba @create@ ...
+$ conda @create@ ...
       \end{lstlisting}
       using the \altverb{create} keyword.
     \end{onlyenv}
     \begin{onlyenv}<2|handout:0>
     	We can create a new environment:
     	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba create \
+$ conda create \
 > ...
     	\end{lstlisting}
     	you may write everything in \emph{one} line. The \altverb{\\} breaks a line and \altverb{>} continues it - it is only to fit everything on a slide.
@@ -359,7 +359,7 @@ $ mamba create \
     \begin{onlyenv}<3|handout:0>
     	We can create a new environment:
     	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba create \
+$ conda create \
 > @-n@ snakemake_base ...
     	\end{lstlisting}
     	\altverb{-n} denotes the name of the environment.
@@ -367,7 +367,7 @@ $ mamba create \
     \begin{onlyenv}<4|handout:0>
     	We can create a new environment - by cloning an existing one:
     	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba create \
+$ conda create \
 > -n snakemake_base \
 > @--clone@ ...
     	\end{lstlisting}
@@ -376,7 +376,7 @@ $ mamba create \
     \begin{onlyenv}<5|handout:0>
     	We can create a new environment:
     	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba create \
+$ conda create \
 > -c conda-forge -c bioconda \
 > --clone @<++course.softwarepath++>@
     	\end{lstlisting}
@@ -393,7 +393,7 @@ $ mamba create \
 	\frametitle{\HandsOn{Activating Environments}}
 	It is time to activate a shared environment:
 	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba activate <<++course.softwarepath++>>
+$ mamba activate <++course.softwarepath++>
 	\end{lstlisting}
 	Your prompt should now feature the name of the environment: \altverb{snakemake}.
 \end{frame}
