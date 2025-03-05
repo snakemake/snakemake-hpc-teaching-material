@@ -1,5 +1,5 @@
 # our samples are pre-configured
-SAMPLES = ["A", "B"]
+samples = ["A", "B"]
 
 rule all:
     input:
@@ -37,8 +37,8 @@ rule samtools_index:
 rule bcftools_call:
     input:
         fa="data/genome.fa",
-        bam=expand("sorted_reads/{sample}.bam", sample=SAMPLES),
-        bai=expand("sorted_reads/{sample}.bam.bai", sample=SAMPLES)
+        bam=expand("sorted_reads/{sample}.bam", sample=samples),
+        bai=expand("sorted_reads/{sample}.bam.bai", sample=samples)
     output:
         "calls/all.vcf"
     shell:
