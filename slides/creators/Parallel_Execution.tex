@@ -298,7 +298,7 @@ rule my_simulation:
     output: ...
     resources:
         mpi: "srun"
-    shell: {resources.mpi} cmd ...
+    shell: "{resources.mpi} cmd ..."
     \end{lstlisting}
     will do the job. But
     \begin{warning}
@@ -319,4 +319,29 @@ $ snakemake -j 1  --use-envmodules
     \begin{hint}
     	You noticed the \altverb{--use-envmodules}? This is an alternate way to ensure the environment modules defined in the Snakefile.
     \end{hint}
+\end{frame}
+
+\begin{frame}[fragile]
+	\frametitle{Outlook: Improved GPU-Support}
+	Right now, the executor only allows GPU-Support with the \altverb{slurm_extra} resource, e.\,g.:
+    \begin{lstlisting}[style=Plain]
+set-resources:
+    gpu_rule:
+        slurm_extra: "--gres=gpu:1"   	
+    \end{lstlisting}\pause
+    The next SLURM executor release brings:
+        \begin{lstlisting}[style=Plain]
+set-resources:
+     gres_request_rule:
+     gres: "gpu:1"
+
+multi_gpu_rule:
+     gpus: 2
+     gpu_model: "tesla" 
+     cpus_per_gpu: 4
+
+no_cpu_gpu_rule:
+     gpus: 1
+     cpus_per_gpu: 0 # <= 0 will result in NO reservation
+    \end{lstlisting}
 \end{frame}
