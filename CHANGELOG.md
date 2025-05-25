@@ -1,5 +1,56 @@
 # Changelog
 
+## [1.2.0](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.1.2...v1.2.0) (2025-05-25)
+
+
+### Features
+
+* added announcement bot workflow ([034082c](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/034082c6d9ff378dbd886d21b300bc3655f30baa))
+* added announcement bot workflow ([1e95fd1](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/1e95fd1d5812cfc7046d4d51df948ec2342de558))
+* added current paper reference ([e83919e](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/e83919eee6edd6d2c2f2381d5d14828b0fdc92f6))
+* added handout watermark to all slide sets ([aece2e0](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/aece2e032a7eca0097bc2d65170a1719c26cbeb6))
+* added image to illustrate modularization ([8a00753](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/8a0075390a8f3d7fd04fff4a2e37f3d398709fc0))
+* added mastodon shield for release bot ([010a6cc](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/010a6ccd86ba3eb5ecabba3bf226193eb3e29c5a))
+* added section about modularization ([7fb6840](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/7fb6840497fd5d49e9ea2c9122a9205db8fb7be9))
+* added selecting workflows section ([6e0cfad](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/6e0cfadb78208dbf6dcda324fb6ad312a163e543))
+* added up-to-date image ([583df46](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/583df467af91505a3109b8578b90ae39ab0bcca1))
+* added using wrappers section ([35c7f7e](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/35c7f7eee0ef5dc0aa63b5c61919655b80e0577a))
+* added wrapper solution ([e5527d4](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/e5527d46f50755171b4a01fe574cf66c29477a5f))
+* better directory layout shown - added slide about logging functionality with Python ([9c46d72](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/9c46d721fccbdad3fe049118243b42ec4ebba3d1))
+* render script can skip packaging when rendering handouts! ([ceb081b](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/ceb081b0442dfafa59c7f9360150e928d2391b2d))
+* rendering release slides with handout watermark ([a4c63a5](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/a4c63a52e3e5fcfb0f812edfdfe82fac06298ee5))
+* update dresden yaml ([ef2b076](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/ef2b07665614f4231794eee1ac6e8f1aa900ffaf))
+
+
+### Bug Fixes
+
+* accounting for updates in barnard and mamba/conda ([295f959](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/295f9597e2e48210f24f2878bcd1dce636525ffd))
+* added deploy_url ([f1417a2](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/f1417a263101d85d4e8d7b2e4b2dcb7b66ceb783))
+* added missing --sample-directory flag ([5e2e45d](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/5e2e45da667deb27137e5c9abba9a69e161e0b74))
+* added missing quotation marks ([13b31fa](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/13b31fabfac2ec6eb8c8ac0b6a355ce4073887eb))
+* added missing quotation marks! ([0c3d5b4](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/0c3d5b4c2a51b682925a536cb5e43cec63dfc0b5))
+* better handout watermark ([8efad6d](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/8efad6d6f3e89112e56208d8b2047c0f93a837c3))
+* correct directory and suffix for quals plot - on some clusters display of svg files does not work. ([6281807](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/6281807d07b8847357be943ece6400695296057e))
+* corrected title ([f8c6449](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/f8c644981e4ec0bbe350661089fbaa4a7744b0cf))
+* deleted outcommented code ([83c7b15](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/83c7b15db0bf352ef6791b6fc507869c8be5e191))
+* dresden ([f754fc8](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/f754fc899211d7482fa2899413ef2cff6aa2b741))
+* handout production ([79504f0](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/79504f0eb288a0e7f057091473f86368ce6ba3bd))
+* image path ([badf818](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/badf818b64f9478659a644a177c7e697549dd694))
+* introduced skipping producing a zip file ([88fd1ac](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/88fd1ac98849a72932c694e7ecb8e20dccca9b28))
+* minor ([7374ef8](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/7374ef8937f0c6b611cdfb9be17336745001023b))
+* moved reference to bottom in Survey slide ([80e8742](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/80e8742d1f01ff246b346857cecc454f74cadef5))
+* SAMPLES -&gt; samples ([613b926](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/613b926380e6cc965414e454b78b75452cce5b1e))
+* SAMPLES -&gt; samples ([ba73e79](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/ba73e79bd48de8e10eddf37325204bbe7ed3a70b))
+* SAMPLES -&gt; samples ([7b855df](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/7b855df580d801c40ca9e8e50a47f174c31eeb37))
+* superscript without math mode ([01c031d](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/01c031dc94643b28049d3729b092cddc149eb747))
+* tutorial folder renamed to task folder ([46ddabc](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/46ddabcbd37ce2215f6f38668ff93c3fc47cf957))
+* typo ([0bd1454](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/0bd14548239b834e3804aa224e959184a24fde80))
+* update github config yaml ([9350d94](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/9350d941e60928aa46bd5502b95318678922ddee))
+* updated condarc for mogon ([4a99729](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/4a9972987e7ae97ca8c537e587866565c7fddd05))
+* updated plot output path ([cdbd2f6](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/cdbd2f6923520dd1e31af4c663adcf67b74d4ed4))
+* will end if --handout, but not --sample-diretory is given ([6ff800d](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/6ff800d4bbec87566d2ac51e2324ebd0f981ce8c))
+* with the introduction of libmamba in conda, we can savely use conda, too ([111ffbb](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/111ffbbfcced2a71e7dfcb83bd70b8459829bfbd))
+
 ## [1.1.2](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.1.1...v1.1.2) (2025-02-18)
 
 
