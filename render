@@ -183,7 +183,9 @@ def find_and_replace_sections(boundaries, section_estimate, fname):
     if minitocline:
         lower = max((section_estimate - 2), 1)  # lower boundary not lower than 1
         upper = section_estimate + 2
-        upper = upper if upper < boundaries["upper"] else boundaries["upper"] + 1  # upper boundary not higher then upper boundary ;-)
+        upper = (
+            upper if upper < boundaries["upper"] else boundaries["upper"] + 1
+        )  # upper boundary not higher then upper boundary ;-)
         sections = f"{lower}-{upper}"
         lines[minitocline] = (
             "            \\tableofcontents[currentsection, sections={"
@@ -232,7 +234,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--sample-directory",
-        help="needed with `--handout` - should indicate directory with script file (cloze and solution)",
+        help="needed with `--handout` - should indicate directory with script files (cloze and solution)",
     )
     args = parser.parse_args()
 
@@ -241,6 +243,7 @@ if __name__ == "__main__":
             "ERROR: must indicate --sample-directory when writing handouts",
             file=sys.stderr,
         )
+        sys.exit(1)
 
     # the master tex needs to be without the 'slides' path, because
     # on the tempfs, the relative path work without
@@ -332,6 +335,9 @@ if __name__ == "__main__":
                 ("handout/README.txt", "README.txt"),
             ]
             opj = os.path.join
+
+            if args.sample_directory == "_": # will skip producing a zip file
+                sys.exit(0)
 
             for root, dirs, files in os.walk(args.sample_directory):
                 for fname in files:

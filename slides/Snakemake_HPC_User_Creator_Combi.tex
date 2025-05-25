@@ -21,15 +21,11 @@
 \subtitle{<+++ if course.subtitle is defined +++><++course.subtitle++><+++else+++>Programming and Deployment<+++endif+++> - <++course.edition++>\newline by <++instructor.name++>} 
 
 \ifdefined\ishandout
-\usepackage{background}
-\backgroundsetup{
-	placement=center,
-	angle=30,
-	scale=1,
-	contents={\footnodesize Handout from Snakemake Teaching Alliance by <++instructor.name++>},
-	opacity=1
+\AddToHook{shipout/foreground}{
+	\begin{tikzpicture}[remember picture,overlay]
+		\node[red,rotate=10,scale=1,opacity=0.7] at (current page.center) {\footnotesize Handout from Snakemake Teaching Alliance by <++instructor.name++>}; 
+	\end{tikzpicture}
 }
-\setbeamertemplate{background}{\BgMaterial}
 \fi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

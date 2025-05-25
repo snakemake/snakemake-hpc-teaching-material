@@ -20,6 +20,14 @@
 
 \subtitle{<+++ if course.subtitle is defined +++><++course.subtitle++><+++else+++>Programming<+++endif+++> - <++course.edition++>} 
 
+\ifdefined\ishandout
+\AddToHook{shipout/foreground}{
+	\begin{tikzpicture}[remember picture,overlay]
+		\node[red,rotate=10,scale=1,opacity=0.7] at (current page.center) {\footnotesize Handout from Snakemake Teaching Alliance by <++instructor.name++>}; 
+	\end{tikzpicture}
+}
+\fi
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
