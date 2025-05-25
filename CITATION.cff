@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use this teaching material, please cite it as below."
+authors:
+- family-names: "Petersen"
+  given-names: "Malte"
+  orcid: "https://orcid.org/0000-0001-7601-9873"
+- family-names: "Hellmann"
+  given-names: "Sören Lukas"
+  orcid: "https://orcid.org/0000-0003-4958-1419"
+- family-names: "Böker"
+  given-names: "Florian"
+  orcid: "https://orcid.org/0000-0002-0732-6914"
+- family-names: "Brand"
+  given-names: "Fabian"
+  orcid: "https://orcid.org/0000-0003-1885-7021"
+- family-names: "Sharma"
+  given-names: "Aasish Kumar"
+  orcid: "https://orcid.org/0000-0002-7514-2340"
+- family-names: "Pleico"
+  given-names: "Martin Leandro"
+  orcid: "https://orcid.org/0000-0002-8427-0221"
+- family-names: "Köster"
+  given-names: "Johannes"
+  orcid: "https://orcid.org/0000-0001-9818-9320"
+- family-names: "Meesters"
+  given-names: "Christian"
+  orcid: "https://orcid.org/0000-0003-2408-7588"
+title: "Teaching Reproducible Data Analysis for HPC Users -- The Snakemake Teaching Alliance "
+version: 1.0
+doi: https://doi.org/10.14279/eceasst.v83.2600 
+date-released: 2025-02-21
+url: "https://github.com/snakemake/snakemake-hpc-teaching-material/"
