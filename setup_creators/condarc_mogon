@@ -1,5 +1,3 @@
-create_default_packages:
-  - setuptools
 channels:
   - conda-forge
   - bioconda

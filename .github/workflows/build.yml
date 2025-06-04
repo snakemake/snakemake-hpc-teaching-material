@@ -28,10 +28,10 @@ jobs:
 
       - name: LaTeX compile  
         run: |
-          ./render --master-tex Snakemake_HPC_Users.tex --configfile config/config_for_github.yaml ; 
-          ./render --master-tex Snakemake_HPC_Creators.tex --configfile config/config_for_github.yaml
-          ./render --master-tex Snakemake_HPC_User_Creator_Combi.tex --configfile config/config_for_github.yaml
-          ./render --master-tex Snakemake_HPC_Admins.tex --configfile config/config_for_github.yaml ;
+          ./render --master-tex Snakemake_HPC_Users.tex --configfile config/config_for_github.yaml --handout --sample-directory=_; 
+          ./render --master-tex Snakemake_HPC_Creators.tex --configfile config/config_for_github.yaml --handout --sample-directory=_;
+          ./render --master-tex Snakemake_HPC_User_Creator_Combi.tex --configfile config/config_for_github.yaml --handout --sample-directory=_;
+          ./render --master-tex Snakemake_HPC_Admins.tex --configfile config/config_for_github.yaml --handout --sample-directory=_;
       
       - name: Certificate compile
         run: |

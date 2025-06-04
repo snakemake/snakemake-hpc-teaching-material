@@ -23,9 +23,7 @@ jobs:
           message: |
             Beep, Beep - I am your friendly #Snakemake release announcement bot.
             
-            There is a new release of the Snakemake executor for #SLURM on #HPC systems. Its version now is {{ version }}!
-            
-            Give us some time, and you will automatically find the plugin on #Bioconda and #Pypi.
+            There is a new release of the #HPC Teaching Material for Snakemake. Its version now is {{ version }}!
             
             If you want to discuss the release, you will find the maintainers here on Mastodon!
             @rupdecat and @johanneskoester@fosstodon.org

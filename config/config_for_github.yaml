@@ -13,6 +13,7 @@ layout:
   beamercolor_title:      "fg=UniRot"
   beamercolor_title_head: "fg=UniRot"
 
+
   beamercolor_block_title: "bg=UniRot!20,fg=darkred"
   beamercolor_block_body:  "fg=black, bg=plightgrey2"
 
@@ -22,10 +23,11 @@ layout:
 # The configuration for github needs valid file strings!
 
 course:
-  date: "datestring" # maybe: "\today"
+  # sets the slides aspectratio (if outcommented, the default is 43=4:3)
+  aspectratio: 1609 # - 169 = 16:9
+  date: "\today" # maybe: "\today"
   #title: "" # specifiy your title here, else a default is used. 
   #subtitle: "" # specifiy your subtitle here, else a default is used. 
-  question: "yes"
   # Editors recommendations are a matter of taste and technological
   # setups (e.g. on-demand setups). Hence, specify an editor-slide,
   #  here:
@@ -36,7 +38,9 @@ course:
   condarcfile: "common/condarc_mogon.tex"
   # the same for admins:
   condarc_admins_file: "admin/condarc_mogon.tex"
-  # the following path will indicate a sample workflow for the user part
+  # We provide a common software stack to avoid long
+  # installation sessions.
+  softwarepath: "software-stack-path"
   # if it is defined, the slide set will instruct participants to copy
   # it and adapt its configuration and profile.
   pathtoworkflow: "/lustre/project/nhr-workflow/workflow"
