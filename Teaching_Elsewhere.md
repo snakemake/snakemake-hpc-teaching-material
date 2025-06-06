@@ -15,8 +15,9 @@ This questionnaire helps to ask the right questions:
   - Is there a "Presenter PC"?
   - Is it possible to plug in a laptop? (HDMI and/or VGA?)
   - Please describe the "projector situation" (1 or more, need to have a key?).
-  - Does the lecturer need an adaptor for the projector?
+  - Does the lecturer need an adaptor for the video projector?
   - Is paired programming possible during the course considering the classroom's seating?
+  - Possibly: Which is the standard for power outlets? When the lecturer is teaching abroad.
 
 - Login and Security:
   - Which is the recommended software to log in? (putty, mobaxterm, powershell or plain ssh via Linux - or a terminal on demand)
