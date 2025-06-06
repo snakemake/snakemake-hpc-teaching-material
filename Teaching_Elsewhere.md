@@ -8,7 +8,7 @@ This questionnaire helps to ask the right questions:
 
 - Organization:
   - Who is the contact for organizing this course? 
-  - If this is a topical course (e.g. for Bioinformaticicians, Physicist, etc.): Does the organization employ a support scientist for the intended topic? If so, which are the contact details?
+  - If this is a topical course (e.g. for Bioinformaticians, Physicist, etc.): Does the organization employ a support scientist for the intended topic? If so, which are the contact details?
 
 - What does the course room look like?
   - How many seats and PC-screens are available?
