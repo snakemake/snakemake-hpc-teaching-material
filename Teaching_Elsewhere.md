@@ -4,7 +4,7 @@ Then send this questionnaire to your hosting site. Ask for all questions to be a
 
 ## Questionnaire
 
-This Questionnaire helps asking the right questions:
+This questionnaire helps to ask the right questions:
 
 - Organization:
   - Who is the contact for organizing this course? 
