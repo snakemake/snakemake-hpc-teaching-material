@@ -32,7 +32,7 @@ This questionnaire helps to ask the right questions:
     - Will there be wifi? 
     -  Will there be power outlets?
 
-- Cluster Specialties
+- Cluster Specialities
   - May the course use a shared file space for the setup to be copied to? E.g. a workspace? Which are the quota limitations?
   - Are there quotas for the HOME directory (size, file number)?
   - Which compute node scratch mount points are provided (for stage-in/out)?
