@@ -42,7 +42,7 @@ This questionnaire helps to ask the right questions:
   - Which partitions does the cluster provide for SMP programs (any restrictions for such software)?
   - Which partitions does the cluster provide for software (e.g. MPI) using >=1 full nodes?
   - How does the cluster support GPU application resource requests (special partitions? special SLURM flags?)?
-  - How long will the course run (number of days)? (our minimum is 2 days for the creator part and 1/2 day for the user part)
+  - How long will the course run (number of days)? (our minimum is 2 days for the full creator course and 1 day for the user-only course)
   - Does the cluster provide a scratch file system on compute nodes? If yes: what is the path?
 
 - Misc
