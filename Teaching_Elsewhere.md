@@ -1,6 +1,6 @@
 # You need to teach this course on an - unknown - cluster?
 
-Then send this questionnaire to your hosting site. Ask for all questions to be answered unless a public documention link can be provided, which answers these questions, partially.
+Then send this questionnaire to your hosting site. Ask for all questions to be answered unless a public documentation link can be provided, which answers these questions, partially.
 
 ## Questionnaire
 
