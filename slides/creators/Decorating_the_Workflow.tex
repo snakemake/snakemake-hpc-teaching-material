@@ -485,6 +485,21 @@ $ du -sh mapped_reads # measures the size of the folder
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
+	\frametitel{There is an Issue with my Data! $\ldots$}
+	$\ldots$ how can I debug when \altverb{temp} is on?
+	\pause
+	\vfill
+	\Snakemake offers a \altverb{--notemp} flag for that purpose.
+	\vfill
+	\pause
+	\begin{alertblock}{Reproducibility and faulty Data}
+		Reproducibilty does \textbf{not} mean, you data cannot be flawed. When you tinker with it, be sure to take note and be transparent about it!
+	\end{alertblock}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
   \frametitle{The \altverb{protected()} Function}
   \begin{hint}
   	This is just to demonstrate the complement to \altverb{temp()}. Sometimes you might want to protect files from accidental deletion. This can be done with the \altverb{protected()} from \Snakemake.
