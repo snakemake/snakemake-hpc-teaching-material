@@ -1,23 +1,24 @@
 # You need to teach this course on an - unknown - cluster?
 
-Then send this questionaire to your hosting site. Ask for all questions to be answered unless a public documention link can be provided, which answers these questions, partially.
+Then send this questionnaire to your hosting site. Ask for all questions to be answered unless a public documentation link can be provided, which answers these questions, partially.
 
-## Questionaire
+## Questionnaire
 
-This questionaire helps asking the right questions:
+This questionnaire helps to ask the right questions:
 
 - Organization:
   - Who is the contact for organizing this course? 
-  - If this is a topical course (e.g. for Bioinformaticicians, Physicist, etc.): Does the organization employ a support scientist for the intended topic? If so, which are the contact details?
+  - If this is a topical course (e.g. for Bioinformaticians, Physicist, etc.): Does the organization employ a support scientist for the intended topic? If so, which are the contact details?
+  - All participants need to be informed that they will need a GitHub account.
 
 - What does the course room look like?
   - How many seats and PC-screens are available?
   - Is there a "Presenter PC"?
   - Is it possible to plug in a laptop? (HDMI and/or VGA?)
   - Please describe the "projector situation" (1 or more, need to have a key?).
-  - Does the lecturer need an adaptor for the projector?
-  - Which is the OS for participant PCs? 
+  - Does the lecturer need an adaptor for the video projector?
   - Is paired programming possible during the course considering the classroom's seating?
+  - Possibly: Which is the standard for power outlets? When the lecturer is teaching abroad.
 
 - Login and Security:
   - Which is the recommended software to log in? (putty, mobaxterm, powershell or plain ssh via Linux - or a terminal on demand)
@@ -32,7 +33,7 @@ This questionaire helps asking the right questions:
     - Will there be wifi? 
     -  Will there be power outlets?
 
-- Cluster Specialties
+- Cluster Specialities
   - May the course use a shared file space for the setup to be copied to? E.g. a workspace? Which are the quota limitations?
   - Are there quotas for the HOME directory (size, file number)?
   - Which compute node scratch mount points are provided (for stage-in/out)?
@@ -42,7 +43,7 @@ This questionaire helps asking the right questions:
   - Which partitions does the cluster provide for SMP programs (any restrictions for such software)?
   - Which partitions does the cluster provide for software (e.g. MPI) using >=1 full nodes?
   - How does the cluster support GPU application resource requests (special partitions? special SLURM flags?)?
-  - How long will the course run (number of days)? (our minimum is 2 days for the creator part and 1/2 day for the user part)
+  - How long will the course run (number of days)? (our minimum is 2 days for the full creator course and 1 day for the user-only course)
   - Does the cluster provide a scratch file system on compute nodes? If yes: what is the path?
 
 - Misc
