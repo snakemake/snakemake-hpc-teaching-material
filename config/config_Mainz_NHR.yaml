@@ -22,7 +22,7 @@ layout:
 course:
   # sets the slides aspectratio (if outcommented, the default is 43=4:3)
   aspectratio: 1609 # - 169 = 16:9 
-  date: "29.-30. January 2025" # maybe: "\today"
+  date: "September 2025" # maybe: "\today"
   #title: "" # specifiy your title here, else a default is used. 
   #subtitle: "" # specifiy your subtitle here, else a default is used. 
   # If the course requires user login to be set up, this slide set should
