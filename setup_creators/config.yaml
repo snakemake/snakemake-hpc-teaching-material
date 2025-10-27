@@ -1,0 +1,11 @@
+executor: slurm
+latency-wait: 5
+default-storage-provider: fs
+shared-fs-usage:
+  - persistence
+  - shared
+  - source-cache
+remote-job-local-prefix: |
+
+local-storage-prefix:
+
