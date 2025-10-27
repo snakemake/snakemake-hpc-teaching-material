@@ -322,26 +322,25 @@ $ snakemake -j 1  --use-envmodules
 \end{frame}
 
 \begin{frame}[fragile]
-	\frametitle{Outlook: Improved GPU-Support}
-	Right now, the executor only allows GPU-Support with the \altverb{slurm_extra} resource, e.\,g.:
-    \begin{lstlisting}[style=Plain]
-set-resources:
-    gpu_rule:
-        slurm_extra: "--gres=gpu:1"   	
-    \end{lstlisting}\pause
-    The next SLURM executor release brings:
+	\frametitle{OGPU-Support}
+	The executor supports GPU-Support build-in to SLURM e.\,g.:
         \begin{lstlisting}[style=Plain]
 set-resources:
-     gres_request_rule:
-     gres: "gpu:1"
+  single_gpu_rule:
+    gpu: 1
+    cpus_per_gpu: 4 # optional
 
-multi_gpu_rule:
-     gpus: 2
-     gpu_model: "tesla" 
-     cpus_per_gpu: 4
+  multi_gpu_rule:
+    gpu: 2
+    gpu_model: "a100" # optional
+    cpus_per_gpu: 8
 
-no_cpu_gpu_rule:
-     gpus: 1
-     cpus_per_gpu: 0 # <= 0 will result in NO reservation
+gres_request_rule:
+    gres: "gpu:rtx3090:2"
+    cpus_per_gpu: 6
     \end{lstlisting}
+    \pause
+    \begin{block}{Generic Resources = GRES}
+    	When using the `gres` resource, you can -- on some clusters -- request other resources, too. E.\,g. local scratch.
+    \end{block}
 \end{frame}
