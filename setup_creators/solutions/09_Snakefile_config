@@ -1,5 +1,4 @@
 # our samples are pre-configured
-samples = ["A", "B"]
 
 configfile: "config/config.yaml"
 
@@ -41,8 +40,8 @@ rule samtools_index:
 rule bcftools_call:
     input:
         fa="data/genome.fa",
-        bam=expand("sorted_reads/{sample}.bam", sample=samples),
-        bai=expand("sorted_reads/{sample}.bam.bai", sample=samples)
+        bam=expand("sorted_reads/{sample}.bam", sample=config["samples"]),
+        bai=expand("sorted_reads/{sample}.bam.bai", sample=config["samples"])
     output:
         "calls/all.vcf"
     shell:
