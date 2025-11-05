@@ -33,11 +33,11 @@ course:
   # Editors recommendations are a matter of taste and technological
   # setups (e.g. on-demand setups). Hence, specify an editor-slide,
   #  here:
-  editorfile: "common/mod_cs_mainz"
+  editorfile: "common/plain_editor_bonn"
   # The next line indicates the slides explaining
   # a condarc file on a cluster, copy and adjust
   # for your cluster.
-  condarcfile: "common/condarc_mogon.tex"
+  condarcfile: "common/condarc_bonn.tex"
   # the same for admins:
   condarc_admins_file: "admin/condarc_mogon.tex"
   # We provide a common software stack to avoid long
@@ -59,7 +59,7 @@ course:
   # This is the selected slide to explain the 'Hello World' script
   # to introduce SLURM. It requires different account and partition
   # settings on every cluster.
-  hello_world_script: "common/Hello_World_HPC_Mogon_NHR.tex"
+  hello_world_script: "common/Hello_World_HPC_Marvin.tex"
 
 cluster:
   # the cluster name

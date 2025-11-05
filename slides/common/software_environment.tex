@@ -159,128 +159,144 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
 				\item Miniconda - Conda with little less overhead
 				\item Mamba - drop-in replacement for "Conda", C\texttt{++}, parallel solver, fast
 				\item \textmu-Mamba - static version of Mamba, little overhead, no "base" environment, slightly different commands
-				\item pixi - different to Conda - not yet supported by \Snakemake.
+				\item pixi - different to Conda - will be supported \Snakemake soon.
 			\end{itemize}
 		\end{mdframed}
 	}
 }
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-  \frametitle{Installing Conda}
-  You \emph{could} run
-  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny,breaklines=true ]
-$ wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
-$ bash Miniforge3-Linux-x86_64.sh
-  \end{lstlisting}
-  to retrieve Mamba, now.\newline\pause
-  \begin{hint}
-  	We will work through the installation process \emph{together} on the slides to come.
-  \end{hint}
-  Instead, please execute the installer script
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ bash install_conda.sh
-  \end{lstlisting}
-\end{frame} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%\begin{frame}[fragile]
+%  \frametitle{Installing Conda}
+%  You \emph{could} run
+%  \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny,breaklines=true ]
+%$ wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+%$ bash Miniforge3-Linux-x86_64.sh
+%  \end{lstlisting}
+%  to retrieve Mamba, now.\newline\pause
+%  \begin{hint}
+%  	We will work through the installation process \emph{together} on the slides to come.
+%  \end{hint}
+%  Instead, please execute the installer script
+%  \begin{lstlisting}[language=Bash, style=Shell]
+%$ bash install_conda.sh
+%  \end{lstlisting}
+%\end{frame} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-  \frametitle{Conda - Installation - Part I}
-  Start the installation script - if not done:
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ bash install_conda.sh
-  \end{lstlisting}
-  You need to confirm (with ``Enter'')
-  \begin{itemize}[<+->]
-  	\item the license agreement
-	\item the binary folder.
-	\item the shell you are using (just to be on the save side)
-  \end{itemize} 
-  The tool will tell up about the modification of your \altverb{.bashrc} file (which is executed upon \emph{every} login - if not corrected).
+	\frametitle{The \texttt{Marvin} Approach}
+	You \emph{could} run
+	\begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny,breaklines=true ]
+$ wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+$ bash Miniforge3-Linux-x86_64.sh
+	\end{lstlisting}
+     However, on Marvin, please refrain from installing Conda yourself, run:
+     \begin{lstlisting}[language=Bash, style=Shell,breaklines=true ]
+$ module load Miniforge
+$ conda init       # only once
+$ source ~/.bashrc # only once
+     \end{lstlisting}
 \end{frame}
-	
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%\begin{frame}[fragile]
+%  \frametitle{Conda - Installation - Part I}
+%  Start the installation script - if not done:
+%  \begin{lstlisting}[language=Bash, style=Shell]
+%$ bash install_conda.sh
+%  \end{lstlisting}
+%  You need to confirm (with ``Enter'')
+%  \begin{itemize}[<+->]
+%  	\item the license agreement
+%	\item the binary folder.
+%	\item the shell you are using (just to be on the save side)
+%  \end{itemize} 
+%  The tool will tell up about the modification of your \altverb{.bashrc} file (which is executed upon \emph{every} login - if not corrected).
+%\end{frame}
+%	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%\begin{frame}[fragile]
+%  \frametitle{Installing Conda - Part II}
+%  \footnotesize
+%  \begin{columns}[t]
+%    \begin{column}{0.5\textwidth}
+%       You now have a section like this in your ``\texttt{\textasciitilde/.bashrc}'':
+%       \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny, breaklines=true]
+%# !! Contents within this block are managed by 'conda init' !!
+%__conda_setup="$('<prefix>/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+%if [ $? -eq 0 ]; then
+%    eval "$__conda_setup"
+%else
+%if [ -f "<prefix>/etc/profile.d/conda.sh" ]; then
+%    . "<prefix>/etc/profile.d/conda.sh"
+%else
+%    export PATH="<prefix>/bin:$PATH"
+%fi
+%fi
+%unset __conda_setup
+%
+%if [ -f "<prefix>/etc/profile.d/mamba.sh" ]; then
+%    . "<prefix>/etc/profile.d/mamba.sh"
+%fi
+%# <<< conda initialize <<<
+%      \end{lstlisting}
+%      \bcattention \emph{Every} time you log-in this will be executed. Also, here, ``\texttt{<prefix>}'' denotes \emph{your} prefix.
+%    \end{column}
+%    \begin{column}{0.5\textwidth}
+%       \pause
+%       {\footnotesize Please edit your ``\texttt{\textasciitilde/.bashrc}'' file and put part in a function, to re-gain manual control:}
+%       \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny, breaklines=true]
+%@function conda_initialize {@
+%# !! Contents within this block are managed by 'conda init' !!
+%    __conda_setup="$('<prefix>/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+%if [ $? -eq 0 ]; then
+%    eval "$__conda_setup"
+%else
+%if [ -f "<prefix>/etc/profile.d/conda.sh" ]; then
+%   . "<prefix>/etc/profile.d/conda.sh"
+%else
+%   export PATH="<prefix>/bin:$PATH"
+%fi
+%fi
+%unset __conda_setup
+%
+%if [ -f "<prefix>/etc/profile.d/mamba.sh" ]; then 
+%    . "<prefix>/etc/profile.d/mamba.sh"
+%fi
+%# <<< conda initialize <<<
+%@}@
+%      \end{lstlisting}
+%    \end{column}
+%  \end{columns}
+%\end{frame}
+%
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-  \frametitle{Installing Conda - Part II}
-  \footnotesize
-  \begin{columns}[t]
-    \begin{column}{0.5\textwidth}
-       You now have a section like this in your ``\texttt{\textasciitilde/.bashrc}'':
-       \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny, breaklines=true]
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('<prefix>/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-if [ -f "<prefix>/etc/profile.d/conda.sh" ]; then
-    . "<prefix>/etc/profile.d/conda.sh"
-else
-    export PATH="<prefix>/bin:$PATH"
-fi
-fi
-unset __conda_setup
-
-if [ -f "<prefix>/etc/profile.d/mamba.sh" ]; then
-    . "<prefix>/etc/profile.d/mamba.sh"
-fi
-# <<< conda initialize <<<
-      \end{lstlisting}
-      \bcattention \emph{Every} time you log-in this will be executed. Also, here, ``\texttt{<prefix>}'' denotes \emph{your} prefix.
-    \end{column}
-    \begin{column}{0.5\textwidth}
-       \pause
-       {\footnotesize Please edit your ``\texttt{\textasciitilde/.bashrc}'' file and put part in a function, to re-gain manual control:}
-       \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny, breaklines=true]
-@function conda_initialize {@
-# !! Contents within this block are managed by 'conda init' !!
-    __conda_setup="$('<prefix>/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-if [ -f "<prefix>/etc/profile.d/conda.sh" ]; then
-   . "<prefix>/etc/profile.d/conda.sh"
-else
-   export PATH="<prefix>/bin:$PATH"
-fi
-fi
-unset __conda_setup
-
-if [ -f "<prefix>/etc/profile.d/mamba.sh" ]; then 
-    . "<prefix>/etc/profile.d/mamba.sh"
-fi
-# <<< conda initialize <<<
-@}@
-      \end{lstlisting}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-  \frametitle{Why this function in your \texttt{.bashrc}?}
-  \begin{docs}
-  	\begin{itemize}[<+->]
-  		\item \emph{every} time you log in, the code in your \texttt{.bashrc} will be executed. Depending on your conda setup, this can be incredibly slow (another reason to use Mamba or \textmu-Mamba).
-  		\item automatic inclusion of Conda/Mamba might cause interference with modules
-  		\item Now, you can run \verb+conda_initialize+ in the login shell, jobs scripts, etc. upon demand and deactivate if needed.
-  	\end{itemize}
-  \end{docs}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-  \frametitle{Initializing Conda \& Mamba}
-  To initialize Conda, simply run
-
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ # only once - not necessary after new login
-$ source ~/.bashrc 
-  \end{lstlisting}
-  Subsequently, run: 
-  \begin{lstlisting}[language=Bash, style=Shell]
-$ conda_initialize # if you have this function
-  \end{lstlisting}
-\end{frame}
+%\begin{frame}[fragile]
+%  \frametitle{Why this function in your \texttt{.bashrc}?}
+%  \begin{docs}
+%  	\begin{itemize}[<+->]
+%  		\item \emph{every} time you log in, the code in your \texttt{.bashrc} will be executed. Depending on your conda setup, this can be incredibly slow (another reason to use Mamba or \textmu-Mamba).
+%  		\item automatic inclusion of Conda/Mamba might cause interference with modules
+%  		\item Now, you can run \verb+conda_initialize+ in the login shell, jobs scripts, etc. upon demand and deactivate if needed.
+%  	\end{itemize}
+%  \end{docs}
+%\end{frame}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%\begin{frame}[fragile]
+%  \frametitle{Initializing Conda \& Mamba}
+%  To initialize Conda, simply run
+%
+%  \begin{lstlisting}[language=Bash, style=Shell]
+%$ # only once - not necessary after new login
+%$ source ~/.bashrc 
+%  \end{lstlisting}
+%  Subsequently, run: 
+%  \begin{lstlisting}[language=Bash, style=Shell]
+%$ conda_initialize # if you have this function
+%  \end{lstlisting}
+%\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \input{<++course.condarcfile++>}
@@ -393,7 +409,7 @@ $ conda create \
 	\frametitle{\HandsOn{Activating Environments}}
 	It is time to activate a shared environment:
 	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba activate <++course.softwarepath++>
+$ conda activate <++course.softwarepath++>
 	\end{lstlisting}
 	Your prompt should now feature the name of the environment: \altverb{snakemake}.
 \end{frame}
@@ -403,7 +419,7 @@ $ mamba activate <++course.softwarepath++>
 	\frametitle{\HandsOn{Listing Environments}}
 	Over time you will have several environments. (So far, there is one plus the \altverb{base} env.) To list them all, simply run:
 	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba env list
+$ conda env list
 	\end{lstlisting}
 \end{frame}
 
@@ -411,7 +427,7 @@ $ mamba env list
 \begin{frame}[fragile]
     \frametitle{\HandsOn{Checking on Installed Software}}
     \begin{lstlisting}[language=Bash, style=Shell]
-$ (software_stack) mamba list | grep snakemake
+$ (software_stack) conda list | grep snakemake
     \end{lstlisting}
      And you should see
      \begin{lstlisting}[style=Plain]
@@ -436,7 +452,7 @@ snakemake-storage-plugin-fs
    \end{question} 
    Remember:
      \begin{lstlisting}[language=Bash, style=Shell]
-$ cat .condarc
+$ cat ~/.condarc
 ....
 env_prompt: '($(basename {default_env})) '
    \end{lstlisting}

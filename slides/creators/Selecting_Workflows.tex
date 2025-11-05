@@ -92,7 +92,7 @@
 	\frametitle{Deployment II - Creating an Environment Fork}
 	Usually, we can create an environment like:
 	\begin{lstlisting}[language=Bash, style=Shell]
-$ mamba create -c conda-forge -c bioconda -n snakemake \
+$ conda create -c conda-forge -c bioconda -n snakemake \
 > snakemake snakemake-executor-plugin-slurm \
 > snakemake-storage-plugin-fs
     \end{lstlisting}
@@ -112,7 +112,7 @@ $ mamba create -c conda-forge -c bioconda -n snakemake \
 	    	A usual command is:
 	    	\begin{lstlisting}[language=Bash, style=Shell]
 $ snakedeploy deploy-workflow \
-> <URL>
+> some github url
 	    	\end{lstlisting}
     	    This will create the directories \altverb{workflow} and \altverb{config} in your current directory.
     	    \begin{hint}
@@ -123,20 +123,20 @@ $ snakedeploy deploy-workflow \
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-	\frametitle{Finalizing the Deploymment}
-
-		We could now deploy our sample workflow:
-		\begin{itemize}
-			\item Please create a directory \altverb{mkdir -p ~/example_workflow}
-			\item Change to this directory.
-			\item Deploy our sample workflow with
-		\end{itemize}
-        \begin{lstlisting}[language=Bash, style=Shell]
-$ snakedeploy deploy-workflow \
-> <++course.deploy_url++>
-       \end{lstlisting}
-\end{frame}
+%\begin{frame}[fragile]
+%	\frametitle{Finalizing the Deploymment}
+%
+%		We could now deploy our sample workflow:
+%		\begin{itemize}
+%			\item Please create a directory \altverb{mkdir -p ~/example_workflow}
+%			\item Change to this directory.
+%			\item Deploy our sample workflow with
+%		\end{itemize}
+%        \begin{lstlisting}[language=Bash, style=Shell]
+%$ snakedeploy deploy-workflow \
+%> <++course.deploy_url++>
+%       \end{lstlisting}
+%\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
