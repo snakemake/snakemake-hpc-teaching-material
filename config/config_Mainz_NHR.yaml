@@ -69,6 +69,8 @@ cluster:
   # the cluster account and default partition
   account: "nhr-workflow"
   partition: "smallcpu"
+  # file system latency - on NFS be sure to be sufficiently high
+  latency: 30 
   # the local and remote storage prefixes on this cluster
   remote-job-local-storage-prefix: "/localscratch/$SLURM_JOB_ID"
   local-storage-prefix: "/dev/shm/$USER/snakemake"
