@@ -26,7 +26,7 @@ jobs:
   publish:
     needs: release-please
     if: needs.release-please.outputs.release_created == 'true'
-    name: Publish Release Artifacts
+    name: Check & Publish Release Artifacts
     runs-on: ubuntu-latest
     permissions:
       actions: write
@@ -48,86 +48,93 @@ jobs:
           check_artifacts: true
           if_no_artifact_found: ignore
 
-      - name: Check for PDFs and trigger rebuild if missing
-        id: ensure-slides
+      - name: Check for PDFs
+        id: check-pdfs
         run: |
           set -euo pipefail
-          echo "Installing helper packages"
-          sudo apt-get update && sudo apt-get install -y jq unzip
-          echo "Listing slides directory"
           ls -la slides || true
           count=$(ls slides/*.pdf 2>/dev/null | wc -l || true)
           echo "pdf_count=$count" >> $GITHUB_OUTPUT
-          if [ "$count" -eq 0 ]; then
-            echo "No slides PDFs found. Triggering build workflow..."
-            # Trigger workflow_dispatch for build.yml
-            resp=$(curl -s -X POST \
-              -H "Accept: application/vnd.github+json" \
-              -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-              https://api.github.com/repos/${{ github.repository }}/actions/workflows/build.yml/dispatches \
-              -d '{"ref":"main"}')
-            echo "trigger_response=$resp" >> $GITHUB_OUTPUT
-            # Wait for the workflow run to start and finish
-            echo "Waiting for build workflow to complete..."
-            owner_repo="${{ github.repository }}"
-            # poll for latest workflow run for build.yml
-            attempt=0
-            while [ $attempt -lt 60 ]; do
-              attempt=$((attempt+1))
-              run_id=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                -H "Accept: application/vnd.github+json" \
-                "https://api.github.com/repos/$owner_repo/actions/workflows/build.yml/runs?per_page=1" \
-                | jq -r '.workflow_runs[0].id // empty')
-              status=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                -H "Accept: application/vnd.github+json" \
-                "https://api.github.com/repos/$owner_repo/actions/runs/$run_id" \
-                | jq -r '.status // empty')
-              conclusion=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-                -H "Accept: application/vnd.github+json" \
-                "https://api.github.com/repos/$owner_repo/actions/runs/$run_id" \
-                | jq -r '.conclusion // empty')
-              echo "Attempt $attempt: run_id=$run_id status=$status conclusion=$conclusion"
-              if [ -n "$status" ] && [ "$status" = "completed" ]; then
-                echo "Build run completed with conclusion=$conclusion"
-                echo "build_run_id=$run_id" >> $GITHUB_OUTPUT
+
+      - name: Build slides if needed (dispatch build.yml and fetch artifacts)
+        if: steps.check-pdfs.outputs.pdf_count == '0'
+        env:
+          REPO: ${{ github.repository }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ needs.release-please.outputs.tag_name }}
+        run: |
+          set -euo pipefail
+          sudo apt-get update && sudo apt-get install -y jq unzip
+          ref_to_use="${RELEASE_TAG:-main}"
+          if [ -z "$ref_to_use" ] || [ "$ref_to_use" = "null" ]; then
+            ref_to_use=main
+          fi
+          echo "Dispatching build.yml on ref: $ref_to_use"
+          start_time=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          dispatch_resp=$(curl -s -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer $GITHUB_TOKEN" \
+            "https://api.github.com/repos/$REPO/actions/workflows/build.yml/dispatches" \
+              -d '{"ref":"'"$ref_to_use"'"}')
+            echo "dispatch response: $dispatch_resp"
+
+            # Poll for a workflow run that started after we dispatched
+            echo "Waiting for a build run to start..."
+            run_id=''
+            attempts=0
+            while [ $attempts -lt 60 ]; do
+              attempts=$((attempts+1))
+              candidate=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/$REPO/actions/workflows/build.yml/runs?event=workflow_dispatch&per_page=5" )
+              # find the first run with created_at >= start_time
+              run_id=$(echo "$candidate" | jq -r --arg START "$start_time" '.workflow_runs[] | select(.created_at >= $START) | .id' | head -n1 || true)
+              if [ -n "$run_id" ]; then
+                echo "Found run id: $run_id"
+                break
+              fi
+              sleep 2
+            done
+            if [ -z "$run_id" ]; then
+              echo "Timed out waiting for a new build run to start" >&2
+              exit 1
+            fi
+
+            # Wait for run to complete
+            echo "Waiting for run $run_id to complete..."
+            attempts=0
+            while [ $attempts -lt 180 ]; do
+              attempts=$((attempts+1))
+              status=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/$REPO/actions/runs/$run_id" | jq -r '.status')
+              conclusion=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/$REPO/actions/runs/$run_id" | jq -r '.conclusion')
+              echo "Attempt $attempts: status=$status conclusion=$conclusion"
+              if [ "$status" = "completed" ]; then
                 if [ "$conclusion" != "success" ]; then
-                  echo "Build failed (conclusion=$conclusion). Exiting with error."
+                  echo "Build run failed with conclusion=$conclusion" >&2
                   exit 1
                 fi
+                echo "Run $run_id completed successfully"
                 break
               fi
               sleep 10
             done
-            if [ $attempt -ge 60 ]; then
-              echo "Timed out waiting for build workflow to complete." >&2
+            if [ $attempts -ge 180 ]; then
+              echo "Timed out waiting for run to complete" >&2
               exit 1
             fi
-            # Re-download artifacts from the successful build run
-            echo "Re-downloading Slides artifact from latest successful build"
-            uses_cmd='uses=dawidd6/action-download-artifact@v6'
-            # We cannot call an action from shell; instead use the GitHub API to download artifact
-            # Find the artifact id
-            artifact_id=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-              -H "Accept: application/vnd.github+json" \
-              "https://api.github.com/repos/$owner_repo/actions/runs/$run_id/artifacts" \
-              | jq -r '.artifacts[] | select(.name=="Slides") | .id // empty')
+
+            # Download artifact 'Slides' from the run
+            echo "Fetching artifacts for run $run_id"
+            artifacts=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/$REPO/actions/runs/$run_id/artifacts")
+            artifact_id=$(echo "$artifacts" | jq -r '.artifacts[] | select(.name=="Slides") | .id' || true)
             if [ -z "$artifact_id" ]; then
               echo "Slides artifact not found in run $run_id" >&2
               exit 1
             fi
-            download_url=$(curl -s -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-              -H "Accept: application/vnd.github+json" \
-              "https://api.github.com/repos/$owner_repo/actions/artifacts/$artifact_id/zip" \
-              | jq -r '.archive_download_url // empty')
-            # The API returns a redirect; use curl to download and unzip
+            echo "Downloading artifact id $artifact_id"
             tmpzip=slides_artifact.zip
-            curl -L -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -o $tmpzip "https://api.github.com/repos/$owner_repo/actions/artifacts/$artifact_id/zip"
+            curl -L -H "Authorization: Bearer $GITHUB_TOKEN" -o $tmpzip "https://api.github.com/repos/$REPO/actions/artifacts/$artifact_id/zip"
             mkdir -p slides
             unzip -o $tmpzip -d slides
             rm -f $tmpzip
-          else
-            echo "Slides PDF(s) already present (count=$count), skipping rebuild."
-          fi
 
       - name: Zip solutions and tutorial folders
         run: |

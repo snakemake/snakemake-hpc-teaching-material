@@ -4,6 +4,12 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        required: false
+        type: string
+        default: main
 
 jobs:
   build:
@@ -12,31 +18,27 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref }}
       - name: Install Dependencies
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends 
-             python3-yaml 
-             texlive 
-             texlive-fonts-extra 
-             texlive-latex-extra 
-             texlive-luatex 
-             texlive-pictures 
-             texlive-plain-generic 
-             texlive-pstricks 
-             texlive-science 
-             latexmk
-             ghostscript
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends \
+             python3-yaml \
+             texlive \
+             texlive-fonts-extra \
+             texlive-latex-extra \
+             texlive-luatex \
+             texlive-pictures \
+             texlive-plain-generic \
+             texlive-pstricks \
+             texlive-science \
+             latexmk \
+             ghostscript \
              poppler-utils
 
-      - name: LaTeX compile  
+      - name: Run build script
         run: |
-          ./render --master-tex Snakemake_HPC_Users.tex --configfile config/config_for_github.yaml --handout --sample-directory=_; 
-          ./render --master-tex Snakemake_HPC_Creators.tex --configfile config/config_for_github.yaml --handout --sample-directory=_;
-          ./render --master-tex Snakemake_HPC_User_Creator_Combi.tex --configfile config/config_for_github.yaml --handout --sample-directory=_;
-          ./render --master-tex Snakemake_HPC_Admins.tex --configfile config/config_for_github.yaml --handout --sample-directory=_;
-      
-      - name: Certificate compile
-        run: |
-           cd certificates && ./certificate_generator --exportfile participant_test.csv --textemplate template_english.tex --config config.yaml
+          chmod +x .github/scripts/build_slides.sh
+          .github/scripts/build_slides.sh
 
       - name: Upload .pdf File
         uses: actions/upload-artifact@v4
