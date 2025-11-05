@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script is used to teach on the cluster "Mogon II"
+# This script is used to teach on the cluster "Marvin"
 
 CLUSTER_ALIAS="marvin" # nox stands for "no X11 forwarding"
 BASEPATH="/lustre/scratch/data/fboecker-snakemake_workshop/" # repeated use
