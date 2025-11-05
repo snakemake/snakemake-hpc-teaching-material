@@ -12,9 +12,9 @@ default-resources:
   slurm_partition=intelsr_devel
 
 set-resources:
-        bwa_map:
-           runtime: 5 # Adjust based on your dataset size. Typical range: 30-120 minutes
-           mem_mb_per_cpu: 1800 # Increase for larger datasets, e.g., 3600 for 30x coverage
+    bwa_map:
+        runtime: 5 # Adjust based on your dataset size. Typical range: 30-120 minutes
+        mem_mb_per_cpu: 1800 # Increase for larger datasets, e.g., 3600 for 30x coverage
     
     samtools_sort:
         runtime: 5 # Adjust based on your dataset size. Typical range: 20-60 minutes
