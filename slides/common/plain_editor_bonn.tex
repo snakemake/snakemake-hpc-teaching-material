@@ -1,0 +1,87 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Using Editors on \texttt{Marvin}}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=\paperheight]{humor/scientist-coding.jpg}\hfil}\vfil}
+		% source: https://en.m.wikipedia.org/wiki/File:Text-x-python.svg
+	}
+	\frame{
+		\frametitle{Using Code-Studio}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+	     \vspace{18mm}
+	    \hfill{\tiny \lhref{https://zenodo.org/records/11147887}{\color{white}own creation with Stable Diffusion}}
+	}
+   
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{What is this about?}
+	\begin{question}[Questions]\begin{itemize}
+			\item What is an Editor?
+			\item How do I select one?
+			\item How do I use it?
+		\end{itemize}
+	\end{question}
+	\begin{docs}[Objectives]
+		\begin{enumerate}
+			\item Explain, why you need an editor?
+			\item What is an IDE, what an editor?
+		\end{enumerate}
+	\end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{Editor vs. IDEs (Integrated Development Environments)}
+  \footnotesize
+  \begin{columns}[t]
+  	\begin{column}{.5\textwidth}
+  	  {\normalsize\textbf Editors:}
+  	  \begin{figure}[t]
+  		 \includegraphics[height=3cm]{editors_and_IDEs/gedit.png}
+  		 \caption*{\texttt{gedit} editor as started on Mogon.}
+  	  \end{figure}
+      \vfill
+  	  \begin{itemize}
+  	  	\item show syntax highlighting
+  	  	\item can edit and save text files
+  	  \end{itemize}  
+  	\end{column}
+  	\begin{column}{.5\textwidth}
+  	  {\normalsize\textbf IDEs:}
+  	  \begin{figure}[t]
+  	  	\includegraphics[width=\textwidth]{editors_and_IDEs/MOD_VSC.png}
+  		\caption*{\texttt{Codium} as started an OnDemand application.}
+  	  \end{figure}
+      \vfill
+      \begin{itemize}
+         \item everything an editor can do
+         \item handle projects
+         \item SCM support
+         \item encapsulates environments
+         \item \ldots
+      \end{itemize}  
+  	\end{column}
+  \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{Which Editor or IDE should I be using?}
+  \begin{hint}
+     You may use any \emph{any} editor of your liking..
+  \end{hint}
+  
+  On \texttt{Marvin} you have the following options:
+  \begin{itemize}[<+->]
+	\item \altverb{nano} - a terminal-based beginner editor
+	\item \altverb{vi} resp. \altverb{vim} - a terminal-based pro editor
+	\item if you brought your own device, you might use \altverb{VSC} per sshfs
+  \end{itemize}
+\end{frame} 
+
