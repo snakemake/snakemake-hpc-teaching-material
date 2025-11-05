@@ -24,20 +24,20 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-            python3-pip \
+            python3-yaml \
             texlive-latex-recommended \
             texlive-latex-extra \
             texlive-fonts-recommended \
             texlive-fonts-extra \
             texlive-luatex \
+            texlive-lang-greek \
+            texlive-pictures \
++           texlive-plain-generic \ 
++           texlive-pstricks \
++           texlive-science \
             latexmk \
             ghostscript \
-            poppler-utils \
-            wget \
-            unzip
-          # Install PyYAML via pip (more portable across Ubuntu versions)
-          python3 -m pip install --upgrade pip
-          python3 -m pip install pyyaml
+            poppler-utils 
 
       - name: Run render
         run: |
@@ -47,9 +47,7 @@ jobs:
           ./render --master-tex Snakemake_HPC_Creators.tex --configfile config/config_for_github.yaml --handout --sample-directory=_
           ./render --master-tex Snakemake_HPC_User_Creator_Combi.tex --configfile config/config_for_github.yaml --handout --sample-directory=_
           ./render --master-tex Snakemake_HPC_Admins.tex --configfile config/config_for_github.yaml --handout --sample-directory=_
-          echo "Compiling certificates"
           
-
       - name: Upload .pdf File
         uses: actions/upload-artifact@v4
         with:
