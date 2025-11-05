@@ -7,6 +7,7 @@ permissions:
   contents: write
   pull-requests: write
   repository-projects: read
+  actions: read
 
 name: release-please
 
@@ -31,6 +32,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Download Slides artifact from latest successful build
+        uses: dawidd6/action-download-artifact@v6
+        with:
+          workflow: build.yml
+          workflow_conclusion: success
+          commit: ${{ github.sha }}
+          name: Slides
+          path: slides
+          check_artifacts: true
+          if_no_artifact_found: fail
+
+      - name: Zip solutions and tutorial folders
+        run: |
+          cd setup_creators
+          zip -r ../setup_creators_material.zip solutions tutorial
+          cd ..
+
       - name: Attach PDFs to Release
         uses: softprops/action-gh-release@v2
         env:
@@ -40,3 +58,4 @@ jobs:
           fail_on_unmatched_files: false
           files: |
             slides/*.pdf
+            setup_creators_material.zip
