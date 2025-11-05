@@ -69,6 +69,8 @@ cluster:
   # the cluster account and default partition
   account: "tmp_snakemake_workshop"
   partition: "intelsr_devel"
+  # file system latency - on NFS be sure to be sufficiently high
+  latency: 30 
   # the local and remote storage prefixes on this cluster
   remotejoblocalstorageprefix: "/dev/shm/$USER/snakemake"
   localstorageprefix: "/dev/shm/$USER/snakemake"
