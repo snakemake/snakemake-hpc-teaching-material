@@ -12,7 +12,7 @@ scp condarc_bonn "${CLUSTER_ALIAS}:${BASEPATH}/condarc"
 scp get_tutorial.sh "${CLUSTER_ALIAS}:${BASEPATH}/get_tutorial.sh"
 #scp install_micromamba.sh "${CLUSTER_ALIAS}:${BASEPATH}/install_conda.sh"
 scp environment.yaml "${CLUSTER_ALIAS}:." # to HOME as this cluster provides conda and we only need to provide a software environment - no self installation of conda
-scp config.yaml "${CLUSTER_ALIAS}:${BASEBATH}/snakemake_profile/."
+scp config.yaml "${CLUSTER_ALIAS}:${BASEPATH}/snakemake_profile/."
 
 rsync -rtlv --chmod=D755 "tutorial" "${CLUSTER_ALIAS}:${BASEPATH}"
 rsync -rtlv --chmod=D755 "solutions" "${CLUSTER_ALIAS}:${BASEPATH}"
