@@ -24,7 +24,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-            python3-yaml \
+            python3-pip \
             texlive-latex-recommended \
             texlive-latex-extra \
             texlive-fonts-recommended \
@@ -38,6 +38,9 @@ jobs:
             latexmk \
             ghostscript \
             poppler-utils 
+            
+            python3 -m pip install --upgrade pip
+            python3 -m pip install pyyaml
 
       - name: Run render
         run: |
