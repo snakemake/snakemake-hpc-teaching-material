@@ -21,19 +21,23 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
       - name: Install Dependencies
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends \
-             python3-yaml \
-             texlive \
-             texlive-fonts-extra \
-             texlive-latex-extra \
-             texlive-luatex \
-             texlive-pictures \
-             texlive-plain-generic \
-             texlive-pstricks \
-             texlive-science \
-             latexmk \
-             ghostscript \
-             poppler-utils
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            python3-pip \
+            texlive-latex-recommended \
+            texlive-latex-extra \
+            texlive-fonts-recommended \
+            texlive-fonts-extra \
+            texlive-luatex \
+            latexmk \
+            ghostscript \
+            poppler-utils \
+            wget \
+            unzip
+          # Install PyYAML via pip (more portable across Ubuntu versions)
+          python3 -m pip install --upgrade pip
+          python3 -m pip install pyyaml
 
       - name: Run build script
         run: |
