@@ -39,10 +39,16 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install pyyaml
 
-      - name: Run build script
+      - name: Run render
         run: |
-          chmod +x .github/scripts/build_slides.sh
-          .github/scripts/build_slides.sh
+          set -euo pipefail
+          echo "Running LaTeX renders"
+          ./render --master-tex Snakemake_HPC_Users.tex --configfile config/config_for_github.yaml --handout --sample-directory=_
+          ./render --master-tex Snakemake_HPC_Creators.tex --configfile config/config_for_github.yaml --handout --sample-directory=_
+          ./render --master-tex Snakemake_HPC_User_Creator_Combi.tex --configfile config/config_for_github.yaml --handout --sample-directory=_
+          ./render --master-tex Snakemake_HPC_Admins.tex --configfile config/config_for_github.yaml --handout --sample-directory=_
+          echo "Compiling certificates"
+          
 
       - name: Upload .pdf File
         uses: actions/upload-artifact@v4
