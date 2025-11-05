@@ -1,8 +1,6 @@
 # our samples are pre-configured
 samples = ["A", "B"]
 
-configfile: "config/config.yaml"
-
 rule all:
     input:
         "calls/all.vcf",

@@ -163,17 +163,20 @@ executor: slurm
      No more, \altverb{snakemake --executor slurm ...}!
    \end{onlyenv}
    \begin{onlyenv}<2| handout:0>
-   	 The next line tells \Snakemake to wait for 5 seconds, if output files are not present (because we are working with parallel file systems). 
+   	 The next line tells \Snakemake to wait for <++cluster.latency++> seconds, if output files are not present (because we are working with parallel file systems). 
    	 \begin{lstlisting}[language=Bash, style=Shell]
 executor: slurm
-latency-wait: 5
+latency-wait: <++cluster.latency++>
    	 \end{lstlisting}
+      \begin{warning}
+      	Many clusters have an NFS home file system. If this is the case during a course, the latency value might seem high. 5 seconds are usually sufficient for parallel file systems.
+      \end{warning}
     \end{onlyenv}
     \begin{onlyenv}<3| handout:0>
       The entire rest, will tell the storage plugin (\altverb{snakemake-storage-plugin-fs}) to stage in to the node-local storage on your cluster, for \emph{every} job and to copy back your results. When dealing with I/O intensive jobs, this can boost your performance tremendously. 
       \begin{lstlisting}[language=Bash, style=Shell]
 executor: slurm
-latency-wait: 5
+latency-wait: <++cluster.latency++>
 default-storage-provider: fs
 shared-fs-usage:
   - persistence
@@ -188,7 +191,7 @@ local-storage-prefix: <++cluster.localstorageprefix++>
    	The complete configuration out to be in \altverb{\~/.config/snakemake/config.yaml}
    	\begin{lstlisting}[language=Bash, style=Shell]
 executor: slurm
-latency-wait: 5
+latency-wait: <++cluster.latency++>
 default-storage-provider: fs
 shared-fs-usage:
   - persistence

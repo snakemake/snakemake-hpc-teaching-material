@@ -22,7 +22,7 @@ layout:
 course:
   # sets the slides aspectratio (if outcommented, the default is 43=4:3)
   aspectratio: 1609 # - 169 = 16:9 
-  date: "September 2025" # maybe: "\today"
+  date: "28. October -- 29. October 2025" # maybe: "\today"
   #title: "" # specifiy your title here, else a default is used. 
   #subtitle: "" # specifiy your subtitle here, else a default is used. 
   # If the course requires user login to be set up, this slide set should
@@ -33,46 +33,46 @@ course:
   # Editors recommendations are a matter of taste and technological
   # setups (e.g. on-demand setups). Hence, specify an editor-slide,
   #  here:
-  editorfile: "common/mod_cs_mainz"
+  editorfile: "common/plain_editor_bonn"
   # The next line indicates the slides explaining
   # a condarc file on a cluster, copy and adjust
   # for your cluster.
-  condarcfile: "common/condarc_mogon.tex"
+  condarcfile: "common/condarc_bonn.tex"
   # the same for admins:
   condarc_admins_file: "admin/condarc_mogon.tex"
   # We provide a common software stack to avoid long
   # installation sessions.
-  softwarepath: "/lustre/project/nhr-workflow/software_stack"
+  softwarepath: "/lustre/scratch/data/fboecker-snakemake_workshop/snakemake"
   # The following path will indicate a sample workflow for the user part
   # if it is defined, the slide set will instruct participants to copy
   # it and adapt its configuration and profile.
-  pathtoworkflow: "/lustre/project/nhr-workflow/workflow"
+  pathtoworkflow: ""
   # Alternatively a URL may be indicated. In this case the participants
   # are instructed to deploy the workflow using snakedeploy.
   #deploy_url: ""
   # these are the path names to contain sample data
   # see the README for explanations.
-  pathtosetup: "/lustre/project/nhr-workflow/tasks"
-  pathtosolutions: "/lustre/project/nhr-workflow/solutions"
+  pathtosetup: "/lustre/scratch/data/fboecker-snakemake_workshop/tutorial"
+  pathtosolutions: "/lustre/scratch/data/fboecker-snakemake_workshop/solutions"
   # after copying the setup path is:
-  tutorialpath: "~/tasks/tutorial"
+  tutorialpath: "~/tutorial"
   # This is the selected slide to explain the 'Hello World' script
   # to introduce SLURM. It requires different account and partition
   # settings on every cluster.
-  hello_world_script: "common/Hello_World_HPC_Mogon_NHR.tex"
+  hello_world_script: "common/Hello_World_HPC_Marvin.tex"
 
 cluster:
   # the cluster name
-  name: "Mogon-NHR"
+  name: "Marvin"
   # the cluster distro
   distro: "Alma-Linux"
   # the cluster account and default partition
-  account: "nhr-workflow"
-  partition: "smallcpu"
+  account: "tmp_snakemake_workshop"
+  partition: "intelsr_devel"
   # file system latency - on NFS be sure to be sufficiently high
   latency: 30 
   # the local and remote storage prefixes on this cluster
-  remote-job-local-storage-prefix: "/localscratch/$SLURM_JOB_ID"
-  local-storage-prefix: "/dev/shm/$USER/snakemake"
+  remotejoblocalstorageprefix: "/dev/shm/$USER/snakemake"
+  localstorageprefix: "/dev/shm/$USER/snakemake"
   # display program for SVG files
   display_program: "display"

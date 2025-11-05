@@ -7,6 +7,7 @@ permissions:
   contents: write
   pull-requests: write
   repository-projects: read
+  actions: read
 
 name: release-please
 
@@ -15,29 +16,46 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
       - uses: GoogleCloudPlatform/release-please-action@v4
         id: release
         with:
           release-type: simple
-          package-name: snakemake-hpc-teaching-material
 
   publish:
     needs: release-please
-    if: |
-         needs.release-please.outputs.release_created &&
-         github.event.workflow_run.conclusion == 'success'
+    if: needs.release-please.outputs.release_created == 'true'
     name: Publish Release Artifacts
     runs-on: ubuntu-latest
     steps:
-      - name: Download Slides
-        uses: actions/download-artifact@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download Slides artifact from latest successful build
+        uses: dawidd6/action-download-artifact@v6
         with:
+          workflow: build.yml
+          workflow_conclusion: success
+          commit: ${{ github.sha }}
           name: Slides
           path: slides
-          
-      - name: Attach to Release
+          check_artifacts: true
+          if_no_artifact_found: fail
+
+      - name: Zip solutions and tutorial folders
         run: |
-             for file in slides/*.pdf; do
-               gh release upload ${{ github.ref_name }} "$file"
-             done
+          cd setup_creators
+          zip -r ../setup_creators_material.zip solutions tutorial
+          cd ..
+
+      - name: Attach PDFs to Release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.release-please.outputs.tag_name }}
+          fail_on_unmatched_files: false
+          files: |
+            slides/*.pdf
+            setup_creators_material.zip

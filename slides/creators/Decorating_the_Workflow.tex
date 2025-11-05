@@ -78,7 +78,7 @@
   \frametitle{The Configuration File}
   Please copy a sample configuration:
   \begin{lstlisting}[language=Bash, style=Shell]
-cp -r /projects/p_nhr_snakemake/solutions/config .
+cp -r <++course.pathtosolutions++>/config .
   \end{lstlisting}
   We now have:\newline
             {\tiny \DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{.6pt}
@@ -688,7 +688,7 @@ rule <name>:
   \begin{hint}
   	Best abstract the configuration for a cluster from the workflow!
   \end{hint}
-  In addition to a \altverb{config} directory to hold our samples, \Snakemake{} will accept a directory with profile settings, usually ``\altverb{profile}''.
+  In addition to a \altverb{config} directory to hold our samples, \Snakemake{} will accept a directory with profile settings, ``\altverb{profiles}''.
   \pause
   A profile has to adhere to \lhref{https://en.wikipedia.org/wiki/YAML}{\texttt{YAML}-format} and be named \altverb{config.yaml}. An example for a cluster configuration might look like (sorry, no syntax highlighting available):
   \begin{lstlisting}[style=Plain]
@@ -709,11 +709,11 @@ set-resources:
   Please execute the workflow again, now with 
   \begin{lstlisting}[language=Bash, style=Shell, basicstyle=\footnotesize]
 $ # first copy the template profile:
-$ cp -r ../tasks/tutorial/profile .
+$ cp -r ../tasks/tutorial/profiles .
 $ # now, the defaults are satisfied
 $ snakemake --executor slurm \
 > -j unlimited \
-> @--workflow-profile ./profile/ -F@
+> @--workflow-profile ./profiles/ -F@
   \end{lstlisting}
   \begin{question}
   	What do you observe? Which rule still provokes a warning?
@@ -749,7 +749,7 @@ localrules: rule_a, rule_b, rule_c, ...
   \begin{lstlisting}[language=Python,style=Python]
 localrules: plot_quals, plot_positions
   \end{lstlisting}
-  at the top of your \Snakemake{} and rerun the workflow on this cluster.
+  at the top of your \altverb{Snakefile} and rerun the workflow on this cluster.
   \pause
   \begin{question}
   	Which is the impact on the overall execution time?

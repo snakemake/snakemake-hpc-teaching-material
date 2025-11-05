@@ -1,0 +1,9 @@
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+ssl_verify: false
+auto_update_conda: false
+always_yes: true # avoid confirmation(s)
+channel_priority: strict
+env_prompt: "($(basename {default_env})) "

@@ -1,0 +1,121 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Contributing new Workflows}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=0.7\paperheight]{misc/publish-to-earth.png}\hfil}\vfil}
+		% https://the-turing-way.netlify.app/_images/reproducibility.jpg
+		
+	}
+	\frame{
+		\frametitle{How to publish Workflows?}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+	}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{What is this about?}
+	\begin{question}[Questions]
+		\begin{itemize}
+			\item How do I get started from scratch?
+			\item Without re-inventing the wheel?
+		\end{itemize}
+	\end{question}
+	\begin{docs}[Objectives]
+		\begin{enumerate}
+			\item How can I start -- without this course material?
+			\item How can I publish a workflow paper?
+		\end{enumerate}
+	\end{docs}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Remember the Catalog!}
+		The \lhref{https://snakemake.github.io/snakemake-workflow-catalog/?rules=true}{\Snakemake{} workflow cataloge} has a plethora of workflows to offer!\newline
+        	
+		\begin{columns}
+			\begin{column}{0.5\textwidth}
+				\begin{warning}
+					First check whether a a workflow already promises to satisfy your scientific needs!
+				\end{warning}
+			\end{column}
+			\begin{column}{0.5\textwidth}
+				\includegraphics[width=\textwidth]{Snakemake/Snakemake_Workflow_Catalog.png}
+			\end{column}
+		\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Should I start on a \emph{new} Workflow??}
+	\begin{question}[Is it worth it?]
+		Benefits and perils. 
+	\end{question}
+	\pause
+	\begin{adjustbox}{max totalsize={.9\textwidth}{.7\textheight},center}
+		% example: https://www.latex4technics.com/?note=28EK
+		\begin{tikzpicture}[scale=0.8, auto, every node/.style={font=\footnotesize, >=stealth}]
+			\tikzset{
+				rblock/.style={draw, shape=rectangle,rounded corners=0.8em,align=center,minimum width=1.5cm,minimum height=0.5 cm, fill=green!30},
+				decision/.style={diamond, 
+					minimum width=3cm, 
+					minimum height=1cm, 
+					text centered, 
+					draw=black, 
+					fill=green!30},
+				block/.style= {draw, rectangle,rounded corners, align=center,minimum width=2cm,minimum height=1cm,text width= 2cm, fill=red!30},
+				block1/.style= {draw, rectangle,rounded corners, align=center,minimum width=3 cm,minimum height=1cm,text width= 3cm, fill=red!30},
+				io/.style = {draw, shape=trapezium , trapezium left angle=60, trapezium right angle=120, minimum width=2 cm, text centered, draw=black, fill=blue!30},
+				subblock/.style= {draw, rectangle,rounded corners, align=center,minimum width=1cm,minimum height=1cm, fill=red!30},
+				superblock/.style= {draw, rectangle,rounded corners, align=center,minimum width=4 cm,minimum height=1cm, fill=red!30},
+				decision/.style = {draw,diamond, aspect =2, minimum width=3cm, minimum height=1cm, text centered,text width= 1.8 cm, draw=black, inner sep=0pt, fill=orange!30},
+				line/.style = {draw, -latex'}
+			}
+			\node [rblock]  (solutions) {Search Solutions};
+			\node [decision, right of=solutions, xshift=2.3cm] (present) {Not present?};
+			\node [rblock, above of=present, yshift=1cm,text width= 4cm] (new) {\begin{minipage}{4cm}
+					Develop a new solution!
+			\end{minipage}};
+			\node [block, right of=present, xshift=2cm] (test) {deploy and test};
+			\node [decision, right of=test, xshift=2cm] (application) {Good enough?};
+			
+			\node [block, above of=application, text width=4cm, yshift=1cm] (fail)
+			{\begin{minipage}{4cm}
+					Try fixing it. Create a new workflow, if this seems futile $\ldots$
+			\end{minipage}};
+		
+		    \node[rblock, below=of application] (run) {run \& enjoy} 
+			
+			%\node [block, below of=print, yshift=-1cm] (report) {Report command, in- and output.};
+			
+			\path [line] (solutions) -- (present);
+			\path [line] (present) -- (new);
+			\draw [line, -] (present) -- (new);
+			\path [line] (present) -- (test);
+			\path [line] (test) -- (application);
+			\path [line] (application) -- (fail);
+			\draw[line, -] (application) -- (fail);
+			
+			\path [line] (fail) -- (new);
+			\draw[line, -] (fail) -- (new);
+			
+			\path[line] (application) -- (run);
+ 			
+			%\path [line] (applcation) -- (print);
+			%\path [line] (print) -- (rerun);
+			
+			\pause
+			\node[below of=solutions, text width=8cm,font=\normalsize, yshift=-1.5cm] {\begin{question}[How to search?]
+					Search in the Snakemake Workflow Catalog!
+			\end{question}};
+			%\onslide<1->	
+		\end{tikzpicture}
+		
+	\end{adjustbox}
+\end{frame}
