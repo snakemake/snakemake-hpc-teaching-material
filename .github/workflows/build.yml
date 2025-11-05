@@ -32,9 +32,9 @@ jobs:
             texlive-luatex \
             texlive-lang-greek \
             texlive-pictures \
-+           texlive-plain-generic \ 
-+           texlive-pstricks \
-+           texlive-science \
+            texlive-plain-generic \ 
+            texlive-pstricks \
+            texlive-science \
             latexmk \
             ghostscript \
             poppler-utils 
