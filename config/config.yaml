@@ -40,3 +40,18 @@ course:
   # settings on every cluster.
   hello_world_script: "common/<path to hello world slide>"
   #
+cluster:
+  # the cluster name
+  name: "Marvin"
+  # the cluster distro
+  distro: "Alma-Linux"
+  # the cluster account and default partition
+  account: "tmp_snakemake_workshop"
+  partition: "intelsr_devel"
+  # file system latency - on NFS be sure to be sufficiently high
+  latency: 30 
+  # the local and remote storage prefixes on this cluster
+  remotejoblocalstorageprefix: "/dev/shm/$USER/snakemake"
+  localstorageprefix: "/dev/shm/$USER/snakemake"
+  # display program for SVG files
+  display_program: "display"
