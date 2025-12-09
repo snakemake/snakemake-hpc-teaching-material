@@ -1,0 +1,196 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Automatic Software Deployment}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=\paperheight]{misc/deployment.png}\hfil}\vfil}
+		% source: https://en.m.wikipedia.org/wiki/File:Text-x-python.svg
+	}
+	\frame{
+		\frametitle{Software Deployment with \Snakemake}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+	}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{What is this about?}
+	\begin{question}[Questions]
+		\begin{itemize}
+			\item Which software deployment methods are supported in \Snakemake?
+			\item How can I use them as a user / as a developer?
+		\end{itemize}
+	\end{question}
+	\begin{docs}[Objectives]
+		\begin{enumerate}
+			\item Learn to use the supported methods within \Snakemake for software deploymend
+			\item Know how to support \Snakemake's default method: Conda.
+		\end{enumerate}
+	\end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{Basics of Software Deployment}
+	\Snakemake provides a \altverb{--software-deployment-flag} or short \altverb{--sdm}. It supports three modules:
+	\begin{itemize}
+		\item Conda
+		\item Container (Apptainer)
+		\item Environment Modules
+	\end{itemize}
+    \begin{hint}
+    	It is possible to use them in a mix for a given workflow.
+    \end{hint}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Deployment for Conda in Practice}
+	  We can instruct Snakemake to use Conda:
+	  \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake --sdm conda 
+	\end{lstlisting}
+    \begin{columns}
+    	\begin{column}{0.5\textwidth}
+    		This requires rules to specify the a Conda environment:
+    		\begin{lstlisting}[language=Python,style=Python]
+rule NAME:
+    input:
+    	"table.txt"
+    output:
+    	"plots/myplot.pdf"
+    conda:
+    	"envs/ggplot.yaml"
+    script:
+        "scripts/plot-stuff.R"
+    		\end{lstlisting}
+    	\end{column}
+        \begin{column}{0.5\textwidth}
+        	\pause
+        	with an environment definition like this:
+            \begin{lstlisting}[language=Python,style=Python]
+channels:
+- conda-forge
+- bioconda
+dependencies:
+- r=3.3.1
+- r-ggplot2=2.1.0
+           \end{lstlisting}	
+        \end{column}
+    \end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Deployment for Conda in Practice - II}
+	\begin{warning}
+		Hic sunt dracones: Just using \altverb{--sdm} might lead to trouble!
+	\end{warning}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			This requires rules to specify the a Conda environment:
+			\begin{lstlisting}[language=Bash, style=Shell]
+$ # deploy with conda
+$ snakemake --sdm conda \ 
+> \ # avoid overloading HOME
+> --conda-prefix /path/to/project/dir \ 
+> \ # cleanup pckgs and tarballs
+> --conda-cleanup-pkgs 
+			\end{lstlisting}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\pause
+			When a workflow aborts due to quota limitations, you can perform:
+			\begin{lstlisting}[language=Bash,style=Shell]
+(my_env) $ # clean up all pckgs 
+(my_env) $ # and tarballs
+(my_env) $ # in a given environment
+(my_env) $ conda clean -a 
+			\end{lstlisting}
+		    \begin{docs}
+		       On multiuser systems the concern is to use too many "inodes" ($\propto$ the number of files), hence most systems have strict quotas.
+		    \end{docs}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Updating Environments}
+	A workflow with many dependencies, if not maintained can be outdated. \altverb{snakedeploy} has an auto-update feature:
+	\begin{lstlisting}[language=Bash,style=Shell]
+$ snakedeploy update-conda-envs envs/ggplot.yaml
+    \end{lstlisting}
+    You are also able to update multiple environments:
+    \begin{lstlisting}[language=Bash,style=Shell]
+$ snakedeploy update-conda-envs envs/*yaml
+    \end{lstlisting}
+    \pause
+    \begin{warning}
+      Occasionally, \altverb{--conda-frontend mamba} can be more stable.
+    \end{warning}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Using Conntainers}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+	        Our ggplot-example can also be served by a container:
+			\begin{lstlisting}[language=Python,style=Python]
+rule NAME:
+    input:
+        "table.txt"
+    output:
+        "plots/myplot.pdf"
+    container:
+       "docker://joseespinosa/docker-r-ggplot2:1.0"
+    script:
+       "scripts/plot-stuff.R"
+			\end{lstlisting}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\pause
+			For deployment use
+			\begin{lstlisting}[language=Bash,style=shell]
+snakemake --sdm apptainer
+			\end{lstlisting}
+		    \begin{itemize}
+		    	\item Apptainer is used for security reasons.
+		    	\item Allowed image urls entail everything supported by apptainer (e.g., \altverb{shub://} and \altverb{docker://}). However, \altverb{docker://} is preferred.
+		    \end{itemize}	
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Using Environment Modules}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			Our mapping rule could be served with:
+			\begin{lstlisting}[language=Python,style=Python]
+rule bwa:
+...
+    conda:
+        "envs/bwa.yaml"
+    envmodules:
+        "bio/bwa/0.7.9",
+        "bio/samtools/1.9"
+    shell:
+        "bwa mem {input} | \"
+        " samtools view -Sbh - > {output}"
+			\end{lstlisting}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\pause
+			For deployment use
+			\begin{lstlisting}[language=Bash,style=shell]
+snakemake --sdm envmodules
+			\end{lstlisting}	
+		\end{column}
+	\end{columns}
+\end{frame}
