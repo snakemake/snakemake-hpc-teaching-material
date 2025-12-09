@@ -2,6 +2,7 @@ instructor:
   name: "Dr. Christian Meesters"
   affiliation: "Johannes Gutenberg Universität Mainz"
   affiliation2: "NHR SüdWest" # may be empty
+  affiliation2_logo: "nhr_sw3_k50.png"
   
 layout:
   beamertheme: "CambridgeUS" # you can choose any, the slides are tested
@@ -23,6 +24,7 @@ course:
   # sets the slides aspectratio (if outcommented, the default is 43=4:3)
   aspectratio: 1609 # - 169 = 16:9 
   date: "28. October -- 29. October 2025" # maybe: "\today"
+  place: "Bonn"
   #title: "" # specifiy your title here, else a default is used. 
   #subtitle: "" # specifiy your subtitle here, else a default is used. 
   # If the course requires user login to be set up, this slide set should

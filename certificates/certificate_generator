@@ -98,7 +98,7 @@ if __name__ == '__main__':
             raise AssertionError("Unable to find 'date' in the configfile, please indicate as '--date' on the command line")
     if not 'sign_date' in data:
         try:
-            data['sign_date'] = args.sign_date 
+            data['course']['sign_date'] = args.sign_date 
         except:
             raise AssertionError("Unable to find 'sign_date' in the configfile, please indicate as '--sign-date' on the command line")
     for member in participants:
