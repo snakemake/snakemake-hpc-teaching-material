@@ -32,22 +32,49 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download Slides artifact from latest successful build
-        uses: dawidd6/action-download-artifact@v6
-        with:
-          workflow: build.yml
-          workflow_conclusion: success
-          commit: ${{ github.sha }}
-          name: Slides
-          path: slides
-          check_artifacts: true
-          if_no_artifact_found: fail
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            python3-yaml \
+            texlive \
+            texlive-fonts-extra \
+            texlive-latex-extra \
+            texlive-luatex \
+            texlive-pictures \
+            texlive-plain-generic \
+            texlive-pstricks \
+            texlive-science \
+            latexmk \
+            ghostscript \
+            poppler-utils
+
+      - name: Build Slides PDFs
+        run: |
+          ./render --master-tex Snakemake_HPC_Users.tex --configfile config/config_for_github.yaml --handout --sample-directory=_
+          ./render --master-tex Snakemake_HPC_Creators.tex --configfile config/config_for_github.yaml --handout --sample-directory=_
+          ./render --master-tex Snakemake_HPC_User_Creator_Combi.tex --configfile config/config_for_github.yaml --handout --sample-directory=_
+          ./render --master-tex Snakemake_HPC_Admins.tex --configfile config/config_for_github.yaml --handout --sample-directory=_
+
+      - name: Build Certificates PDF
+        run: |
+          cd certificates
+          ./certificate_generator --exportfile participant_test.csv --textemplate template_english.tex --config config.yaml
+          cd ..
 
       - name: Zip solutions and tutorial folders
         run: |
           cd setup_creators
           zip -r ../setup_creators_material.zip solutions tutorial
           cd ..
+
+      - name: Create source bundle with PDFs
+        run: |
+          bundle_name="snakemake-hpc-teaching-material_${{ needs.release-please.outputs.tag_name }}_source_with_pdfs.zip"
+          zip -r "$bundle_name" . \
+            -x ".git/*" \
+            -x ".github/*" \
+            -x "**/__pycache__/*"
 
       - name: Attach PDFs to Release
         uses: softprops/action-gh-release@v2
@@ -58,4 +85,6 @@ jobs:
           fail_on_unmatched_files: false
           files: |
             slides/*.pdf
+            certificates/all_participants_certifications.pdf
             setup_creators_material.zip
+            snakemake-hpc-teaching-material_${{ needs.release-please.outputs.tag_name }}_source_with_pdfs.zip
