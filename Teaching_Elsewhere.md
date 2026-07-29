@@ -47,6 +47,7 @@ This questionnaire helps to ask the right questions:
   - Does the cluster provide a scratch file system on compute nodes? If yes: what is the path?
 
 - Misc
+  - Is it possible to run long workflows without shenanigans (i.e. no variable `TMOUT` on the login node to a short value)?
   - Do colleagues on site want to be trained as trainers?
   - Should the lecturer provide a brief overview for administrators on-site?  (30 min. plus discussion and questions)
 
