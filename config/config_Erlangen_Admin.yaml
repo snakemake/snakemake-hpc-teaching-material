@@ -28,6 +28,8 @@ course:
   question: "yes" # if set (to any value) the question slide will be shown
   #               # at chapters with content. If you do not want it, this
   #               # should be outcommented.
+  # If the lecturer promotes pair programming set this to 1, else 0
+  pair_programming: 1
   # Editors recommendations are a matter of taste and technological
   # setups (e.g. on-demand setups). Hence, specify an editor-slide,
   #  here:
