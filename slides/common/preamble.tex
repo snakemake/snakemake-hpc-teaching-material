@@ -32,9 +32,15 @@
 \definecolor{PineGreen}{RGB}{0, 51, 0}
 \definecolor{light-gray}{gray}{0.95}
 
+% Mainz
 \definecolor{UniRot}{RGB}{193,0,42}
 \definecolor{UniDunkelGrau}{RGB}{99,99,99}
 \definecolor{UniHellGrau}{RGB}{172,172,172}
+% Frankfurt
+\definecolor{UniFrankfurtBlau}{RGB}{0,97,143}
+\definecolor{UniFrankfurtDunkelGrau}{RGB}{77,75,70}
+\definecolor{UniFrankfurtGrau}{RGB}{248,246,243}
+
 
 \definecolor{UrlColor}{rgb}{0,0.08,0.45}
 \definecolor{links}{rgb}{0,0,0}
@@ -57,6 +63,16 @@
 \setbeamercolor{title}{<++layout.beamercolor_title++>}
 \setbeamercolor{title in head/foot}{<++layout.beamercolor_title_head++>}
 
+\setbeamercolor{frametitle}{<++layout.beamercolor_title++>}
+<+++ if layout.logo is defined and layout.logo +++>
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2.6ex,dp=1.1ex,leftskip=0.3cm,rightskip=0.3cm plus1fil]{frametitle}%
+    \usebeamerfont{frametitle}\insertframetitle%
+    \hfill\raisebox{-0.15ex}{\includegraphics[height=1.7ex]{<++layout.logo++>}}%
+  \end{beamercolorbox}%
+}
+<+++endif+++>
 \setbeamercolor{block title}{<++layout.beamercolor_block_title++>}
 \setbeamercolor{block body}{<++layout.beamercolor_block_body++>}
 
@@ -83,7 +99,9 @@
 
 \addtobeamertemplate{footline}{}{%
 \begin{tikzpicture}[remember picture,overlay]
-\node[anchor=south west,yshift=2pt] at (current page.south west) {\includegraphics[height=0.8cm]{../images/logos/zdv_logo.png}};
+<+++ if layout.logo is defined and layout.logo +++>
+\node[anchor=south east,xshift=-4pt,yshift=2pt] at (current page.south east) {\includegraphics[height=0.8cm]{<++layout.logo++>}};
+<+++endif+++>
 \end{tikzpicture}}
 
 \usepackage[tikz]{bclogo}
@@ -427,7 +445,29 @@ showstringspaces=false}
 \author[Snakemake Teaching Alliance]{The "Snakemake Teaching Alliance"}
 \date{<++course.date++>}
 
-\hypersetup{colorlinks,linkcolor=,urlcolor=links}
+<+++ if (layout.logo is defined and layout.logo) or (layout.secondary_logo is defined and layout.secondary_logo) +++>
+\titlegraphic{
+  \centering
+  <+++ if layout.logo is defined and layout.logo +++>
+  \includegraphics[height=1.1cm]{<++layout.logo++>}
+  <+++endif+++>
+  <+++ if layout.logo is defined and layout.logo and layout.secondary_logo is defined and layout.secondary_logo +++>
+  \hspace{0.8cm}
+  <+++endif+++>
+  <+++ if layout.secondary_logo is defined and layout.secondary_logo +++>
+  \includegraphics[height=1.1cm]{<++layout.secondary_logo++>}
+  <+++endif+++>
+}
+<+++endif+++>
+
+\hypersetup{
+  colorlinks,
+  linkcolor=,
+  urlcolor=links,
+  <+++ if course.pdftitle is defined and course.pdftitle +++>
+  pdftitle={<++course.pdftitle++>},
+  <+++endif+++>
+}
 
 \graphicspath{{../images/}{../logos}}
 

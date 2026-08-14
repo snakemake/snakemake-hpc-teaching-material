@@ -9,15 +9,20 @@ layout:
   colortheme: "beaver"       # you can choose any, the slides are tested with
                              # 'beaver'
   # choose any preconfigured color or those from the preamble
-  beamercolor_structure:  "fg=UniRot" 
-  beamercolor_title:      "fg=UniRot"
-  beamercolor_title_head: "fg=UniRot"
+  beamercolor_structure:  "fg=UniFrankfurtBlau" 
+  beamercolor_title:      "fg=UniFrankfurtBlau"
+  beamercolor_title_head: "fg=UniFrankfurtBlau"
 
   beamercolor_block_title: "bg=UniRot!20,fg=darkred"
   beamercolor_block_body:  "fg=black, bg=plightgrey2"
 
-  beamercolor_block_title_alerted: "fg=white,bg=UniRot"
+  beamercolor_block_title_alerted: "fg=white,bg=BrickRed"
   beamercolor_block_title_example: "fg=white,bg=PineGreen!80"
+
+  # if empty, no logo will be displayed
+  logo: "logos/nhr_sw3_k50.png"
+  # only on title slide
+  secondary_logo: "logos/GU-Logo-blau.jpg"
 
 course:
   # sets the slides aspectratio (if outcommented, the default is 43=4:3)
