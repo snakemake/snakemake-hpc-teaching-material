@@ -77,7 +77,7 @@ cluster:
   # file system latency - on NFS be sure to be sufficiently high
   latency: 30 
   # the local and remote storage prefixes on this cluster
-  remote-job-local-storage-prefix: "/local/$SLURM_JOB_ID"
+  remote-job-local-storage-prefix: "/local/${SLURM_JOB_ID}"
   local-storage-prefix: "/dev/shm/$USER/snakemake"
   # display program for SVG files
   display_program: "display"
