@@ -30,6 +30,8 @@ course:
   # It is placed before introducing Snakemake, because the procedure might require
   # synchronization time.
   login_slides: "common/login_mogon"
+  # If the lecturer promotes pair programming set this to 1, else 0
+  pair_programming: 1
   # Editors recommendations are a matter of taste and technological
   # setups (e.g. on-demand setups). Hence, specify an editor-slide,
   #  here:

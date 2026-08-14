@@ -55,6 +55,8 @@ course:
   # to introduce SLURM. It requires different account and partition
   # settings on every cluster.
   hello_world_script: "common/Hello_World_HPC_MogonII.tex"
+  # If the lecturer promotes pair programming set this to 1, else 0
+  pair_programming: 1
 cluster:
   name: "foo"
   distro: "CentOS"
