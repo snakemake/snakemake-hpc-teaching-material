@@ -26,6 +26,8 @@ course:
 
   #title: "" # specifiy your title here, else a default is used. 
   #subtitle: "" # specifiy your subtitle here, else a default is used. 
+  # If the lecturer promotes pair programming set this to 1, else 0
+  pair_programming: 1
   # Editors recommendations are a matter of taste and technological
   # setups (e.g. on-demand setups). Hence, specify an editor-slide,
   #  here:
