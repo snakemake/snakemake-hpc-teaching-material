@@ -1197,32 +1197,55 @@
 	\end{onlyenv}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-	\frametitle{Beyond Reproducibility}
-	\begin{onlyenv}<1| handout:0>
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.85\textwidth]{Snakemake/reproducibility_only.png}
-		\end{figure}
-	\end{onlyenv}
-	\begin{onlyenv}<2| handout:0>
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.85\textwidth]{Snakemake/reproducibility_empty.png}
-		\end{figure}
-	\end{onlyenv}
-	\begin{onlyenv}<3| handout:0>
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.85\textwidth]{Snakemake/reproducibility_left.png}
-		\end{figure}
-	\end{onlyenv}
-	\begin{onlyenv}<4| handout:1>
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.85\textwidth]{Snakemake/reproducibility_full.png}
-		\end{figure}
-	\end{onlyenv}
-	\footnotesize{\lhref{https://doi.org/10.12688/f1000research.29032.2}{From the official \Snakemake-paper.}}
-\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}
+%	\frametitle{Beyond Reproducibility}
+%	\begin{onlyenv}<1| handout:0>
+%		\begin{figure}
+%			\centering
+%			\includegraphics[width=0.85\textwidth]{Snakemake/reproducibility_only.png}
+%		\end{figure}
+%	\end{onlyenv}
+%	\begin{onlyenv}<2| handout:0>
+%		\begin{figure}
+%			\centering
+%			\includegraphics[width=0.85\textwidth]{Snakemake/reproducibility_empty.png}
+%		\end{figure}
+%	\end{onlyenv}
+%	\begin{onlyenv}<3| handout:0>
+%		\begin{figure}
+%			\centering
+%			\includegraphics[width=0.85\textwidth]{Snakemake/reproducibility_left.png}
+%		\end{figure}
+%	\end{onlyenv}
+%	\begin{onlyenv}<4| handout:1>
+%		\begin{figure}
+%			\centering
+%			\includegraphics[width=0.85\textwidth]{Snakemake/reproducibility_full.png}
+%		\end{figure}
+%	\end{onlyenv}
+%	\footnotesize{\lhref{https://doi.org/10.12688/f1000research.29032.2}{From the official \Snakemake-paper.}}
+%\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[width=\paperwidth]{humor/DonQuichotte.png}\hfil}\vfil}
+	}
+	\begin{frame}
+		\frametitle{So, why support Workflow Management Systems?}
+		\vspace*{-4mm}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\begin{itemize}
+				\item because you want to support good science!
+				\item because you are loosing ground otherwise!
+				\item because you want to support your users!
+				\item because you want to lower your support load! (Workflow Management Systems help with I/O issues, software deployment, data management, etc.)
+			\end{itemize}
+		\end{mdframed}
+		\vspace*{9em}
+		\hfill{sketch coal \& sanguine by C. Meesters - CC-BY-4.0}
+	\end{frame}
+}
