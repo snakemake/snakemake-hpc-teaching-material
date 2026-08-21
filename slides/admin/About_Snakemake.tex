@@ -41,9 +41,7 @@
 		\centering
 		\caption*{\textbf{>1.2e6} downloads since 2015\newline
 			\textbf{>4600} citations (mid 2026)\newline
-			\textbf{>14} citations per week since 2021}\newline
-			various batch systems supported. SLURM plugin with \textbf{> 650.000} downloads since 2023\newline
-
+			\textbf{>14} citations per week since 2021}
 		\includegraphics[width=0.6\textwidth]{Snakemake/paper_wall.png}
 	\end{figure}
 \end{frame}
@@ -72,6 +70,7 @@
 			{\scriptsize experimental physics, fluid dynamics, high energy physics (CERN)}
 		\end{column}
 	\end{columns}
+	\vfill
 	$\ldots$ and other scientific domains.
 \end{frame}
 
@@ -83,8 +82,8 @@
 		\begin{column}{0.5\textwidth}
 			\begin{itemize}[<+->]
 				\item Extremely feature rich: \lhref{https://snakemake.github.io/snakemake-workflow-catalog/}{over 3000 workflows (mostly bioinformatics)}
-				\item Almost three hundred standardized workflows ready to use (meaning: well documented and with automatic deployment)
-				\item Cluster batch systems are supported (and support for various cloud systems, too)
+				\item \textasciitilde 400 hundred standardized workflows ready to use (meaning: well documented and with automatic deployment)
+				\item Cluster batch systems are supported (SLURM, LSF, HtCondor, DRMAA, \ldots)
 				\item There is an option to include Nextflow wrappers, too.
 			\end{itemize}
 		\end{column}
@@ -105,22 +104,25 @@
 \begin{frame}
 	\frametitle{HPC relevant Features of \Snakemake}
 	Apart from the vast and growing number of curated workflows \\
-	\begin{columns}
+	\vfill
+	\begin{columns}[t]
 		\begin{column}{0.5\textwidth}
-			General:
-			\begin{itemize}
-				\item caching of files to re-use
-				\item internal support for scripts (R, Python, shell, $\ldots$)
-				\item possible to update from a queue (e.\,g. experiment data live processing)
+			{\bf General:}
+			\begin{itemize}[<+->]
+				\item caching of files to re-use (e.\,g. reference downloads)
+				\item internal support for scripts (R, Python, shell dialects, $\ldots$)
+				\item possible to update from a queue (e.\,g. experimental data live processing)
+				\item I/O conservative metadata caching with SQLite
 			\end{itemize}
 		\end{column}
 		\begin{column}{0.5\textwidth}
-			Cluster specifics:
-			\begin{itemize}
+			\pause{\bf Cluster specifics:}
+			\begin{itemize}[<+->]
 				\item automatic job submission and resource allocation
-				\item internal support for scripts (R, Python, shell, $\ldots$)
 				\item job submission of SMP, MPI or GPU tasks
+				\item minimal strain on \texttt{slurmdbd} or \texttt{slurmctld} for job status checks
 				\item SLURM: automated stage-in upon file access annotation
+				\item array job support - planned pooling of SMP jobs in (multi) node jobs
 			\end{itemize}
 		\end{column}
 	\end{columns}
