@@ -2,7 +2,7 @@
 \section{Why Workflow Managers?}
 {   
 	\usebackgroundtemplate{
-		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=.7\paperheight]{humor/DALLE_LEGO-scientist-thinking}\hfil}\vfil}
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=.7\paperheight]{humor/scientist-thinking}\hfil}\vfil}
 	}
 	\frame{
 		\frametitle{Why use Workflow Managers?}
@@ -1074,7 +1074,7 @@
 \begin{frame}
 	\frametitle{Data Analysis - A Batch-System-Only example!}
 	\vspace{-2em}
-	\begin{columns}[onlywidth,T]
+	\begin{columns}[T]
 		\begin{column}{0.5\textwidth}
 			\begin{tikzpicture}
 				\path[use as bounding box] (0.7,0) rectangle (12,8);
@@ -1093,7 +1093,7 @@
 		\begin{column}{0.5\textwidth}
 			  \pause
 			\begin{question}
-				How portable is this? How maintainable? How many HPC users are able to accomplish this?\\\pause\hline\vspace{0.5em}
+				How portable is this? How maintainable? How many HPC users are able to accomplish this?\\\pause\vspace{0.5em}
 				
 				Which conclusions will your users in need of complex analysis steps draw?
 			\end{question}	
@@ -1198,36 +1198,6 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\begin{frame}
-%	\frametitle{Beyond Reproducibility}
-%	\begin{onlyenv}<1| handout:0>
-%		\begin{figure}
-%			\centering
-%			\includegraphics[width=0.85\textwidth]{Snakemake/reproducibility_only.png}
-%		\end{figure}
-%	\end{onlyenv}
-%	\begin{onlyenv}<2| handout:0>
-%		\begin{figure}
-%			\centering
-%			\includegraphics[width=0.85\textwidth]{Snakemake/reproducibility_empty.png}
-%		\end{figure}
-%	\end{onlyenv}
-%	\begin{onlyenv}<3| handout:0>
-%		\begin{figure}
-%			\centering
-%			\includegraphics[width=0.85\textwidth]{Snakemake/reproducibility_left.png}
-%		\end{figure}
-%	\end{onlyenv}
-%	\begin{onlyenv}<4| handout:1>
-%		\begin{figure}
-%			\centering
-%			\includegraphics[width=0.85\textwidth]{Snakemake/reproducibility_full.png}
-%		\end{figure}
-%	\end{onlyenv}
-%	\footnotesize{\lhref{https://doi.org/10.12688/f1000research.29032.2}{From the official \Snakemake-paper.}}
-%\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 {
 	\usebackgroundtemplate{
 		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[width=\paperwidth]{humor/DonQuichotte.png}\hfil}\vfil}
@@ -1237,9 +1207,9 @@
 		\vspace*{-4mm}
 		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
 				line width=0pt},backgroundcolor=none,leftmargin=0,
-			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			    rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
 			\begin{itemize}
-				\item because you want to support good science!
+                \item because you want to support good science!
 				\item because you are loosing ground otherwise!
 				\item because you want to support your users!
 				\item because you want to lower your support load! (Workflow Management Systems help with I/O issues, software deployment, data management, etc.)
