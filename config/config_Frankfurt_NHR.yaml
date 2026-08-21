@@ -35,6 +35,9 @@ course:
   # It is placed before introducing Snakemake, because the procedure might require
   # synchronization time.
   login_slides: "common/login_mogon"
+  # A profile file as to deposited (per user or admin)
+  # ATTENTION: This is site-specific
+  cluster_profile: "common/profile_Frankfurt_goethe"
   # Editors recommendations are a matter of taste and technological
   # setups (e.g. on-demand setups). Hence, specify an editor-slide,
   #  here:
