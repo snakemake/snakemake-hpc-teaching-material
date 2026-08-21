@@ -24,9 +24,23 @@
 	  \begin{enumerate}
 			\item knowing software selections supported by \Snakemake
 			\item avoiding software selection conflicts
-
 	  \end{enumerate}
     \end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+  \frametitle{The \Snakemake Approach to Software Deployment}
+  \Snakemake (and Nextflow) follows the following ideas:\newline
+  For every job (internal speak \altverb{rule}, designating a job class):
+  \begin{itemize}[<+->]
+  	 \item have \emph{one} software definition (name, version constraints)
+  	 \item have \emph{one} software environment ($\rightarrow$ no conflicts!)
+  \end{itemize}
+  \pause
+  \begin{block}[So far for Conda]
+  	Currently, the default is Conda. With the advent of \altverb{pixi} and the underlying \altverb{rattler} library, machine optimized recompiling will become feasible.
+  \end{block}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -37,7 +51,7 @@
 		\item Container
 		\item Environment Modules
 		\item Conda (and its derivatives)
-		\item \emph{in development}: Conda Translation to EESSI
+		\item \emph{in development}: Conda Translation to EESSI \& Spack
 	\end{itemize}
     \pause
     While Conda is the preferred and \emph{portable} way with Snakemake, other software methods can be selected with
