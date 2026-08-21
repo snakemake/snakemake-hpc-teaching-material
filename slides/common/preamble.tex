@@ -45,7 +45,7 @@
 \definecolor{UrlColor}{rgb}{0,0.08,0.45}
 \definecolor{links}{rgb}{0,0,0}
 
-\usetheme{<++layout.theme++>} % Pittsburgh, CambridgeUS
+\usetheme{<++layout.beamertheme++>} % Pittsburgh, CambridgeUS
 \usecolortheme{<++layout.colortheme++>} %wolverine | crane | beaver | seahorse
 \useinnertheme{rounded} 
 \useoutertheme{default}
@@ -194,18 +194,10 @@
 \newcommand\YAMLkeystyle{\color{black}\bfseries}
 \newcommand\YAMLvaluestyle{\color{blue}\mdseries}
 
-\makeatletter
-
-% here is a macro expanding to the name of the language
-% (handy if you decide to change it further down the road)
-\newcommand\language@yaml{yaml}
-
-\expandafter\expandafter\expandafter\lstdefinelanguage
-\expandafter{\language@yaml}
-{
+\lstdefinelanguage{yaml}{
 	keywords={true,false,null,y,n},
 	keywordstyle=\color{darkgray}\bfseries,
-	basicstyle=\YAMLkeystyle,                                 % assuming a key comes first
+	basicstyle=\YAMLkeystyle,
 	sensitive=false,
 	comment=[l]{\#},
 	morecomment=[s]{/*}{*/},
@@ -213,21 +205,14 @@
 	stringstyle=\YAMLvaluestyle\ttfamily,
 	moredelim=[l][\color{orange}]{\&},
 	moredelim=[l][\color{magenta}]{*},
-	moredelim=**[il][\YAMLcolonstyle{:}\YAMLvaluestyle]{:},   % switch to value style at :
+	moredelim=**[il][\YAMLcolonstyle{:}\YAMLvaluestyle]{:},
 	morestring=[b]',
 	morestring=[b]",
-	literate =    {---}{{\ProcessThreeDashes}}3
-	{>}{{\textcolor{red}\textgreater}}1     
-	{|}{{\textcolor{red}\textbar}}1 
+	literate = {---}{{\ProcessThreeDashes}}3
+	{>}{{\textcolor{red}\textgreater}}1
+	{|}{{\textcolor{red}\textbar}}1
 	{\ -\ }{{\mdseries\ -\ }}3,
 }
-
-% switch to key style at EOL
-\lst@AddToHook{EveryLine}{\ifx\lst@language\language@yaml\YAMLkeystyle\fi}
-\makeatother
-
-\newcommand\ProcessThreeDashes{\llap{\color{cyan}\mdseries-{-}-}}
-
 
 \makeatletter
 \newcommand\applyCurrentFontsize
@@ -247,8 +232,13 @@
 }
 \makeatother
 
-\newcommand{\altverb}[2][{}]{\colorbox{plightgrey}{\applyCurrentFontsize \lstinline[language={#1}]{#2}}}
-
+\newcommand{\altverb}[2][]{%
+  \if\relax\detokenize{#1}\relax
+    \colorbox{plightgrey}{\applyCurrentFontsize\lstinline{#2}}%
+  \else
+    \colorbox{plightgrey}{\applyCurrentFontsize\lstinline[language={#1}]{#2}}%
+  \fi%
+}
 
 
 \lstloadlanguages{Python,bash,C++}
@@ -424,7 +414,7 @@ showstringspaces=false}
 %%%% nicer typesetting the snakemake project
 \newcommand{\Snakemake}{\mbox{
 	\begingroup\normalfont
-	\includegraphics[height=\texorpdfstring{\fontcharht\font`\B}]{logos/Snakemake.png}
+	\includegraphics[height=1.5ex]{logos/Snakemake.png}
 	\textbf{Snakemake}
     \endgroup}
 }
