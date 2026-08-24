@@ -1,0 +1,125 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Data Management}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=.7\paperheight]{humor/scientist-thinking}\hfil}\vfil}
+	}
+	\frame{
+		\frametitle{Inherent Research Data Manament Suport}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+		\vspace{12mm}\hfill{\tiny \lhref{https://zenodo.org/records/11147887}{from Ewa Bres \& Christian Bittner}}
+	}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\frametitle{What is this about?}
+	\begin{question}[Questions]
+		\begin{itemize}
+			\item How can \Snakemake workflows access data outside the cluster file system?
+			\item How can instruments trigger processing when it writes new data?
+		\end{itemize}
+	\end{question}
+	\begin{docs}[Objectives]
+		\begin{itemize}
+			\item use a storage provider or an explicit staging rule
+			\item submit one workflow run per completed input dataset
+		\end{itemize}
+	\end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Object Storage: S3 and Compatible Services}
+	\begin{columns}[t]
+		\begin{column}{0.54\textwidth}
+			\Snakemake storage plugins can make an object store the default source or destination. For example, install the provider selected by the site:
+			\begin{lstlisting}[language=Snakemake, style=Snakemake, basicstyle=\scriptsize]
+# register shared settings
+storage:
+    provider="s3",
+    endpoint_url=...,
+    # more options, here.
+
+rule example:
+    input:
+        storage.foo(
+            # define query to the storage
+            # backend here
+            ...
+        ),
+    output:
+        "example.txt"
+    shell:
+        "..."
+			\end{lstlisting}
+		\end{column}
+		\begin{column}{0.46\textwidth}
+			\begin{hint}[Admin decisions]
+				\begin{itemize}
+					\item credentials: user identity, role, or service account
+					\item endpoint and TLS policy for S3-compatible stores
+					\item transfer cache, quota, retention, and egress costs
+				\end{itemize}
+			\end{hint}
+            \pause
+            \begin{hint}[Invenio]
+                The Invenio backend provides a S3 interface.
+            \end{hint}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{iRODS, Rucio, and Other Data Services}
+	If no suitable storage plugin is deployed, stage data through an explicit rule. The data-service client remains the authority for authentication and authorization.
+	\begin{columns}[t]
+		\begin{column}{0.5\textwidth}
+			\begin{lstlisting}[language=Snakemake, style=Snakemake, basicstyle=\scriptsize]
+rule stage_irods:
+    output:
+        "raw/run_42.fastq.gz"
+    shell:
+		"iget -f /zone/project/ \\
+		run_42.fastq.gz {output}"
+			\end{lstlisting}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{lstlisting}[language=Snakemake, style=Snakemake, basicstyle=\scriptsize]
+rule stage_rucio:
+    output:
+        directory("staging/run_42")
+    shell:
+		"rucio download scope:run_42 \\
+		--dir staging"
+			\end{lstlisting}
+		\end{column}
+	\end{columns}
+	\begin{hint}[Operational pattern]
+		Use a dedicated transfer node or partition where required, then process staged files on the compute file system.
+	\end{hint}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{Queue-Driven Data from a Mounted Instrument}
+	A microscope, sequencer, or acquisition system may write completed datasets to a cluster-visible mount, for example via \altverb{sshfs}.
+	\begin{lstlisting}[language=Snakemake, style=Snakemake]
+rule all:
+    input:
+        from_queue(all_results, finish_sentinel=...)
+
+checkpoint somestep:
+    input:
+        "samples/{sample}.txt"
+    output:
+        "somestep/{sample}.txt"
+    shell:
+        "somecommand {input} > {output}"
+	\end{lstlisting}
+\end{frame}
