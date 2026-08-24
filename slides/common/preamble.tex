@@ -246,6 +246,13 @@
 basicstyle=\small,
 showstringspaces=false}
 
+\lstdefinelanguage{Snakemake}[]{Python}{
+  morekeywords=[1]{checkpoint,configfile,envvars,include,localrules,module,onsuccess,onerror,onstart,rule,ruleorder,scattergather,storage,subworkflow,use,wildcard_constraints,workdir},
+  morekeywords=[2]{benchmark,cache,conda,container,containerized,group,input,log,message,notebook,output,params,priority,retries,resources,run,script,shadow,shell,threads,wrapper},
+  keywordstyle=[1]\color{BlueViolet}\bfseries,
+  keywordstyle=[2]\color{pblue}\bfseries,
+}
+
 \lstdefinestyle{tree}{
     literate=
     {├}{{smash{raisebox{-1ex}{rule{1pt}{baselineskip}}}raisebox{0.5ex}{rule{1ex}{1pt}}}}1 
@@ -275,6 +282,12 @@ showstringspaces=false}
   emph={[11]yield}, emphstyle={[11]\color{pblue}},
   moredelim=**[is][\bfseries\color{red}]{@}{@},
   literate={\\@}{{\makeatletter @ \makeatother}}1
+}
+
+\lstdefinestyle{Snakemake}
+{
+  style=Python,
+  language=Snakemake,
 }
 
 \lstdefinestyle{R}
