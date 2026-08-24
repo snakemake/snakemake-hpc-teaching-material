@@ -103,6 +103,14 @@ def define_boundaries(section_count):
     }
 
 
+def define_minitoc_boundaries(section_count, current_section, window_size=5):
+    """Return a clamped TOC window centered on the current section."""
+    window_size = min(section_count, window_size)
+    lower = max(1, current_section - window_size // 2)
+    lower = min(lower, section_count - window_size + 1)
+    return lower, lower + window_size - 1
+
+
 def render_tex(env, template):
     template = template
     tpl = jinja_env.get_template(template)
@@ -181,11 +189,9 @@ def find_and_replace_sections(boundaries, section_estimate, fname):
         return
     # first render minitoc
     if minitocline:
-        lower = max((section_estimate - 2), 1)  # lower boundary not lower than 1
-        upper = section_estimate + 2
-        upper = (
-            upper if upper < boundaries["upper"] else boundaries["upper"] + 1
-        )  # upper boundary not higher then upper boundary ;-)
+        lower, upper = define_minitoc_boundaries(
+            boundaries["upper"], section_estimate
+        )
         sections = f"{lower}-{upper}"
         lines[minitocline] = (
             "            \\tableofcontents[currentsection, sections={"
