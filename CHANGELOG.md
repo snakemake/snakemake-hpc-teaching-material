@@ -1,5 +1,64 @@
 # Changelog
 
+## [1.4.0](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.3.0...v1.4.0) (2026-08-26)
+
+
+### Features
+
+* accomodating a new site: Goethe University Frankfurt ([77c962a](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/77c962a21b06f26a71bf8d3557b733098cb7e3e1))
+* added custom images to use for different purposes ([f2db4bc](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/f2db4bc8eba46c12a402f371e59a539edbd55f51))
+* added image for onboarding chapter ([20b4f57](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/20b4f573b5a65c423d8d00e0123b80647dbc9628))
+* added images to create a pair programming intro slide ([3ca099b](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/3ca099be3fb125379a791486cb72d57da2119c55))
+* added missing images ([8e8261c](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/8e8261c858a5040c74d90fa057674f6201dff4ca))
+* added slide introducing the pair programming concept ([af911dc](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/af911dc017757189fa10c6d3351bd9447ed0516d))
+* added slides about software stack and example run ([6e09a2e](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/6e09a2e63c69f0e489178e61b21a6a1f19f36175))
+* added stats about slurm plugin downlaods ([bbf2bb3](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/bbf2bb359445f04d2a03a05388dfec2fab744ab4))
+* added two example configs using the new pair programming option ([93769cf](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/93769cfa3e33a0cdfaaf1b8355ca7645ec0621b6))
+* cleaner config ([61e78d7](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/61e78d757763c88997e9da5856f03b24bda66de7))
+* configuration for Frankfurt ([e45cf97](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/e45cf97de6db0fd618f524535f8168aa49fb0b39))
+* configuration for Frankfurt ([ab7f66c](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/ab7f66c96033883153adf2d0308d58d790aafccc))
+* exchanged slide with easier approach and appeal for support before starting on Snakemake ([74e1f4f](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/74e1f4fce63fea363b759dea7c75cf9c3e4f37f6))
+* finished slides about software envs ([b47704d](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/b47704dbc34335380700a275f067b4ba7c6a401b))
+* finished the 'About Snakemake' section ([756fa5e](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/756fa5e854eda45f123ab249741f6b9c17ca28e7))
+* first step toward admin intro - profile slides ([88c1a0d](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/88c1a0d852c029019a791739aa2ff6e022d22129))
+* half-ready admin intro to Snakemake ([37be23b](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/37be23b7eb6a82bbc67bcdaff456aeee022724d3))
+* included the pair programming option everywhere ([d68880f](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/d68880fbc22555895382e624d66e5230c22abbb3))
+* intro to admins ([5e3cfe2](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/5e3cfe23b552fb78544c908a71430eec6bbaacc6))
+* introducing data mangament part - still with redundant AI-slop intro image ([737e201](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/737e201450138a2225188b2372dc09c68d8368a7))
+* introducing Snakemake syntax highlighting ([1183395](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/118339522aa1d1c73a808563f169bf883db269af))
+* pair programming slide ([3a8c385](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/3a8c3857eb7a5ac56da7b1e56b53a3dcb367c602))
+* snakemake profile and slurm partition profile are introduced ([2597c7b](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/2597c7b95c6db2e5713e5f8cca1e20243ce66874))
+* stable title ([414c795](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/414c79544dd889712796d0031b8c7d128b4b620d))
+* structure color for sketch slide ([17d7c4b](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/17d7c4be514bd7e582434dd8ad09158213b4063a))
+* using cc compatible image in Why Workflows section ([2c667f9](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/2c667f945b90ee235bdaee4e9e55ac0d4ac03f7f))
+* using public domain images ([0ace41b](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/0ace41ba78e426ce40328a7fff580e1ff60249df))
+
+
+### Bug Fixes
+
+* added missing word ([5148840](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/514884082b78bbe9d7f517a8f6e85468caba98d0))
+* added question to avoid unpleasent surprises ([a470394](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/a47039449e3de8b0b1dfe5ecf4b2e4221a5fe86a))
+* added question to teaching elsewhere to prevent teaching somewhere, where workflow management is not welcomed ([7acf415](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/7acf415395e480304f936528613bf09ed8bc966a))
+* added the cluster_profile parameter to the ci config ([25126e9](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/25126e9e21fe839a089066471d2712edecc4eac1))
+* choosing blue in boxes ([95879de](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/95879de92f96c07855ef870a678598a378c21bf8))
+* correct color section for section underlyning ([3520ecd](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/3520ecdce9f4d1212dd310d9476d90c5ae9548bc))
+* correctly considering section boundaries for mini tocs ([b5380e6](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/b5380e61c42654c6aa12b21d2bd62a73de717970))
+* deleted accidental text between slides ([5750378](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/5750378b3486eea8197be14eb8ee809010a9dcbb))
+* deleted annoncement slides - does not belong into admin talk ([433152d](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/433152d33fd4bb4a13fa2c12ea9ab60119e7014a))
+* deleted config for MogonII - cluster does not exist anymore ([80cdef9](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/80cdef92c8620dbcf0b4b5c9e17339aacdb80e73))
+* deleted old slide set for profiles - now per site ([eb9afa6](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/eb9afa6137a8c24677c8099e5c3a5bd8d1a5bbf9))
+* exchanged an AI rendered image by a wikipedia free image ([a857623](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/a857623860ee2dedacd237eef3e749a2f713cfe3))
+* missing image ([56e204b](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/56e204b67b2efa85c501c3c0b37440f242a647f5))
+* possible fix for missing PDF artifact ([da34d90](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/da34d901a4d1a0f46b29d2555ed4b2a5a14bffed))
+* possible fix for missing PDF artifact ([9d8a8c2](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/9d8a8c256ee8f669d268f76fd3ab13c12e69af96))
+* preserving beamer's frametitle layout, if no logo is given ([5055c16](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/5055c166b51d4ee0d4233c6d8172d97ac54f9954))
+* Snakemake logo display and yaml listing syntax highlighting ([e67bb7a](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/e67bb7a86f1ec4e84a842f827d3935b444f96c59))
+* software setup for the tutorial workflow ([41d715b](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/41d715b31e4c125470eeb47f43ddb10667093a79))
+* software setup for the tutorial workflow ([c3037af](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/c3037af6dd72485e418f08094fd538d5682a0085))
+* typo / syntax error ([144483e](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/144483e8381c2bfd5e2a3e78f7191804f31e0035))
+* typo / syntax error ([9f4d5fa](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/9f4d5fa23ec78596c12e7271e309df2895dfcff6))
+* typo / syntax error ([2f086af](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/2f086af532772ac2322a25b08ad3a92c25d6ed05))
+
 ## [1.3.0](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.2.0...v1.3.0) (2025-11-05)
 
 
