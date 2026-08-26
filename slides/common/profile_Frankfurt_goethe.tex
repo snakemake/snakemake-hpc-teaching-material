@@ -1,0 +1,95 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Onboarding for Administrators}
+{   
+	\usebackgroundtemplate{
+		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[clip=true, trim=0cm 2cm 0cm 2cm,width=\paperwidth]{humor/onboarding_cartoon.jpg}\hfil}\vfil}
+	}
+	\frame{
+		\frametitle{\Snakemake Onboarding for Admins}
+		\begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+				line width=0pt},backgroundcolor=none,leftmargin=0,
+			rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+			\tableofcontents[currentsection,sections={1-4},hideothersubsections]
+		\end{mdframed}
+		\vfill\vspace{18mm}\hfil \hfill{\tiny \bf \textcolor{structure}{sketch coal \& sanguine by C. Meesters -- CC-BY-4.0}}
+	}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Global Workflow Configuration}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{\Snakemake{} Profiles}
+	\begin{hint}
+		Profiles can shorten command lines and can be an easy remedy for I/O issues!
+	\end{hint}
+	\pause
+	Two kinds of profiles are supported:
+	\begin{itemize}[<+->]
+		\item A global profile that is defined in a system-wide or user-specific configuration directory (on Linux, this will be \altverb{\~/.config/snakemake} or \altverb{/etc/xdg/snakemake} -- can be overridden with \altverb{--profile}). A user running \altverb{snakemake --help} will see what is in use.
+		\item A workflow specific profile that is defined via a flag (\altverb{--workflow-profile}) or searched in a default location (profile/default) in the working directory or next to the \altverb{Snakefile}.
+	\end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{The \Snakemake{} Profile File}
+	\begin{onlyenv}<1| handout:0>
+		Our first line defines the so-called executor to be set for SLURM:
+		\begin{lstlisting}[language={yaml}]
+executor: slurm
+		\end{lstlisting}
+		No more, \altverb{snakemake --executor slurm ...}!
+	\end{onlyenv}
+	\begin{onlyenv}<2| handout:0>
+		The next line tells Snakemake to wait for a few seconds, if output files are not present. This is more than enough time, even for NFS-Filesystems (usually). 
+		\begin{lstlisting}[language={yaml}]
+executor: slurm
+latency-wait: 5
+		\end{lstlisting}
+	\end{onlyenv}
+	\begin{onlyenv}<3| handout:0>
+		Using the SLURM executor plugin allows to define a path for file stage-in 
+		\begin{lstlisting}[language={yaml}]
+executor: slurm
+latency-wait: 5
+slurm-node-local-prefix: /local/$SLURM_JOB_ID
+		\end{lstlisting}
+			\begin{warning}
+			This will react upon specific file access pattern annotations within the workflow. Whenever a file access is labelled "random" or "multi" (random access or partially random access) the respective files are staged in onto node local storage. It works only for input files and across all nodes within the job allocation. 
+		\end{warning}
+	\end{onlyenv}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+	\frametitle{The \Snakemake{} Partition Configuration File}
+	The SLURM plugin offers to use a partition configuration. Either at \altverb{\~/.config/snakemake} or \altverb{/etc/xdg/snakemake} in YAML format. The path can be set with \altverb{--slurm-partition-config} or \altverb{SNAKEMAKE_SLURM_PARTITIONS}. \pause It looks like:
+	\begin{}
+		\begin{column}{0.5\textwidth}
+			\begin{lstlisting}[language={yaml}]
+partitions:
+  fuchs:
+	max_runtime: 21-00:00:00
+	max_threads: 40
+  general1:
+	max_runtime: 21-00:00:00
+	max_threads: 80
+	supports_mpi: true
+	...
+			\end{lstlisting}
+			\pause The parameter \altverb{supports_mpi} labels partitions which favour full node jobs.
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\pause
+			\begin{hint}[What this does:]
+				Every workflow has resource specs for all its heterogeneous jobs -- these are partition agnostic. \Snakemake is then able to assign jobs automatically to partitions, respecting thise specs. The SLURM executor ships a CLI tool \altverb{generate-slurm-partition-config} which writes the yaml file (which might require editing) even for multicluster setups.
+			\end{hint}
+		\end{column}
+	\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

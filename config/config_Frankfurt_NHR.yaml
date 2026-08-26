@@ -13,7 +13,7 @@ layout:
   beamercolor_title:      "fg=UniFrankfurtBlau"
   beamercolor_title_head: "fg=UniFrankfurtBlau"
 
-  beamercolor_block_title: "bg=UniRot!20,fg=darkred"
+  beamercolor_block_title: "bg=UniFrankfurtBlau!20,fg=UniFrankfurtBlau"
   beamercolor_block_body:  "fg=black, bg=plightgrey2"
 
   beamercolor_block_title_alerted: "fg=white,bg=BrickRed"
@@ -35,6 +35,9 @@ course:
   # It is placed before introducing Snakemake, because the procedure might require
   # synchronization time.
   login_slides: "common/login_mogon"
+  # A profile file as to deposited (per user or admin)
+  # ATTENTION: This is site-specific
+  cluster_profile: "common/profile_Frankfurt_goethe"
   # Editors recommendations are a matter of taste and technological
   # setups (e.g. on-demand setups). Hence, specify an editor-slide,
   #  here:
