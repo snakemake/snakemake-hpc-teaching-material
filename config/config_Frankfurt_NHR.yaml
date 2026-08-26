@@ -13,7 +13,7 @@ layout:
   beamercolor_title:      "fg=UniFrankfurtBlau"
   beamercolor_title_head: "fg=UniFrankfurtBlau"
 
-  beamercolor_block_title: "bg=UniRot!20,fg=darkred"
+  beamercolor_block_title: "bg=UniFrankfurtBlau!20,fg=UniFrankfurtBlau"
   beamercolor_block_body:  "fg=black, bg=plightgrey2"
 
   beamercolor_block_title_alerted: "fg=white,bg=BrickRed"
