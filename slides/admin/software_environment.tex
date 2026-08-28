@@ -150,10 +150,16 @@ $ snakemake --sdm=[conda,envmodules,apptainer]
   	\end{column}
   	\begin{column}{0.5\textwidth}
   		\pause
-  		\begin{hint}{MPI, Performance and the Rest}
+  		\begin{hint}[MPI, Performance and the Rest]
   			%TODO wait for pixi
   			Currently, the basic deployment method is Conda. Working with Modules, e.\,g. for MPI-Software, or containers is \emph{an exception}.\newline
-  			The community is working hard to mitigate performance issues.
+  			The community is working hard to mitigate performance issues:
+  			\begin{itemize}
+  				\item deployment with \altverb{pixi} is envisioned
+  				\item default specifications are for Conda
+  				\item rewriting for module files is not feasible
+  				\item translation for \texttt{spack} and \texttt{EESSI} is on the to-do list
+  			\end{itemize}
   		\end{hint}
   	\end{column}
   \end{columns}
