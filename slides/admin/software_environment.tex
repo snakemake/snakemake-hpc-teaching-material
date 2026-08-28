@@ -185,11 +185,18 @@ snakemake -j unlimited --workflow-profile profile/<dir> --configfile <file> \
 	\frametitle{The \Snakemake{} Software Stack}
 	\begin{itemize}[<+->]
 		\item \altverb{snakemake} - with numerous dependencies, e.\,g. \altverb{GraphViz}
-		\item \altverb{snakemake-executor-plugin-slurm} - SLURM stuff (plus dependency)
-		\item \altverb{snakemake-interface-storage-plugins} - top interface module
-		\item \altverb{snakemake-interface-report-plugins} - for generating reports
-		\item \altverb{snakemake-storage-plugin-fs} - for stage-in/-out
+		\item \altverb{snakemake-executor-plugin-slurm} - SLURM stuff (plus jobstep dependency)
 		\item \altverb{snakemake-wrapper-utils} - for wrapper support
+		\item \altverb{snakemake-interface-report-plugins} - for generating reports
+		\item optionally - for stage-in and out: 
+		\begin{itemize}
+			\item \altverb{snakemake-interface-storage-plugins} - top interface module
+			\item \altverb{snakemake-storage-plugin-fs} - for stage-in/-out
+		\end{itemize}
+		\item optionally - for software provenance support:
+		\begin{itemize}
+			\item \altverb{snakemake-report-plugin-nanopub}
+		\end{itemize}
 	\end{itemize}
 \end{frame}
 
