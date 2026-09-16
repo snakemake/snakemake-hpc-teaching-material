@@ -45,7 +45,7 @@ course:
   # The next line indicates the slides explaining
   # a condarc file on a cluster, copy and adjust
   # for your cluster.
-  condarcfile: "common/condarc_mogon.tex"
+  condarcfile: "common/condarc_frankfurt.tex"
   # the same for admins:
   condarc_admins_file: "admin/condarc_mogon.tex"
   # We provide a common software stack to avoid long
