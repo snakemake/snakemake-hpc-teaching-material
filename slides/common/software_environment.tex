@@ -159,7 +159,7 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
 				\item Miniconda - Conda with little less overhead
 				\item Mamba - drop-in replacement for "Conda", C\texttt{++}, parallel solver, fast
 				\item \textmu-Mamba - static version of Mamba, little overhead, no "base" environment, slightly different commands
-				\item pixi - different to Conda - will be supported \Snakemake soon.
+				\item pixi - different to Conda, developed by the same team as Conda - will be supported \Snakemake soon.
 			\end{itemize}
 		\end{mdframed}
 	}
@@ -184,18 +184,26 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
-	\frametitle{The \texttt{Marvin} Approach}
-	You \emph{could} run
-	\begin{lstlisting}[language=Bash, style=Shell, basicstyle=\tiny,breaklines=true ]
-$ wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
-$ bash Miniforge3-Linux-x86_64.sh
-	\end{lstlisting}
-     However, on Marvin, please refrain from installing Conda yourself, run:
-     \begin{lstlisting}[language=Bash, style=Shell,breaklines=true ]
-$ module load Miniforge
-$ conda init       # only once
-$ source ~/.bashrc # only once
-     \end{lstlisting}
+	\frametitle{Installing \Snakemake with \texttt{pixi}}
+	\begin{columns}
+		\begin{column}{0.5\textwidth}
+			\Snakemake can either
+			\begin{itemize}
+				\item be installed with Conda or
+				\item with \altverb{pixi}:
+				  \begin{lstlisting}[language=Bash, style=Shell]
+$ curl -fsSL https://pixi.sh/install.sh | sh
+$ pixi global install snakemake conda -c conda-forge -c bioconda
+				  \end{lstlisting}
+				 \item or - on some clusters - you will find a central installation
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.5\textwidth}
+			\begin{warning}
+				Do not type along, \Snakemake is provided for you during this course. 
+			\end{warning}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
