@@ -1,0 +1,45 @@
+\documentclass[a4paper,12pt]{article}
+%\documentclass[a4paper,10pt]{scrartcl}
+\usepackage{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{multicol}
+\usepackage[letterpaper, margin=1.5cm]{geometry}
+
+
+\usepackage{graphicx}
+
+\usepackage{hyperref}
+
+\renewcommand\familydefault{\sfdefault}
+\begin{document}
+\pagestyle{empty}
+\begin{multicols}{2}
+    
+ \begin{minipage}{\textwidth}
+  \includegraphics[width=4cm]{../images/logos/alliance_logo.png}
+ \end{minipage}
+ \huge \bf Recommended reading
+ 
+\end{multicols}
+
+\begin{tabular}{p{5cm}p{8cm}p{3cm}}
+    \hline
+   The current Snakemake paper  & Reference this, if writing your paper. & \tiny\url {https://doi.org/10.12688/f1000research.29032.3} \\
+    \hline
+    The Snakemake report of the data analysis for the current Snakemake paper & If you want to use the figures in a talk & \tiny\url{https://doi.org/10.5281/zenodo.13819541} \\
+    The first Snakemake paper & Read how it started & \tiny\url{https://doi.org/10.1093/bioinformatics/bts480} \\
+    \hline
+    The Snakemake HPC Teaching Alliance & Background for this course & \tiny\url{https://doi.org/10.14279/eceasst.v83.2600}\\
+    \hline
+    Workflow coding and using skills are part of the HPC certification forum skill tree & Look here for the paper & \tiny\url{http://dx.doi.org/10.1109/MCSE.2020.2996073} \\
+     & \ldots and here for the definition & \url{https://www.hpc-certification.org/wiki/skill-tree/sd/8/b}\\
+     The Bioconda paper & Cite this, when using Conda packages & \tiny\url{http://dx.doi.org/10.1038/s41592-018-0046-7} \\
+    \hline\hline
+    From Prompt to Pipeline & Really not a good idea to use LLMs for Workflow programming &  \tiny\url{https://www.biorxiv.org/content/10.64898/2026.09.11.751004v1} \\
+    \hline
+    
+    
+\end{tabular}
+
+\end{document}
