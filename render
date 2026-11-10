@@ -28,7 +28,7 @@ options = {
     "comment_end_string": "=}",
 }
 
-section_re = re.compile("\\\section\{")
+section_re = re.compile(r"\\section\{")
 infile_re = re.compile(r"(\\input)|(\\include)")
 extract_re = re.compile(r"(?<=\{).+?(?=\})")
 
@@ -233,10 +233,10 @@ if __name__ == "__main__":
         help="indicate the configuration YAML file - default: 'config/config.yaml'",
     )
     parser.add_argument(
-        "--handout", default=False, action=argparse.BooleanOptionalAction
+        "--handout", default=False, action="store_true"
     )
     parser.add_argument(
-        "-n", "--no-rerun", default=False, action=argparse.BooleanOptionalAction
+        "-n", "--no-rerun", default=False, action="store_true"
     )
     parser.add_argument(
         "--sample-directory",

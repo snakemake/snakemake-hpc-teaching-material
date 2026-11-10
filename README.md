@@ -45,6 +45,8 @@ Workflow for pull requests:
 
 ## Rendering Slides
 
+The CI build and release workflows use Python 3.14 with PyYAML and Jinja2.
+
 In order to typeset the slides you want, you can simply run
 
 ```bash
