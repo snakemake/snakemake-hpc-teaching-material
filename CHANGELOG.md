@@ -1,5 +1,45 @@
 # Changelog
 
+## [1.5.0](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.4.0...v1.5.0) (2026-11-10)
+
+
+### Features
+
+* added a condarc description for the CSC ([33aeab1](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/33aeab1759ba07b570f36fb6bf49c778d59617e8))
+* added a condarc description for the CSC ([7138f21](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/7138f216d492f0631cbc1c4146d9a4230fecd188))
+* added new heureka image and pair programming slide ([2653ec0](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/2653ec0ab6eb8eba0ea0e2fa9c380916f162fe71))
+* added slide about Snakemake's infrastructure profiles ([865b5bc](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/865b5bcf54ab330d05b500f1edcf4ca7d117ebc5))
+* added slide describing the current state with HPC package managers ([02abf64](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/02abf648821d3db4b39dab7690c5d7ecb585c448))
+* added wine leaf ([dc7b05c](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/dc7b05c2aba62563e3b2a8ecb7b96a88b0d62d52))
+* cluster profiles ([823b97f](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/823b97f377c40c7ec727d7ebaa1cfa4302c55c5d))
+* first version of reading list ([6237011](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/62370112d5ec44b1179d03ed83c60802f20fa8c6))
+* first version of reading list ([83245c8](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/83245c8a13eefa4b14fc03e665115758484ed3b7))
+* mentioning pixi ([58a875d](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/58a875d829a75886d496374448dd860235c14ef1))
+* new images ([d2220c9](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/d2220c93ad28fdfd8ba34b0eb247047c9d13e57a))
+* pixi support ([8441ac0](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/8441ac0bc3b6e2578c2b9f4f673ec3b75ac6f24f))
+* replaced software env stock image by self-drawn autumn leaf image ([2ca6808](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/2ca6808f8257f0aa8330f9d97307cd95b52c4e41))
+
+
+### Bug Fixes
+
+* added contrib slide to admins talk, underlineing importance ([d10b3da](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/d10b3da0784f2e4577595c272e35a5b9d4c3e5f7))
+* added forgotton csc logo - unrelated to this PR ([0a0223c](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/0a0223c3407e1312a0b0e14028429c0e26473f52))
+* altered forgotten line in the config ([9e5476b](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/9e5476b6edfe9b0d2dbf166f7138818b92db2d8e))
+* altered forgotten line in the config ([ff299fc](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/ff299fc52ffc9fed4f15bed1e59f2e9d677b596e))
+* changed CM's logo from JGU-Mainz to CSC-Frankfurt ([6b2254a](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/6b2254af6e7a9f31acbf97cd68ad978e02474026))
+* citations of SLURM plugin were missing ([037516e](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/037516e41fffe09d7df7c933f3eb145ccc4137e2))
+* citations of SLURM plugin were missing ([aae18ea](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/aae18eab45283a52bc1e8edfedaa9e662070055c))
+* clarifying sdm options for admins ([42630dd](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/42630ddd3e857ab4a7577cdfcf5542953aba77be))
+* contributions ([bdd5562](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/bdd556251b45ab1adad44d48ef8b12e27c3c79eb))
+* hint title and output for software deployment for admins ([4d08c3c](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/4d08c3c548cef6c1aa629eeec6ffad9792433980))
+* option handling for python &gt;= 3.14 ([9c6e10d](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/9c6e10d4a6c87f74d8c37c660d81e31fd1b3d06f))
+* rephrased for clarity ([c927a9d](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/c927a9dac036c283b38f13c68d5327d24f71e46d))
+* slide listing software stack ([6110643](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/61106434de70bd4763ff6ee5fd38078302dc0b95))
+* software stack admins ([1c63868](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/1c6386895f13bf659fe982ed2bb5c7e8aef974c6))
+* syntax error ([76300ea](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/76300ea85a00486d45714f9888f7747e3ea6db70))
+* updated paperwall slide to contain newest figures ([07a86c1](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/07a86c1384685f8d90c1c5070cd00e4fbd5ea8b1))
+* updated paperwall slide to contain newest figures ([5988dc6](https://github.com/snakemake/snakemake-hpc-teaching-material/commit/5988dc6d03afbe8612d5f16040c6c2ead51159c9))
+
 ## [1.4.0](https://github.com/snakemake/snakemake-hpc-teaching-material/compare/v1.3.0...v1.4.0) (2026-08-26)
 
 
