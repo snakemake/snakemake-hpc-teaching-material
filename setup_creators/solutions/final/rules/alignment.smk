@@ -1,0 +1,30 @@
+rule bwa_mem:
+    input:
+        reads=get_bwa_map_input_fastqs,
+        idx=multiext("data/genome.fa", ".amb", ".ann", ".pac", ".sa"),
+    output:
+        "sorted_reads/{sample}.bam",
+    log:
+        "logs/bwa_mem/{sample}.log",
+    params:
+        extra=r"-R '@RG\tID:{sample}\tSM:{sample}'",
+        sorting="samtools",  # Can be 'none', 'samtools' or 'picard'.
+        sort_order="coordinate",  # Can be 'queryname' or 'coordinate'.
+        sort_extra="",  # Extra args for samtools/picard.
+    threads: 8
+    wrapper:
+        "v5.7.0/bio/bwa/mem"
+
+
+rule samtools_index:
+    input:
+        "sorted_reads/{sample}.bam",
+    output:
+        "sorted_reads/{sample}.bam.bai",
+    log:
+        "logs/samtools_index/{sample}.log",
+    params:
+        extra="",  # optional params string
+    threads: 4  # This value - 1 will be sent to -@
+    wrapper:
+        "v5.7.0/bio/samtools/index"
