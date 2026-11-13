@@ -205,6 +205,28 @@ local-storage-prefix: <++cluster.localstorageprefix++>
   \end{onlyenv}
 \end{frame}
 
+%TODO: update when ready
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+    \frametitle{Your Profile II}
+    Outlook \Snakemake v10 and update of the \SLURM-Executor:
+    \begin{lstlisting}[language=Bash, style=Shell]
+executor: slurm
+latency-wait: <++cluster.latency++>
+slurm-node-local-prefix: <++cluster.remotejoblocalstorageprefix++>
+    \end{lstlisting}
+    This will react upon I/O pattern annotation like
+    \begin{lstlisting}[language=Python,style=Python]
+...
+input:
+   index=access.random(...)
+# or
+input:
+   target=access.mixed(...)
+    \end{lstlisting}
+    with automatic stage-in. (Release by end of 2026.)
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
