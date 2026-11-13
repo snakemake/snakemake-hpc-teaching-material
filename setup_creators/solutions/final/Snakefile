@@ -1,0 +1,20 @@
+configfile: "config/config.yaml"
+
+report: "report/workflow.rst"
+
+
+rule all:
+    input:
+        "calls/all.vcf",
+        "calls/positions.png",
+        "calls/quals.svg",
+        "calls/gatk/snps.vcf.gz",
+        "calls/gatk/snps.png",
+
+
+def get_bwa_map_input_fastqs(wildcards):
+    return config["samples"][wildcards.sample]
+
+include: "rules/alignment.smk"
+include: "rules/discovery.smk"
+include: "rules/plotting.smk"
