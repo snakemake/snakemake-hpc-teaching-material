@@ -39,11 +39,36 @@
   	\begin{lstlisting}[language=Bash, style=Shell]
 $ cp -r <path> ~/.
   	\end{lstlisting}
-    We assume that you are working in your \altverb{HOME}. If so typing the \altverb{\~} is not necessary.
+    We assume that you are working in your \altverb{HOME}. If so typing the \altverb{\~/.} is not necessary.
   \end{hint}
   \pause
   Now, change into the copied directory!  
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+    \frametitle{\HandsOn{Getting Your Course Material II}}
+    We shall copy a few install scripts (which also will download some sample data).\newline
+    Please copy the directory \altverb{<++course.pathtosetup++>}.\newline
+    \begin{hint}
+        Remember, to copy an entire directory, you can use:
+        \begin{lstlisting}[language=Bash, style=Shell]
+            $ cp -r <path> ~/.
+        \end{lstlisting}
+        We assume that you are working in your \altverb{HOME}. If so typing the \altverb{\~/.} is not necessary.
+    \end{hint} 
+\end{frame}
+
+<+++ if course.pathtodata +++>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\begin{frame}[fragile]
+    \frametitle{\HandsOn{Getting Your Course Material III}}
+    Now, please copy the data directory:
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ cp -r <++course.pathtodata++> .
+    \end{lstlisting}
+\end{frame}
+<+++endif+++>
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
 \begin{frame}[fragile]
@@ -58,10 +83,8 @@ $ cp -r <path> ~/.
 		 {\footnotesize \DTsetlength{0.2em}{1em}{0.2em}{0.4pt}{.6pt}
 			 \dirtree{%
                  .1 {.}.
-                 .2 {condarc}.
-                 .2 {get\_tutorial.sh}.
-                 .2 {install\_mamba.sh}.
-                 .2 {tutorial}.
+                 .2 {data}.
+                 .2 {tasks}.
                  .3 {01\_Snakefile}.
                  .3 {02\_Snakefile}.
                  .3 {\ldots}.
@@ -71,14 +94,14 @@ $ cp -r <path> ~/.
   \end{columns}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\begin{frame}[fragile]
-	\frametitle{\HandsOn{Obtaining Your Tutorial Sample Data}}
-	Please run the \altverb{get_tutorial.sh} script you just copied:
-	\begin{lstlisting}[language=Bash, style=Shell,basicstyle=\footnotesize]
-$ bash get_tutorial.sh
-	\end{lstlisting}
-	\begin{task}
-		This script will download and unpack the sample data for this course. Please take a look in this script to understand it. Where are your sample data after running this script?
-	\end{task}
-\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+%\begin{frame}[fragile]
+%	\frametitle{\HandsOn{Obtaining Your Tutorial Sample Data}}
+%	Please run the \altverb{get_tutorial.sh} script you just copied:
+%	\begin{lstlisting}[language=Bash, style=Shell,basicstyle=\footnotesize]
+%$ bash get_tutorial.sh
+%	\end{lstlisting}
+%	\begin{task}
+%		This script will download and unpack the sample data for this course. Please take a look in this script to understand it. Where are your sample data after running this script?
+%	\end{task}
+%\end{frame}
