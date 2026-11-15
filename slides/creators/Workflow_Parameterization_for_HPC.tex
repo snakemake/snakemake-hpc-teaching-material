@@ -214,7 +214,7 @@ local-storage-prefix: <++cluster.localstorageprefix++>
     \begin{lstlisting}[language=Bash, style=Shell]
 executor: slurm
 latency-wait: <++cluster.latency++>
-slurm-node-local-prefix: <++cluster.remotejoblocalstorageprefix++>
+slurm-node-local-prefix: <++cluster.remotelocalstorageprefix++>
     \end{lstlisting}
     This will react upon I/O pattern annotation like
     \begin{lstlisting}[language=Python,style=Python]
@@ -237,6 +237,20 @@ input:
 export SNAKEMAKE_PROFILE="$HOME/.config/snakemake"
     \end{lstlisting}
 	in your \altverb{.bashrc}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+   \frametitle{Fully fledged Profiles $\ldots$}
+   \ldots are available at \lhref{https://github.com/snakemake/snakemake-infrastructure-profiles}{\Snakemake's Infrastructure Repository} (since spring 2026).
+   \pause
+   \begin{hint}[Global Profiles by your friendly Admin]
+       Ask your admins on your life science support cluster to install a global profile to
+       \begin{itemize}
+           \item easy your work
+           \item avoid I/O issues (and thereby complaints they have to deal with)
+       \end{itemize}
+   \end{hint}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
