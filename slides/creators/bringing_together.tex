@@ -2,7 +2,7 @@
 \section{Bringing everything together}
 {   
     \usebackgroundtemplate{
-        \vbox to \paperheight{\vspace*{-1cm}\hbox to \paperwidth{\includegraphics[width=1.05\textwidth]{misc/final_flag.jpg}\hfil}\vfil}
+        \vbox to \paperheight{\vspace*{-1cm}\hbox to \paperwidth{\includegraphics[width=1.1\textwidth]{misc/final_flag.jpg}\hfil}\vfil}
     }
     \frame{
         \frametitle{The final Lap}
@@ -32,4 +32,39 @@
             \item Repeat: How to deploy software automatically (Conda)
         \end{enumerate}
     \end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+    \frametitle{The "final" Workflow}
+    Please copy the \altverb{final} workflow from the \altverb{<++course.pathtosolutions++>} directory. (Or copy the directory and the \altverb{data} directory into it.)
+    \pause
+    \begin{warning}
+        A real workflow on a HPC cluster will
+        \begin{itemize}
+            \item have its code in the \altverb{HOME} directory (or a shared development directory)
+            \item and the data in a project, scratch or workspace -- which is a \emph{different} file system
+        \end{itemize}
+        Then the workflow will be started with the \altverb{--directory} flag indicating the analysis directory.
+    \end{warning}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+    \fametitle{\HandsOn{Start the Workflow}}
+    In your \altverb{final} directory with the \altverb{data}, \altverb{envs}, \altverb{profile}, \altverb{rules} and \altverb{scripts} directory:
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake -j unlimited \
+> --configfile config/config.yaml 
+> --sdm conda \
+> --workflow-profile profile \ 
+> --executor slurm # not necessary with
+                   # a global profile
+    \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{The Report}
+  When finished, run the same command line with \altverb{--report}, again.
 \end{frame}
