@@ -78,9 +78,11 @@ cluster:
   # the cluster distro
   distro: "Alma-Linux"
   # the cluster account and default partition
-  account: "nhr-workflow"
+  account: "mpi_ws"
   partition: "sfuchs"
   # file system latency - on NFS be sure to be sufficiently high
-  latency: 30 
+  latency: 30
   # display program for SVG files
   display_program: "display"
+  # the SLURM node local storage prefix (from v10 Snakemake onwards)
+  remotelocalstorageprefix: "/local/$SLURM_JOB_ID"
