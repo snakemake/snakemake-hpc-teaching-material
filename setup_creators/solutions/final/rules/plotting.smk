@@ -7,6 +7,8 @@ rule plot_positions:
             caption="report/positions.rst",
             category="Variant visualizations",
         ),
+    conda:
+        "../envs/plotting.yaml"
     script:
         "../scripts/plot-positions.py"
 
@@ -20,6 +22,8 @@ rule plot_quals:
             caption="report/qualities.rst",
             category="Variant visualizations",
         ),
+    conda:
+        "../envs/plotting.yaml"
     script:
         "../scripts/plot-quals.py"
 
