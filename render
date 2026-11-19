@@ -118,6 +118,31 @@ def render_tex(env, template):
     return x
 
 
+def render_tex_with_handout(env, template, handout=False):
+    """Render template with handout flag added to context"""
+    template_path = template
+    tpl = jinja_env.get_template(template_path)
+    env_copy = env.copy()
+    env_copy['handout'] = handout
+    tex = tpl.render(env_copy)
+    
+    # If handout mode and this is a section file, inject \def\ishandout{1}
+    if handout and '\\section{' in tex and '\\ifdefined\\ishandout' in tex:
+        # Find the first \section and inject the definition before it
+        lines = tex.split('\n')
+        new_lines = []
+        injected = False
+        for line in lines:
+            if not injected and '\\section{' in line:
+                # Inject before the section
+                new_lines.append('\\def\\ishandout{1}')
+                injected = True
+            new_lines.append(line)
+        tex = '\n'.join(new_lines)
+    
+    return tex
+
+
 def to_file(tex, fname, tempdir, path=""):
     with open(os.path.join(tempdir, path, fname), "w") as f:
         f.write(tex)
@@ -281,7 +306,7 @@ if __name__ == "__main__":
                 if not fname.endswith(".tex"):
                     continue
                 logger.info(f"Attempt to render {fname}")
-                tex = render_tex(data, os.path.join(root, fname))
+                tex = render_tex_with_handout(data, os.path.join(root, fname), handout=args.handout)
                 to_file(tex, fname, tempdir, root)
         # we might need to adapt the chapter settings.
         file_list = screen_master(args.master_tex, tempdir)

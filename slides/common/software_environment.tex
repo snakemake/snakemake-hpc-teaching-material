@@ -1,5 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Software Environment}
+\ifdefined\ishandout
+{
+	\frame{
+		\tableofcontents[currentsection]
+	}
+}
+\else
 {   
 	\usebackgroundtemplate{
 	    \vbox to \paperheight{\vfil\hbox to
@@ -16,6 +23,7 @@
     -- CC-BY-4.0}
 	}
 }
+\fi
 
 \begin{frame}
 	\frametitle{What is this about?}
@@ -88,7 +96,7 @@ $ module spider <search string>
   \pause
   \begin{task}[Looking for area specific modules]
   	Try looking for an area specific 
-    module, e.\,g. in ``\texttt{bwa}''
+    module, e.\,g. in ``\texttt{mpi}''
   \end{task}
 \end{frame}
 
@@ -189,19 +197,20 @@ You can learn more about modules in 101-HPC courses. Later, we will learn how to
 \begin{frame}[fragile]
 	\frametitle{Installing \Snakemake with \texttt{pixi}}
 	\begin{columns}
-		\begin{column}{0.5\textwidth}
+		\begin{column}{0.65\textwidth}
 			\Snakemake can either
 			\begin{itemize}
 				\item be installed with Conda or
 				\item with \altverb{pixi}:
 				  \begin{lstlisting}[language=Bash, style=Shell]
 $ curl -fsSL https://pixi.sh/install.sh | sh
-$ pixi global install snakemake conda -c conda-forge -c bioconda
+$ pixi global install snakemake conda \
+> -c conda-forge -c bioconda
 				  \end{lstlisting}
 				 \item or - on some clusters - you will find a central installation
 			\end{itemize}
 		\end{column}
-		\begin{column}{0.5\textwidth}
+		\begin{column}{0.35\textwidth}
 			\begin{warning}
 				Do not type along, \Snakemake is provided for you during this course. 
 			\end{warning}
@@ -450,7 +459,6 @@ snakemake-interface-executor-plugins
 snakemake-interface-report-plugins
 snakemake-interface-storage-plugins
 snakemake-minimal
-snakemake-storage-plugin-fs
      \end{lstlisting}
      \ldots along with version infos, channel source and hashsums of all the dependencies.
 \end{frame}

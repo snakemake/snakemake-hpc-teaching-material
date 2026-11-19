@@ -1,0 +1,18 @@
+configfile: "config/config.yaml"
+
+report: "report/workflow.rst"
+
+include: "rules/commons.smk"
+
+
+rule all:
+    input:
+        "calls/all.vcf",
+        "calls/positions.png",
+        "calls/quals.svg",
+        "calls/gatk/snps.vcf.gz",
+        "calls/gatk/snps.png",
+
+include: "rules/alignment.smk"
+include: "rules/discovery.smk"
+include: "rules/plotting.smk"

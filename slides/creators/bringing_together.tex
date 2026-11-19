@@ -1,0 +1,142 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Bringing everything together}
+\ifdefined\ishandout
+{
+	\frame{
+		\tableofcontents[currentsection]
+	}
+}
+\else
+{   
+    \usebackgroundtemplate{
+        \vbox to \paperheight{\vspace*{-1cm}\hbox to \paperwidth{\includegraphics[width=1.1\textwidth]{misc/final_flag.jpg}\hfil}\vfil}
+    }
+    \frame{
+        \frametitle{The final Lap}
+        \begin{mdframed}[tikzsetting={draw=white,fill=white,fill opacity=0.8,
+                line width=0pt},backgroundcolor=none,leftmargin=0,
+            rightmargin=150,innertopmargin=4pt,roundcorner=10pt]
+            \tableofcontents[currentsection,sections={1-4},hideothersubsections]
+            
+        \end{mdframed}
+        \vspace{1em}
+        \tiny {\lhref{https://www.rawpixel.com/}{rawpixel.com -- CC0}}
+    }
+}
+\fi
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+    \frametitle{What is this about?}
+    \begin{question}[Questions]
+        \begin{itemize}
+            \item How should all these techniques be combined?
+        \end{itemize}
+    \end{question}
+    \begin{docs}[Objectives]
+        \begin{enumerate} 
+            \item Learn how to start a realisting \Snakemake{} on an HPC system
+            \item Repeat: How to evaluate a report.
+            \item Repeat: How to deploy software automatically (Conda)
+        \end{enumerate}
+    \end{docs}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+    \frametitle{The "final" Workflow}
+    Please copy the \altverb{final} workflow from the \altverb{<++course.pathtosolutions++>} directory. (Or copy the directory and the \altverb{data} directory into it.)
+    \pause
+    \begin{warning}
+        A real workflow on a HPC cluster will
+        \begin{itemize}
+            \item have its code in the \altverb{HOME} directory (or a shared development directory)
+            \item and the data in a project, scratch or workspace -- which is a \emph{different} file system
+        \end{itemize}
+        Then the workflow will be started with the \altverb{--directory} flag indicating the analysis directory.
+    \end{warning}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+    \frametitle{Validating the Configuration}
+    \altverb{rules/commons.smk} validates the configuration and each sample sheet row against schemas in \altverb{schemas/}.
+    \begin{itemize}
+        \item \altverb{config.schema.yaml}: requires a non-empty \altverb{samples} string.
+        \item \altverb{samples.schema.yaml}: requires \altverb{sample} and \altverb{fastq}.
+        Sample names may contain letters, digits, underscores and hyphens.
+        FASTQ paths must end in \altverb{.fastq}, \altverb{.fq}, \altverb{.FASTQ} or \altverb{.FQ}.
+        \item Invalid values cause an error before jobs are run. The schemas do not check whether FASTQ files exist.
+    \end{itemize}
+    \begin{lstlisting}[language=Python,style=Python,basicstyle=\footnotesize]
+validate(config, "../schemas/config.schema.yaml")
+validate(row, "../schemas/samples.schema.yaml")
+    \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+    \frametitle{Discovering Samples from the Sample Sheet}
+    \altverb{config/config.yaml} points to \altverb{samples.tsv}, relative to the configuration file:
+    \begin{lstlisting}[style=Plain,basicstyle=\footnotesize]
+sample  fastq
+A       data/samples/A.fastq
+B       data/samples/B.fastq
+D       data/samples/D.fastq
+    \end{lstlisting}
+    \begin{itemize}
+        \item \altverb{commons.smk} reads the sheet into a dictionary mapping sample names to FASTQ paths.
+        \item Rows are whitespace-separated; duplicate names, malformed rows and empty sheets are rejected.
+        \item FASTQ paths are relative to the analysis directory. Files in \altverb{data/} are not discovered automatically: only listed samples are used.
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+    \frametitle{From Sample Names to FASTQ Inputs}
+    \begin{lstlisting}[language=Python,style=Python,basicstyle=\footnotesize]
+def get_bwa_map_input_fastqs(wildcards):
+    return samples[wildcards.sample]
+    \end{lstlisting}
+    \begin{itemize}
+        \item The \altverb{bwa_mem} rule uses this input function for its reads.
+        For \altverb{sorted_reads/A.bam}, the wildcard \altverb{sample} is \altverb{A}, so the function returns \altverb{data/samples/A.fastq}.
+        \item Downstream rules use \altverb{expand(..., sample=samples)} to request results for all sample names in the dictionary.
+    \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+    \frametitle{A Simple Workflow Profile}
+    \altverb{profiles/fuchs/config.yaml} stores cluster-specific defaults and a rule-specific thread setting:
+    \begin{lstlisting}[style=Plain,basicstyle=\footnotesize]
+default-resources:
+  slurm_account: mpi_ws
+  slurm_partition: sfuchs
+  mem_mb_per_cpu: 1800
+  runtime: "30m"
+set-threads:
+  bwa_mem: 8
+    \end{lstlisting}
+    Adapt the account, partition and resource requests to your cluster. The profile does not select an executor; use \altverb{--executor slurm} or a global profile.
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+    \frametitle{\HandsOn{Start the Workflow}}
+    In your \altverb{final} directory, with the workflow files and the \altverb{data} directory in place:
+    \begin{lstlisting}[language=Bash, style=Shell]
+$ snakemake -j unlimited \
+> --configfile config/config.yaml \
+> --sdm conda \
+> --workflow-profile profiles/fuchs \
+> --executor slurm # not necessary with
+                   # a global profile
+    \end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]
+  \frametitle{The Report}
+  When finished, run the same command line with \altverb{--report}, again.
+\end{frame}

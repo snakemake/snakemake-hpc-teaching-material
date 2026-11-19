@@ -1,5 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Please fill in this Survey}
+\ifdefined\ishandout
+{
+	\frame{
+		\tableofcontents[currentsection]
+	}
+}
+\else
 {   
 	\usebackgroundtemplate{
 		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=.7\paperheight]{qr_codes/survey_qr_code_icon.png}\hfil}\vfil}
@@ -22,3 +29,4 @@
 	    		\hfill{\tiny image: icon from freepik.com}
 	}
 }
+\fi
