@@ -2,6 +2,8 @@ configfile: "config/config.yaml"
 
 report: "report/workflow.rst"
 
+include: "rules/commons.smk"
+
 
 rule all:
     input:
@@ -10,10 +12,6 @@ rule all:
         "calls/quals.svg",
         "calls/gatk/snps.vcf.gz",
         "calls/gatk/snps.png",
-
-
-def get_bwa_map_input_fastqs(wildcards):
-    return config["samples"][wildcards.sample]
 
 include: "rules/alignment.smk"
 include: "rules/discovery.smk"
