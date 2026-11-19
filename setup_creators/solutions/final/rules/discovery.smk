@@ -107,7 +107,7 @@ rule gatk_select_snps:
     output:
         vcf=report(
             "calls/gatk/snps.vcf.gz",
-            caption="report/gatk-snps.rst",
+            caption="../report/gatk-snps.rst",
             category="GATK variant calls",
         ),
     log:
