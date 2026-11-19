@@ -296,7 +296,7 @@ bwa_map:
   \begin{lstlisting}[language=Python,style=Python]
 rule bwa_map:
   params:
-     @rg=config['bwa_map']['rg']@
+     @rg:config['bwa_map']['rg']@
   \end{lstlisting}
   You have a configurable workflow! 
   \begin{hint}
