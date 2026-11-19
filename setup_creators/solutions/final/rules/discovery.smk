@@ -1,12 +1,16 @@
+# all gatk rules must be local rules due to a cluster malfunction
+# regarding temporary files:
+localrules: gatk_reference_files, gatk_haplotypecaller, gatk_combinegvcfs, gatk_genotypegvcfs, gatk_select_snps, plot_gatk_snps
+
 rule bcftools_call:
     input:
         fa="data/genome.fa",
-        bam=expand("sorted_reads/{sample}.bam", sample=config["samples"]),
-        bai=expand("sorted_reads/{sample}.bam.bai", sample=config["samples"]),
+        bam=expand("sorted_reads/{sample}.bam", sample=samples),
+        bai=expand("sorted_reads/{sample}.bam.bai", sample=samples),
     output:
         report(
             "calls/all.vcf",
-            caption="report/bcftools-calls.rst",
+            caption="../report/bcftools-calls.rst",
             category="Variant calls",
         ),
     log:
@@ -60,7 +64,7 @@ rule gatk_combinegvcfs:
         dict="data/genome.dict",
         gvcfs=expand(
             "calls/gatk/gvcfs/{sample}.g.vcf.gz",
-            sample=config["samples"],
+            sample=samples,
         ),
     output:
         gvcf="calls/gatk/cohort.g.vcf.gz",
