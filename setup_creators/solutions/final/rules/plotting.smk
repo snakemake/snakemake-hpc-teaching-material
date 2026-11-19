@@ -4,7 +4,7 @@ rule plot_positions:
     output:
         report(
             "calls/positions.png",
-            caption="report/positions.rst",
+            caption="../report/positions.rst",
             category="Variant visualizations",
         ),
     conda:
@@ -19,7 +19,7 @@ rule plot_quals:
     output:
         report(
             "calls/quals.svg",
-            caption="report/qualities.rst",
+            caption="../report/qualities.rst",
             category="Variant visualizations",
         ),
     conda:
@@ -34,7 +34,7 @@ rule plot_gatk_snps:
     output:
         report(
             "calls/gatk/snps.png",
-            caption="report/gatk-snp-positions.rst",
+            caption="../report/gatk-snp-positions.rst",
             category="GATK variant calls",
         ),
     log:
