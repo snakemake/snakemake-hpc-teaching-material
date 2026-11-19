@@ -41,7 +41,7 @@ def to_file(tex, fname='out.tex', path='.'):
         f.write(tex)
 
 def run_pdflatex(fname='out.tex', path='.'):
-    return subprocess.call(['pdflatex', '-quiet', fname], cwd=path)
+    return subprocess.call(['pdflatex', '-interaction=batchmode', fname], cwd=path)
 
 def concatenate_pdfs():
     fnames = glob.glob('*_intro_cert.pdf')
@@ -59,8 +59,22 @@ def parse_participants(infile, only_name, name_index=2,
         items = line.split(',')
         if only_name: 
             if not only_name in line: continue
-        participant = Participant(items[name_index].strip('"'),
-                                  items[surname_index].strip('"'))
+        
+        full_name = items[name_index].strip('"').strip()
+        
+        # If surname_index is not used (or points to email), split the full name
+        if surname_index >= len(items) or '@' in items[surname_index]:
+            # Split full name into first and last name
+            name_parts = full_name.rsplit(' ', 1)  # Split on the last space
+            if len(name_parts) == 2:
+                first_name, last_name = name_parts
+            else:
+                first_name = full_name
+                last_name = ''
+            participant = Participant(first_name.strip(), last_name.strip())
+        else:
+            participant = Participant(items[name_index].strip('"'),
+                                      items[surname_index].strip('"'))
         people.append(participant)
     if only_name and not people: # not found
         raise AssertionError("name not found")
@@ -73,8 +87,9 @@ if __name__ == '__main__':
     parser.add_argument('--textemplate', dest = 'templatefile', nargs = '?', type = str,
                         default = 'template_english.tex', help = "Specifies the tex template")
     parser.add_argument('--date', dest = 'date', help = 'Desired date')
+    parser.add_argument('--place', dest = 'place', help = 'Place of the course (for signature line)')
     parser.add_argument('--header', dest = 'has_header', help = 'Indicate presence of header line in participant export file', action='store_true')
-    parser.add_argument('--sign-date', dest = 'sign_date', help = '')
+    parser.add_argument('--sign-date', dest = 'sign_date', help = 'Date of signature')
     parser.add_argument('--select-name', dest = 'only_name', help = 'only generate for matching name')
     parser.add_argument('--name-index', dest = 'nindex', type=int,
                         default = 1, help = "defines name index in export files")
@@ -87,20 +102,32 @@ if __name__ == '__main__':
 
     participants = parse_participants(args.exportfile, args.only_name, name_index = args.nindex, surname_index = args.sindex, has_header=args.has_header)
 
-    data = yaml.safe_load(Path(args.configfile).read_text())
+    if args.configfile:
+        data = yaml.safe_load(Path(args.configfile).read_text())
+    else:
+        data = {}
 
     # add the path to the measurements
     data['PATH']   = PATH
-    if not 'date' in data:
-        try:
-            data['date']   = args.date
-        except:
+    
+    # Initialize course dict if not in config
+    if 'course' not in data:
+        data['course'] = {}
+    
+    if 'date' not in data['course']:
+        if args.date is None:
             raise AssertionError("Unable to find 'date' in the configfile, please indicate as '--date' on the command line")
-    if not 'sign_date' in data:
-        try:
-            data['sign_date'] = args.sign_date 
-        except:
+        data['course']['date'] = args.date
+    
+    if 'sign_date' not in data['course']:
+        if args.sign_date is None:
             raise AssertionError("Unable to find 'sign_date' in the configfile, please indicate as '--sign-date' on the command line")
+        data['course']['sign_date'] = args.sign_date
+    
+    if 'place' not in data['course']:
+        if args.place is None:
+            raise AssertionError("Unable to find 'place' in the configfile, please indicate as '--place' on the command line")
+        data['course']['place'] = args.place
     for member in participants:
         data['member'] = {'name': member['name'],  
                           'surname': member['surname']}
