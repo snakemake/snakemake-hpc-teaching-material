@@ -1,5 +1,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Contributing -- Beyond Code}
+\ifdefined\ishandout
+{
+	\frame{
+		\tableofcontents[currentsection]
+	}
+}
+\else
 {   
 	\usebackgroundtemplate{
 		\vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[height=0.7\paperheight]{logos/reproducibility.jpg}\hfil}\vfil}
@@ -15,6 +22,7 @@
 		\end{mdframed}
 	}
 }
+\fi
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
@@ -127,6 +135,11 @@
   \begin{docs}
   	If you want to report an issue or even contribute back to the project, you will need an account. \lhref{https://docs.github.com/en/get-started/onboarding/getting-started-with-your-github-account}{This page} describes how. 
   \end{docs}
+  \pause
+  \begin{hint}[Autodiscovery on \texttt{GitHub}]
+      As mentioned, \Snakemake has a \lhref{https://github.com/snakemake-workflows/snakemake-workflow-template}{\texttt{GitHub}-template}. Furthermore the \lhref{https://snakemake.github.io/snakemake-workflow-catalog/docs/catalog.html#adding-workflows}{catalogue} describes how auto-discovery (== automatic listing in the catalogue) works (the template fullfills the criteria already).\newline
+      Autodiscovery for \texttt{GitLab} or \texttt{Codeberg} is not implemented. It might work in the future.
+  \end{hint}
   
 \end{frame}
 
