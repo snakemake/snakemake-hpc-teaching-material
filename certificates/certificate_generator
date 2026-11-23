@@ -132,8 +132,8 @@ if __name__ == '__main__':
         data['member'] = {'name': member['name'],  
                           'surname': member['surname']}
         tex = render_people(data, args.templatefile)
-        to_file(tex, fname='%s_%s_HPC_intro_cert.tex' % (member['surname'], member['name']))
-        run_pdflatex(fname='%s_%s_HPC_intro_cert.tex' % (member['surname'], member['name']))
+        to_file(tex, fname='%s_%s_Snakemake_HPC_intro_cert.tex' % (member['surname'], member['name']))
+        run_pdflatex(fname='%s_%s_Snakemake_HPC_intro_cert.tex' % (member['surname'], member['name']))
     concatenate_pdfs()
     if not args.only_name:
         #    for fname in glob.glob('cert*pdf'):
