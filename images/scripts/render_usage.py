@@ -1,16 +1,20 @@
+import warnings
+
 import matplotlib.pyplot as plt
 import numpy as np
-
-
 from matplotlib import font_manager as fm
-print(fm.findfont('Humor Sans'))
-print(fm.findfont('Comic Neue'))
-
-#/usr/share/fonts/truetype/humor-sans/Humor-Sans.ttf
-#/usr/share/fonts/opentype/comic-neue/ComicNeue-Regular.otf
 
 
 with plt.xkcd():
+    available_fonts = {font.name for font in fm.fontManager.ttflist}
+    for font in ("Humor Sans", "Comic Neue", "xkcd", "xkcd Script", "Comic Sans MS", "StayPuft"):
+        if font in available_fonts:
+            plt.rcParams["font.family"] = [font]
+            break
+    else:
+        warnings.warn("No sketch-style font found; using DejaVu Sans instead.")
+        plt.rcParams["font.family"] = ["DejaVu Sans"]
+
     fig, ax = plt.subplots(figsize=(7, 3.5))
 
     # Step profile: time on x, resource usage on y
@@ -20,12 +24,13 @@ with plt.xkcd():
     ax.plot(x, y, color="tab:blue", lw=2.5)
 
     # Maximum line
-    ax.axhline(3.7, color="red", ls="--", lw=2.5)
+    maximum = 3.7
+    ax.axhline(maximum, color="red", ls="--", lw=2.5)
     ax.text(0.4, 3.85, "MAX / roof", color="red", fontsize=12, fontweight="bold")
 
     # Step labels
     ax.text(0.9, 0.7, "step 1", fontsize=11)
-    ax.text(2.6, 3.05, "step 2", fontsize=11)
+    ax.text(2.6, 3.05, "step 2", fontsize=11, ha="center")
     ax.text(3.6, 1.95, "step 3", fontsize=11)
     ax.text(5.0, 3.25, "step 4", fontsize=11)
     ax.text(6.25, 0.8, "step 5", fontsize=11)
@@ -41,4 +46,7 @@ with plt.xkcd():
     for spine in ("top", "right"):
         ax.spines[spine].set_visible(False)
 
-fig.savefig("pipeline_xkcd.png", dpi=150, bbox_inches="tight")
+    fig.savefig("pipeline_xkcd.png", dpi=150, bbox_inches="tight")
+
+    ax.fill_between(x, y, maximum, color="red", alpha=0.25, zorder=0)
+    fig.savefig("pipeline_xkcd_waste.png", dpi=150, bbox_inches="tight")
