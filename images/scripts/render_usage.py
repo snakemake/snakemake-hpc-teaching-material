@@ -1,8 +1,11 @@
 import warnings
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import font_manager as fm
+
+output_dir = Path(__file__).resolve().parent.parent / "efficiency"
 
 
 with plt.xkcd():
@@ -46,7 +49,7 @@ with plt.xkcd():
     for spine in ("top", "right"):
         ax.spines[spine].set_visible(False)
 
-    fig.savefig("pipeline_xkcd.png", dpi=150, bbox_inches="tight")
+    fig.savefig(output_dir / "pipeline_xkcd.png", dpi=150, bbox_inches="tight")
 
     ax.fill_between(x, y, maximum, color="red", alpha=0.25, zorder=0)
-    fig.savefig("pipeline_xkcd_waste.png", dpi=150, bbox_inches="tight")
+    fig.savefig(output_dir / "pipeline_xkcd_waste.png", dpi=150, bbox_inches="tight")
