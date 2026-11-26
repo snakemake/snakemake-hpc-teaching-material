@@ -192,54 +192,47 @@ def find_and_replace_sections(boundaries, section_estimate, fname):
         print(f"Error reading: '{fname}'", file=sys.stderr)
         return
 
-    # get the matching 'currentsection' lines
-    first_done, second_done, minitocline = False, False, False
-    for lcount, line in enumerate(lines):
-        if not first_done:
-            if "currentsection" in line and not "hideothersubsections" in line:
-                first_done = lcount
-                break
-            if "hideothersubsections" in line:
-                minitocline = lcount
-                break
-    if not minitocline:  # we need to count the line for the 2nd toc column
-        for lcount, line in enumerate(lines[first_done + 1 :]):
-            if not second_done:
-                if "currentsection" in line:
-                    second_done = lcount + first_done + 1
-                    break
-
-    if not minitocline and not (first_done and second_done):
-        logger.debug("no outline found for %s -> skipping" % fname)
-        return
-    # first render minitoc
-    if minitocline:
+    toc_re = re.compile(r"\\tableofcontents\[[^\]]*currentsection[^\]]*\]")
+    toc_lines = [
+        (index, match)
+        for index, line in enumerate(lines)
+        if not line.lstrip().startswith("%")
+        for match in [toc_re.search(line)]
+        if match
+    ]
+    minitoc = next(
+        ((index, match) for index, match in toc_lines
+         if "hideothersubsections" in match.group()),
+        None,
+    )
+    if minitoc:
         lower, upper = define_minitoc_boundaries(
             boundaries["upper"], section_estimate
         )
-        sections = f"{lower}-{upper}"
-        lines[minitocline] = (
-            "            \\tableofcontents[currentsection, sections={"
-            + sections
-            + "}, hideothersubsections]"
-        )
-        # check:
-    # adapt the two lines with our new boundaries:
-    elif first_done and second_done:
-        lines[
-            first_done
-        ] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (
-            boundaries["lower"],
-            boundaries["first_half_end"],
-        )
-        lines[
-            second_done
-        ] = "            \\tableofcontents[sections={%d-%d},currentsection]\n" % (
-            boundaries["second_half_start"],
-            boundaries["upper"],
+        index, match = minitoc
+        lines[index] = (
+            lines[index][:match.start()]
+            + f"\\tableofcontents[currentsection, sections={{{lower}-{upper}}}, hideothersubsections]"
+            + lines[index][match.end():]
         )
     else:
-        logger.error(f"TOC expectations for '{fname}' not met")
+        columns = [
+            (index, match) for index, match in toc_lines
+            if re.search(r"sections\s*=", match.group())
+        ]
+        if len(columns) != 2:
+            logger.debug("no two-column outline found for %s -> skipping", fname)
+            return
+        for (index, match), (lower, upper) in zip(
+            columns,
+            ((boundaries["lower"], boundaries["first_half_end"]),
+             (boundaries["second_half_start"], boundaries["upper"])),
+        ):
+            lines[index] = (
+                lines[index][:match.start()]
+                + f"\\tableofcontents[sections={{{lower}-{upper}}},currentsection]"
+                + lines[index][match.end():]
+            )
 
     with open(fname, "w") as outfile:
         for line in lines:
