@@ -146,5 +146,5 @@ ax_dots = fig2.add_subplot(gs[0, 3])
 ax_dots.axis("off")
 ax_dots.text(0.5, 0.5, "...", ha="center", va="center", fontsize=28)
 
-fig2.savefig(output_dir / "pipeline_xkcd_node.png", dpi=150,
+fig2.savefig(output_dir / "pipeline_xkcd_multinode.png", dpi=150,
              bbox_inches="tight")
